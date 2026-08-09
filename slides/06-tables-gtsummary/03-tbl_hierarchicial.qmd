@@ -1,0 +1,23 @@
+# tbl_hierarchicial()
+
+## Adverse Event Reporting (and friends)
+
+Use `tbl_hierarchicial()` and `tbl_hierarchicial_count()` for reporting of AEs, Con Meds, and more.
+
+```{r}
+#| label: create-ae-tbl
+tbl_ae <- adae |> 
+  tbl_hierarchical(
+    by = "ARM2", 
+    variables = c("AESOC", "AEDECOD"),
+    id = "USUBJID",
+    denominator = adsl
+  )
+```
+
+```{r}
+#| echo: false
+#| label: print-ae-tbl
+tbl_ae
+```
+

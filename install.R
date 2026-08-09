@@ -1,0 +1,17 @@
+install.packages(c("devtools",
+                   "tidyverse",
+                   "sdtm.oak",
+                   "pharmaverseraw",
+                   "pharmaversesdtm",
+                   "metatools",
+                   "metacore",
+                   "admiral",
+                   "xportr",
+                   "cards",
+                   "cardx", 
+                   "gt",
+                   "gtsummary",
+                   "tfrmt",
+                   "labelled",
+                   "pharmaverseadam"))
+devtools::install_github("insightsengineering/crane")
