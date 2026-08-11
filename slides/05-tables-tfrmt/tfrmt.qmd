@@ -20,6 +20,8 @@
 
 -   🕚 10 mins: cards-to-tfrmt helpers
 
+-   🕦 10 mins: Outputs using `docorator`
+
 -   🕦 10 mins: Exercise
 
 :::
@@ -1010,10 +1012,13 @@ print_to_gt(tfrmt_demog, ard_demog_display)|>
   )
 ```
 
+# Outputs using docorator
+
+content goes here
 
 ## Exercise 🏃‍➡️ (Together!)
 
-1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R`
+1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R` #todo add docorator
 
 2. Create and modify the AE table as described.
 
