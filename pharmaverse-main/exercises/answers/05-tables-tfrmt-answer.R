@@ -97,3 +97,6 @@ ae_tfrmt <- ae_tfrmt |>
 
 print_to_gt(ae_tfrmt, ard_ae_tidy)
 
+# E. Output via docorator
+
+#todo add !
