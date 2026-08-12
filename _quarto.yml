@@ -4,8 +4,8 @@ project:
   render:
     - "*.qmd"
     - "!slides/**/[0-9]*.qmd"
-    - "!slides/02-SDTM/index.qmd"
-    - "!slides/03-ADaM/index.qmd"
+    - "!slides/02-SDTM/*.qmd"
+    - "!slides/03-ADaM/*.qmd"
 
 website:
   page-navigation: true
