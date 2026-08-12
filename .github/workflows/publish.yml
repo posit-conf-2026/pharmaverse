@@ -38,7 +38,7 @@ jobs:
         uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Cache packages
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: ${{ env.RENV_PATHS_ROOT }}
           key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
@@ -49,14 +49,15 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libv8-dev
+          sudo apt-get install libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libv8-dev libgit2-dev
 
 
       - name: Restore packages
         shell: Rscript {0}
         run: |
+          options(renv.config.pak.enabled = TRUE)
           if (!requireNamespace("renv", quietly = TRUE)) install.packages("renv")
-          renv::install(c("rmarkdown", "yaml"))
+          renv::install(c("rmarkdown", "yaml", "pak"))
           renv::restore()
 
       # rendering site

@@ -9,9 +9,10 @@ install.packages(c("devtools",
                    "xportr",
                    "cards",
                    "cardx", 
+                   "broom.helpers",
                    "gt",
                    "gtsummary",
                    "tfrmt",
                    "labelled",
-                   "pharmaverseadam"))
-devtools::install_github("insightsengineering/crane")
+                   "pharmaverseadam",
+                  "crane")) 
