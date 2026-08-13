@@ -5,7 +5,6 @@ project:
     - "*.qmd"
     - "!slides/**/[0-9]*.qmd"
     - "!slides/02-SDTM/*.qmd"
-    - "!slides/03-ADaM/*.qmd"
 
 website:
   page-navigation: true
