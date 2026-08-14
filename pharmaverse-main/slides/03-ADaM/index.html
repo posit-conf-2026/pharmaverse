@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../../../images/pharmaverse-hex.png" rel="icon" type="image/png">
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <title>End-to-End Submissions in R with the Pharmaverse – ADaMs with {admiral} and friends</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../../site_libs/revealjs/dist/theme/quarto-e68fc8d0ca575124bedaaa7814b19abe.css">
+  <link href="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/reveal-codewindow/codewindow.css" rel="stylesheet">
+  <link href="../../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="../../../site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="../../../site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="../../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">ADaMs with {admiral} and friends</h1>
+
+<div class="quarto-title-authors">
+</div>
+
+</section>
+<section id="objectives" class="slide level2">
+<h2>Objectives</h2>
+<ul>
+<li class="fragment">By the end of this ADaM section you will have:
+<ul>
+<li class="fragment"><strong>Gained</strong> an understanding of how to use <code>admiral</code>, <code>metatools/metacore</code>, and <code>xportr</code> packages to create ADaMs</li>
+<li class="fragment"><strong>Seen</strong> code executed to create variables and records common to <code>ADSL</code> and <code>ADVS</code>.</li>
+<li class="fragment"><strong>Seen</strong> small code snippets of certain functions with play data.</li>
+<li class="fragment"><strong>Checked</strong> in on our fav participant - Barb.</li>
+<li class="fragment"><strong>Completed</strong> two short exercises using functions from admiral package.</li>
+</ul></li>
+</ul>
+</section>
+<section id="play-by-play-to-achieve-our-objectives" class="slide level2">
+<h2>Play by Play to achieve our Objectives</h2>
+<ul>
+<li class="fragment"><p>🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions</p></li>
+<li class="fragment"><p>🕥11:15 - 11:40 Subject-level dataset: <code>ADSL</code></p></li>
+<li class="fragment"><p>🕚11:40 - 11:50 Check in on Barb / Exercise</p></li>
+<li class="fragment"><p>🕦11:50 - 12:20 Basic Data Structure: <code>ADVS</code></p></li>
+<li class="fragment"><p>🕚12:20 - 12:30 Check in on Barb / Exercise</p></li>
+<li class="fragment"><p>🕚12:30 Lunch!</p></li>
+</ul>
+</section>
+<section id="end-to-end-with-barb" class="slide level2">
+<h2>End to End with Barb!!</h2>
+<div style="text-align: left;">
+<img src="images/barb.png" alt="Barb!" style="width: 200px;">
+</div>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[Raw] --&gt; B[SDTM]
+  B[SDTM] --&gt; C[ADaM]
+  C[ADaM] --&gt; D[ARD]
+  D[ARD] --&gt; E[TFL]
+  
+%% Apply the custom class "highlight" to node B
+class C highlight;
+
+%% Define the style for the "highlight" class:
+classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li>We are going to take a <strong>glimpse</strong> of where Barb is in <code>ADSL</code> and <code>ADVS</code></li>
+</ul>
+</section>
+<section>
+<section id="set-the-stage" class="title-slide slide level1 center">
+<h1>Set the Stage</h1>
+<p>🕥11:00 - 11:15</p>
+<div style="text-align: center;">
+<img src="./images/office.jpg" alt="office" style="width: 600px;">
+</div>
+</section>
+<section id="set-the-stage-1" class="slide level2">
+<h2>Set the Stage</h2>
+<ul>
+<li class="fragment">How we will work for the next 90 minutes?</li>
+<li class="fragment">Data (SDTMs, <code>ADSL</code>, and <code>ADVS</code>)</li>
+<li class="fragment">Specs (Excel document with lots of tabs)</li>
+<li class="fragment">pharmaverse packages
+<ul>
+<li class="fragment">playing nice with tidyverse and base R!!</li>
+</ul></li>
+<li class="fragment">Functions to make ADaM variables and records.</li>
+</ul>
+</section></section>
+<section>
+<section id="how-we-will-proceed-today" class="title-slide slide level1 center">
+<h1>How we will proceed today?</h1>
+<div style="text-align: center;">
+<img src="./images/possible.jpg" alt="office" style="width: 400px;">
+</div>
+</section>
+<section id="how-we-will-proceed-today-1" class="slide level2">
+<h2>How we will proceed today?</h2>
+<ul>
+<li class="fragment">I will <strong>pull out</strong> certain functions of the <a href="https://github.com/posit-conf-2025/pharmaverse/blob/main/slides/03-ADaM/scripts/adsl.R"><code>ADSL</code></a> and <a href="https://github.com/posit-conf-2025/pharmaverse/blob/main/slides/03-ADaM/scripts/advs.R"><code>ADVS</code></a> R scripts.
+<ul>
+<li class="fragment">Let’s take a quick peek at the <a href="https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/scripts">scripts</a>.</li>
+<li class="fragment">I will discuss <strong>certain</strong> functions and function arguments from <a href="https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/scripts">scripts</a> for deriving variables/records.</li>
+<li class="fragment">Will pull up full function arguments to briefly highlight other powers. 💡</li>
+<li class="fragment">When possible will have some play data and mini-runs of the function. 🏸</li>
+</ul></li>
+</ul>
+</section>
+<section id="how-we-will-proceed-today-continued" class="slide level2">
+<h2>How we will proceed today continued?</h2>
+<ul>
+<li class="fragment">Two exercises set up to help explore two key functions discussed:
+<ul>
+<li class="fragment"><code>derive_vars_dtm()</code> at end of <code>ADSL</code>.</li>
+<li class="fragment"><code>derive_param_computed()</code> at end of <code>ADVS</code>.</li>
+</ul></li>
+<li class="fragment">Brief notes on the code in script and exercises:
+<ul>
+<li class="fragment">Code in scripts should run out of the box.</li>
+<li class="fragment">You can run now, but if something doesn’t work let’s fix at the exercises.</li>
+<li class="fragment">Exercises will need some minor updates.</li>
+<li class="fragment">3 folks not presenting can help diagnose issues during exercises.</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="datasets" class="title-slide slide level1 center">
+<h1>Datasets</h1>
+
+</section>
+<section id="adsl---subject-level-dataset" class="slide level2">
+<h2>ADSL - Subject Level Dataset</h2>
+<div style="text-align: center;">
+<img src="./images/adsl.png" alt="adsl" style="width: 700px;">
+</div>
+<ul>
+<li><code>ADSL</code> - Subject Level Dataset, i.e each subject has a record. Focus on adding variables.</li>
+<li>We will use SDTM data from the <a href="https://pharmaverse.github.io/pharmaversesdtm/">pharmaversesdtm package</a>.<br>
+</li>
+<li><code>ADSL</code> is available in the <a href="https://pharmaverse.github.io/pharmaverseadam/">pharmaverseadam package</a></li>
+</ul>
+</section>
+<section id="advs---vital-signs-dataset" class="slide level2">
+<h2>ADVS - Vital Signs Dataset</h2>
+<div style="text-align: center;">
+<img src="./images/advs.png" alt="advs" style="width: 700px;">
+</div>
+<ul>
+<li>ADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!</li>
+<li>We will use SDTM data <code>vs</code> from the <a href="https://pharmaverse.github.io/pharmaversesdtm/">pharmaversesdtm package</a> and <code>ADSL</code> from <a href="TBL">dataset</a> created by the <code>adsl.R</code> script.</li>
+<li><code>ADVS</code> is available in the <a href="https://pharmaverse.github.io/pharmaverseadam/">pharmaverseadam package</a></li>
+</ul>
+</section></section>
+<section>
+<section id="specs" class="title-slide slide level1 center">
+<h1>Specs</h1>
+<div style="text-align: center;">
+<img src="./images/specs.png" alt="sunny" style="width: 600px;">
+</div>
+</section>
+<section id="spec-details" class="slide level2">
+<h2>Spec-details</h2>
+<ul>
+<li>Gives specifics on how we derive variables in the ADaMs (extreme traceability)</li>
+<li>P21-like spec
+<ul>
+<li>P21 is spec/data validation tool widely used in the industry for creating and validating SDTMs and ADaMs.</li>
+</ul></li>
+<li>These specs are not fit for purpose - just a helpful guide</li>
+<li>What is in the the Specs:
+<ul>
+<li>Two datasets, dataset labels and variable keys</li>
+<li>Variables - labels, lengths, types, linked to method</li>
+<li>Codelists / Control Terms!!</li>
+</ul></li>
+</ul>
+</section>
+<section id="spec-peek" class="slide level2">
+<h2>Spec-peek</h2>
+<ul>
+<li>Let’s take a quick peek at <a href="https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/metadata">metadata</a></li>
+</ul>
+<div style="text-align: center;">
+<img src="./images/specs_peek.png" alt="sunny" style="width: 600px;">
+</div>
+</section>
+<section id="the-core-pharmaverse-packages-for-creating-adams" class="slide level2">
+<h2>The core pharmaverse packages for creating ADaMs</h2>
+<p><img src="https://raw.githubusercontent.com/atorus-research/metacore/master/man/figures/metacore.PNG" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"> <img src="https://raw.githubusercontent.com/pharmaverse/metatools/master/man/figures/metatools.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"></p>
+<p>Focus on <strong>applying</strong> information from our Specs to the ADaMs</p>
+<p><img src="https://raw.githubusercontent.com/pharmaverse/admiral/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"></p>
+<p>Focus on <strong>deriving</strong> variables and records driven by our Specs</p>
+<p><img src="https://raw.githubusercontent.com/atorus-research/xportr/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"></p>
+<p>Focus on <strong>preparing</strong> the dataset as an xpt file to be sent to regulatory agencies.</p>
+</section>
+<section id="pharmaverse-plays-nice" class="slide level2">
+<h2>pharmaverse plays nice!</h2>
+<p><img src="https://raw.githubusercontent.com/tidyverse/dplyr/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"> <img src="https://raw.githubusercontent.com/tidyverse/stringr/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"> <img src="https://raw.githubusercontent.com/tidyverse/haven/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"> <img src="https://raw.githubusercontent.com/tidyverse/lubridate/master/man/figures/logo.png" height="80" style="display:inline-block; vertical-align:middle; margin-right:0.3em;"></p>
+<ul>
+<li class="fragment"><p>The ADaM code presented today utilizes all the previously mentioned packages, but also makes use of tidyverse and base R code.</p></li>
+<li class="fragment"><p>If a function isn’t meeting your needs or looks too cumbersome, then that is okay!</p></li>
+<li class="fragment"><p>These packages are all modular and play well with others.</p></li>
+</ul>
+</section>
+<section id="admiral" class="slide level2 smaller">
+<h2>admiral</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>admiral</td>
+<td>derive_vars_merged()</td>
+<td><code>left_join</code> on steroids</td>
+</tr>
+<tr class="even">
+<td>admiral</td>
+<td>derive_param_computed()</td>
+<td>Core function for wrappers used in ADVS</td>
+</tr>
+<tr class="odd">
+<td>admiral</td>
+<td>derive_vars_dy()</td>
+<td>Create the relative study day</td>
+</tr>
+<tr class="even">
+<td>admiral</td>
+<td>derive_vars_dtm()</td>
+<td>Take a <code>---DTC</code> variable and turn it into a <code>---DTM</code> variable</td>
+</tr>
+<tr class="odd">
+<td>admiral</td>
+<td>derive_vars_duration()</td>
+<td>Duration between timepoints</td>
+</tr>
+<tr class="even">
+<td>admiral</td>
+<td>restrict_derivation()</td>
+<td>HOF: Execute a derivation on a subset of the input dataset.</td>
+</tr>
+</tbody>
+</table>
+<p>Most functions in admiral follow these conventions:</p>
+<ul>
+<li class="fragment"><code>var_</code> or <code>_vars_</code> functions add variable(s) to ADaMs</li>
+<li class="fragment"><code>_param_</code> functions add records to ADaMs</li>
+<li class="fragment">Other not following this convention typically execute more advanced stuff!!</li>
+</ul>
+</section>
+<section id="metacore-metatools-and-xportr" class="slide level2 smaller">
+<h2>metacore, metatools and xportr</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Function</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>metacore</td>
+<td>spec_to_metacore()</td>
+<td>Creates a “special” object from your specs</td>
+</tr>
+<tr class="even">
+<td>metatools</td>
+<td>combine_supp()</td>
+<td>Join Parent and Supplementary Datasets</td>
+</tr>
+<tr class="odd">
+<td>metatools</td>
+<td>create_var_from_codelist()</td>
+<td>Numeric Vars from Specs!</td>
+</tr>
+<tr class="even">
+<td>metatools</td>
+<td>drop_unspec_vars()</td>
+<td>Easily drop variables not in Spec</td>
+</tr>
+<tr class="odd">
+<td>xportr</td>
+<td>xportr_label()</td>
+<td>Apply labels from Spec</td>
+</tr>
+<tr class="even">
+<td>xportr</td>
+<td>xportr_write()</td>
+<td>Write out an xpt file</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Most functions from these packages are about applying metadata from specs to your dataset.</li>
+<li>xportr follows a standard naming convention with <code>xportr_</code>.</li>
+</ul>
+</section></section>
+<section>
+<section id="adsl" class="title-slide slide level1 center">
+<h1><code>ADSL</code></h1>
+<p>🕥 11:15 - 11:40</p>
+<ul>
+<li>Note: Referencing lines in file at each section with a footnote (Lines: ##-##)</li>
+</ul>
+</section>
+<section id="the-big-picture-of-adsl" class="slide level2">
+<h2>The Big Picture of <code>ADSL</code></h2>
+<ul>
+<li>We have an <code>ADSL</code> script:</li>
+</ul>
+<ul>
+<li class="fragment">Using <code>{pharmaversesdtm}</code> data: <code>dm</code>, <code>suppdm</code>, <code>ex</code>, <code>ae</code>, <code>vs</code>, etc</li>
+<li class="fragment">Uses the <code>ADSL</code> section of our spec file</li>
+<li class="fragment">Creating a single record for each subject with a lot of variables.</li>
+<li class="fragment">306 observations and 54 variables.</li>
+<li class="fragment">Write out an xpt file for regulatory send-off!</li>
+</ul>
+</section>
+<section id="reading-in-our-spec-for-adsl" class="slide level2">
+<h2>Reading in our spec for <code>ADSL</code> <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-code-line-numbers="1|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a>adsl_spec <span class="ot">&lt;-</span> <span class="fu">spec_to_metacore</span>(</span>
+<span id="cb1-2"><a aria-label="2"></a>  <span class="at">path =</span> <span class="st">"slides/03-ADaM/metadata/posit_specs.xlsx"</span>,</span>
+<span id="cb1-3"><a aria-label="3"></a>  <span class="at">where_sep_sheet =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb1-4"><a aria-label="4"></a>  <span class="at">quiet =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-5"><a aria-label="5"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a aria-label="6"></a>  <span class="fu">select_dataset</span>(<span class="st">"ADSL"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Takes a P21-like spec and makes it into an object we can easily access.</li>
+<li><code>where_sep_sheet</code> - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs</li>
+<li><code>quiet</code> argument should be set to <code>TRUE</code> while developing your spec and ADaMs.</li>
+<li>Same call in ADVS script.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Lines: 20-25 </p></li></ol></aside></section>
+<section id="combine-parent-and-supplementary-data" class="slide level2">
+<h2>Combine Parent and Supplementary Data <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a>dm_suppdm <span class="ot">&lt;-</span> <span class="fu">combine_supp</span>(dm, suppdm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>One line of code to join two datasets: parent and supplementary!</li>
+<li>Supps usually are a collection non-standard data and linking to parent</li>
+<li>Function is from <code>{metatools}</code></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn2"><p>Lines: 53</p></li></ol></aside></section>
+<section id="lets-turn-a---dtc-to-a-dtm-or-dt-variable" class="slide level2">
+<h2>Let’s turn a <code>--DTC</code> to a <code>*DTM</code> or <code>*DT</code> variable <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-code-line-numbers="1|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a aria-label="1"></a>ex_ext <span class="ot">&lt;-</span> ex <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a aria-label="2"></a>  <span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb3-3"><a aria-label="3"></a>    <span class="at">dtc =</span> EXSTDTC,</span>
+<span id="cb3-4"><a aria-label="4"></a>    <span class="at">new_vars_prefix =</span> <span class="st">"EXST"</span>,</span>
+<span id="cb3-5"><a aria-label="5"></a>    <span class="at">time_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb3-6"><a aria-label="6"></a>    <span class="at">flag_imputation =</span> <span class="st">"time"</span></span>
+<span id="cb3-7"><a aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-code-line-numbers="1|2|3|4|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a aria-label="1"></a>ds_ext <span class="ot">&lt;-</span> <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb4-2"><a aria-label="2"></a>  ds,</span>
+<span id="cb4-3"><a aria-label="3"></a>  <span class="at">dtc =</span> DSSTDTC,</span>
+<span id="cb4-4"><a aria-label="4"></a>  <span class="at">new_vars_prefix =</span> <span class="st">"DSST"</span></span>
+<span id="cb4-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-code-line-numbers="1|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>adsl11 <span class="ot">&lt;-</span> adsl10 <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a aria-label="2"></a>  <span class="fu">derive_vars_dt</span>(</span>
+<span id="cb5-3"><a aria-label="3"></a>    <span class="at">dtc =</span> DTHDTC,</span>
+<span id="cb5-4"><a aria-label="4"></a>    <span class="at">new_vars_prefix =</span> <span class="st">"DTH"</span>,</span>
+<span id="cb5-5"><a aria-label="5"></a>    <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
+<span id="cb5-6"><a aria-label="6"></a>    <span class="at">date_imputation =</span> <span class="st">"first"</span></span>
+<span id="cb5-7"><a aria-label="7"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Lines: 57-69, 132-136, 198-204</p></li></ol></aside></section>
+<section id="example-from-documentation" class="slide level2 smaller">
+<h2>Example from documentation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a aria-label="1"></a>mhdt <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb6-2"><a aria-label="2"></a>  <span class="sc">~</span>MHSTDTC,</span>
+<span id="cb6-3"><a aria-label="3"></a>  <span class="st">"2019-07-18T15:25:40"</span>,</span>
+<span id="cb6-4"><a aria-label="4"></a>  <span class="st">"2019-07-18T15:25"</span>,</span>
+<span id="cb6-5"><a aria-label="5"></a>  <span class="st">"2019-07-18"</span>,</span>
+<span id="cb6-6"><a aria-label="6"></a>  <span class="st">"2019-02"</span>,</span>
+<span id="cb6-7"><a aria-label="7"></a>  <span class="st">"2019"</span>,</span>
+<span id="cb6-8"><a aria-label="8"></a>  <span class="st">"2019---07"</span>,</span>
+<span id="cb6-9"><a aria-label="9"></a>  <span class="st">""</span></span>
+<span id="cb6-10"><a aria-label="10"></a>)</span>
+<span id="cb6-11"><a aria-label="11"></a></span>
+<span id="cb6-12"><a aria-label="12"></a><span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb6-13"><a aria-label="13"></a> mhdt,</span>
+<span id="cb6-14"><a aria-label="14"></a> <span class="at">new_vars_prefix =</span> <span class="st">"AST"</span>,</span>
+<span id="cb6-15"><a aria-label="15"></a> <span class="at">dtc =</span> MHSTDTC,</span>
+<span id="cb6-16"><a aria-label="16"></a> <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
+<span id="cb6-17"><a aria-label="17"></a> <span class="at">date_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb6-18"><a aria-label="18"></a> <span class="at">time_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb6-19"><a aria-label="19"></a> <span class="at">ignore_seconds_flag =</span> <span class="cn">FALSE</span></span>
+<span id="cb6-20"><a aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 4
+  MHSTDTC               ASTDTM              ASTDTF ASTTMF
+  &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; 
+1 "2019-07-18T15:25:40" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  
+2 "2019-07-18T15:25"    2019-07-18 15:25:59 &lt;NA&gt;   S     
+3 "2019-07-18"          2019-07-18 23:59:59 &lt;NA&gt;   H     
+4 "2019-02"             2019-02-28 23:59:59 D      H     
+5 "2019"                2019-12-31 23:59:59 M      H     
+6 "2019---07"           2019-12-31 23:59:59 M      H     
+7 ""                    NA                  &lt;NA&gt;   &lt;NA&gt;  </code></pre>
+</div>
+</div>
+</section>
+<section id="woahthere-is-more" class="slide level2">
+<h2>Woah…there is more!!</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a><span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb8-2"><a aria-label="2"></a>  dataset,</span>
+<span id="cb8-3"><a aria-label="3"></a>  new_vars_prefix,</span>
+<span id="cb8-4"><a aria-label="4"></a>  dtc,</span>
+<span id="cb8-5"><a aria-label="5"></a>  <span class="at">highest_imputation =</span> <span class="st">"h"</span>,</span>
+<span id="cb8-6"><a aria-label="6"></a>  <span class="at">date_imputation =</span> <span class="st">"first"</span>,</span>
+<span id="cb8-7"><a aria-label="7"></a>  <span class="at">time_imputation =</span> <span class="st">"first"</span>,</span>
+<span id="cb8-8"><a aria-label="8"></a>  <span class="at">flag_imputation =</span> <span class="st">"auto"</span>,</span>
+<span id="cb8-9"><a aria-label="9"></a>  <span class="at">min_dates =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-10"><a aria-label="10"></a>  <span class="at">max_dates =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-11"><a aria-label="11"></a>  <span class="at">preserve =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb8-12"><a aria-label="12"></a>  <span class="at">ignore_seconds_flag =</span> <span class="cn">FALSE</span></span>
+<span id="cb8-13"><a aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="a-simple-merge" class="slide level2">
+<h2>A Simple merge <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-code-line-numbers="1|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>adsl10 <span class="ot">&lt;-</span> adsl09 <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">derive_vars_merged</span>(</span>
+<span id="cb9-3"><a aria-label="3"></a>    <span class="at">dataset_add =</span> ds_ext,</span>
+<span id="cb9-4"><a aria-label="4"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb9-5"><a aria-label="5"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">RANDDT =</span> DSSTDT),</span>
+<span id="cb9-6"><a aria-label="6"></a>    <span class="at">filter_add =</span> DSDECOD <span class="sc">==</span> <span class="st">"RANDOMIZED"</span>,</span>
+<span id="cb9-7"><a aria-label="7"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Filter, arrange, join and rename is a common pattern in ADaMs.</li>
+<li><code>by_vars</code> are going to be the shared variables to connect the two datasets</li>
+<li>In admiral, all arguments which can be set to multiple variables, a calculation, or an assignment must be started with <code>rlang::exprs()</code>.</li>
+<li>Check out <a href="https://pharmaverse.github.io/admiral/cran-release/articles/concepts_conventions.html#exprs">Programming Concepts and Conventions</a></li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Lines: 187-194</p></li></ol></aside></section>
+<section id="lets-get-a-more-complicated-merge" class="slide level2">
+<h2>Let’s get a more complicated merge <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-code-line-numbers="1|2|3|4|5|6|7|8|9|10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a><span class="fu">derive_vars_merged</span>(</span>
+<span id="cb10-2"><a aria-label="2"></a>  <span class="at">dataset_add =</span> ex_ext,</span>
+<span id="cb10-3"><a aria-label="3"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb10-4"><a aria-label="4"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(EXSTDTM, EXSEQ),</span>
+<span id="cb10-5"><a aria-label="5"></a>  <span class="at">new_vars =</span> <span class="fu">exprs</span>(<span class="at">TRTSDTM =</span> EXSTDTM, <span class="at">TRTSTMF =</span> EXSTTMF),</span>
+<span id="cb10-6"><a aria-label="6"></a>  <span class="at">filter_add =</span> (EXDOSE <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">|</span></span>
+<span id="cb10-7"><a aria-label="7"></a>    (EXDOSE <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span></span>
+<span id="cb10-8"><a aria-label="8"></a>      <span class="fu">str_detect</span>(EXTRT, <span class="st">"PLACEBO"</span>))) <span class="sc">&amp;</span></span>
+<span id="cb10-9"><a aria-label="9"></a>    <span class="sc">!</span><span class="fu">is.na</span>(EXSTDTM),</span>
+<span id="cb10-10"><a aria-label="10"></a>  <span class="at">mode =</span> <span class="st">"first"</span>,</span>
+<span id="cb10-11"><a aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>order</code> - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.</li>
+<li><code>mode</code> - Determines if the first or last observation is selected</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Lines: 72-84, and more!!</p></li></ol></aside></section>
+<section id="whoa-way-more-options" class="slide level2">
+<h2>Whoa!!! Way more options!!</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a><span class="fu">derive_vars_merged</span>(</span>
+<span id="cb11-2"><a aria-label="2"></a>  dataset,</span>
+<span id="cb11-3"><a aria-label="3"></a>  dataset_add,</span>
+<span id="cb11-4"><a aria-label="4"></a>  by_vars,</span>
+<span id="cb11-5"><a aria-label="5"></a>  <span class="at">order =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-6"><a aria-label="6"></a>  <span class="at">new_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-7"><a aria-label="7"></a>  <span class="at">filter_add =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-8"><a aria-label="8"></a>  <span class="at">mode =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-9"><a aria-label="9"></a>  <span class="at">exist_flag =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-10"><a aria-label="10"></a>  <span class="at">true_value =</span> <span class="st">"Y"</span>,</span>
+<span id="cb11-11"><a aria-label="11"></a>  <span class="at">false_value =</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb11-12"><a aria-label="12"></a>  <span class="at">missing_values =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-13"><a aria-label="13"></a>  <span class="at">check_type =</span> <span class="st">"warning"</span>,</span>
+<span id="cb11-14"><a aria-label="14"></a>  <span class="at">duplicate_msg =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-15"><a aria-label="15"></a>  <span class="at">relationship =</span> <span class="cn">NULL</span></span>
+<span id="cb11-16"><a aria-label="16"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="lets-derive-a-duration-variable" class="slide level2">
+<h2>Let’s derive a Duration Variable <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12" data-code-line-numbers="1|2|3|4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a><span class="fu">derive_vars_duration</span>(</span>
+<span id="cb12-2"><a aria-label="2"></a>    <span class="at">new_var =</span> DTHADY,</span>
+<span id="cb12-3"><a aria-label="3"></a>    <span class="at">start_date =</span> TRTSDT,</span>
+<span id="cb12-4"><a aria-label="4"></a>    <span class="at">end_date =</span> DTHDT</span>
+<span id="cb12-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside><ol class="aside-footnotes"><li id="fn6"><p>Lines: 122-126</p></li></ol></aside></section>
+<section id="example-from-documentation-1" class="slide level2 smaller">
+<h2>Example from documentation</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a><span class="co"># Derive age in years</span></span>
+<span id="cb13-2"><a aria-label="2"></a>data <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb13-3"><a aria-label="3"></a>  <span class="sc">~</span>USUBJID, <span class="sc">~</span>BRTHDT,           <span class="sc">~</span>RANDDT,</span>
+<span id="cb13-4"><a aria-label="4"></a>  <span class="st">"P01"</span>,    <span class="fu">ymd</span>(<span class="st">"1984-09-06"</span>), <span class="fu">ymd</span>(<span class="st">"2020-02-24"</span>),</span>
+<span id="cb13-5"><a aria-label="5"></a>  <span class="st">"P02"</span>,    <span class="fu">ymd</span>(<span class="st">"1985-01-01"</span>), <span class="cn">NA</span>,</span>
+<span id="cb13-6"><a aria-label="6"></a>  <span class="st">"P03"</span>,    <span class="cn">NA</span>,                <span class="fu">ymd</span>(<span class="st">"2021-03-10"</span>),</span>
+<span id="cb13-7"><a aria-label="7"></a>  <span class="st">"P04"</span>,    <span class="cn">NA</span>,                <span class="cn">NA</span></span>
+<span id="cb13-8"><a aria-label="8"></a>)</span>
+<span id="cb13-9"><a aria-label="9"></a></span>
+<span id="cb13-10"><a aria-label="10"></a><span class="fu">derive_vars_duration</span>(data,</span>
+<span id="cb13-11"><a aria-label="11"></a>  <span class="at">new_var =</span> AAGE,</span>
+<span id="cb13-12"><a aria-label="12"></a>  <span class="at">new_var_unit =</span> AAGEU,</span>
+<span id="cb13-13"><a aria-label="13"></a>  <span class="at">start_date =</span> BRTHDT,</span>
+<span id="cb13-14"><a aria-label="14"></a>  <span class="at">end_date =</span> RANDDT,</span>
+<span id="cb13-15"><a aria-label="15"></a>  <span class="at">out_unit =</span> <span class="st">"years"</span>,</span>
+<span id="cb13-16"><a aria-label="16"></a>  <span class="at">add_one =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb13-17"><a aria-label="17"></a>  <span class="at">trunc_out =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-18"><a aria-label="18"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  USUBJID BRTHDT     RANDDT      AAGE AAGEU
+  &lt;chr&gt;   &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;
+1 P01     1984-09-06 2020-02-24    35 years
+2 P02     1985-01-01 NA            NA &lt;NA&gt; 
+3 P03     NA         2021-03-10    NA &lt;NA&gt; 
+4 P04     NA         NA            NA &lt;NA&gt; </code></pre>
+</div>
+</div>
+</section>
+<section id="ohhh-there-is-more" class="slide level2">
+<h2>Ohhh there is more!!</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">derive_vars_duration</span>(</span>
+<span id="cb15-2"><a aria-label="2"></a>  dataset,</span>
+<span id="cb15-3"><a aria-label="3"></a>  new_var,</span>
+<span id="cb15-4"><a aria-label="4"></a>  <span class="at">new_var_unit =</span> <span class="cn">NULL</span>,</span>
+<span id="cb15-5"><a aria-label="5"></a>  start_date,</span>
+<span id="cb15-6"><a aria-label="6"></a>  end_date,</span>
+<span id="cb15-7"><a aria-label="7"></a>  <span class="at">in_unit =</span> <span class="st">"days"</span>,</span>
+<span id="cb15-8"><a aria-label="8"></a>  <span class="at">out_unit =</span> <span class="st">"DAYS"</span>,</span>
+<span id="cb15-9"><a aria-label="9"></a>  <span class="at">floor_in =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-10"><a aria-label="10"></a>  <span class="at">add_one =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb15-11"><a aria-label="11"></a>  <span class="at">trunc_out =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb15-12"><a aria-label="12"></a>  <span class="at">type =</span> <span class="st">"duration"</span></span>
+<span id="cb15-13"><a aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="duration-versus-interval" class="slide level2">
+<h2>Duration versus Interval</h2>
+<ul>
+<li><p>The lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.</p></li>
+<li><p>The difference arises from the ambiguity in the length of “1 month” or “1 year”. Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures.</p></li>
+</ul>
+</section>
+<section id="lets-apply-control-terms-code-lists" class="slide level2">
+<h2>Let’s apply Control Terms / Code Lists <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>adsl16 <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a aria-label="2"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> AGEGR1, <span class="at">out_var =</span> AGEGR1N) <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a aria-label="3"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> RACE, <span class="at">out_var =</span> RACEN) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a aria-label="4"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> RACEGR1, <span class="at">out_var =</span> RACEGR1N) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a aria-label="5"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> REGION1, <span class="at">out_var =</span> REGION1N) <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a aria-label="6"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> TRT01P, <span class="at">out_var =</span> TRT01PN) <span class="sc">%&gt;%</span></span>
+<span id="cb16-7"><a aria-label="7"></a>  <span class="fu">create_var_from_codelist</span>(adsl_spec, <span class="at">input_var =</span> TRT01A, <span class="at">out_var =</span> TRT01AN)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Numeric Variables like the above are helpful for sorting options in Tables.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn7"><p>Lines: 276-282</p></li></ol></aside></section>
+<section id="more-details" class="slide level2 smaller">
+<h2>More details</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a><span class="fu">create_var_from_codelist</span>(</span>
+<span id="cb17-2"><a aria-label="2"></a>  data,</span>
+<span id="cb17-3"><a aria-label="3"></a>  metacore,</span>
+<span id="cb17-4"><a aria-label="4"></a>  input_var,</span>
+<span id="cb17-5"><a aria-label="5"></a>  out_var,</span>
+<span id="cb17-6"><a aria-label="6"></a>  <span class="at">codelist =</span> <span class="cn">NULL</span>,</span>
+<span id="cb17-7"><a aria-label="7"></a>  <span class="at">decode_to_code =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb17-8"><a aria-label="8"></a>  <span class="at">strict =</span> <span class="cn">TRUE</span></span>
+<span id="cb17-9"><a aria-label="9"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>codelist</code> - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.</p>
+<p><code>decode_to_code</code> - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.</p>
+<p><code>strict</code> - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results.</p>
+</section></section>
+<section>
+<section id="check-in-on-barb-exercise" class="title-slide slide level1 center">
+<h1>Check in on Barb / Exercise</h1>
+<p>🕚11:40 - 11:50</p>
+</section>
+<section id="check-in-on-barb-in-adsl" class="slide level2 smaller">
+<h2>Check in on Barb in <code>ADSL</code></h2>
+<div class="columns">
+<div class="column">
+<div style="text-align: left;">
+<img src="images/barb.png" alt="Barb!" style="width: 200px;">
+</div>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  B[SDTM] --&gt; C[ADaM]
+  C[ADaM] --&gt; D[ARDs/TFLs]
+  
+%% Apply the custom class "highlight" to node B
+class C highlight;
+
+%% Define the style for the "highlight" class:
+classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<ul>
+<li>USUBJID: 01-701-1034</li>
+<li>SEX: F</li>
+<li>AGE: 77</li>
+<li>RANDDT: 2014-07-01</li>
+<li>TRTSDT: 2014-07-01</li>
+<li>TRTSDTM: 2014-07-01 23:59:59</li>
+<li>TRTEDT: 2014-12-30</li>
+<li>TRTDURD: 183</li>
+<li>EOSDT: 2014-12-30</li>
+<li>EOSSTT: COMPLETED</li>
+</ul>
+</div></div>
+</section>
+<section id="check-in-exercise" class="slide level2 smaller">
+<h2>Check-in Exercise</h2>
+<ul>
+<li>Impute the date and time to be last month/day and 23:59:59</li>
+<li>Two arguments to update: <code>????</code></li>
+<li>Check out admiral <a href="https://pharmaverse.github.io/admiral/cran-release/reference/derive_vars_dtm.html"><code>derive_vars_dtm()</code></a> documentation</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a aria-label="1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb18-2"><a aria-label="2"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb18-3"><a aria-label="3"></a><span class="fu">library</span>(admiral)</span>
+<span id="cb18-4"><a aria-label="4"></a></span>
+<span id="cb18-5"><a aria-label="5"></a>posit_mh <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb18-6"><a aria-label="6"></a>  <span class="sc">~</span>USUBJID, <span class="sc">~</span>MHSTDTC,</span>
+<span id="cb18-7"><a aria-label="7"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25:40"</span>,</span>
+<span id="cb18-8"><a aria-label="8"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25"</span>,</span>
+<span id="cb18-9"><a aria-label="9"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18"</span>,</span>
+<span id="cb18-10"><a aria-label="10"></a>  <span class="dv">2</span>,        <span class="st">"2024-02"</span>,</span>
+<span id="cb18-11"><a aria-label="11"></a>  <span class="dv">2</span>,        <span class="st">"2019"</span>,</span>
+<span id="cb18-12"><a aria-label="12"></a>  <span class="dv">2</span>,        <span class="st">"2019---07"</span>,</span>
+<span id="cb18-13"><a aria-label="13"></a>  <span class="dv">3</span>,        <span class="st">""</span></span>
+<span id="cb18-14"><a aria-label="14"></a>)</span>
+<span id="cb18-15"><a aria-label="15"></a></span>
+<span id="cb18-16"><a aria-label="16"></a><span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb18-17"><a aria-label="17"></a>  <span class="at">dataset =</span> posit_mh,</span>
+<span id="cb18-18"><a aria-label="18"></a>  <span class="at">new_vars_prefix =</span> <span class="st">"AST"</span>,</span>
+<span id="cb18-19"><a aria-label="19"></a>  <span class="at">dtc =</span> MHSTDTC,</span>
+<span id="cb18-20"><a aria-label="20"></a>  <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
+<span id="cb18-21"><a aria-label="21"></a>  <span class="at">date_imputation =</span> <span class="st">"????"</span>,</span>
+<span id="cb18-22"><a aria-label="22"></a>  <span class="at">time_imputation =</span> <span class="st">"????"</span></span>
+<span id="cb18-23"><a aria-label="23"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="check-in-exercise-solution" class="slide level2 smaller">
+<h2>Check-in Exercise Solution</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a>posit_mh <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb19-2"><a aria-label="2"></a>  <span class="sc">~</span>USUBJID, <span class="sc">~</span>MHSTDTC,</span>
+<span id="cb19-3"><a aria-label="3"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25:40"</span>,</span>
+<span id="cb19-4"><a aria-label="4"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25"</span>,</span>
+<span id="cb19-5"><a aria-label="5"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18"</span>,</span>
+<span id="cb19-6"><a aria-label="6"></a>  <span class="dv">2</span>,        <span class="st">"2024-02"</span>,</span>
+<span id="cb19-7"><a aria-label="7"></a>  <span class="dv">2</span>,        <span class="st">"2019"</span>,</span>
+<span id="cb19-8"><a aria-label="8"></a>  <span class="dv">2</span>,        <span class="st">"2019---07"</span>,</span>
+<span id="cb19-9"><a aria-label="9"></a>  <span class="dv">3</span>,        <span class="st">""</span></span>
+<span id="cb19-10"><a aria-label="10"></a>)</span>
+<span id="cb19-11"><a aria-label="11"></a></span>
+<span id="cb19-12"><a aria-label="12"></a><span class="fu">derive_vars_dtm</span>(</span>
+<span id="cb19-13"><a aria-label="13"></a>  <span class="at">dataset =</span> posit_mh,</span>
+<span id="cb19-14"><a aria-label="14"></a>  <span class="at">new_vars_prefix =</span> <span class="st">"AST"</span>,</span>
+<span id="cb19-15"><a aria-label="15"></a>  <span class="at">dtc =</span> MHSTDTC,</span>
+<span id="cb19-16"><a aria-label="16"></a>  <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
+<span id="cb19-17"><a aria-label="17"></a>  <span class="at">date_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb19-18"><a aria-label="18"></a>  <span class="at">time_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb19-19"><a aria-label="19"></a>  <span class="at">ignore_seconds_flag =</span> <span class="cn">FALSE</span></span>
+<span id="cb19-20"><a aria-label="20"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 7 × 5
+  USUBJID MHSTDTC               ASTDTM              ASTDTF ASTTMF
+    &lt;dbl&gt; &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; 
+1       1 "2019-07-18T15:25:40" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  
+2       1 "2019-07-18T15:25"    2019-07-18 15:25:59 &lt;NA&gt;   S     
+3       1 "2019-07-18"          2019-07-18 23:59:59 &lt;NA&gt;   H     
+4       2 "2024-02"             2024-02-29 23:59:59 D      H     
+5       2 "2019"                2019-12-31 23:59:59 M      H     
+6       2 "2019---07"           2019-12-31 23:59:59 M      H     
+7       3 ""                    NA                  &lt;NA&gt;   &lt;NA&gt;  </code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="advs" class="title-slide slide level1 center">
+<h1><code>ADVS</code></h1>
+<p>🕦11:50 - 12:20</p>
+<ul>
+<li>Note: Referencing lines in file at each section with a footnote (Lines: ##-##)</li>
+</ul>
+</section>
+<section id="the-big-picture-of-advs" class="slide level2">
+<h2>The Big Picture of ADVS</h2>
+<ul>
+<li>We have an ADVS script:
+<ul>
+<li>Using <code>pharmaversesdtm</code> data: <code>vs</code></li>
+<li>Using the ADVS section of our spec file.</li>
+<li>Creating <strong>multiple records</strong> for each subject.</li>
+<li>Some <code>ADSL</code> variables included.</li>
+<li>60K records and 106 variables.</li>
+<li>Lot’s of functions are repeated within the <code>ADVS</code> script used in <code>ADSL</code> script.</li>
+</ul></li>
+</ul>
+</section>
+<section id="lets-talk-about-lookup-tables" class="slide level2">
+<h2>Let’s talk about lookup tables <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-code-line-numbers="1|2|3|4|5|6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a>  <span class="fu">derive_vars_merged_lookup</span>(</span>
+<span id="cb21-2"><a aria-label="2"></a>    <span class="at">dataset_add =</span> param_lookup,</span>
+<span id="cb21-3"><a aria-label="3"></a>    <span class="at">new_vars =</span> <span class="fu">exprs</span>(PARAMCD),</span>
+<span id="cb21-4"><a aria-label="4"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(VSTESTCD),</span>
+<span id="cb21-5"><a aria-label="5"></a>    <span class="at">print_not_mapped =</span> <span class="cn">TRUE</span> </span>
+<span id="cb21-6"><a aria-label="6"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Moving from <code>**TEST/**TESTCD</code> to <code>PARAM/PARAMCD</code>.</li>
+<li>More information in the <code>PARAM/PARAMCD</code> - useful for displays.</li>
+<li>Can be used for other lookup tables, e.g.&nbsp;Grading/Toxicity.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn8"><p>Lines: 72-80</p></li></ol></aside></section>
+<section id="a-fuller-look" class="slide level2">
+<h2>A Fuller Look!</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a><span class="fu">derive_vars_merged_lookup</span>(</span>
+<span id="cb22-2"><a aria-label="2"></a>  dataset,</span>
+<span id="cb22-3"><a aria-label="3"></a>  dataset_add,</span>
+<span id="cb22-4"><a aria-label="4"></a>  by_vars,</span>
+<span id="cb22-5"><a aria-label="5"></a>  <span class="at">order =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-6"><a aria-label="6"></a>  <span class="at">new_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-7"><a aria-label="7"></a>  <span class="at">mode =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-8"><a aria-label="8"></a>  <span class="at">filter_add =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-9"><a aria-label="9"></a>  <span class="at">check_type =</span> <span class="st">"warning"</span>,</span>
+<span id="cb22-10"><a aria-label="10"></a>  <span class="at">duplicate_msg =</span> <span class="cn">NULL</span>,</span>
+<span id="cb22-11"><a aria-label="11"></a>  <span class="at">print_not_mapped =</span> <span class="cn">TRUE</span></span>
+<span id="cb22-12"><a aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="lets-add-more-records-for-each-subject" class="slide level2">
+<h2>Let’s add more records for each subject <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-code-line-numbers="1|2|3|4|5|6|7|8|9|10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a>advs <span class="ot">&lt;-</span> advs <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a aria-label="2"></a>  <span class="fu">derive_param_computed</span>(</span>
+<span id="cb23-3"><a aria-label="3"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, VISIT, VISITNUM, ADT, ADY, VSTPT, VSTPTNUM),</span>
+<span id="cb23-4"><a aria-label="4"></a>    <span class="at">parameters =</span> <span class="st">"WEIGHT"</span>,</span>
+<span id="cb23-5"><a aria-label="5"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb23-6"><a aria-label="6"></a>      <span class="at">AVAL =</span> AVAL.WEIGHT <span class="sc">/</span> (AVAL.HEIGHT <span class="sc">/</span> <span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>,</span>
+<span id="cb23-7"><a aria-label="7"></a>      <span class="at">PARAMCD =</span> <span class="st">"BMI"</span>,</span>
+<span id="cb23-8"><a aria-label="8"></a>      <span class="at">PARAM =</span> <span class="st">"Body Mass Index (kg/m^2)"</span>,</span>
+<span id="cb23-9"><a aria-label="9"></a>      <span class="at">AVALU =</span> <span class="st">"kg/m^2"</span></span>
+<span id="cb23-10"><a aria-label="10"></a>    ),</span>
+<span id="cb23-11"><a aria-label="11"></a>    <span class="at">constant_parameters =</span> <span class="fu">c</span>(<span class="st">"HEIGHT"</span>),</span>
+<span id="cb23-12"><a aria-label="12"></a>    <span class="at">constant_by_vars =</span> <span class="fu">exprs</span>(USUBJID)</span>
+<span id="cb23-13"><a aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<aside><ol class="aside-footnotes"><li id="fn9"><p>Lines: 100-111</p></li></ol></aside></section>
+<section id="only-two-arguments-not-used" class="slide level2 smaller">
+<h2>Only two arguments not used!</h2>
+<div class="codewindow" style="font-size: 0.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a aria-label="1"></a><span class="fu">derive_param_computed</span>(</span>
+<span id="cb24-2"><a aria-label="2"></a>  <span class="at">dataset =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-3"><a aria-label="3"></a>  <span class="at">dataset_add =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-4"><a aria-label="4"></a>  by_vars,</span>
+<span id="cb24-5"><a aria-label="5"></a>  parameters,</span>
+<span id="cb24-6"><a aria-label="6"></a>  set_values_to,</span>
+<span id="cb24-7"><a aria-label="7"></a>  <span class="at">filter =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-8"><a aria-label="8"></a>  <span class="at">constant_by_vars =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-9"><a aria-label="9"></a>  <span class="at">constant_parameters =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-10"><a aria-label="10"></a>  <span class="at">keep_nas =</span> <span class="cn">FALSE</span></span>
+<span id="cb24-11"><a aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><code>filter</code> - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.</li>
+<li><code>keep_na</code> - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA</li>
+</ul>
+</section>
+<section id="lets-derive-dtype-summary-records" class="slide level2">
+<h2>Let’s derive DTYPE summary records <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-code-line-numbers="1|2|3|4|5|6|7|8|9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a><span class="fu">derive_summary_records</span>(</span>
+<span id="cb25-2"><a aria-label="2"></a>    <span class="at">dataset_add =</span> advs_2, </span>
+<span id="cb25-3"><a aria-label="3"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, <span class="sc">!!!</span>adsl_vars, PARAMCD, AVISITN, AVISIT, ADT, ADY, AVALU),</span>
+<span id="cb25-4"><a aria-label="4"></a>    <span class="at">filter_add =</span> <span class="sc">!</span><span class="fu">is.na</span>(AVAL),</span>
+<span id="cb25-5"><a aria-label="5"></a>    <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb25-6"><a aria-label="6"></a>      <span class="at">AVAL =</span> <span class="fu">mean</span>(AVAL),</span>
+<span id="cb25-7"><a aria-label="7"></a>      <span class="at">DTYPE =</span> <span class="st">"AVERAGE"</span></span>
+<span id="cb25-8"><a aria-label="8"></a>  )</span>
+<span id="cb25-9"><a aria-label="9"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A DTYPE variable indicates a record within a parameter has been imputed or modified, DTYPE will indicate the method used to populate the analysis value, e.g AVERAGE, MAXIMUM, MINIMUM, LOCF, PHANTOM.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn10"><p>Lines: 144-153</p></li></ol></aside></section>
+<section id="lets-restrict" class="slide level2">
+<h2>Let’s restrict! <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-code-line-numbers="1|2|3|4|5|6|7|8|9|10|11|12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a aria-label="1"></a><span class="fu">restrict_derivation</span>(</span>
+<span id="cb26-2"><a aria-label="2"></a>  <span class="at">derivation =</span> derive_var_extreme_flag,</span>
+<span id="cb26-3"><a aria-label="3"></a>  <span class="at">args =</span> <span class="fu">params</span>(</span>
+<span id="cb26-4"><a aria-label="4"></a>    <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, BASETYPE, PARAMCD),</span>
+<span id="cb26-5"><a aria-label="5"></a>    <span class="at">order =</span> <span class="fu">exprs</span>(ADT, VISITNUM, VSSEQ),</span>
+<span id="cb26-6"><a aria-label="6"></a>    <span class="at">new_var =</span> ABLFL,</span>
+<span id="cb26-7"><a aria-label="7"></a>    <span class="at">mode =</span> <span class="st">"last"</span>,</span>
+<span id="cb26-8"><a aria-label="8"></a>    <span class="at">true_value =</span> <span class="st">"Y"</span></span>
+<span id="cb26-9"><a aria-label="9"></a>  ),</span>
+<span id="cb26-10"><a aria-label="10"></a>  <span class="at">filter =</span> (<span class="sc">!</span><span class="fu">is.na</span>(AVAL) <span class="sc">&amp;</span></span>
+<span id="cb26-11"><a aria-label="11"></a>    ADT <span class="sc">&lt;=</span> TRTSDT <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(BASETYPE) <span class="sc">&amp;</span> <span class="fu">is.na</span>(DTYPE))</span>
+<span id="cb26-12"><a aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Check out <a href="https://pharmaverse.github.io/admiral/cran-release/articles/higher_order.html">Higher Order Functions</a> for more information.</li>
+<li><code>call_derivation()</code> is super handy if you are doing similar calls with same function, but just changing one or two arguments.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn11"><p>Lines: 196-210</p></li></ol></aside></section>
+<section id="lets-add-a-base-variable" class="slide level2">
+<h2>Let’s add a BASE variable <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-code-line-numbers="1|2|3|4|5|6|7|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a aria-label="1"></a>advs <span class="ot">&lt;-</span> <span class="fu">derive_var_base</span>(</span>
+<span id="cb27-2"><a aria-label="2"></a>  advs,</span>
+<span id="cb27-3"><a aria-label="3"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID, PARAMCD, BASETYPE),</span>
+<span id="cb27-4"><a aria-label="4"></a>  <span class="at">source_var =</span> AVAL,</span>
+<span id="cb27-5"><a aria-label="5"></a>  <span class="at">new_var =</span> BASE,</span>
+<span id="cb27-6"><a aria-label="6"></a>  <span class="co"># Below arguments are default values and not necessary to add in our case</span></span>
+<span id="cb27-7"><a aria-label="7"></a>  <span class="at">filter =</span> ABLFL <span class="sc">==</span> <span class="st">"Y"</span></span>
+<span id="cb27-8"><a aria-label="8"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Used to calculate CHG and PCHG variables</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn12"><p>Lines: 210-217</p></li></ol></aside></section>
+<section id="lets-add-an-analysis-sequence-variable" class="slide level2">
+<h2>Let’s add an Analysis Sequence Variable <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-code-line-numbers="1|2|3|4|5|6|7|"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a aria-label="1"></a>advs <span class="ot">&lt;-</span> <span class="fu">derive_var_obs_number</span>(</span>
+<span id="cb28-2"><a aria-label="2"></a>  advs,</span>
+<span id="cb28-3"><a aria-label="3"></a>  <span class="at">new_var =</span> ASEQ,</span>
+<span id="cb28-4"><a aria-label="4"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(STUDYID, USUBJID),</span>
+<span id="cb28-5"><a aria-label="5"></a>  <span class="at">order =</span> <span class="fu">exprs</span>(PARAMCD, ADT, AVISITN, VISITNUM, ATPTN, DTYPE),</span>
+<span id="cb28-6"><a aria-label="6"></a>  <span class="at">check_type =</span> <span class="st">"error"</span></span>
+<span id="cb28-7"><a aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>ASEQ uniquely indexes records within a subject within an ADaM dataset.</li>
+<li>ASEQ is useful for traceability when the dataset is used as input to another ADaM dataset</li>
+<li><code>check_type</code> - If “message”, “warning” or “error” is specified, the specified message is issued if the observations of the input dataset are not unique with respect to the by variables and the order.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn13"><p>Lines: 262-268</p></li></ol></aside></section>
+<section id="lets-get-that-adam-ready-for-regulatory-agencies" class="slide level2">
+<h2>Let’s get that ADaM ready for regulatory agencies <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-code-line-numbers="1|2|3|4|5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a aria-label="1"></a>advs_prefinal <span class="ot">&lt;-</span> advs <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a aria-label="2"></a>  <span class="fu">drop_unspec_vars</span>(advs_spec) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a aria-label="3"></a>  <span class="fu">check_variables</span>(advs_spec, <span class="at">dataset_name =</span> <span class="st">"ADVS"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-4"><a aria-label="4"></a>  <span class="fu">order_cols</span>(advs_spec) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-5"><a aria-label="5"></a>  <span class="fu">sort_by_key</span>(advs_spec) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Functions from <code>{metatools}</code></li>
+<li>Note similar code in <code>ADSL</code> script!</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn14"><p>Lines: 305-310</p></li></ol></aside></section>
+<section id="lets-get-that-data-read-for-regulatory-agencies" class="slide level2">
+<h2>Let’s get that data read for regulatory agencies <sup>1</sup></h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30" data-code-line-numbers="1|2|3|4|5|6|7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>advs_final <span class="ot">&lt;-</span> advs_prefinal <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a aria-label="2"></a>  <span class="fu">xportr_type</span>(advs_spec) <span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a aria-label="3"></a>  <span class="fu">xportr_length</span>(advs_spec) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a aria-label="4"></a>  <span class="fu">xportr_label</span>(advs_spec) <span class="sc">%&gt;%</span></span>
+<span id="cb30-5"><a aria-label="5"></a>  <span class="fu">xportr_format</span>(advs_spec, <span class="at">domain =</span> <span class="st">"ADVS"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-6"><a aria-label="6"></a>  <span class="fu">xportr_df_label</span>(advs_spec, <span class="at">domain =</span> <span class="st">"ADVS"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb30-7"><a aria-label="7"></a>  <span class="fu">xportr_write</span>(<span class="fu">file.path</span>(dir, <span class="st">"advs.xpt"</span>), <span class="at">metadata =</span> advs_spec, <span class="at">domain =</span> <span class="st">"ADVS"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Functions from <code>{xportr}</code></li>
+<li>Note similar code in <code>ADSL</code> script!</li>
+<li><code>domain</code> is needed depending on how <code>metacore</code> object is created.</li>
+</ul>
+<aside><ol class="aside-footnotes"><li id="fn15"><p>Lines: 313-319</p></li></ol></aside></section></section>
+<section>
+<section id="check-in-on-barb-exercise-1" class="title-slide slide level1 center">
+<h1>Check in on Barb / Exercise</h1>
+<p>🕦 12:20 - 12:30</p>
+</section>
+<section id="check-in-on-barb-in-advs" class="slide level2">
+<h2>Check in on Barb in ADVS</h2>
+<div class="columns">
+<div class="column">
+<div style="text-align: left;">
+<img src="images/barb.png" alt="Barb!" style="width: 200px;">
+</div>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  B[SDTM] --&gt; C[ADaM]
+  C[ADaM] --&gt; D[ARDs/TFLs]
+  
+%% Apply the custom class "highlight" to node B
+class C highlight;
+
+%% Define the style for the "highlight" class:
+classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div><div class="column">
+<ul>
+<li>USUBJID: 01-701-1034</li>
+<li>PARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)</li>
+<li>ABLFL/ADT: Y / 2014-07-01</li>
+<li>BASE: 94.33333</li>
+<li>AVIST/ADT: WEEK 2 / 2014-07-15</li>
+<li>AVAL: 115.0</li>
+<li>CHG: 20.6666667</li>
+<li>PCHG: 21.9081272</li>
+</ul>
+</div></div>
+</section>
+<section id="check-in-exercise-1" class="slide level2 smaller">
+<h2>Check-in Exercise</h2>
+<ul>
+<li>We are going to update the function <code>derive_param_computed()</code> for Mean Arterial Pressure.</li>
+<li>Formula: <span class="math display">\[ \frac{2DIABP + SYSBP}{3} \]</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31" data-code-line-numbers="1|2|3|4|5|6|7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a aria-label="1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb31-2"><a aria-label="2"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
+<span id="cb31-3"><a aria-label="3"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb31-4"><a aria-label="4"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb31-5"><a aria-label="5"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb31-6"><a aria-label="6"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb31-7"><a aria-label="7"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32" data-code-line-numbers="1|2|3|4|5|6|7|8|9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a><span class="fu">derive_param_computed</span>(</span>
+<span id="cb32-2"><a aria-label="2"></a>  ADVS,</span>
+<span id="cb32-3"><a aria-label="3"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
+<span id="cb32-4"><a aria-label="4"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"????"</span>, <span class="st">"????"</span>),</span>
+<span id="cb32-5"><a aria-label="5"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb32-6"><a aria-label="6"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> ?? <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> ??,</span>
+<span id="cb32-7"><a aria-label="7"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
+<span id="cb32-8"><a aria-label="8"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
+<span id="cb32-9"><a aria-label="9"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
+<span id="cb32-10"><a aria-label="10"></a>  )</span>
+<span id="cb32-11"><a aria-label="11"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="check-in-exercise-solution-1" class="slide level2 smaller">
+<h2>Check-in Exercise Solution</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a aria-label="1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb33-2"><a aria-label="2"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
+<span id="cb33-3"><a aria-label="3"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb33-4"><a aria-label="4"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb33-5"><a aria-label="5"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb33-6"><a aria-label="6"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb33-7"><a aria-label="7"></a>) </span>
+<span id="cb33-8"><a aria-label="8"></a></span>
+<span id="cb33-9"><a aria-label="9"></a><span class="fu">derive_param_computed</span>(</span>
+<span id="cb33-10"><a aria-label="10"></a>  ADVS,</span>
+<span id="cb33-11"><a aria-label="11"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
+<span id="cb33-12"><a aria-label="12"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"SYSBP"</span>, <span class="st">"DIABP"</span>),</span>
+<span id="cb33-13"><a aria-label="13"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb33-14"><a aria-label="14"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> <span class="dv">3</span>,</span>
+<span id="cb33-15"><a aria-label="15"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
+<span id="cb33-16"><a aria-label="16"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
+<span id="cb33-17"><a aria-label="17"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
+<span id="cb33-18"><a aria-label="18"></a>  )</span>
+<span id="cb33-19"><a aria-label="19"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 6
+  USUBJID     PARAMCD PARAM                           AVALU  AVAL VISIT   
+  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   
+1 01-701-1015 DIABP   Diastolic Blood Pressure (mmHg) mmHg   51   BASELINE
+2 01-701-1015 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  121   BASELINE
+3 01-701-1028 DIABP   Diastolic Blood Pressure (mmHg) mmHg   79   BASELINE
+4 01-701-1028 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  130   BASELINE
+5 01-701-1015 MAP     Mean Arterial Pressure (mmHg)   mmHg   74.3 BASELINE
+6 01-701-1028 MAP     Mean Arterial Pressure (mmHg)   mmHg   96   BASELINE</code></pre>
+</div>
+</div>
+</section>
+<section id="questions-and-resources" class="slide level2">
+<h2>Questions and Resources</h2>
+<blockquote>
+
+<ul>
+<li><a href="https://pharmaverse.github.io/admiraldiscovery/">admiraldiscovery</a></li>
+<li><a href="https://github.com/pharmaverse/examples">pharmaverse examples</a></li>
+<li>pkgdown sites for <a href="https://atorus-research.github.io/xportr/">xportr</a>, <a href="https://pharmaverse.github.io/metatools/">metatools</a>, <a href="https://atorus-research.github.io/metacore/">metacore</a> and <a href="https://pharmaverse.github.io/admiral/">admiral</a></li>
+<li>Extension packages for admiral: <a href="https://pharmaverse.github.io/admiralophtha/">admiralophtha</a>, <a href="https://pharmaverse.github.io/admiralonco/">admiralonco</a>, <a href="https://github.com/pharmaverse/admiralpeds">admiralpeds</a></li>
+</ul>
+
+</blockquote>
+</section>
+<section id="closing-thoughts" class="slide level2">
+<h2>Closing Thoughts</h2>
+<blockquote>
+
+<ul>
+<li>Only able to show a small number of <code>pharmaverse</code> packages and functions today, but please delve deeper to explore the full breadth</li>
+<li>If you’d like to contribute to <code>pharmaverse</code>, check out options at <a href="https://pharmaverse.org/contribute/">pharmaverse.org</a></li>
+<li>Finally, be sure to join our community on <a href="https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A">Slack!</a></li>
+</ul>
+
+</blockquote>
+</section>
+<section id="packages-and-session-information" class="slide level2">
+<h2>Packages and Session Information</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a aria-label="1"></a><span class="fu">sessionInfo</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a aria-label="1"></a>R version 4.6.1 (2026-06-24)</span>
+<span id="cb36-2"><a aria-label="2"></a>Platform: x86_64-pc-linux-gnu</span>
+<span id="cb36-3"><a aria-label="3"></a>Running under: Ubuntu 24.04.4 LTS</span>
+<span id="cb36-4"><a aria-label="4"></a></span>
+<span id="cb36-5"><a aria-label="5"></a>Matrix products: default</span>
+<span id="cb36-6"><a aria-label="6"></a>BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span>
+<span id="cb36-7"><a aria-label="7"></a>LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span>
+<span id="cb36-8"><a aria-label="8"></a></span>
+<span id="cb36-9"><a aria-label="9"></a>locale:</span>
+<span id="cb36-10"><a aria-label="10"></a> [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span>
+<span id="cb36-11"><a aria-label="11"></a> [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span>
+<span id="cb36-12"><a aria-label="12"></a> [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span>
+<span id="cb36-13"><a aria-label="13"></a>[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span>
+<span id="cb36-14"><a aria-label="14"></a></span>
+<span id="cb36-15"><a aria-label="15"></a>time zone: UTC</span>
+<span id="cb36-16"><a aria-label="16"></a>tzcode source: system (glibc)</span>
+<span id="cb36-17"><a aria-label="17"></a></span>
+<span id="cb36-18"><a aria-label="18"></a>attached base packages:</span>
+<span id="cb36-19"><a aria-label="19"></a>[1] stats     graphics  grDevices datasets  utils     methods   base     </span>
+<span id="cb36-20"><a aria-label="20"></a></span>
+<span id="cb36-21"><a aria-label="21"></a>other attached packages:</span>
+<span id="cb36-22"><a aria-label="22"></a>[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0</span>
+<span id="cb36-23"><a aria-label="23"></a>[5] glue_1.8.1     </span>
+<span id="cb36-24"><a aria-label="24"></a></span>
+<span id="cb36-25"><a aria-label="25"></a>loaded via a namespace (and not attached):</span>
+<span id="cb36-26"><a aria-label="26"></a> [1] jsonlite_2.0.0   dplyr_1.2.1      compiler_4.6.1   renv_1.2.4      </span>
+<span id="cb36-27"><a aria-label="27"></a> [5] tidyselect_1.2.1 xml2_1.6.0       stringr_1.6.0    tidyr_1.3.2     </span>
+<span id="cb36-28"><a aria-label="28"></a> [9] yaml_2.3.12      fastmap_1.2.0    R6_2.6.1         generics_0.1.4  </span>
+<span id="cb36-29"><a aria-label="29"></a>[13] admiraldev_1.5.0 knitr_1.51       pillar_1.11.1    rlang_1.3.0     </span>
+<span id="cb36-30"><a aria-label="30"></a>[17] utf8_1.2.6       stringi_1.8.9    roxygen2_8.1.0   xfun_0.60       </span>
+<span id="cb36-31"><a aria-label="31"></a>[21] otel_0.2.0       timechange_0.4.0 cli_3.6.6        withr_3.0.3     </span>
+<span id="cb36-32"><a aria-label="32"></a>[25] magrittr_2.0.5   digest_0.6.39    hms_1.1.4        lifecycle_1.0.5 </span>
+<span id="cb36-33"><a aria-label="33"></a>[29] vctrs_0.7.3      evaluate_1.0.5   rmarkdown_2.31   purrr_1.2.2     </span>
+<span id="cb36-34"><a aria-label="34"></a>[33] tools_4.6.1      pkgconfig_2.0.3  htmltools_0.5.9 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="cell">
+<style type="text/css">
+.hscroll {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+</style>
+</div>
+
+
+</section></section>
+
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="../../images/pharmaverse-hex.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://posit-conf-2025.github.io/pharmaverse/">https://posit-conf-2025.github.io/pharmaverse/</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/reveal-codewindow/codewindow.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealCodewindow, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/posit-conf-2026\.github\.io\/pharmaverse\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

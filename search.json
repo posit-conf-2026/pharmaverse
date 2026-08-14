@@ -700,6 +700,363 @@
     "text": "What happens when statistics are un-calculable?\n\n\nard_gone_wrong &lt;- \n  adsl |&gt; \n  ard_summary(\n    by = ARM2,\n    variable = AGEGR1,\n    statistic = ~list(kurtosis = \\(x) e1071::kurtosis(x))\n  ) |&gt; \n  cards::replace_null_statistic()\nard_gone_wrong\n\n{cards} data frame: 2 x 10\n\n\n  group1 group1_level variable stat_name stat_label stat   warning     error\n1   ARM2      Placebo   AGEGR1  kurtosis   kurtosis   NA argument… non-nume…\n2   ARM2    Xanomeli…   AGEGR1  kurtosis   kurtosis   NA argument… non-nume…\n\n\nℹ 2 more variables: context, fmt_fun\n\n\n\ncards::print_ard_conditions(ard_gone_wrong)\n\n\n\n\nWhere is the statistic? AGEGR1 is character\nEven when there are errors or warnings, we still get the ARD with the expected structure returned.\n\nTHIS IS BIG! There are MANY circumstances, when you are designing TLGs early in a study when you do not have all the data required to calculate every statistic.\nThis allows you to design everything up-front.\n\nWe can also report these warnings and errors back to users. &lt;!CLICK!&gt;"
   },
   {
+    "objectID": "slides/03-ADaM/admiral.html",
+    "href": "slides/03-ADaM/admiral.html",
+    "title": "Set the Stage",
+    "section": "",
+    "text": "By the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#objectives",
+    "href": "slides/03-ADaM/admiral.html#objectives",
+    "title": "Set the Stage",
+    "section": "",
+    "text": "By the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#play-by-play-to-achieve-our-objectives",
+    "href": "slides/03-ADaM/admiral.html#play-by-play-to-achieve-our-objectives",
+    "title": "Set the Stage",
+    "section": "Play by Play to achieve our Objectives",
+    "text": "Play by Play to achieve our Objectives\n\n\n🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions\n🕥11:15 - 11:40 Subject-level dataset: ADSL\n🕚11:40 - 11:50 Check in on Barb / Exercise\n🕦11:50 - 12:20 Basic Data Structure: ADVS\n🕚12:20 - 12:30 Check in on Barb / Exercise\n🕚12:30 Lunch!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#end-to-end-with-barb",
+    "href": "slides/03-ADaM/admiral.html#end-to-end-with-barb",
+    "title": "Set the Stage",
+    "section": "End to End with Barb!!",
+    "text": "End to End with Barb!!\n\n\n\n\n\n\n\n\nflowchart LR\n  A[Raw] --&gt; B[SDTM]\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARD]\n  D[ARD] --&gt; E[TFL]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\nWe are going to take a glimpse of where Barb is in ADSL and ADVS"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#set-the-stage-1",
+    "href": "slides/03-ADaM/admiral.html#set-the-stage-1",
+    "title": "Set the Stage",
+    "section": "Set the Stage",
+    "text": "Set the Stage\n\n\nHow we will work for the next 90 minutes?\nData (SDTMs, ADSL, and ADVS)\nSpecs (Excel document with lots of tabs)\npharmaverse packages\n\nplaying nice with tidyverse and base R!!\n\nFunctions to make ADaM variables and records."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#how-we-will-proceed-today-1",
+    "href": "slides/03-ADaM/admiral.html#how-we-will-proceed-today-1",
+    "title": "Set the Stage",
+    "section": "How we will proceed today?",
+    "text": "How we will proceed today?\n\n\nI will pull out certain functions of the ADSL and ADVS R scripts.\n\nLet’s take a quick peek at the scripts.\nI will discuss certain functions and function arguments from scripts for deriving variables/records.\nWill pull up full function arguments to briefly highlight other powers. 💡\nWhen possible will have some play data and mini-runs of the function. 🏸"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#how-we-will-proceed-today-continued",
+    "href": "slides/03-ADaM/admiral.html#how-we-will-proceed-today-continued",
+    "title": "Set the Stage",
+    "section": "How we will proceed today continued?",
+    "text": "How we will proceed today continued?\n\n\nTwo exercises set up to help explore two key functions discussed:\n\nderive_vars_dtm() at end of ADSL.\nderive_param_computed() at end of ADVS.\n\nBrief notes on the code in script and exercises:\n\nCode in scripts should run out of the box.\nYou can run now, but if something doesn’t work let’s fix at the exercises.\nExercises will need some minor updates.\n3 folks not presenting can help diagnose issues during exercises."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#adsl---subject-level-dataset",
+    "href": "slides/03-ADaM/admiral.html#adsl---subject-level-dataset",
+    "title": "Set the Stage",
+    "section": "ADSL - Subject Level Dataset",
+    "text": "ADSL - Subject Level Dataset\n\n\n\n\nADSL - Subject Level Dataset, i.e each subject has a record. Focus on adding variables.\nWe will use SDTM data from the pharmaversesdtm package.\n\nADSL is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#advs---vital-signs-dataset",
+    "href": "slides/03-ADaM/admiral.html#advs---vital-signs-dataset",
+    "title": "Set the Stage",
+    "section": "ADVS - Vital Signs Dataset",
+    "text": "ADVS - Vital Signs Dataset\n\n\n\n\nADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!\nWe will use SDTM data vs from the pharmaversesdtm package and ADSL from dataset created by the adsl.R script.\nADVS is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#spec-details",
+    "href": "slides/03-ADaM/admiral.html#spec-details",
+    "title": "Set the Stage",
+    "section": "Spec-details",
+    "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec\n\nP21 is spec/data validation tool widely used in the industry for creating and validating SDTMs and ADaMs.\n\nThese specs are not fit for purpose - just a helpful guide\nWhat is in the the Specs:\n\nTwo datasets, dataset labels and variable keys\nVariables - labels, lengths, types, linked to method\nCodelists / Control Terms!!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#spec-peek",
+    "href": "slides/03-ADaM/admiral.html#spec-peek",
+    "title": "Set the Stage",
+    "section": "Spec-peek",
+    "text": "Spec-peek\n\nLet’s take a quick peek at metadata"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#the-core-pharmaverse-packages-for-creating-adams",
+    "href": "slides/03-ADaM/admiral.html#the-core-pharmaverse-packages-for-creating-adams",
+    "title": "Set the Stage",
+    "section": "The core pharmaverse packages for creating ADaMs",
+    "text": "The core pharmaverse packages for creating ADaMs\n \nFocus on applying information from our Specs to the ADaMs\n\nFocus on deriving variables and records driven by our Specs\n\nFocus on preparing the dataset as an xpt file to be sent to regulatory agencies."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#pharmaverse-plays-nice",
+    "href": "slides/03-ADaM/admiral.html#pharmaverse-plays-nice",
+    "title": "Set the Stage",
+    "section": "pharmaverse plays nice!",
+    "text": "pharmaverse plays nice!\n   \n\n\nThe ADaM code presented today utilizes all the previously mentioned packages, but also makes use of tidyverse and base R code.\nIf a function isn’t meeting your needs or looks too cumbersome, then that is okay!\nThese packages are all modular and play well with others."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#admiral",
+    "href": "slides/03-ADaM/admiral.html#admiral",
+    "title": "Set the Stage",
+    "section": "admiral",
+    "text": "admiral\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nadmiral\nderive_vars_merged()\nleft_join on steroids\n\n\nadmiral\nderive_param_computed()\nCore function for wrappers used in ADVS\n\n\nadmiral\nderive_vars_dy()\nCreate the relative study day\n\n\nadmiral\nderive_vars_dtm()\nTake a ---DTC variable and turn it into a ---DTM variable\n\n\nadmiral\nderive_vars_duration()\nDuration between timepoints\n\n\nadmiral\nrestrict_derivation()\nHOF: Execute a derivation on a subset of the input dataset.\n\n\n\nMost functions in admiral follow these conventions:\n\n\nvar_ or _vars_ functions add variable(s) to ADaMs\n_param_ functions add records to ADaMs\nOther not following this convention typically execute more advanced stuff!!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#metacore-metatools-and-xportr",
+    "href": "slides/03-ADaM/admiral.html#metacore-metatools-and-xportr",
+    "title": "Set the Stage",
+    "section": "metacore, metatools and xportr",
+    "text": "metacore, metatools and xportr\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nmetacore\nspec_to_metacore()\nCreates a “special” object from your specs\n\n\nmetatools\ncombine_supp()\nJoin Parent and Supplementary Datasets\n\n\nmetatools\ncreate_var_from_codelist()\nNumeric Vars from Specs!\n\n\nmetatools\ndrop_unspec_vars()\nEasily drop variables not in Spec\n\n\nxportr\nxportr_label()\nApply labels from Spec\n\n\nxportr\nxportr_write()\nWrite out an xpt file\n\n\n\n\nMost functions from these packages are about applying metadata from specs to your dataset.\nxportr follows a standard naming convention with xportr_."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#the-big-picture-of-adsl",
+    "href": "slides/03-ADaM/admiral.html#the-big-picture-of-adsl",
+    "title": "Set the Stage",
+    "section": "The Big Picture of ADSL",
+    "text": "The Big Picture of ADSL\n\nWe have an ADSL script:\n\n\n\nUsing {pharmaversesdtm} data: dm, suppdm, ex, ae, vs, etc\nUses the ADSL section of our spec file\nCreating a single record for each subject with a lot of variables.\n306 observations and 54 variables.\nWrite out an xpt file for regulatory send-off!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#reading-in-our-spec-for-adsl",
+    "href": "slides/03-ADaM/admiral.html#reading-in-our-spec-for-adsl",
+    "title": "Set the Stage",
+    "section": "Reading in our spec for ADSL 1",
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  quiet = TRUE\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nquiet argument should be set to TRUE while developing your spec and ADaMs.\nSame call in ADVS script."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#combine-parent-and-supplementary-data",
+    "href": "slides/03-ADaM/admiral.html#combine-parent-and-supplementary-data",
+    "title": "Set the Stage",
+    "section": "Combine Parent and Supplementary Data 2",
+    "text": "Combine Parent and Supplementary Data 2\ndm_suppdm &lt;- combine_supp(dm, suppdm)\n\nOne line of code to join two datasets: parent and supplementary!\nSupps usually are a collection non-standard data and linking to parent\nFunction is from {metatools}"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "href": "slides/03-ADaM/admiral.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "title": "Set the Stage",
+    "section": "Let’s turn a --DTC to a *DTM or *DT variable 3",
+    "text": "Let’s turn a --DTC to a *DTM or *DT variable 3\nex_ext &lt;- ex %&gt;%\n  derive_vars_dtm(\n    dtc = EXSTDTC,\n    new_vars_prefix = \"EXST\",\n    time_imputation = \"last\",\n    flag_imputation = \"time\"\n)\nds_ext &lt;- derive_vars_dt(\n  ds,\n  dtc = DSSTDTC,\n  new_vars_prefix = \"DSST\"\n)\nadsl11 &lt;- adsl10 %&gt;%\n  derive_vars_dt(\n    dtc = DTHDTC,\n    new_vars_prefix = \"DTH\",\n    highest_imputation = \"M\",\n    date_imputation = \"first\"\n  )"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#example-from-documentation",
+    "href": "slides/03-ADaM/admiral.html#example-from-documentation",
+    "title": "Set the Stage",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\nmhdt &lt;- tribble(\n  ~MHSTDTC,\n  \"2019-07-18T15:25:40\",\n  \"2019-07-18T15:25\",\n  \"2019-07-18\",\n  \"2019-02\",\n  \"2019\",\n  \"2019---07\",\n  \"\"\n)\n\nderive_vars_dtm(\n mhdt,\n new_vars_prefix = \"AST\",\n dtc = MHSTDTC,\n highest_imputation = \"M\",\n date_imputation = \"last\",\n time_imputation = \"last\",\n ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 4\n  MHSTDTC               ASTDTM              ASTDTF ASTTMF\n  &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4 \"2019-02\"             2019-02-28 23:59:59 D      H     \n5 \"2019\"                2019-12-31 23:59:59 M      H     \n6 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#woahthere-is-more",
+    "href": "slides/03-ADaM/admiral.html#woahthere-is-more",
+    "title": "Set the Stage",
+    "section": "Woah…there is more!!",
+    "text": "Woah…there is more!!\n\nderive_vars_dtm(\n  dataset,\n  new_vars_prefix,\n  dtc,\n  highest_imputation = \"h\",\n  date_imputation = \"first\",\n  time_imputation = \"first\",\n  flag_imputation = \"auto\",\n  min_dates = NULL,\n  max_dates = NULL,\n  preserve = FALSE,\n  ignore_seconds_flag = FALSE\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#a-simple-merge",
+    "href": "slides/03-ADaM/admiral.html#a-simple-merge",
+    "title": "Set the Stage",
+    "section": "A Simple merge 4",
+    "text": "A Simple merge 4\nadsl10 &lt;- adsl09 %&gt;%\n  derive_vars_merged(\n    dataset_add = ds_ext,\n    by_vars = exprs(STUDYID, USUBJID),\n    new_vars = exprs(RANDDT = DSSTDT),\n    filter_add = DSDECOD == \"RANDOMIZED\",\n  )\n\nFilter, arrange, join and rename is a common pattern in ADaMs.\nby_vars are going to be the shared variables to connect the two datasets\nIn admiral, all arguments which can be set to multiple variables, a calculation, or an assignment must be started with rlang::exprs().\nCheck out Programming Concepts and Conventions"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-get-a-more-complicated-merge",
+    "href": "slides/03-ADaM/admiral.html#lets-get-a-more-complicated-merge",
+    "title": "Set the Stage",
+    "section": "Let’s get a more complicated merge 5",
+    "text": "Let’s get a more complicated merge 5\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\norder - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.\nmode - Determines if the first or last observation is selected"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#whoa-way-more-options",
+    "href": "slides/03-ADaM/admiral.html#whoa-way-more-options",
+    "title": "Set the Stage",
+    "section": "Whoa!!! Way more options!!",
+    "text": "Whoa!!! Way more options!!\n\nderive_vars_merged(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  filter_add = NULL,\n  mode = NULL,\n  exist_flag = NULL,\n  true_value = \"Y\",\n  false_value = NA_character_,\n  missing_values = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  relationship = NULL\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-derive-a-duration-variable",
+    "href": "slides/03-ADaM/admiral.html#lets-derive-a-duration-variable",
+    "title": "Set the Stage",
+    "section": "Let’s derive a Duration Variable 6",
+    "text": "Let’s derive a Duration Variable 6\nderive_vars_duration(\n    new_var = DTHADY,\n    start_date = TRTSDT,\n    end_date = DTHDT\n  )"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#example-from-documentation-1",
+    "href": "slides/03-ADaM/admiral.html#example-from-documentation-1",
+    "title": "Set the Stage",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\n# Derive age in years\ndata &lt;- tribble(\n  ~USUBJID, ~BRTHDT,           ~RANDDT,\n  \"P01\",    ymd(\"1984-09-06\"), ymd(\"2020-02-24\"),\n  \"P02\",    ymd(\"1985-01-01\"), NA,\n  \"P03\",    NA,                ymd(\"2021-03-10\"),\n  \"P04\",    NA,                NA\n)\n\nderive_vars_duration(data,\n  new_var = AAGE,\n  new_var_unit = AAGEU,\n  start_date = BRTHDT,\n  end_date = RANDDT,\n  out_unit = \"years\",\n  add_one = FALSE,\n  trunc_out = TRUE\n)\n\n# A tibble: 4 × 5\n  USUBJID BRTHDT     RANDDT      AAGE AAGEU\n  &lt;chr&gt;   &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;\n1 P01     1984-09-06 2020-02-24    35 years\n2 P02     1985-01-01 NA            NA &lt;NA&gt; \n3 P03     NA         2021-03-10    NA &lt;NA&gt; \n4 P04     NA         NA            NA &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#ohhh-there-is-more",
+    "href": "slides/03-ADaM/admiral.html#ohhh-there-is-more",
+    "title": "Set the Stage",
+    "section": "Ohhh there is more!!",
+    "text": "Ohhh there is more!!\n\nderive_vars_duration(\n  dataset,\n  new_var,\n  new_var_unit = NULL,\n  start_date,\n  end_date,\n  in_unit = \"days\",\n  out_unit = \"DAYS\",\n  floor_in = TRUE,\n  add_one = TRUE,\n  trunc_out = FALSE,\n  type = \"duration\"\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#duration-versus-interval",
+    "href": "slides/03-ADaM/admiral.html#duration-versus-interval",
+    "title": "Set the Stage",
+    "section": "Duration versus Interval",
+    "text": "Duration versus Interval\n\nThe lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.\nThe difference arises from the ambiguity in the length of “1 month” or “1 year”. Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-apply-control-terms-code-lists",
+    "href": "slides/03-ADaM/admiral.html#lets-apply-control-terms-code-lists",
+    "title": "Set the Stage",
+    "section": "Let’s apply Control Terms / Code Lists 7",
+    "text": "Let’s apply Control Terms / Code Lists 7\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric Variables like the above are helpful for sorting options in Tables."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#more-details",
+    "href": "slides/03-ADaM/admiral.html#more-details",
+    "title": "Set the Stage",
+    "section": "More details",
+    "text": "More details\n\ncreate_var_from_codelist(\n  data,\n  metacore,\n  input_var,\n  out_var,\n  codelist = NULL,\n  decode_to_code = TRUE,\n  strict = TRUE\n)\n\ncodelist - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.\ndecode_to_code - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.\nstrict - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-on-barb-in-adsl",
+    "href": "slides/03-ADaM/admiral.html#check-in-on-barb-in-adsl",
+    "title": "Set the Stage",
+    "section": "Check in on Barb in ADSL",
+    "text": "Check in on Barb in ADSL\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nSEX: F\nAGE: 77\nRANDDT: 2014-07-01\nTRTSDT: 2014-07-01\nTRTSDTM: 2014-07-01 23:59:59\nTRTEDT: 2014-12-30\nTRTDURD: 183\nEOSDT: 2014-12-30\nEOSSTT: COMPLETED"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-exercise",
+    "href": "slides/03-ADaM/admiral.html#check-in-exercise",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nImpute the date and time to be last month/day and 23:59:59\nTwo arguments to update: ????\nCheck out admiral derive_vars_dtm() documentation\n\n\nlibrary(tibble)\nlibrary(lubridate)\nlibrary(admiral)\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"????\",\n  time_imputation = \"????\"\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-exercise-solution",
+    "href": "slides/03-ADaM/admiral.html#check-in-exercise-solution",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"last\",\n  time_imputation = \"last\",\n  ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 5\n  USUBJID MHSTDTC               ASTDTM              ASTDTF ASTTMF\n    &lt;dbl&gt; &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1       1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2       1 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3       1 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4       2 \"2024-02\"             2024-02-29 23:59:59 D      H     \n5       2 \"2019\"                2019-12-31 23:59:59 M      H     \n6       2 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7       3 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#the-big-picture-of-advs",
+    "href": "slides/03-ADaM/admiral.html#the-big-picture-of-advs",
+    "title": "Set the Stage",
+    "section": "The Big Picture of ADVS",
+    "text": "The Big Picture of ADVS\n\nWe have an ADVS script:\n\nUsing pharmaversesdtm data: vs\nUsing the ADVS section of our spec file.\nCreating multiple records for each subject.\nSome ADSL variables included.\n60K records and 106 variables.\nLot’s of functions are repeated within the ADVS script used in ADSL script."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-talk-about-lookup-tables",
+    "href": "slides/03-ADaM/admiral.html#lets-talk-about-lookup-tables",
+    "title": "Set the Stage",
+    "section": "Let’s talk about lookup tables 8",
+    "text": "Let’s talk about lookup tables 8\n  derive_vars_merged_lookup(\n    dataset_add = param_lookup,\n    new_vars = exprs(PARAMCD),\n    by_vars = exprs(VSTESTCD),\n    print_not_mapped = TRUE \n  ) \n\nMoving from **TEST/**TESTCD to PARAM/PARAMCD.\nMore information in the PARAM/PARAMCD - useful for displays.\nCan be used for other lookup tables, e.g. Grading/Toxicity."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#a-fuller-look",
+    "href": "slides/03-ADaM/admiral.html#a-fuller-look",
+    "title": "Set the Stage",
+    "section": "A Fuller Look!",
+    "text": "A Fuller Look!\n\nderive_vars_merged_lookup(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  mode = NULL,\n  filter_add = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  print_not_mapped = TRUE\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-add-more-records-for-each-subject",
+    "href": "slides/03-ADaM/admiral.html#lets-add-more-records-for-each-subject",
+    "title": "Set the Stage",
+    "section": "Let’s add more records for each subject 9",
+    "text": "Let’s add more records for each subject 9\nadvs &lt;- advs %&gt;%\n  derive_param_computed(\n    by_vars = exprs(STUDYID, USUBJID, VISIT, VISITNUM, ADT, ADY, VSTPT, VSTPTNUM),\n    parameters = \"WEIGHT\",\n    set_values_to = exprs(\n      AVAL = AVAL.WEIGHT / (AVAL.HEIGHT / 100)^2,\n      PARAMCD = \"BMI\",\n      PARAM = \"Body Mass Index (kg/m^2)\",\n      AVALU = \"kg/m^2\"\n    ),\n    constant_parameters = c(\"HEIGHT\"),\n    constant_by_vars = exprs(USUBJID)\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#only-two-arguments-not-used",
+    "href": "slides/03-ADaM/admiral.html#only-two-arguments-not-used",
+    "title": "Set the Stage",
+    "section": "Only two arguments not used!",
+    "text": "Only two arguments not used!\n\nderive_param_computed(\n  dataset = NULL,\n  dataset_add = NULL,\n  by_vars,\n  parameters,\n  set_values_to,\n  filter = NULL,\n  constant_by_vars = NULL,\n  constant_parameters = NULL,\n  keep_nas = FALSE\n)\n\n\nfilter - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.\nkeep_na - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-derive-dtype-summary-records",
+    "href": "slides/03-ADaM/admiral.html#lets-derive-dtype-summary-records",
+    "title": "Set the Stage",
+    "section": "Let’s derive DTYPE summary records 10",
+    "text": "Let’s derive DTYPE summary records 10\nderive_summary_records(\n    dataset_add = advs_2, \n    by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, PARAMCD, AVISITN, AVISIT, ADT, ADY, AVALU),\n    filter_add = !is.na(AVAL),\n    set_values_to = exprs(\n      AVAL = mean(AVAL),\n      DTYPE = \"AVERAGE\"\n  )\n)\n\nA DTYPE variable indicates a record within a parameter has been imputed or modified, DTYPE will indicate the method used to populate the analysis value, e.g AVERAGE, MAXIMUM, MINIMUM, LOCF, PHANTOM."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-restrict",
+    "href": "slides/03-ADaM/admiral.html#lets-restrict",
+    "title": "Set the Stage",
+    "section": "Let’s restrict! 11",
+    "text": "Let’s restrict! 11\nrestrict_derivation(\n  derivation = derive_var_extreme_flag,\n  args = params(\n    by_vars = exprs(STUDYID, USUBJID, BASETYPE, PARAMCD),\n    order = exprs(ADT, VISITNUM, VSSEQ),\n    new_var = ABLFL,\n    mode = \"last\",\n    true_value = \"Y\"\n  ),\n  filter = (!is.na(AVAL) &\n    ADT &lt;= TRTSDT & !is.na(BASETYPE) & is.na(DTYPE))\n)\n\nCheck out Higher Order Functions for more information.\ncall_derivation() is super handy if you are doing similar calls with same function, but just changing one or two arguments."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-add-a-base-variable",
+    "href": "slides/03-ADaM/admiral.html#lets-add-a-base-variable",
+    "title": "Set the Stage",
+    "section": "Let’s add a BASE variable 12",
+    "text": "Let’s add a BASE variable 12\nadvs &lt;- derive_var_base(\n  advs,\n  by_vars = exprs(STUDYID, USUBJID, PARAMCD, BASETYPE),\n  source_var = AVAL,\n  new_var = BASE,\n  # Below arguments are default values and not necessary to add in our case\n  filter = ABLFL == \"Y\"\n)\n\nUsed to calculate CHG and PCHG variables"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-add-an-analysis-sequence-variable",
+    "href": "slides/03-ADaM/admiral.html#lets-add-an-analysis-sequence-variable",
+    "title": "Set the Stage",
+    "section": "Let’s add an Analysis Sequence Variable 13",
+    "text": "Let’s add an Analysis Sequence Variable 13\nadvs &lt;- derive_var_obs_number(\n  advs,\n  new_var = ASEQ,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(PARAMCD, ADT, AVISITN, VISITNUM, ATPTN, DTYPE),\n  check_type = \"error\"\n)\n\nASEQ uniquely indexes records within a subject within an ADaM dataset.\nASEQ is useful for traceability when the dataset is used as input to another ADaM dataset\ncheck_type - If “message”, “warning” or “error” is specified, the specified message is issued if the observations of the input dataset are not unique with respect to the by variables and the order."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "href": "slides/03-ADaM/admiral.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "title": "Set the Stage",
+    "section": "Let’s get that ADaM ready for regulatory agencies 14",
+    "text": "Let’s get that ADaM ready for regulatory agencies 14\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec, dataset_name = \"ADVS\") %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\nNote similar code in ADSL script!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
+    "href": "slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
+    "title": "Set the Stage",
+    "section": "Let’s get that data read for regulatory agencies 15",
+    "text": "Let’s get that data read for regulatory agencies 15\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created."
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-on-barb-in-advs",
+    "href": "slides/03-ADaM/admiral.html#check-in-on-barb-in-advs",
+    "title": "Set the Stage",
+    "section": "Check in on Barb in ADVS",
+    "text": "Check in on Barb in ADVS\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nPARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)\nABLFL/ADT: Y / 2014-07-01\nBASE: 94.33333\nAVIST/ADT: WEEK 2 / 2014-07-15\nAVAL: 115.0\nCHG: 20.6666667\nPCHG: 21.9081272"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-exercise-1",
+    "href": "slides/03-ADaM/admiral.html#check-in-exercise-1",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nWe are going to update the function derive_param_computed() for Mean Arterial Pressure.\nFormula: \\[ \\frac{2DIABP + SYSBP}{3} \\]\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"????\", \"????\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + ?? * AVAL.DIABP) / ??,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#check-in-exercise-solution-1",
+    "href": "slides/03-ADaM/admiral.html#check-in-exercise-solution-1",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \n\nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"SYSBP\", \"DIABP\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + 2 * AVAL.DIABP) / 3,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)\n\n# A tibble: 6 × 6\n  USUBJID     PARAMCD PARAM                           AVALU  AVAL VISIT   \n  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   \n1 01-701-1015 DIABP   Diastolic Blood Pressure (mmHg) mmHg   51   BASELINE\n2 01-701-1015 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  121   BASELINE\n3 01-701-1028 DIABP   Diastolic Blood Pressure (mmHg) mmHg   79   BASELINE\n4 01-701-1028 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  130   BASELINE\n5 01-701-1015 MAP     Mean Arterial Pressure (mmHg)   mmHg   74.3 BASELINE\n6 01-701-1028 MAP     Mean Arterial Pressure (mmHg)   mmHg   96   BASELINE"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#questions-and-resources",
+    "href": "slides/03-ADaM/admiral.html#questions-and-resources",
+    "title": "Set the Stage",
+    "section": "Questions and Resources",
+    "text": "Questions and Resources\n\n\nadmiraldiscovery\npharmaverse examples\npkgdown sites for xportr, metatools, metacore and admiral\nExtension packages for admiral: admiralophtha, admiralonco, admiralpeds"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#closing-thoughts",
+    "href": "slides/03-ADaM/admiral.html#closing-thoughts",
+    "title": "Set the Stage",
+    "section": "Closing Thoughts",
+    "text": "Closing Thoughts\n\n\nOnly able to show a small number of pharmaverse packages and functions today, but please delve deeper to explore the full breadth\nIf you’d like to contribute to pharmaverse, check out options at pharmaverse.org\nFinally, be sure to join our community on Slack!"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#packages-and-session-information",
+    "href": "slides/03-ADaM/admiral.html#packages-and-session-information",
+    "title": "Set the Stage",
+    "section": "Packages and Session Information",
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.1    renv_1.2.4       \n [5] tidyselect_1.2.1  xml2_1.6.0        stringr_1.6.0     tidyr_1.3.2      \n [9] yaml_2.3.12       fastmap_1.2.0     R6_2.6.1          generics_0.1.4   \n[13] admiraldev_1.5.0  knitr_1.51        htmlwidgets_1.6.4 pillar_1.11.1    \n[17] rlang_1.3.0       utf8_1.2.6        stringi_1.8.9     roxygen2_8.1.0   \n[21] xfun_0.60         otel_0.2.0        timechange_0.4.0  cli_3.6.6        \n[25] withr_3.0.3       magrittr_2.0.5    digest_0.6.39     hms_1.1.4        \n[29] lifecycle_1.0.5   vctrs_0.7.3       evaluate_1.0.5    rmarkdown_2.31   \n[33] purrr_1.2.2       tools_4.6.1       pkgconfig_2.0.3   htmltools_0.5.9"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#footnotes",
+    "href": "slides/03-ADaM/admiral.html#footnotes",
+    "title": "Set the Stage",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nLines: 20-25 ↩︎\nLines: 53↩︎\nLines: 57-69, 132-136, 198-204↩︎\nLines: 187-194↩︎\nLines: 72-84, and more!!↩︎\nLines: 122-126↩︎\nLines: 276-282↩︎\nLines: 72-80↩︎\nLines: 100-111↩︎\nLines: 144-153↩︎\nLines: 196-210↩︎\nLines: 210-217↩︎\nLines: 262-268↩︎\nLines: 305-310↩︎\nLines: 313-319↩︎"
+  },
+  {
     "objectID": "pharmaverse-main/slides/07-submissions-wrapup/index.html#end-to-end-with-barb",
     "href": "pharmaverse-main/slides/07-submissions-wrapup/index.html#end-to-end-with-barb",
     "title": "Submissions in R: The Wrap-Up",
@@ -1400,6 +1757,363 @@
     "text": "What happens when statistics are un-calculable?\n\n\nard_gone_wrong &lt;- \n  adsl |&gt; \n  ard_summary(\n    by = ARM2,\n    variable = AGEGR1,\n    statistic = ~list(kurtosis = \\(x) e1071::kurtosis(x))\n  ) |&gt; \n  cards::replace_null_statistic()\nard_gone_wrong\n\n{cards} data frame: 2 x 10\n\n\n  group1 group1_level variable stat_name stat_label stat   warning     error\n1   ARM2      Placebo   AGEGR1  kurtosis   kurtosis   NA argument… non-nume…\n2   ARM2    Xanomeli…   AGEGR1  kurtosis   kurtosis   NA argument… non-nume…\n\n\nℹ 2 more variables: context, fmt_fun\n\n\n\ncards::print_ard_conditions(ard_gone_wrong)\n\n\n\n\nWhere is the statistic? AGEGR1 is character\nEven when there are errors or warnings, we still get the ARD with the expected structure returned.\n\nTHIS IS BIG! There are MANY circumstances, when you are designing TLGs early in a study when you do not have all the data required to calculate every statistic.\nThis allows you to design everything up-front.\n\nWe can also report these warnings and errors back to users. &lt;!CLICK!&gt;"
   },
   {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html",
+    "title": "Set the Stage",
+    "section": "",
+    "text": "By the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#objectives",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#objectives",
+    "title": "Set the Stage",
+    "section": "",
+    "text": "By the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#play-by-play-to-achieve-our-objectives",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#play-by-play-to-achieve-our-objectives",
+    "title": "Set the Stage",
+    "section": "Play by Play to achieve our Objectives",
+    "text": "Play by Play to achieve our Objectives\n\n\n🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions\n🕥11:15 - 11:40 Subject-level dataset: ADSL\n🕚11:40 - 11:50 Check in on Barb / Exercise\n🕦11:50 - 12:20 Basic Data Structure: ADVS\n🕚12:20 - 12:30 Check in on Barb / Exercise\n🕚12:30 Lunch!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#end-to-end-with-barb",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#end-to-end-with-barb",
+    "title": "Set the Stage",
+    "section": "End to End with Barb!!",
+    "text": "End to End with Barb!!\n\n\n\n\n\n\n\n\nflowchart LR\n  A[Raw] --&gt; B[SDTM]\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARD]\n  D[ARD] --&gt; E[TFL]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\nWe are going to take a glimpse of where Barb is in ADSL and ADVS"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#set-the-stage-1",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#set-the-stage-1",
+    "title": "Set the Stage",
+    "section": "Set the Stage",
+    "text": "Set the Stage\n\n\nHow we will work for the next 90 minutes?\nData (SDTMs, ADSL, and ADVS)\nSpecs (Excel document with lots of tabs)\npharmaverse packages\n\nplaying nice with tidyverse and base R!!\n\nFunctions to make ADaM variables and records."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#how-we-will-proceed-today-1",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#how-we-will-proceed-today-1",
+    "title": "Set the Stage",
+    "section": "How we will proceed today?",
+    "text": "How we will proceed today?\n\n\nI will pull out certain functions of the ADSL and ADVS R scripts.\n\nLet’s take a quick peek at the scripts.\nI will discuss certain functions and function arguments from scripts for deriving variables/records.\nWill pull up full function arguments to briefly highlight other powers. 💡\nWhen possible will have some play data and mini-runs of the function. 🏸"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#how-we-will-proceed-today-continued",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#how-we-will-proceed-today-continued",
+    "title": "Set the Stage",
+    "section": "How we will proceed today continued?",
+    "text": "How we will proceed today continued?\n\n\nTwo exercises set up to help explore two key functions discussed:\n\nderive_vars_dtm() at end of ADSL.\nderive_param_computed() at end of ADVS.\n\nBrief notes on the code in script and exercises:\n\nCode in scripts should run out of the box.\nYou can run now, but if something doesn’t work let’s fix at the exercises.\nExercises will need some minor updates.\n3 folks not presenting can help diagnose issues during exercises."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#adsl---subject-level-dataset",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#adsl---subject-level-dataset",
+    "title": "Set the Stage",
+    "section": "ADSL - Subject Level Dataset",
+    "text": "ADSL - Subject Level Dataset\n\n\n\n\nADSL - Subject Level Dataset, i.e each subject has a record. Focus on adding variables.\nWe will use SDTM data from the pharmaversesdtm package.\n\nADSL is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#advs---vital-signs-dataset",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#advs---vital-signs-dataset",
+    "title": "Set the Stage",
+    "section": "ADVS - Vital Signs Dataset",
+    "text": "ADVS - Vital Signs Dataset\n\n\n\n\nADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!\nWe will use SDTM data vs from the pharmaversesdtm package and ADSL from dataset created by the adsl.R script.\nADVS is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#spec-details",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#spec-details",
+    "title": "Set the Stage",
+    "section": "Spec-details",
+    "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec\n\nP21 is spec/data validation tool widely used in the industry for creating and validating SDTMs and ADaMs.\n\nThese specs are not fit for purpose - just a helpful guide\nWhat is in the the Specs:\n\nTwo datasets, dataset labels and variable keys\nVariables - labels, lengths, types, linked to method\nCodelists / Control Terms!!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#spec-peek",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#spec-peek",
+    "title": "Set the Stage",
+    "section": "Spec-peek",
+    "text": "Spec-peek\n\nLet’s take a quick peek at metadata"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#the-core-pharmaverse-packages-for-creating-adams",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#the-core-pharmaverse-packages-for-creating-adams",
+    "title": "Set the Stage",
+    "section": "The core pharmaverse packages for creating ADaMs",
+    "text": "The core pharmaverse packages for creating ADaMs\n \nFocus on applying information from our Specs to the ADaMs\n\nFocus on deriving variables and records driven by our Specs\n\nFocus on preparing the dataset as an xpt file to be sent to regulatory agencies."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#pharmaverse-plays-nice",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#pharmaverse-plays-nice",
+    "title": "Set the Stage",
+    "section": "pharmaverse plays nice!",
+    "text": "pharmaverse plays nice!\n   \n\n\nThe ADaM code presented today utilizes all the previously mentioned packages, but also makes use of tidyverse and base R code.\nIf a function isn’t meeting your needs or looks too cumbersome, then that is okay!\nThese packages are all modular and play well with others."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#admiral",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#admiral",
+    "title": "Set the Stage",
+    "section": "admiral",
+    "text": "admiral\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nadmiral\nderive_vars_merged()\nleft_join on steroids\n\n\nadmiral\nderive_param_computed()\nCore function for wrappers used in ADVS\n\n\nadmiral\nderive_vars_dy()\nCreate the relative study day\n\n\nadmiral\nderive_vars_dtm()\nTake a ---DTC variable and turn it into a ---DTM variable\n\n\nadmiral\nderive_vars_duration()\nDuration between timepoints\n\n\nadmiral\nrestrict_derivation()\nHOF: Execute a derivation on a subset of the input dataset.\n\n\n\nMost functions in admiral follow these conventions:\n\n\nvar_ or _vars_ functions add variable(s) to ADaMs\n_param_ functions add records to ADaMs\nOther not following this convention typically execute more advanced stuff!!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#metacore-metatools-and-xportr",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#metacore-metatools-and-xportr",
+    "title": "Set the Stage",
+    "section": "metacore, metatools and xportr",
+    "text": "metacore, metatools and xportr\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nmetacore\nspec_to_metacore()\nCreates a “special” object from your specs\n\n\nmetatools\ncombine_supp()\nJoin Parent and Supplementary Datasets\n\n\nmetatools\ncreate_var_from_codelist()\nNumeric Vars from Specs!\n\n\nmetatools\ndrop_unspec_vars()\nEasily drop variables not in Spec\n\n\nxportr\nxportr_label()\nApply labels from Spec\n\n\nxportr\nxportr_write()\nWrite out an xpt file\n\n\n\n\nMost functions from these packages are about applying metadata from specs to your dataset.\nxportr follows a standard naming convention with xportr_."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#the-big-picture-of-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#the-big-picture-of-adsl",
+    "title": "Set the Stage",
+    "section": "The Big Picture of ADSL",
+    "text": "The Big Picture of ADSL\n\nWe have an ADSL script:\n\n\n\nUsing {pharmaversesdtm} data: dm, suppdm, ex, ae, vs, etc\nUses the ADSL section of our spec file\nCreating a single record for each subject with a lot of variables.\n306 observations and 54 variables.\nWrite out an xpt file for regulatory send-off!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#reading-in-our-spec-for-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#reading-in-our-spec-for-adsl",
+    "title": "Set the Stage",
+    "section": "Reading in our spec for ADSL 1",
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  quiet = TRUE\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nquiet argument should be set to TRUE while developing your spec and ADaMs.\nSame call in ADVS script."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#combine-parent-and-supplementary-data",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#combine-parent-and-supplementary-data",
+    "title": "Set the Stage",
+    "section": "Combine Parent and Supplementary Data 2",
+    "text": "Combine Parent and Supplementary Data 2\ndm_suppdm &lt;- combine_supp(dm, suppdm)\n\nOne line of code to join two datasets: parent and supplementary!\nSupps usually are a collection non-standard data and linking to parent\nFunction is from {metatools}"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "title": "Set the Stage",
+    "section": "Let’s turn a --DTC to a *DTM or *DT variable 3",
+    "text": "Let’s turn a --DTC to a *DTM or *DT variable 3\nex_ext &lt;- ex %&gt;%\n  derive_vars_dtm(\n    dtc = EXSTDTC,\n    new_vars_prefix = \"EXST\",\n    time_imputation = \"last\",\n    flag_imputation = \"time\"\n)\nds_ext &lt;- derive_vars_dt(\n  ds,\n  dtc = DSSTDTC,\n  new_vars_prefix = \"DSST\"\n)\nadsl11 &lt;- adsl10 %&gt;%\n  derive_vars_dt(\n    dtc = DTHDTC,\n    new_vars_prefix = \"DTH\",\n    highest_imputation = \"M\",\n    date_imputation = \"first\"\n  )"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#example-from-documentation",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#example-from-documentation",
+    "title": "Set the Stage",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\nmhdt &lt;- tribble(\n  ~MHSTDTC,\n  \"2019-07-18T15:25:40\",\n  \"2019-07-18T15:25\",\n  \"2019-07-18\",\n  \"2019-02\",\n  \"2019\",\n  \"2019---07\",\n  \"\"\n)\n\nderive_vars_dtm(\n mhdt,\n new_vars_prefix = \"AST\",\n dtc = MHSTDTC,\n highest_imputation = \"M\",\n date_imputation = \"last\",\n time_imputation = \"last\",\n ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 4\n  MHSTDTC               ASTDTM              ASTDTF ASTTMF\n  &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4 \"2019-02\"             2019-02-28 23:59:59 D      H     \n5 \"2019\"                2019-12-31 23:59:59 M      H     \n6 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#woahthere-is-more",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#woahthere-is-more",
+    "title": "Set the Stage",
+    "section": "Woah…there is more!!",
+    "text": "Woah…there is more!!\n\nderive_vars_dtm(\n  dataset,\n  new_vars_prefix,\n  dtc,\n  highest_imputation = \"h\",\n  date_imputation = \"first\",\n  time_imputation = \"first\",\n  flag_imputation = \"auto\",\n  min_dates = NULL,\n  max_dates = NULL,\n  preserve = FALSE,\n  ignore_seconds_flag = FALSE\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#a-simple-merge",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#a-simple-merge",
+    "title": "Set the Stage",
+    "section": "A Simple merge 4",
+    "text": "A Simple merge 4\nadsl10 &lt;- adsl09 %&gt;%\n  derive_vars_merged(\n    dataset_add = ds_ext,\n    by_vars = exprs(STUDYID, USUBJID),\n    new_vars = exprs(RANDDT = DSSTDT),\n    filter_add = DSDECOD == \"RANDOMIZED\",\n  )\n\nFilter, arrange, join and rename is a common pattern in ADaMs.\nby_vars are going to be the shared variables to connect the two datasets\nIn admiral, all arguments which can be set to multiple variables, a calculation, or an assignment must be started with rlang::exprs().\nCheck out Programming Concepts and Conventions"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-a-more-complicated-merge",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-a-more-complicated-merge",
+    "title": "Set the Stage",
+    "section": "Let’s get a more complicated merge 5",
+    "text": "Let’s get a more complicated merge 5\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\norder - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.\nmode - Determines if the first or last observation is selected"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#whoa-way-more-options",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#whoa-way-more-options",
+    "title": "Set the Stage",
+    "section": "Whoa!!! Way more options!!",
+    "text": "Whoa!!! Way more options!!\n\nderive_vars_merged(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  filter_add = NULL,\n  mode = NULL,\n  exist_flag = NULL,\n  true_value = \"Y\",\n  false_value = NA_character_,\n  missing_values = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  relationship = NULL\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-derive-a-duration-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-derive-a-duration-variable",
+    "title": "Set the Stage",
+    "section": "Let’s derive a Duration Variable 6",
+    "text": "Let’s derive a Duration Variable 6\nderive_vars_duration(\n    new_var = DTHADY,\n    start_date = TRTSDT,\n    end_date = DTHDT\n  )"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#example-from-documentation-1",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#example-from-documentation-1",
+    "title": "Set the Stage",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\n# Derive age in years\ndata &lt;- tribble(\n  ~USUBJID, ~BRTHDT,           ~RANDDT,\n  \"P01\",    ymd(\"1984-09-06\"), ymd(\"2020-02-24\"),\n  \"P02\",    ymd(\"1985-01-01\"), NA,\n  \"P03\",    NA,                ymd(\"2021-03-10\"),\n  \"P04\",    NA,                NA\n)\n\nderive_vars_duration(data,\n  new_var = AAGE,\n  new_var_unit = AAGEU,\n  start_date = BRTHDT,\n  end_date = RANDDT,\n  out_unit = \"years\",\n  add_one = FALSE,\n  trunc_out = TRUE\n)\n\n# A tibble: 4 × 5\n  USUBJID BRTHDT     RANDDT      AAGE AAGEU\n  &lt;chr&gt;   &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;\n1 P01     1984-09-06 2020-02-24    35 years\n2 P02     1985-01-01 NA            NA &lt;NA&gt; \n3 P03     NA         2021-03-10    NA &lt;NA&gt; \n4 P04     NA         NA            NA &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#ohhh-there-is-more",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#ohhh-there-is-more",
+    "title": "Set the Stage",
+    "section": "Ohhh there is more!!",
+    "text": "Ohhh there is more!!\n\nderive_vars_duration(\n  dataset,\n  new_var,\n  new_var_unit = NULL,\n  start_date,\n  end_date,\n  in_unit = \"days\",\n  out_unit = \"DAYS\",\n  floor_in = TRUE,\n  add_one = TRUE,\n  trunc_out = FALSE,\n  type = \"duration\"\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#duration-versus-interval",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#duration-versus-interval",
+    "title": "Set the Stage",
+    "section": "Duration versus Interval",
+    "text": "Duration versus Interval\n\nThe lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.\nThe difference arises from the ambiguity in the length of “1 month” or “1 year”. Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-apply-control-terms-code-lists",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-apply-control-terms-code-lists",
+    "title": "Set the Stage",
+    "section": "Let’s apply Control Terms / Code Lists 7",
+    "text": "Let’s apply Control Terms / Code Lists 7\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric Variables like the above are helpful for sorting options in Tables."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#more-details",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#more-details",
+    "title": "Set the Stage",
+    "section": "More details",
+    "text": "More details\n\ncreate_var_from_codelist(\n  data,\n  metacore,\n  input_var,\n  out_var,\n  codelist = NULL,\n  decode_to_code = TRUE,\n  strict = TRUE\n)\n\ncodelist - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.\ndecode_to_code - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.\nstrict - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-on-barb-in-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-on-barb-in-adsl",
+    "title": "Set the Stage",
+    "section": "Check in on Barb in ADSL",
+    "text": "Check in on Barb in ADSL\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nSEX: F\nAGE: 77\nRANDDT: 2014-07-01\nTRTSDT: 2014-07-01\nTRTSDTM: 2014-07-01 23:59:59\nTRTEDT: 2014-12-30\nTRTDURD: 183\nEOSDT: 2014-12-30\nEOSSTT: COMPLETED"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nImpute the date and time to be last month/day and 23:59:59\nTwo arguments to update: ????\nCheck out admiral derive_vars_dtm() documentation\n\n\nlibrary(tibble)\nlibrary(lubridate)\nlibrary(admiral)\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"????\",\n  time_imputation = \"????\"\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-solution",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-solution",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"last\",\n  time_imputation = \"last\",\n  ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 5\n  USUBJID MHSTDTC               ASTDTM              ASTDTF ASTTMF\n    &lt;dbl&gt; &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1       1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2       1 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3       1 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4       2 \"2024-02\"             2024-02-29 23:59:59 D      H     \n5       2 \"2019\"                2019-12-31 23:59:59 M      H     \n6       2 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7       3 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#the-big-picture-of-advs",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#the-big-picture-of-advs",
+    "title": "Set the Stage",
+    "section": "The Big Picture of ADVS",
+    "text": "The Big Picture of ADVS\n\nWe have an ADVS script:\n\nUsing pharmaversesdtm data: vs\nUsing the ADVS section of our spec file.\nCreating multiple records for each subject.\nSome ADSL variables included.\n60K records and 106 variables.\nLot’s of functions are repeated within the ADVS script used in ADSL script."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-talk-about-lookup-tables",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-talk-about-lookup-tables",
+    "title": "Set the Stage",
+    "section": "Let’s talk about lookup tables 8",
+    "text": "Let’s talk about lookup tables 8\n  derive_vars_merged_lookup(\n    dataset_add = param_lookup,\n    new_vars = exprs(PARAMCD),\n    by_vars = exprs(VSTESTCD),\n    print_not_mapped = TRUE \n  ) \n\nMoving from **TEST/**TESTCD to PARAM/PARAMCD.\nMore information in the PARAM/PARAMCD - useful for displays.\nCan be used for other lookup tables, e.g. Grading/Toxicity."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#a-fuller-look",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#a-fuller-look",
+    "title": "Set the Stage",
+    "section": "A Fuller Look!",
+    "text": "A Fuller Look!\n\nderive_vars_merged_lookup(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  mode = NULL,\n  filter_add = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  print_not_mapped = TRUE\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-more-records-for-each-subject",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-more-records-for-each-subject",
+    "title": "Set the Stage",
+    "section": "Let’s add more records for each subject 9",
+    "text": "Let’s add more records for each subject 9\nadvs &lt;- advs %&gt;%\n  derive_param_computed(\n    by_vars = exprs(STUDYID, USUBJID, VISIT, VISITNUM, ADT, ADY, VSTPT, VSTPTNUM),\n    parameters = \"WEIGHT\",\n    set_values_to = exprs(\n      AVAL = AVAL.WEIGHT / (AVAL.HEIGHT / 100)^2,\n      PARAMCD = \"BMI\",\n      PARAM = \"Body Mass Index (kg/m^2)\",\n      AVALU = \"kg/m^2\"\n    ),\n    constant_parameters = c(\"HEIGHT\"),\n    constant_by_vars = exprs(USUBJID)\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#only-two-arguments-not-used",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#only-two-arguments-not-used",
+    "title": "Set the Stage",
+    "section": "Only two arguments not used!",
+    "text": "Only two arguments not used!\n\nderive_param_computed(\n  dataset = NULL,\n  dataset_add = NULL,\n  by_vars,\n  parameters,\n  set_values_to,\n  filter = NULL,\n  constant_by_vars = NULL,\n  constant_parameters = NULL,\n  keep_nas = FALSE\n)\n\n\nfilter - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.\nkeep_na - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-derive-dtype-summary-records",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-derive-dtype-summary-records",
+    "title": "Set the Stage",
+    "section": "Let’s derive DTYPE summary records 10",
+    "text": "Let’s derive DTYPE summary records 10\nderive_summary_records(\n    dataset_add = advs_2, \n    by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, PARAMCD, AVISITN, AVISIT, ADT, ADY, AVALU),\n    filter_add = !is.na(AVAL),\n    set_values_to = exprs(\n      AVAL = mean(AVAL),\n      DTYPE = \"AVERAGE\"\n  )\n)\n\nA DTYPE variable indicates a record within a parameter has been imputed or modified, DTYPE will indicate the method used to populate the analysis value, e.g AVERAGE, MAXIMUM, MINIMUM, LOCF, PHANTOM."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-restrict",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-restrict",
+    "title": "Set the Stage",
+    "section": "Let’s restrict! 11",
+    "text": "Let’s restrict! 11\nrestrict_derivation(\n  derivation = derive_var_extreme_flag,\n  args = params(\n    by_vars = exprs(STUDYID, USUBJID, BASETYPE, PARAMCD),\n    order = exprs(ADT, VISITNUM, VSSEQ),\n    new_var = ABLFL,\n    mode = \"last\",\n    true_value = \"Y\"\n  ),\n  filter = (!is.na(AVAL) &\n    ADT &lt;= TRTSDT & !is.na(BASETYPE) & is.na(DTYPE))\n)\n\nCheck out Higher Order Functions for more information.\ncall_derivation() is super handy if you are doing similar calls with same function, but just changing one or two arguments."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-a-base-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-a-base-variable",
+    "title": "Set the Stage",
+    "section": "Let’s add a BASE variable 12",
+    "text": "Let’s add a BASE variable 12\nadvs &lt;- derive_var_base(\n  advs,\n  by_vars = exprs(STUDYID, USUBJID, PARAMCD, BASETYPE),\n  source_var = AVAL,\n  new_var = BASE,\n  # Below arguments are default values and not necessary to add in our case\n  filter = ABLFL == \"Y\"\n)\n\nUsed to calculate CHG and PCHG variables"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-an-analysis-sequence-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-add-an-analysis-sequence-variable",
+    "title": "Set the Stage",
+    "section": "Let’s add an Analysis Sequence Variable 13",
+    "text": "Let’s add an Analysis Sequence Variable 13\nadvs &lt;- derive_var_obs_number(\n  advs,\n  new_var = ASEQ,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(PARAMCD, ADT, AVISITN, VISITNUM, ATPTN, DTYPE),\n  check_type = \"error\"\n)\n\nASEQ uniquely indexes records within a subject within an ADaM dataset.\nASEQ is useful for traceability when the dataset is used as input to another ADaM dataset\ncheck_type - If “message”, “warning” or “error” is specified, the specified message is issued if the observations of the input dataset are not unique with respect to the by variables and the order."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "title": "Set the Stage",
+    "section": "Let’s get that ADaM ready for regulatory agencies 14",
+    "text": "Let’s get that ADaM ready for regulatory agencies 14\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec, dataset_name = \"ADVS\") %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\nNote similar code in ADSL script!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
+    "title": "Set the Stage",
+    "section": "Let’s get that data read for regulatory agencies 15",
+    "text": "Let’s get that data read for regulatory agencies 15\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-on-barb-in-advs",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-on-barb-in-advs",
+    "title": "Set the Stage",
+    "section": "Check in on Barb in ADVS",
+    "text": "Check in on Barb in ADVS\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nPARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)\nABLFL/ADT: Y / 2014-07-01\nBASE: 94.33333\nAVIST/ADT: WEEK 2 / 2014-07-15\nAVAL: 115.0\nCHG: 20.6666667\nPCHG: 21.9081272"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-1",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-1",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nWe are going to update the function derive_param_computed() for Mean Arterial Pressure.\nFormula: \\[ \\frac{2DIABP + SYSBP}{3} \\]\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"????\", \"????\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + ?? * AVAL.DIABP) / ??,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-solution-1",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#check-in-exercise-solution-1",
+    "title": "Set the Stage",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \n\nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"SYSBP\", \"DIABP\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + 2 * AVAL.DIABP) / 3,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)\n\n# A tibble: 6 × 6\n  USUBJID     PARAMCD PARAM                           AVALU  AVAL VISIT   \n  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   \n1 01-701-1015 DIABP   Diastolic Blood Pressure (mmHg) mmHg   51   BASELINE\n2 01-701-1015 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  121   BASELINE\n3 01-701-1028 DIABP   Diastolic Blood Pressure (mmHg) mmHg   79   BASELINE\n4 01-701-1028 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  130   BASELINE\n5 01-701-1015 MAP     Mean Arterial Pressure (mmHg)   mmHg   74.3 BASELINE\n6 01-701-1028 MAP     Mean Arterial Pressure (mmHg)   mmHg   96   BASELINE"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#questions-and-resources",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#questions-and-resources",
+    "title": "Set the Stage",
+    "section": "Questions and Resources",
+    "text": "Questions and Resources\n\n\nadmiraldiscovery\npharmaverse examples\npkgdown sites for xportr, metatools, metacore and admiral\nExtension packages for admiral: admiralophtha, admiralonco, admiralpeds"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#closing-thoughts",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#closing-thoughts",
+    "title": "Set the Stage",
+    "section": "Closing Thoughts",
+    "text": "Closing Thoughts\n\n\nOnly able to show a small number of pharmaverse packages and functions today, but please delve deeper to explore the full breadth\nIf you’d like to contribute to pharmaverse, check out options at pharmaverse.org\nFinally, be sure to join our community on Slack!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#packages-and-session-information",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#packages-and-session-information",
+    "title": "Set the Stage",
+    "section": "Packages and Session Information",
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.1    renv_1.2.4       \n [5] tidyselect_1.2.1  xml2_1.6.0        stringr_1.6.0     tidyr_1.3.2      \n [9] yaml_2.3.12       fastmap_1.2.0     R6_2.6.1          generics_0.1.4   \n[13] admiraldev_1.5.0  knitr_1.51        htmlwidgets_1.6.4 pillar_1.11.1    \n[17] rlang_1.3.0       utf8_1.2.6        stringi_1.8.9     roxygen2_8.1.0   \n[21] xfun_0.60         otel_0.2.0        timechange_0.4.0  cli_3.6.6        \n[25] withr_3.0.3       magrittr_2.0.5    digest_0.6.39     hms_1.1.4        \n[29] lifecycle_1.0.5   vctrs_0.7.3       evaluate_1.0.5    rmarkdown_2.31   \n[33] purrr_1.2.2       tools_4.6.1       pkgconfig_2.0.3   htmltools_0.5.9"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/admiral.html#footnotes",
+    "href": "pharmaverse-main/slides/03-ADaM/admiral.html#footnotes",
+    "title": "Set the Stage",
+    "section": "Footnotes",
+    "text": "Footnotes\n\n\nLines: 20-25 ↩︎\nLines: 53↩︎\nLines: 57-69, 132-136, 198-204↩︎\nLines: 187-194↩︎\nLines: 72-84, and more!!↩︎\nLines: 122-126↩︎\nLines: 276-282↩︎\nLines: 72-80↩︎\nLines: 100-111↩︎\nLines: 144-153↩︎\nLines: 196-210↩︎\nLines: 210-217↩︎\nLines: 262-268↩︎\nLines: 305-310↩︎\nLines: 313-319↩︎"
+  },
+  {
     "objectID": "pharmaverse-main/license.html",
     "href": "pharmaverse-main/license.html",
     "title": "License",
@@ -1919,6 +2633,349 @@
     "title": "Welcome!",
     "section": "Solution for 00-intro.R",
     "text": "Solution for 00-intro.R\nUsing dplyr:\n\nFrom the ADSL dataset:\nSubset to the safety population (SAFFL == “Y”)\ncalculate the number of unique subjects in each treatment group (TRT01A)\n\n\nlibrary(dplyr)\n\npharmaverseadam::adsl |&gt; \n  filter(SAFFL == \"Y\") |&gt; \n  count(TRT01A)\n\n# A tibble: 3 × 2\n  TRT01A                   n\n  &lt;chr&gt;                &lt;int&gt;\n1 Placebo                 86\n2 Xanomeline High Dose    72\n3 Xanomeline Low Dose     96"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#objectives",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#objectives",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Objectives",
+    "text": "Objectives\n\nBy the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#play-by-play-to-achieve-our-objectives",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#play-by-play-to-achieve-our-objectives",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Play by Play to achieve our Objectives",
+    "text": "Play by Play to achieve our Objectives\n\n🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions\n🕥11:15 - 11:40 Subject-level dataset: ADSL\n🕚11:40 - 11:50 Check in on Barb / Exercise\n🕦11:50 - 12:20 Basic Data Structure: ADVS\n🕚12:20 - 12:30 Check in on Barb / Exercise\n🕚12:30 Lunch!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#end-to-end-with-barb",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#end-to-end-with-barb",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "End to End with Barb!!",
+    "text": "End to End with Barb!!\n\n\n\n\n\n\n\n\nflowchart LR\n  A[Raw] --&gt; B[SDTM]\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARD]\n  D[ARD] --&gt; E[TFL]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\nWe are going to take a glimpse of where Barb is in ADSL and ADVS"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#set-the-stage-1",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#set-the-stage-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Set the Stage",
+    "text": "Set the Stage\n\nHow we will work for the next 90 minutes?\nData (SDTMs, ADSL, and ADVS)\nSpecs (Excel document with lots of tabs)\npharmaverse packages\n\nplaying nice with tidyverse and base R!!\n\nFunctions to make ADaM variables and records."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#how-we-will-proceed-today-1",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#how-we-will-proceed-today-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "How we will proceed today?",
+    "text": "How we will proceed today?\n\nI will pull out certain functions of the ADSL and ADVS R scripts.\n\nLet’s take a quick peek at the scripts.\nI will discuss certain functions and function arguments from scripts for deriving variables/records.\nWill pull up full function arguments to briefly highlight other powers. 💡\nWhen possible will have some play data and mini-runs of the function. 🏸"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#how-we-will-proceed-today-continued",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#how-we-will-proceed-today-continued",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "How we will proceed today continued?",
+    "text": "How we will proceed today continued?\n\nTwo exercises set up to help explore two key functions discussed:\n\nderive_vars_dtm() at end of ADSL.\nderive_param_computed() at end of ADVS.\n\nBrief notes on the code in script and exercises:\n\nCode in scripts should run out of the box.\nYou can run now, but if something doesn’t work let’s fix at the exercises.\nExercises will need some minor updates.\n3 folks not presenting can help diagnose issues during exercises."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#adsl---subject-level-dataset",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#adsl---subject-level-dataset",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "ADSL - Subject Level Dataset",
+    "text": "ADSL - Subject Level Dataset\n\n\n\n\nADSL - Subject Level Dataset, i.e each subject has a record. Focus on adding variables.\nWe will use SDTM data from the pharmaversesdtm package.\n\nADSL is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#advs---vital-signs-dataset",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#advs---vital-signs-dataset",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "ADVS - Vital Signs Dataset",
+    "text": "ADVS - Vital Signs Dataset\n\n\n\n\nADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!\nWe will use SDTM data vs from the pharmaversesdtm package and ADSL from dataset created by the adsl.R script.\nADVS is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#spec-details",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#spec-details",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Spec-details",
+    "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec\n\nP21 is spec/data validation tool widely used in the industry for creating and validating SDTMs and ADaMs.\n\nThese specs are not fit for purpose - just a helpful guide\nWhat is in the the Specs:\n\nTwo datasets, dataset labels and variable keys\nVariables - labels, lengths, types, linked to method\nCodelists / Control Terms!!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#spec-peek",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#spec-peek",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Spec-peek",
+    "text": "Spec-peek\n\nLet’s take a quick peek at metadata"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#the-core-pharmaverse-packages-for-creating-adams",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#the-core-pharmaverse-packages-for-creating-adams",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The core pharmaverse packages for creating ADaMs",
+    "text": "The core pharmaverse packages for creating ADaMs\n \nFocus on applying information from our Specs to the ADaMs\n\nFocus on deriving variables and records driven by our Specs\n\nFocus on preparing the dataset as an xpt file to be sent to regulatory agencies."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#pharmaverse-plays-nice",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#pharmaverse-plays-nice",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "pharmaverse plays nice!",
+    "text": "pharmaverse plays nice!\n   \n\nThe ADaM code presented today utilizes all the previously mentioned packages, but also makes use of tidyverse and base R code.\nIf a function isn’t meeting your needs or looks too cumbersome, then that is okay!\nThese packages are all modular and play well with others."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#admiral",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#admiral",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "admiral",
+    "text": "admiral\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nadmiral\nderive_vars_merged()\nleft_join on steroids\n\n\nadmiral\nderive_param_computed()\nCore function for wrappers used in ADVS\n\n\nadmiral\nderive_vars_dy()\nCreate the relative study day\n\n\nadmiral\nderive_vars_dtm()\nTake a ---DTC variable and turn it into a ---DTM variable\n\n\nadmiral\nderive_vars_duration()\nDuration between timepoints\n\n\nadmiral\nrestrict_derivation()\nHOF: Execute a derivation on a subset of the input dataset.\n\n\n\nMost functions in admiral follow these conventions:\n\nvar_ or _vars_ functions add variable(s) to ADaMs\n_param_ functions add records to ADaMs\nOther not following this convention typically execute more advanced stuff!!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#metacore-metatools-and-xportr",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#metacore-metatools-and-xportr",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "metacore, metatools and xportr",
+    "text": "metacore, metatools and xportr\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nmetacore\nspec_to_metacore()\nCreates a “special” object from your specs\n\n\nmetatools\ncombine_supp()\nJoin Parent and Supplementary Datasets\n\n\nmetatools\ncreate_var_from_codelist()\nNumeric Vars from Specs!\n\n\nmetatools\ndrop_unspec_vars()\nEasily drop variables not in Spec\n\n\nxportr\nxportr_label()\nApply labels from Spec\n\n\nxportr\nxportr_write()\nWrite out an xpt file\n\n\n\n\nMost functions from these packages are about applying metadata from specs to your dataset.\nxportr follows a standard naming convention with xportr_."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#the-big-picture-of-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#the-big-picture-of-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The Big Picture of ADSL",
+    "text": "The Big Picture of ADSL\n\nWe have an ADSL script:\n\n\nUsing {pharmaversesdtm} data: dm, suppdm, ex, ae, vs, etc\nUses the ADSL section of our spec file\nCreating a single record for each subject with a lot of variables.\n306 observations and 54 variables.\nWrite out an xpt file for regulatory send-off!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#reading-in-our-spec-for-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#reading-in-our-spec-for-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Reading in our spec for ADSL 1",
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  quiet = TRUE\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nquiet argument should be set to TRUE while developing your spec and ADaMs.\nSame call in ADVS script.\n\nLines: 20-25"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#combine-parent-and-supplementary-data",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#combine-parent-and-supplementary-data",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Combine Parent and Supplementary Data 1",
+    "text": "Combine Parent and Supplementary Data 1\ndm_suppdm &lt;- combine_supp(dm, suppdm)\n\nOne line of code to join two datasets: parent and supplementary!\nSupps usually are a collection non-standard data and linking to parent\nFunction is from {metatools}\n\nLines: 53"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s turn a --DTC to a *DTM or *DT variable 1",
+    "text": "Let’s turn a --DTC to a *DTM or *DT variable 1\nex_ext &lt;- ex %&gt;%\n  derive_vars_dtm(\n    dtc = EXSTDTC,\n    new_vars_prefix = \"EXST\",\n    time_imputation = \"last\",\n    flag_imputation = \"time\"\n)\nds_ext &lt;- derive_vars_dt(\n  ds,\n  dtc = DSSTDTC,\n  new_vars_prefix = \"DSST\"\n)\nadsl11 &lt;- adsl10 %&gt;%\n  derive_vars_dt(\n    dtc = DTHDTC,\n    new_vars_prefix = \"DTH\",\n    highest_imputation = \"M\",\n    date_imputation = \"first\"\n  )\nLines: 57-69, 132-136, 198-204"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#example-from-documentation",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#example-from-documentation",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\nmhdt &lt;- tribble(\n  ~MHSTDTC,\n  \"2019-07-18T15:25:40\",\n  \"2019-07-18T15:25\",\n  \"2019-07-18\",\n  \"2019-02\",\n  \"2019\",\n  \"2019---07\",\n  \"\"\n)\n\nderive_vars_dtm(\n mhdt,\n new_vars_prefix = \"AST\",\n dtc = MHSTDTC,\n highest_imputation = \"M\",\n date_imputation = \"last\",\n time_imputation = \"last\",\n ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 4\n  MHSTDTC               ASTDTM              ASTDTF ASTTMF\n  &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4 \"2019-02\"             2019-02-28 23:59:59 D      H     \n5 \"2019\"                2019-12-31 23:59:59 M      H     \n6 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#woahthere-is-more",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#woahthere-is-more",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Woah…there is more!!",
+    "text": "Woah…there is more!!\n\nderive_vars_dtm(\n  dataset,\n  new_vars_prefix,\n  dtc,\n  highest_imputation = \"h\",\n  date_imputation = \"first\",\n  time_imputation = \"first\",\n  flag_imputation = \"auto\",\n  min_dates = NULL,\n  max_dates = NULL,\n  preserve = FALSE,\n  ignore_seconds_flag = FALSE\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#a-simple-merge",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#a-simple-merge",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "A Simple merge 1",
+    "text": "A Simple merge 1\nadsl10 &lt;- adsl09 %&gt;%\n  derive_vars_merged(\n    dataset_add = ds_ext,\n    by_vars = exprs(STUDYID, USUBJID),\n    new_vars = exprs(RANDDT = DSSTDT),\n    filter_add = DSDECOD == \"RANDOMIZED\",\n  )\n\nFilter, arrange, join and rename is a common pattern in ADaMs.\nby_vars are going to be the shared variables to connect the two datasets\nIn admiral, all arguments which can be set to multiple variables, a calculation, or an assignment must be started with rlang::exprs().\nCheck out Programming Concepts and Conventions\n\nLines: 187-194"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-a-more-complicated-merge",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-a-more-complicated-merge",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get a more complicated merge 1",
+    "text": "Let’s get a more complicated merge 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\norder - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.\nmode - Determines if the first or last observation is selected\n\nLines: 72-84, and more!!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#whoa-way-more-options",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#whoa-way-more-options",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Whoa!!! Way more options!!",
+    "text": "Whoa!!! Way more options!!\n\nderive_vars_merged(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  filter_add = NULL,\n  mode = NULL,\n  exist_flag = NULL,\n  true_value = \"Y\",\n  false_value = NA_character_,\n  missing_values = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  relationship = NULL\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-derive-a-duration-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-derive-a-duration-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s derive a Duration Variable 1",
+    "text": "Let’s derive a Duration Variable 1\nderive_vars_duration(\n    new_var = DTHADY,\n    start_date = TRTSDT,\n    end_date = DTHDT\n  )\nLines: 122-126"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#example-from-documentation-1",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#example-from-documentation-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\n# Derive age in years\ndata &lt;- tribble(\n  ~USUBJID, ~BRTHDT,           ~RANDDT,\n  \"P01\",    ymd(\"1984-09-06\"), ymd(\"2020-02-24\"),\n  \"P02\",    ymd(\"1985-01-01\"), NA,\n  \"P03\",    NA,                ymd(\"2021-03-10\"),\n  \"P04\",    NA,                NA\n)\n\nderive_vars_duration(data,\n  new_var = AAGE,\n  new_var_unit = AAGEU,\n  start_date = BRTHDT,\n  end_date = RANDDT,\n  out_unit = \"years\",\n  add_one = FALSE,\n  trunc_out = TRUE\n)\n\n# A tibble: 4 × 5\n  USUBJID BRTHDT     RANDDT      AAGE AAGEU\n  &lt;chr&gt;   &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;\n1 P01     1984-09-06 2020-02-24    35 years\n2 P02     1985-01-01 NA            NA &lt;NA&gt; \n3 P03     NA         2021-03-10    NA &lt;NA&gt; \n4 P04     NA         NA            NA &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#ohhh-there-is-more",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#ohhh-there-is-more",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Ohhh there is more!!",
+    "text": "Ohhh there is more!!\n\nderive_vars_duration(\n  dataset,\n  new_var,\n  new_var_unit = NULL,\n  start_date,\n  end_date,\n  in_unit = \"days\",\n  out_unit = \"DAYS\",\n  floor_in = TRUE,\n  add_one = TRUE,\n  trunc_out = FALSE,\n  type = \"duration\"\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#duration-versus-interval",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#duration-versus-interval",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Duration versus Interval",
+    "text": "Duration versus Interval\n\nThe lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.\nThe difference arises from the ambiguity in the length of “1 month” or “1 year”. Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-apply-control-terms-code-lists",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-apply-control-terms-code-lists",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s apply Control Terms / Code Lists 1",
+    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric Variables like the above are helpful for sorting options in Tables.\n\nLines: 276-282"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#more-details",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#more-details",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "More details",
+    "text": "More details\n\ncreate_var_from_codelist(\n  data,\n  metacore,\n  input_var,\n  out_var,\n  codelist = NULL,\n  decode_to_code = TRUE,\n  strict = TRUE\n)\n\ncodelist - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.\ndecode_to_code - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.\nstrict - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-on-barb-in-adsl",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-on-barb-in-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check in on Barb in ADSL",
+    "text": "Check in on Barb in ADSL\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nSEX: F\nAGE: 77\nRANDDT: 2014-07-01\nTRTSDT: 2014-07-01\nTRTSDTM: 2014-07-01 23:59:59\nTRTEDT: 2014-12-30\nTRTDURD: 183\nEOSDT: 2014-12-30\nEOSSTT: COMPLETED"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nImpute the date and time to be last month/day and 23:59:59\nTwo arguments to update: ????\nCheck out admiral derive_vars_dtm() documentation\n\n\nlibrary(tibble)\nlibrary(lubridate)\nlibrary(admiral)\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"????\",\n  time_imputation = \"????\"\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-solution",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-solution",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"last\",\n  time_imputation = \"last\",\n  ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 5\n  USUBJID MHSTDTC               ASTDTM              ASTDTF ASTTMF\n    &lt;dbl&gt; &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1       1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2       1 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3       1 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4       2 \"2024-02\"             2024-02-29 23:59:59 D      H     \n5       2 \"2019\"                2019-12-31 23:59:59 M      H     \n6       2 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7       3 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#the-big-picture-of-advs",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#the-big-picture-of-advs",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The Big Picture of ADVS",
+    "text": "The Big Picture of ADVS\n\nWe have an ADVS script:\n\nUsing pharmaversesdtm data: vs\nUsing the ADVS section of our spec file.\nCreating multiple records for each subject.\nSome ADSL variables included.\n60K records and 106 variables.\nLot’s of functions are repeated within the ADVS script used in ADSL script."
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-talk-about-lookup-tables",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-talk-about-lookup-tables",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s talk about lookup tables 1",
+    "text": "Let’s talk about lookup tables 1\n  derive_vars_merged_lookup(\n    dataset_add = param_lookup,\n    new_vars = exprs(PARAMCD),\n    by_vars = exprs(VSTESTCD),\n    print_not_mapped = TRUE \n  ) \n\nMoving from **TEST/**TESTCD to PARAM/PARAMCD.\nMore information in the PARAM/PARAMCD - useful for displays.\nCan be used for other lookup tables, e.g. Grading/Toxicity.\n\nLines: 72-80"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#a-fuller-look",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#a-fuller-look",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "A Fuller Look!",
+    "text": "A Fuller Look!\n\nderive_vars_merged_lookup(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  mode = NULL,\n  filter_add = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  print_not_mapped = TRUE\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-more-records-for-each-subject",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-more-records-for-each-subject",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add more records for each subject 1",
+    "text": "Let’s add more records for each subject 1\nadvs &lt;- advs %&gt;%\n  derive_param_computed(\n    by_vars = exprs(STUDYID, USUBJID, VISIT, VISITNUM, ADT, ADY, VSTPT, VSTPTNUM),\n    parameters = \"WEIGHT\",\n    set_values_to = exprs(\n      AVAL = AVAL.WEIGHT / (AVAL.HEIGHT / 100)^2,\n      PARAMCD = \"BMI\",\n      PARAM = \"Body Mass Index (kg/m^2)\",\n      AVALU = \"kg/m^2\"\n    ),\n    constant_parameters = c(\"HEIGHT\"),\n    constant_by_vars = exprs(USUBJID)\n)\nLines: 100-111"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#only-two-arguments-not-used",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#only-two-arguments-not-used",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Only two arguments not used!",
+    "text": "Only two arguments not used!\n\nderive_param_computed(\n  dataset = NULL,\n  dataset_add = NULL,\n  by_vars,\n  parameters,\n  set_values_to,\n  filter = NULL,\n  constant_by_vars = NULL,\n  constant_parameters = NULL,\n  keep_nas = FALSE\n)\n\n\nfilter - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.\nkeep_na - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-derive-dtype-summary-records",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-derive-dtype-summary-records",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s derive DTYPE summary records 1",
+    "text": "Let’s derive DTYPE summary records 1\nderive_summary_records(\n    dataset_add = advs_2, \n    by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, PARAMCD, AVISITN, AVISIT, ADT, ADY, AVALU),\n    filter_add = !is.na(AVAL),\n    set_values_to = exprs(\n      AVAL = mean(AVAL),\n      DTYPE = \"AVERAGE\"\n  )\n)\n\nA DTYPE variable indicates a record within a parameter has been imputed or modified, DTYPE will indicate the method used to populate the analysis value, e.g AVERAGE, MAXIMUM, MINIMUM, LOCF, PHANTOM.\n\nLines: 144-153"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-restrict",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-restrict",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s restrict! 1",
+    "text": "Let’s restrict! 1\nrestrict_derivation(\n  derivation = derive_var_extreme_flag,\n  args = params(\n    by_vars = exprs(STUDYID, USUBJID, BASETYPE, PARAMCD),\n    order = exprs(ADT, VISITNUM, VSSEQ),\n    new_var = ABLFL,\n    mode = \"last\",\n    true_value = \"Y\"\n  ),\n  filter = (!is.na(AVAL) &\n    ADT &lt;= TRTSDT & !is.na(BASETYPE) & is.na(DTYPE))\n)\n\nCheck out Higher Order Functions for more information.\ncall_derivation() is super handy if you are doing similar calls with same function, but just changing one or two arguments.\n\nLines: 196-210"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-a-base-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-a-base-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add a BASE variable 1",
+    "text": "Let’s add a BASE variable 1\nadvs &lt;- derive_var_base(\n  advs,\n  by_vars = exprs(STUDYID, USUBJID, PARAMCD, BASETYPE),\n  source_var = AVAL,\n  new_var = BASE,\n  # Below arguments are default values and not necessary to add in our case\n  filter = ABLFL == \"Y\"\n)\n\nUsed to calculate CHG and PCHG variables\n\nLines: 210-217"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-an-analysis-sequence-variable",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-add-an-analysis-sequence-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add an Analysis Sequence Variable 1",
+    "text": "Let’s add an Analysis Sequence Variable 1\nadvs &lt;- derive_var_obs_number(\n  advs,\n  new_var = ASEQ,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(PARAMCD, ADT, AVISITN, VISITNUM, ATPTN, DTYPE),\n  check_type = \"error\"\n)\n\nASEQ uniquely indexes records within a subject within an ADaM dataset.\nASEQ is useful for traceability when the dataset is used as input to another ADaM dataset\ncheck_type - If “message”, “warning” or “error” is specified, the specified message is issued if the observations of the input dataset are not unique with respect to the by variables and the order.\n\nLines: 262-268"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get that ADaM ready for regulatory agencies 1",
+    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec, dataset_name = \"ADVS\") %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\nNote similar code in ADSL script!\n\nLines: 305-310"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get that data read for regulatory agencies 1",
+    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 313-319"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-on-barb-in-advs",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-on-barb-in-advs",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check in on Barb in ADVS",
+    "text": "Check in on Barb in ADVS\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nPARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)\nABLFL/ADT: Y / 2014-07-01\nBASE: 94.33333\nAVIST/ADT: WEEK 2 / 2014-07-15\nAVAL: 115.0\nCHG: 20.6666667\nPCHG: 21.9081272"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-1",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nWe are going to update the function derive_param_computed() for Mean Arterial Pressure.\nFormula: \\[ \\frac{2DIABP + SYSBP}{3} \\]\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"????\", \"????\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + ?? * AVAL.DIABP) / ??,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-solution-1",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#check-in-exercise-solution-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \n\nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"SYSBP\", \"DIABP\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + 2 * AVAL.DIABP) / 3,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)\n\n# A tibble: 6 × 6\n  USUBJID     PARAMCD PARAM                           AVALU  AVAL VISIT   \n  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   \n1 01-701-1015 DIABP   Diastolic Blood Pressure (mmHg) mmHg   51   BASELINE\n2 01-701-1015 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  121   BASELINE\n3 01-701-1028 DIABP   Diastolic Blood Pressure (mmHg) mmHg   79   BASELINE\n4 01-701-1028 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  130   BASELINE\n5 01-701-1015 MAP     Mean Arterial Pressure (mmHg)   mmHg   74.3 BASELINE\n6 01-701-1028 MAP     Mean Arterial Pressure (mmHg)   mmHg   96   BASELINE"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#questions-and-resources",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#questions-and-resources",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Questions and Resources",
+    "text": "Questions and Resources\n\n\n\nadmiraldiscovery\npharmaverse examples\npkgdown sites for xportr, metatools, metacore and admiral\nExtension packages for admiral: admiralophtha, admiralonco, admiralpeds"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#closing-thoughts",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#closing-thoughts",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Closing Thoughts",
+    "text": "Closing Thoughts\n\n\n\nOnly able to show a small number of pharmaverse packages and functions today, but please delve deeper to explore the full breadth\nIf you’d like to contribute to pharmaverse, check out options at pharmaverse.org\nFinally, be sure to join our community on Slack!"
+  },
+  {
+    "objectID": "pharmaverse-main/slides/03-ADaM/index.html#packages-and-session-information",
+    "href": "pharmaverse-main/slides/03-ADaM/index.html#packages-and-session-information",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Packages and Session Information",
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0   dplyr_1.2.1      compiler_4.6.1   renv_1.2.4      \n [5] tidyselect_1.2.1 xml2_1.6.0       stringr_1.6.0    tidyr_1.3.2     \n [9] yaml_2.3.12      fastmap_1.2.0    R6_2.6.1         generics_0.1.4  \n[13] admiraldev_1.5.0 knitr_1.51       pillar_1.11.1    rlang_1.3.0     \n[17] utf8_1.2.6       stringi_1.8.9    roxygen2_8.1.0   xfun_0.60       \n[21] otel_0.2.0       timechange_0.4.0 cli_3.6.6        withr_3.0.3     \n[25] magrittr_2.0.5   digest_0.6.39    hms_1.1.4        lifecycle_1.0.5 \n[29] vctrs_0.7.3      evaluate_1.0.5   rmarkdown_2.31   purrr_1.2.2     \n[33] tools_4.6.1      pkgconfig_2.0.3  htmltools_0.5.9"
   },
   {
     "objectID": "pharmaverse-main/slides/04-ARD/index.html#check-in-with-barb",
@@ -3004,6 +4061,349 @@
     "title": "Welcome!",
     "section": "Solution for 00-intro.R",
     "text": "Solution for 00-intro.R\nUsing dplyr:\n\nFrom the ADSL dataset:\nSubset to the safety population (SAFFL == “Y”)\ncalculate the number of unique subjects in each treatment group (TRT01A)\n\n\nlibrary(dplyr)\n\npharmaverseadam::adsl |&gt; \n  filter(SAFFL == \"Y\") |&gt; \n  count(TRT01A)\n\n# A tibble: 3 × 2\n  TRT01A                   n\n  &lt;chr&gt;                &lt;int&gt;\n1 Placebo                 86\n2 Xanomeline High Dose    72\n3 Xanomeline Low Dose     96"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#objectives",
+    "href": "slides/03-ADaM/index.html#objectives",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Objectives",
+    "text": "Objectives\n\nBy the end of this ADaM section you will have:\n\nGained an understanding of how to use admiral, metatools/metacore, and xportr packages to create ADaMs\nSeen code executed to create variables and records common to ADSL and ADVS.\nSeen small code snippets of certain functions with play data.\nChecked in on our fav participant - Barb.\nCompleted two short exercises using functions from admiral package."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#play-by-play-to-achieve-our-objectives",
+    "href": "slides/03-ADaM/index.html#play-by-play-to-achieve-our-objectives",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Play by Play to achieve our Objectives",
+    "text": "Play by Play to achieve our Objectives\n\n🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions\n🕥11:15 - 11:40 Subject-level dataset: ADSL\n🕚11:40 - 11:50 Check in on Barb / Exercise\n🕦11:50 - 12:20 Basic Data Structure: ADVS\n🕚12:20 - 12:30 Check in on Barb / Exercise\n🕚12:30 Lunch!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#end-to-end-with-barb",
+    "href": "slides/03-ADaM/index.html#end-to-end-with-barb",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "End to End with Barb!!",
+    "text": "End to End with Barb!!\n\n\n\n\n\n\n\n\nflowchart LR\n  A[Raw] --&gt; B[SDTM]\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARD]\n  D[ARD] --&gt; E[TFL]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\nWe are going to take a glimpse of where Barb is in ADSL and ADVS"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#set-the-stage-1",
+    "href": "slides/03-ADaM/index.html#set-the-stage-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Set the Stage",
+    "text": "Set the Stage\n\nHow we will work for the next 90 minutes?\nData (SDTMs, ADSL, and ADVS)\nSpecs (Excel document with lots of tabs)\npharmaverse packages\n\nplaying nice with tidyverse and base R!!\n\nFunctions to make ADaM variables and records."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#how-we-will-proceed-today-1",
+    "href": "slides/03-ADaM/index.html#how-we-will-proceed-today-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "How we will proceed today?",
+    "text": "How we will proceed today?\n\nI will pull out certain functions of the ADSL and ADVS R scripts.\n\nLet’s take a quick peek at the scripts.\nI will discuss certain functions and function arguments from scripts for deriving variables/records.\nWill pull up full function arguments to briefly highlight other powers. 💡\nWhen possible will have some play data and mini-runs of the function. 🏸"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#how-we-will-proceed-today-continued",
+    "href": "slides/03-ADaM/index.html#how-we-will-proceed-today-continued",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "How we will proceed today continued?",
+    "text": "How we will proceed today continued?\n\nTwo exercises set up to help explore two key functions discussed:\n\nderive_vars_dtm() at end of ADSL.\nderive_param_computed() at end of ADVS.\n\nBrief notes on the code in script and exercises:\n\nCode in scripts should run out of the box.\nYou can run now, but if something doesn’t work let’s fix at the exercises.\nExercises will need some minor updates.\n3 folks not presenting can help diagnose issues during exercises."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#adsl---subject-level-dataset",
+    "href": "slides/03-ADaM/index.html#adsl---subject-level-dataset",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "ADSL - Subject Level Dataset",
+    "text": "ADSL - Subject Level Dataset\n\n\n\n\nADSL - Subject Level Dataset, i.e each subject has a record. Focus on adding variables.\nWe will use SDTM data from the pharmaversesdtm package.\n\nADSL is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#advs---vital-signs-dataset",
+    "href": "slides/03-ADaM/index.html#advs---vital-signs-dataset",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "ADVS - Vital Signs Dataset",
+    "text": "ADVS - Vital Signs Dataset\n\n\n\n\nADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!\nWe will use SDTM data vs from the pharmaversesdtm package and ADSL from dataset created by the adsl.R script.\nADVS is available in the pharmaverseadam package"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#spec-details",
+    "href": "slides/03-ADaM/index.html#spec-details",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Spec-details",
+    "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec\n\nP21 is spec/data validation tool widely used in the industry for creating and validating SDTMs and ADaMs.\n\nThese specs are not fit for purpose - just a helpful guide\nWhat is in the the Specs:\n\nTwo datasets, dataset labels and variable keys\nVariables - labels, lengths, types, linked to method\nCodelists / Control Terms!!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#spec-peek",
+    "href": "slides/03-ADaM/index.html#spec-peek",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Spec-peek",
+    "text": "Spec-peek\n\nLet’s take a quick peek at metadata"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#the-core-pharmaverse-packages-for-creating-adams",
+    "href": "slides/03-ADaM/index.html#the-core-pharmaverse-packages-for-creating-adams",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The core pharmaverse packages for creating ADaMs",
+    "text": "The core pharmaverse packages for creating ADaMs\n \nFocus on applying information from our Specs to the ADaMs\n\nFocus on deriving variables and records driven by our Specs\n\nFocus on preparing the dataset as an xpt file to be sent to regulatory agencies."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#pharmaverse-plays-nice",
+    "href": "slides/03-ADaM/index.html#pharmaverse-plays-nice",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "pharmaverse plays nice!",
+    "text": "pharmaverse plays nice!\n   \n\nThe ADaM code presented today utilizes all the previously mentioned packages, but also makes use of tidyverse and base R code.\nIf a function isn’t meeting your needs or looks too cumbersome, then that is okay!\nThese packages are all modular and play well with others."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#admiral",
+    "href": "slides/03-ADaM/index.html#admiral",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "admiral",
+    "text": "admiral\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nadmiral\nderive_vars_merged()\nleft_join on steroids\n\n\nadmiral\nderive_param_computed()\nCore function for wrappers used in ADVS\n\n\nadmiral\nderive_vars_dy()\nCreate the relative study day\n\n\nadmiral\nderive_vars_dtm()\nTake a ---DTC variable and turn it into a ---DTM variable\n\n\nadmiral\nderive_vars_duration()\nDuration between timepoints\n\n\nadmiral\nrestrict_derivation()\nHOF: Execute a derivation on a subset of the input dataset.\n\n\n\nMost functions in admiral follow these conventions:\n\nvar_ or _vars_ functions add variable(s) to ADaMs\n_param_ functions add records to ADaMs\nOther not following this convention typically execute more advanced stuff!!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#metacore-metatools-and-xportr",
+    "href": "slides/03-ADaM/index.html#metacore-metatools-and-xportr",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "metacore, metatools and xportr",
+    "text": "metacore, metatools and xportr\n\n\n\n\n\n\n\n\nPackage\nFunction\nPurpose\n\n\n\n\nmetacore\nspec_to_metacore()\nCreates a “special” object from your specs\n\n\nmetatools\ncombine_supp()\nJoin Parent and Supplementary Datasets\n\n\nmetatools\ncreate_var_from_codelist()\nNumeric Vars from Specs!\n\n\nmetatools\ndrop_unspec_vars()\nEasily drop variables not in Spec\n\n\nxportr\nxportr_label()\nApply labels from Spec\n\n\nxportr\nxportr_write()\nWrite out an xpt file\n\n\n\n\nMost functions from these packages are about applying metadata from specs to your dataset.\nxportr follows a standard naming convention with xportr_."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#the-big-picture-of-adsl",
+    "href": "slides/03-ADaM/index.html#the-big-picture-of-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The Big Picture of ADSL",
+    "text": "The Big Picture of ADSL\n\nWe have an ADSL script:\n\n\nUsing {pharmaversesdtm} data: dm, suppdm, ex, ae, vs, etc\nUses the ADSL section of our spec file\nCreating a single record for each subject with a lot of variables.\n306 observations and 54 variables.\nWrite out an xpt file for regulatory send-off!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#reading-in-our-spec-for-adsl",
+    "href": "slides/03-ADaM/index.html#reading-in-our-spec-for-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Reading in our spec for ADSL 1",
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  quiet = TRUE\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nquiet argument should be set to TRUE while developing your spec and ADaMs.\nSame call in ADVS script.\n\nLines: 20-25"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#combine-parent-and-supplementary-data",
+    "href": "slides/03-ADaM/index.html#combine-parent-and-supplementary-data",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Combine Parent and Supplementary Data 1",
+    "text": "Combine Parent and Supplementary Data 1\ndm_suppdm &lt;- combine_supp(dm, suppdm)\n\nOne line of code to join two datasets: parent and supplementary!\nSupps usually are a collection non-standard data and linking to parent\nFunction is from {metatools}\n\nLines: 53"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "href": "slides/03-ADaM/index.html#lets-turn-a---dtc-to-a-dtm-or-dt-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s turn a --DTC to a *DTM or *DT variable 1",
+    "text": "Let’s turn a --DTC to a *DTM or *DT variable 1\nex_ext &lt;- ex %&gt;%\n  derive_vars_dtm(\n    dtc = EXSTDTC,\n    new_vars_prefix = \"EXST\",\n    time_imputation = \"last\",\n    flag_imputation = \"time\"\n)\nds_ext &lt;- derive_vars_dt(\n  ds,\n  dtc = DSSTDTC,\n  new_vars_prefix = \"DSST\"\n)\nadsl11 &lt;- adsl10 %&gt;%\n  derive_vars_dt(\n    dtc = DTHDTC,\n    new_vars_prefix = \"DTH\",\n    highest_imputation = \"M\",\n    date_imputation = \"first\"\n  )\nLines: 57-69, 132-136, 198-204"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#example-from-documentation",
+    "href": "slides/03-ADaM/index.html#example-from-documentation",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\nmhdt &lt;- tribble(\n  ~MHSTDTC,\n  \"2019-07-18T15:25:40\",\n  \"2019-07-18T15:25\",\n  \"2019-07-18\",\n  \"2019-02\",\n  \"2019\",\n  \"2019---07\",\n  \"\"\n)\n\nderive_vars_dtm(\n mhdt,\n new_vars_prefix = \"AST\",\n dtc = MHSTDTC,\n highest_imputation = \"M\",\n date_imputation = \"last\",\n time_imputation = \"last\",\n ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 4\n  MHSTDTC               ASTDTM              ASTDTF ASTTMF\n  &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4 \"2019-02\"             2019-02-28 23:59:59 D      H     \n5 \"2019\"                2019-12-31 23:59:59 M      H     \n6 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#woahthere-is-more",
+    "href": "slides/03-ADaM/index.html#woahthere-is-more",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Woah…there is more!!",
+    "text": "Woah…there is more!!\n\nderive_vars_dtm(\n  dataset,\n  new_vars_prefix,\n  dtc,\n  highest_imputation = \"h\",\n  date_imputation = \"first\",\n  time_imputation = \"first\",\n  flag_imputation = \"auto\",\n  min_dates = NULL,\n  max_dates = NULL,\n  preserve = FALSE,\n  ignore_seconds_flag = FALSE\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#a-simple-merge",
+    "href": "slides/03-ADaM/index.html#a-simple-merge",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "A Simple merge 1",
+    "text": "A Simple merge 1\nadsl10 &lt;- adsl09 %&gt;%\n  derive_vars_merged(\n    dataset_add = ds_ext,\n    by_vars = exprs(STUDYID, USUBJID),\n    new_vars = exprs(RANDDT = DSSTDT),\n    filter_add = DSDECOD == \"RANDOMIZED\",\n  )\n\nFilter, arrange, join and rename is a common pattern in ADaMs.\nby_vars are going to be the shared variables to connect the two datasets\nIn admiral, all arguments which can be set to multiple variables, a calculation, or an assignment must be started with rlang::exprs().\nCheck out Programming Concepts and Conventions\n\nLines: 187-194"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-get-a-more-complicated-merge",
+    "href": "slides/03-ADaM/index.html#lets-get-a-more-complicated-merge",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get a more complicated merge 1",
+    "text": "Let’s get a more complicated merge 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\norder - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.\nmode - Determines if the first or last observation is selected\n\nLines: 72-84, and more!!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#whoa-way-more-options",
+    "href": "slides/03-ADaM/index.html#whoa-way-more-options",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Whoa!!! Way more options!!",
+    "text": "Whoa!!! Way more options!!\n\nderive_vars_merged(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  filter_add = NULL,\n  mode = NULL,\n  exist_flag = NULL,\n  true_value = \"Y\",\n  false_value = NA_character_,\n  missing_values = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  relationship = NULL\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-derive-a-duration-variable",
+    "href": "slides/03-ADaM/index.html#lets-derive-a-duration-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s derive a Duration Variable 1",
+    "text": "Let’s derive a Duration Variable 1\nderive_vars_duration(\n    new_var = DTHADY,\n    start_date = TRTSDT,\n    end_date = DTHDT\n  )\nLines: 122-126"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#example-from-documentation-1",
+    "href": "slides/03-ADaM/index.html#example-from-documentation-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Example from documentation",
+    "text": "Example from documentation\n\n# Derive age in years\ndata &lt;- tribble(\n  ~USUBJID, ~BRTHDT,           ~RANDDT,\n  \"P01\",    ymd(\"1984-09-06\"), ymd(\"2020-02-24\"),\n  \"P02\",    ymd(\"1985-01-01\"), NA,\n  \"P03\",    NA,                ymd(\"2021-03-10\"),\n  \"P04\",    NA,                NA\n)\n\nderive_vars_duration(data,\n  new_var = AAGE,\n  new_var_unit = AAGEU,\n  start_date = BRTHDT,\n  end_date = RANDDT,\n  out_unit = \"years\",\n  add_one = FALSE,\n  trunc_out = TRUE\n)\n\n# A tibble: 4 × 5\n  USUBJID BRTHDT     RANDDT      AAGE AAGEU\n  &lt;chr&gt;   &lt;date&gt;     &lt;date&gt;     &lt;dbl&gt; &lt;chr&gt;\n1 P01     1984-09-06 2020-02-24    35 years\n2 P02     1985-01-01 NA            NA &lt;NA&gt; \n3 P03     NA         2021-03-10    NA &lt;NA&gt; \n4 P04     NA         NA            NA &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#ohhh-there-is-more",
+    "href": "slides/03-ADaM/index.html#ohhh-there-is-more",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Ohhh there is more!!",
+    "text": "Ohhh there is more!!\n\nderive_vars_duration(\n  dataset,\n  new_var,\n  new_var_unit = NULL,\n  start_date,\n  end_date,\n  in_unit = \"days\",\n  out_unit = \"DAYS\",\n  floor_in = TRUE,\n  add_one = TRUE,\n  trunc_out = FALSE,\n  type = \"duration\"\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#duration-versus-interval",
+    "href": "slides/03-ADaM/index.html#duration-versus-interval",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Duration versus Interval",
+    "text": "Duration versus Interval\n\nThe lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.\nThe difference arises from the ambiguity in the length of “1 month” or “1 year”. Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-apply-control-terms-code-lists",
+    "href": "slides/03-ADaM/index.html#lets-apply-control-terms-code-lists",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s apply Control Terms / Code Lists 1",
+    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric Variables like the above are helpful for sorting options in Tables.\n\nLines: 276-282"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#more-details",
+    "href": "slides/03-ADaM/index.html#more-details",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "More details",
+    "text": "More details\n\ncreate_var_from_codelist(\n  data,\n  metacore,\n  input_var,\n  out_var,\n  codelist = NULL,\n  decode_to_code = TRUE,\n  strict = TRUE\n)\n\ncodelist - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.\ndecode_to_code - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.\nstrict - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-on-barb-in-adsl",
+    "href": "slides/03-ADaM/index.html#check-in-on-barb-in-adsl",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check in on Barb in ADSL",
+    "text": "Check in on Barb in ADSL\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nSEX: F\nAGE: 77\nRANDDT: 2014-07-01\nTRTSDT: 2014-07-01\nTRTSDTM: 2014-07-01 23:59:59\nTRTEDT: 2014-12-30\nTRTDURD: 183\nEOSDT: 2014-12-30\nEOSSTT: COMPLETED"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-exercise",
+    "href": "slides/03-ADaM/index.html#check-in-exercise",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nImpute the date and time to be last month/day and 23:59:59\nTwo arguments to update: ????\nCheck out admiral derive_vars_dtm() documentation\n\n\nlibrary(tibble)\nlibrary(lubridate)\nlibrary(admiral)\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"????\",\n  time_imputation = \"????\"\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-exercise-solution",
+    "href": "slides/03-ADaM/index.html#check-in-exercise-solution",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nposit_mh &lt;- tribble(\n  ~USUBJID, ~MHSTDTC,\n  1,        \"2019-07-18T15:25:40\",\n  1,        \"2019-07-18T15:25\",\n  1,        \"2019-07-18\",\n  2,        \"2024-02\",\n  2,        \"2019\",\n  2,        \"2019---07\",\n  3,        \"\"\n)\n\nderive_vars_dtm(\n  dataset = posit_mh,\n  new_vars_prefix = \"AST\",\n  dtc = MHSTDTC,\n  highest_imputation = \"M\",\n  date_imputation = \"last\",\n  time_imputation = \"last\",\n  ignore_seconds_flag = FALSE\n)\n\n# A tibble: 7 × 5\n  USUBJID MHSTDTC               ASTDTM              ASTDTF ASTTMF\n    &lt;dbl&gt; &lt;chr&gt;                 &lt;dttm&gt;              &lt;chr&gt;  &lt;chr&gt; \n1       1 \"2019-07-18T15:25:40\" 2019-07-18 15:25:40 &lt;NA&gt;   &lt;NA&gt;  \n2       1 \"2019-07-18T15:25\"    2019-07-18 15:25:59 &lt;NA&gt;   S     \n3       1 \"2019-07-18\"          2019-07-18 23:59:59 &lt;NA&gt;   H     \n4       2 \"2024-02\"             2024-02-29 23:59:59 D      H     \n5       2 \"2019\"                2019-12-31 23:59:59 M      H     \n6       2 \"2019---07\"           2019-12-31 23:59:59 M      H     \n7       3 \"\"                    NA                  &lt;NA&gt;   &lt;NA&gt;"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#the-big-picture-of-advs",
+    "href": "slides/03-ADaM/index.html#the-big-picture-of-advs",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "The Big Picture of ADVS",
+    "text": "The Big Picture of ADVS\n\nWe have an ADVS script:\n\nUsing pharmaversesdtm data: vs\nUsing the ADVS section of our spec file.\nCreating multiple records for each subject.\nSome ADSL variables included.\n60K records and 106 variables.\nLot’s of functions are repeated within the ADVS script used in ADSL script."
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-talk-about-lookup-tables",
+    "href": "slides/03-ADaM/index.html#lets-talk-about-lookup-tables",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s talk about lookup tables 1",
+    "text": "Let’s talk about lookup tables 1\n  derive_vars_merged_lookup(\n    dataset_add = param_lookup,\n    new_vars = exprs(PARAMCD),\n    by_vars = exprs(VSTESTCD),\n    print_not_mapped = TRUE \n  ) \n\nMoving from **TEST/**TESTCD to PARAM/PARAMCD.\nMore information in the PARAM/PARAMCD - useful for displays.\nCan be used for other lookup tables, e.g. Grading/Toxicity.\n\nLines: 72-80"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#a-fuller-look",
+    "href": "slides/03-ADaM/index.html#a-fuller-look",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "A Fuller Look!",
+    "text": "A Fuller Look!\n\nderive_vars_merged_lookup(\n  dataset,\n  dataset_add,\n  by_vars,\n  order = NULL,\n  new_vars = NULL,\n  mode = NULL,\n  filter_add = NULL,\n  check_type = \"warning\",\n  duplicate_msg = NULL,\n  print_not_mapped = TRUE\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-add-more-records-for-each-subject",
+    "href": "slides/03-ADaM/index.html#lets-add-more-records-for-each-subject",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add more records for each subject 1",
+    "text": "Let’s add more records for each subject 1\nadvs &lt;- advs %&gt;%\n  derive_param_computed(\n    by_vars = exprs(STUDYID, USUBJID, VISIT, VISITNUM, ADT, ADY, VSTPT, VSTPTNUM),\n    parameters = \"WEIGHT\",\n    set_values_to = exprs(\n      AVAL = AVAL.WEIGHT / (AVAL.HEIGHT / 100)^2,\n      PARAMCD = \"BMI\",\n      PARAM = \"Body Mass Index (kg/m^2)\",\n      AVALU = \"kg/m^2\"\n    ),\n    constant_parameters = c(\"HEIGHT\"),\n    constant_by_vars = exprs(USUBJID)\n)\nLines: 100-111"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#only-two-arguments-not-used",
+    "href": "slides/03-ADaM/index.html#only-two-arguments-not-used",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Only two arguments not used!",
+    "text": "Only two arguments not used!\n\nderive_param_computed(\n  dataset = NULL,\n  dataset_add = NULL,\n  by_vars,\n  parameters,\n  set_values_to,\n  filter = NULL,\n  constant_by_vars = NULL,\n  constant_parameters = NULL,\n  keep_nas = FALSE\n)\n\n\nfilter - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.\nkeep_na - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-derive-dtype-summary-records",
+    "href": "slides/03-ADaM/index.html#lets-derive-dtype-summary-records",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s derive DTYPE summary records 1",
+    "text": "Let’s derive DTYPE summary records 1\nderive_summary_records(\n    dataset_add = advs_2, \n    by_vars = exprs(STUDYID, USUBJID, !!!adsl_vars, PARAMCD, AVISITN, AVISIT, ADT, ADY, AVALU),\n    filter_add = !is.na(AVAL),\n    set_values_to = exprs(\n      AVAL = mean(AVAL),\n      DTYPE = \"AVERAGE\"\n  )\n)\n\nA DTYPE variable indicates a record within a parameter has been imputed or modified, DTYPE will indicate the method used to populate the analysis value, e.g AVERAGE, MAXIMUM, MINIMUM, LOCF, PHANTOM.\n\nLines: 144-153"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-restrict",
+    "href": "slides/03-ADaM/index.html#lets-restrict",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s restrict! 1",
+    "text": "Let’s restrict! 1\nrestrict_derivation(\n  derivation = derive_var_extreme_flag,\n  args = params(\n    by_vars = exprs(STUDYID, USUBJID, BASETYPE, PARAMCD),\n    order = exprs(ADT, VISITNUM, VSSEQ),\n    new_var = ABLFL,\n    mode = \"last\",\n    true_value = \"Y\"\n  ),\n  filter = (!is.na(AVAL) &\n    ADT &lt;= TRTSDT & !is.na(BASETYPE) & is.na(DTYPE))\n)\n\nCheck out Higher Order Functions for more information.\ncall_derivation() is super handy if you are doing similar calls with same function, but just changing one or two arguments.\n\nLines: 196-210"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-add-a-base-variable",
+    "href": "slides/03-ADaM/index.html#lets-add-a-base-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add a BASE variable 1",
+    "text": "Let’s add a BASE variable 1\nadvs &lt;- derive_var_base(\n  advs,\n  by_vars = exprs(STUDYID, USUBJID, PARAMCD, BASETYPE),\n  source_var = AVAL,\n  new_var = BASE,\n  # Below arguments are default values and not necessary to add in our case\n  filter = ABLFL == \"Y\"\n)\n\nUsed to calculate CHG and PCHG variables\n\nLines: 210-217"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-add-an-analysis-sequence-variable",
+    "href": "slides/03-ADaM/index.html#lets-add-an-analysis-sequence-variable",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s add an Analysis Sequence Variable 1",
+    "text": "Let’s add an Analysis Sequence Variable 1\nadvs &lt;- derive_var_obs_number(\n  advs,\n  new_var = ASEQ,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(PARAMCD, ADT, AVISITN, VISITNUM, ATPTN, DTYPE),\n  check_type = \"error\"\n)\n\nASEQ uniquely indexes records within a subject within an ADaM dataset.\nASEQ is useful for traceability when the dataset is used as input to another ADaM dataset\ncheck_type - If “message”, “warning” or “error” is specified, the specified message is issued if the observations of the input dataset are not unique with respect to the by variables and the order.\n\nLines: 262-268"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "href": "slides/03-ADaM/index.html#lets-get-that-adam-ready-for-regulatory-agencies",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get that ADaM ready for regulatory agencies 1",
+    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec, dataset_name = \"ADVS\") %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\nNote similar code in ADSL script!\n\nLines: 305-310"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
+    "href": "slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Let’s get that data read for regulatory agencies 1",
+    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 313-319"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-on-barb-in-advs",
+    "href": "slides/03-ADaM/index.html#check-in-on-barb-in-advs",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check in on Barb in ADVS",
+    "text": "Check in on Barb in ADVS\n\n\n\n\n\n\n\n\n\n\nflowchart LR\n  B[SDTM] --&gt; C[ADaM]\n  C[ADaM] --&gt; D[ARDs/TFLs]\n  \n%% Apply the custom class \"highlight\" to node B\nclass C highlight;\n\n%% Define the style for the \"highlight\" class:\nclassDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  \n\n\n\n\n\n\n\n\nUSUBJID: 01-701-1034\nPARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)\nABLFL/ADT: Y / 2014-07-01\nBASE: 94.33333\nAVIST/ADT: WEEK 2 / 2014-07-15\nAVAL: 115.0\nCHG: 20.6666667\nPCHG: 21.9081272"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-exercise-1",
+    "href": "slides/03-ADaM/index.html#check-in-exercise-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\n\nWe are going to update the function derive_param_computed() for Mean Arterial Pressure.\nFormula: \\[ \\frac{2DIABP + SYSBP}{3} \\]\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"????\", \"????\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + ?? * AVAL.DIABP) / ??,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#check-in-exercise-solution-1",
+    "href": "slides/03-ADaM/index.html#check-in-exercise-solution-1",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Check-in Exercise Solution",
+    "text": "Check-in Exercise Solution\n\nADVS &lt;- tribble(\n  ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,\n  \"01-701-1015\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    51, \"BASELINE\",\n  \"01-701-1015\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   121, \"BASELINE\",\n  \"01-701-1028\", \"DIABP\",  \"Diastolic Blood Pressure (mmHg)\", \"mmHg\",    79, \"BASELINE\",\n  \"01-701-1028\", \"SYSBP\",  \"Systolic Blood Pressure (mmHg)\",  \"mmHg\",   130, \"BASELINE\",\n) \n\nderive_param_computed(\n  ADVS,\n  by_vars = exprs(USUBJID, VISIT),\n  parameters = c(\"SYSBP\", \"DIABP\"),\n  set_values_to = exprs(\n    AVAL = (AVAL.SYSBP + 2 * AVAL.DIABP) / 3,\n    PARAMCD = \"MAP\",\n    PARAM = \"Mean Arterial Pressure (mmHg)\",\n    AVALU = \"mmHg\",\n  )\n)\n\n# A tibble: 6 × 6\n  USUBJID     PARAMCD PARAM                           AVALU  AVAL VISIT   \n  &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt;                           &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;   \n1 01-701-1015 DIABP   Diastolic Blood Pressure (mmHg) mmHg   51   BASELINE\n2 01-701-1015 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  121   BASELINE\n3 01-701-1028 DIABP   Diastolic Blood Pressure (mmHg) mmHg   79   BASELINE\n4 01-701-1028 SYSBP   Systolic Blood Pressure (mmHg)  mmHg  130   BASELINE\n5 01-701-1015 MAP     Mean Arterial Pressure (mmHg)   mmHg   74.3 BASELINE\n6 01-701-1028 MAP     Mean Arterial Pressure (mmHg)   mmHg   96   BASELINE"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#questions-and-resources",
+    "href": "slides/03-ADaM/index.html#questions-and-resources",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Questions and Resources",
+    "text": "Questions and Resources\n\n\n\nadmiraldiscovery\npharmaverse examples\npkgdown sites for xportr, metatools, metacore and admiral\nExtension packages for admiral: admiralophtha, admiralonco, admiralpeds"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#closing-thoughts",
+    "href": "slides/03-ADaM/index.html#closing-thoughts",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Closing Thoughts",
+    "text": "Closing Thoughts\n\n\n\nOnly able to show a small number of pharmaverse packages and functions today, but please delve deeper to explore the full breadth\nIf you’d like to contribute to pharmaverse, check out options at pharmaverse.org\nFinally, be sure to join our community on Slack!"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#packages-and-session-information",
+    "href": "slides/03-ADaM/index.html#packages-and-session-information",
+    "title": "ADaMs with {admiral} and friends",
+    "section": "Packages and Session Information",
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0   dplyr_1.2.1      compiler_4.6.1   renv_1.2.4      \n [5] tidyselect_1.2.1 xml2_1.6.0       stringr_1.6.0    tidyr_1.3.2     \n [9] yaml_2.3.12      fastmap_1.2.0    R6_2.6.1         generics_0.1.4  \n[13] admiraldev_1.5.0 knitr_1.51       pillar_1.11.1    rlang_1.3.0     \n[17] utf8_1.2.6       stringi_1.8.9    roxygen2_8.1.0   xfun_0.60       \n[21] otel_0.2.0       timechange_0.4.0 cli_3.6.6        withr_3.0.3     \n[25] magrittr_2.0.5   digest_0.6.39    hms_1.1.4        lifecycle_1.0.5 \n[29] vctrs_0.7.3      evaluate_1.0.5   rmarkdown_2.31   purrr_1.2.2     \n[33] tools_4.6.1      pkgconfig_2.0.3  htmltools_0.5.9"
   },
   {
     "objectID": "slides/04-ARD/index.html#check-in-with-barb",
