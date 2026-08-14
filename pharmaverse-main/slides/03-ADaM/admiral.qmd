@@ -326,6 +326,7 @@ derive_vars_dtm(
  highest_imputation = "M",
  date_imputation = "last",
  time_imputation = "last",
+ ignore_seconds_flag = FALSE
 )
 
 ```
@@ -600,7 +601,8 @@ derive_vars_dtm(
   dtc = MHSTDTC,
   highest_imputation = "M",
   date_imputation = "last",
-  time_imputation = "last"
+  time_imputation = "last",
+  ignore_seconds_flag = FALSE
 )
 
 ```
