@@ -4,15 +4,14 @@ project:
   render:
     - "*.qmd"
     - "!slides/**/[0-9]*.qmd"
-    - "!slides/02-SDTM/*.qmd"
 
 website:
   page-navigation: true
-  title: "End-to-End Submissions in R with the Pharmaverse"
-  description: "posit::conf(2025) Workshop"
+  title: "AI-powered clinical reporting in R with the Pharmaverse"
+  description: "posit::conf(2026) Workshop"
   favicon: "images/pharmaverse-hex.png"
 
-  repo-url: https://github.com/posit-conf-2025/pharmaverse
+  repo-url: https://github.com/posit-conf-2026/pharmaverse
   repo-actions: [edit, issue]
 
   page-footer:
@@ -26,7 +25,7 @@ website:
     align: center
     tools:
       - icon: github
-        href: https://github.com/posit-conf-2025/pharmaverse
+        href: https://github.com/posit-conf-2026/pharmaverse
         text: GitHub
     style: docked
     contents:

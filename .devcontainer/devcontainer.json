@@ -1,0 +1,40 @@
+// The Dev Container format allows you to configure your environment. At the heart of it
+// is a Docker image or Dockerfile which controls the tools available in your environment.
+//
+// See https://aka.ms/devcontainer.json for more information.
+{
+	"name": "Ona",
+	"image": "eu.repository.roche.com/cde-gitpod-docker-prd-l/ona-base:2.0",
+
+	// Features add R (pinned to renv.lock's version, installed via rig) and the
+	// Quarto CLI so the R Quarto website can be rendered. See https://containers.dev/features
+	"features": {
+		"ghcr.io/rocker-org/devcontainer-features/r-rig:1": {
+			"version": "4.6.1",
+			"installRadian": false,
+			"installVscodeRSupport": "n/a"
+		},
+		"ghcr.io/rocker-org/devcontainer-features/quarto-cli:1": {
+			"version": "release",
+			"installTinyTex": false,
+			"installChromium": false
+		}
+	},
+
+	// Persist the renv package cache in the workspace so rebuilds reuse binaries.
+	"containerEnv": {
+		"RENV_PATHS_CACHE": "${containerWorkspaceFolder}/.renv-cache"
+	},
+
+	// Install system libraries and restore the renv library after the container is created.
+	"postCreateCommand": "bash .devcontainer/postCreate.sh",
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"quarto.quarto",
+				"REditorSupport.r"
+			]
+		}
+	}
+}

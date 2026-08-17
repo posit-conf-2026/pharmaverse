@@ -1,10 +1,10 @@
 ---
 title: "Welcome!"
-subtitle: "End-to-End Submissions<br>in R with the Pharmaverse"
-author: <code>posit::conf(2025)</code>
-date: 2025-09-16
+subtitle: "AI-powered clinical reporting<br>in R with the Pharmaverse"
+author: <code>posit::conf(2026)</code>
+date: 2026-09-14
 logo: "../../images/pharmaverse-hex.png"
-footer: "[https://posit-conf-2025.github.io/pharmaverse/](https://posit-conf-2025.github.io/pharmaverse/)" 
+footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
@@ -19,7 +19,7 @@ execute:
 cache: false
 ---
 
-## End-to-End Submissions in R with the Pharmaverse
+## AI-powered clinical reporting in R with the Pharmaverse
 
 -   Find a seat where you can see the screen!
 
@@ -27,9 +27,9 @@ cache: false
 
 -   Join the Slack from [pharmaverse.slack.com/](https://pharmaverse.slack.com/)
 
--   **WiFI**: Posit Conf 2025 \| `conf2025`
+-   **WiFI**: Posit Conf 2026 \| `conf2026`
 
-## posit::conf(2025) Things to Know
+## posit::conf(2026) Things to Know
 
 ::: incremental
 *  🚻 **Gender-neutral bathroom**: LL2 next to Chicago A
@@ -43,11 +43,11 @@ cache: false
 *  🐠 **Aquarium Night**: Tomorrow 7-10 pm, Georgia Aquarium
 :::
 
-## posit::conf(2025) Social Media
+## posit::conf(2026) Social Media
 
 * [Red lanyards]{.red .b} available to those who don't wish to be photographed
 
-* `#PositConf2025` for all things conf
+* `#PositConf2026` for all things conf
 
 ## Instructors
 
@@ -66,7 +66,7 @@ Becca Krouse
 
 <br><br>
 
-Ram Ganapathy<br>
+Magda Krochmal<br>
 
 Ben X. Straub
 
@@ -98,7 +98,26 @@ What do you hope to get out of today?
 
     -   Learn about ARDs
 
+-   🤖 See how **AI agents & skills** can accelerate each step
+
 -   Hands-on Exercises & Discussions
+
+## The pipeline, end to end
+
+::: {.pv-flow .pv-flow-accent}
+[[📥]{.pv-ico}Raw]{.pv-step}
+[[📦]{.pv-ico}SDTM]{.pv-step}
+[[🧬]{.pv-ico}ADaM]{.pv-step}
+[[📊]{.pv-ico}ARD]{.pv-step}
+[[📑]{.pv-ico}TLG]{.pv-step}
+:::
+
+<br>
+
+::: {.pv-ai}
+[🤖]{.pv-ico} At each stage the pattern repeats — a great fit for an **AI agent**
+guided by a **skill** that knows the pharmaverse way.
+:::
 
 ## Workshop Expectations
 
@@ -173,6 +192,70 @@ library(pharmaverse)
 -   Collaboration in the “post competitive” space means everyone has access to free solutions
 
 -   Team and Regulators seeing consistent packages being used across multiple teams speeds up development and review
+
+# Agents & skills {background-color="#003559"}
+
+## Why AI fits clinical reporting {.smaller}
+
+Clinical programming is full of **standardized, repetitive patterns** —
+exactly what AI is good at drafting (and you are good at reviewing).
+
+:::: {.pv-cards}
+::: {.pv-card}
+[📐]{.pv-ico}
+[Standards]{.pv-title}
+CDISC gives predictable structure the AI can learn
+:::
+::: {.pv-card}
+[🔁]{.pv-ico}
+[Repetition]{.pv-title}
+The same mapping patterns recur across variables & domains
+:::
+::: {.pv-card}
+[🧑‍⚖️]{.pv-ico}
+[Review culture]{.pv-title}
+We already double-check everything — human-in-the-loop by design
+:::
+::::
+
+## Agent vs. skill {.smaller}
+
+:::: {.pv-cards}
+::: {.pv-card}
+[🤖]{.pv-ico}
+[Agent]{.pv-title}
+An AI assistant that can **read your project, run R, and edit code** — not
+just chat. It plans and carries out multi-step tasks.
+:::
+::: {.pv-card .pv-accent}
+[🧠]{.pv-ico}
+[Skill]{.pv-title}
+A **reusable, checked-in instruction set** that teaches the agent *your*
+conventions — the pharmaverse way of doing a task.
+:::
+::::
+
+::: {.pv-flow .pv-flow-accent}
+[[🧠]{.pv-ico}Skill = knowledge]{.pv-step}
+[[🤖]{.pv-ico}Agent = executor]{.pv-step}
+[[👀]{.pv-ico}You = reviewer]{.pv-step}
+:::
+
+## One agent, many skills {.smaller}
+
+The same agent, pointed at a different skill, helps at every stage:
+
+::: {.pv-flow}
+[[📦]{.pv-ico}SDTM<br>skill]{.pv-step}
+[[🧬]{.pv-ico}ADaM<br>skill]{.pv-step}
+[[📊]{.pv-ico}ARD<br>skill]{.pv-step}
+[[📑]{.pv-ico}TLG<br>skill]{.pv-step}
+:::
+
+::: {.pv-ai}
+[💡]{.pv-ico} We'll see a concrete **SDTM mapping skill** in the next session —
+turning an aCRF into `sdtm.oak` code that you review and run.
+:::
 
 ## pharmaverse: TRUE or FALSE?
 
@@ -255,7 +338,7 @@ countdown(minutes = 5, play_sound = TRUE)
   
 -   If using local RStudio:
 
-    -   Exercises can be found here: https://posit-conf-2025.github.io/pharmaverse/exercises/exercises.html
+    -   Exercises can be found here: https://posit-conf-2026.github.io/pharmaverse/exercises/exercises.html
 
 - Open `exercises/01-intro.R`
 

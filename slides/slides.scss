@@ -130,3 +130,198 @@ details>summary {
   align-items: center;
   height: 90%;
 }
+
+/* ---------------------------------------------------------------------------
+   Visual helpers for refreshed slides (wheel, workflow, cards, puzzle, AI)
+   --------------------------------------------------------------------------- */
+
+// Palette derived from the pharmaverse hex / theme
+$pv-navy:   #003559;
+$pv-blue:   #0b5394;
+$pv-mid:    #3d85c6;
+$pv-light:  #8DB6DB;
+$pv-accent: $custom-col; // #E67E3A
+
+/* --- R-package wheel (EDC / Data Standards / Modular) --- */
+.pv-wheel {
+  position: relative;
+  width: 460px;
+  height: 460px;
+  margin: 0.5em auto;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      #1c4587 0deg 120deg,      /* EDC Agnostic (top)   */
+      #073763 120deg 240deg,    /* Data Standards (left) */
+      #3d85c6 240deg 360deg     /* Modular (right)       */
+    );
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+.pv-wheel::after {                 /* white ring between segments */
+  content: "";
+  position: absolute;
+  inset: 46%;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0.06);
+  box-shadow: 0 0 0 12px #fff;
+}
+.pv-wheel .pv-hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150px; height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  background: $pv-mid;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9em;
+  line-height: 1.1;
+  box-shadow: inset 0 0 0 6px #fff;
+  z-index: 2;
+}
+.pv-wheel .pv-seg {
+  position: absolute;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.7em;
+  text-align: center;
+  width: 150px;
+  z-index: 1;
+}
+.pv-wheel .pv-seg .pv-ico { display:block; font-size: 1.4em; margin-bottom: 0.15em; }
+.pv-wheel .pv-top  { top: 8%;  left: 50%; transform: translateX(-50%); }
+.pv-wheel .pv-left { bottom: 20%; left: 4%;  transform: rotate(-60deg); }
+.pv-wheel .pv-right{ bottom: 20%; right: 4%; transform: rotate(60deg); }
+
+/* --- Horizontal workflow / stepper --- */
+.pv-flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin: 0.6em 0;
+  flex-wrap: wrap;
+}
+.pv-flow .pv-step {
+  position: relative;
+  background: $pv-light;
+  color: $pv-navy;
+  padding: 0.5em 1.1em 0.5em 1.4em;
+  font-weight: 600;
+  font-size: 0.8em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
+  margin-right: -8px;
+}
+.pv-flow .pv-step:first-child { clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); }
+.pv-flow .pv-step:nth-child(odd)  { background: #cfe0ef; }
+.pv-flow .pv-step:nth-child(even) { background: $pv-light; }
+.pv-flow .pv-step .pv-ico { font-size: 1.1em; }
+.pv-flow.pv-flow-accent .pv-step:last-child { background: $pv-accent; color:#fff; }
+
+/* --- Vertical numbered workflow --- */
+.pv-steps { list-style: none; margin: 0.3em 0; padding: 0; }
+.pv-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0.28em 0;
+  font-size: 0.82em;
+}
+.pv-steps li .pv-num {
+  flex: 0 0 auto;
+  width: 1.7em; height: 1.7em;
+  border-radius: 50%;
+  background: $pv-blue;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+.pv-steps li .pv-ico { color: $pv-blue; width: 1.2em; text-align:center; }
+
+/* --- Feature / concept cards with icons --- */
+.pv-cards {
+  display: flex;
+  gap: 0.8em;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0.5em 0;
+}
+.pv-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  max-width: 320px;
+  background: #EBF7FF;
+  border-top: 4px solid $pv-blue;
+  border-radius: 8px;
+  padding: 0.7em 0.8em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.8em;
+}
+.pv-card .pv-ico { font-size: 1.6em; color: $pv-blue; display:block; margin-bottom: 0.2em; }
+.pv-card .pv-title { font-weight: 700; color: $pv-navy; display:block; margin-bottom: 0.2em; }
+.pv-card.pv-accent { border-top-color: $pv-accent; background: #FDF1E8; }
+.pv-card.pv-accent .pv-ico { color: $pv-accent; }
+
+/* --- Puzzle pieces (modular programming) --- */
+.pv-puzzle { display:flex; gap: 0.5em; justify-content:center; flex-wrap:wrap; margin: 0.5em 0; }
+.pv-piece {
+  position: relative;
+  background: $pv-mid;
+  color:#fff;
+  font-weight:700;
+  font-size:0.75em;
+  padding: 0.9em 1.1em;
+  border-radius: 8px;
+  min-width: 120px;
+  text-align:center;
+}
+.pv-piece::after {           /* knob */
+  content:"";
+  position:absolute;
+  top:50%; right:-10px;
+  width:20px; height:20px;
+  background: inherit;
+  border-radius:50%;
+  transform: translateY(-50%);
+}
+.pv-piece:last-child::after { display:none; }
+.pv-piece:nth-child(2) { background: $pv-blue; }
+.pv-piece:nth-child(3) { background: $pv-navy; }
+.pv-piece:nth-child(4) { background: $pv-accent; }
+
+/* --- AI / agent-skill callout --- */
+.pv-ai {
+  border-left: 4px solid $pv-accent;
+  background: linear-gradient(90deg, #FDF1E8 0%, #ffffff 100%);
+  padding: 0.5em 0.8em;
+  border-radius: 6px;
+  margin: 0.4em 0;
+  font-size: 0.82em;
+}
+.pv-ai .pv-ico { color: $pv-accent; margin-right: 0.35em; }
+
+.pv-skill {
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0.4em 0;
+  font-size: 0.72em;
+}
+.pv-skill .pv-skill-head {
+  background: $pv-navy;
+  color: #fff;
+  padding: 0.35em 0.7em;
+  font-weight: 700;
+  display:flex; align-items:center; gap:0.4em;
+}
+.pv-skill .pv-skill-body { padding: 0.5em 0.7em; background: #F3F7FB; }
+.pv-skill .pv-skill-body code { font-size: 0.95em; }

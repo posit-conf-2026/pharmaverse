@@ -1,6 +1,6 @@
 ---
-title: "End-to-End Submissions in R with the Pharmaverse"
-subtitle: "Workshop@[`posit::conf(2025)`](https://posit.co/conference/)"
+title: "AI-powered clinical reporting in R with the Pharmaverse"
+subtitle: "Workshop@[`posit::conf(2026)`](https://posit.co/conference/)"
 engine: knitr
 editor: 
   markdown: 
@@ -9,7 +9,7 @@ editor:
 
 ------------------------------------------------------------------------
 
-🗓️ September 16, 2025  09:00 - 17:00 
+🗓️ September 14, 2026  09:00 - 17:00 
 
 🏨 Hyatt Regency Atlanta, Room TBA
 
@@ -50,7 +50,7 @@ tibble::tribble(
 
 ## Pre-work
 
-- [ ] Bookmark this site. You'll reference it throughout the workshop.   [pos.it/pharmaverse-conf25](pos.it/pharmaverse-conf25)
+- [ ] Bookmark this site. You'll reference it throughout the workshop.   [pos.it/pharmaverse-conf26](pos.it/pharmaverse-conf26)
 
 - [ ] Sign up for a *free* [Posit Cloud](https://posit.cloud/) account.
 
@@ -95,4 +95,4 @@ He has led and helped with many initiatives around R Adoption activities within 
 ![](images/ram-circle.png){style="float:left;padding: 0 20px 0 20px;"
 fig-alt="Headshot of Rammprasad Ganapathy" width="140"}
 
-**Rammprasad Ganapathy** (Ram) is a Principal Data Scientist at Roche/Genentech with over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.
+**Magdalena Krochmal*** (Magda) is a Senior Real-Time Visual Analytics Specialist at Roche with over a decade of experience bridging the gap between advanced data engineering and user-centered application design. With a strong focus on clinical submission innovations, she is actively involved in the development and implementation of the SDTM automation project, {roak}. Magda leverages her expertise in R, Shiny, and AI-driven workflows to engineer intuitive medical data review tools, taking complex clinical data and translating it into high-impact, interactive visual analytics.

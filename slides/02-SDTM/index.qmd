@@ -1,7 +1,7 @@
 ---
 title: "CDISC SDTM (Study Data Tabulation Model) datasets in R"
 logo: "../../images/pharmaverse-hex.png"
-footer: "[https://posit-conf-2025.github.io/pharmaverse/](https://posit-conf-2025.github.io/pharmaverse/)" 
+footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
@@ -38,13 +38,25 @@ img_center_size <- 300
 
 ## Objectives
 
-::: incremental
--   By the end of this workshop you will have:
-    -   **Gained** an understanding of how to use `sdtm.oak` and algorithms.
-    -   **Seen**  code executed for SDTM `VS` and `DM` using `sdtm.oak`.
-    -   **Gained** an understanding of how to use resources for building
-        SDTM in `R`.
-:::
+By the end of this session you will have:
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🧩]{.pv-ico}
+[Understand]{.pv-title}
+How `sdtm.oak` and its **algorithms** work
+::::
+:::: {.pv-card}
+[⚙️]{.pv-ico}
+[Build]{.pv-title}
+SDTM `VS` and `DM` domains with live code
+::::
+:::: {.pv-card}
+[🤖]{.pv-ico}
+[Accelerate]{.pv-title}
+The same mappings with an **AI agent + skill**
+::::
+:::::
 
 ## End to End with Barb!!
 
@@ -76,31 +88,36 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 
 ## Agenda
 
-::: incremental
+::: {.pv-flow}
+[[📦]{.pv-ico}Intro to `sdtm.oak`<br>20 min]{.pv-step}
+[[🩺]{.pv-ico}`VS` domain<br>20 min]{.pv-step}
+[[👤]{.pv-ico}`DM` domain<br>10 min]{.pv-step}
+[[✏️]{.pv-ico}Exercise<br>10 min]{.pv-step}
+:::
 
--   🕙 20 minutes Introduction to `sdtm.oak`
+<br>
 
--   🕥 20 minutes `VS` domain programming & check in on Barb
-
--   🕦 10 minutes `DM` domain programming & check in on Barb
-
--   🕦 10 minutes short exercise
+::: {.pv-flow .pv-flow-accent}
+[[🤖]{.pv-ico}Same work, with an AI agent + skill]{.pv-step}
 :::
 
 # Introduction to `sdtm.oak`
 
-## About the package {.smaller}
+## {sdtm.oak} in pharmaverse {.smaller}
 
+:::::: columns
+:::: {.column width="60%"}
 ::: incremental
--   Sponsored by CDISC COSA, pharmaceutical companies, including Roche,
-    Pfizer, GSK, Vertex, Atorus Research, Pattern Institute, Transition
-    Technologies Science.
--   Part of the pharmaverse Group of packages.
+-   Sponsored by CDISC COSA, pharmaceutical companies, including Roche, Pfizer, GSK, Vertex, Atorus Research, Pattern Institute, Transition Technologies Science.
 -   Inspired by the Roche's `roak` package.
--   Addresses a critical gap in the pharmaverse suite by enabling study
-    programmers to create SDTM datasets in R, complementing the existing
-    capabilities for ADaM, TLGs, eSubmission, etc.
+-   Addresses a critical gap in the pharmaverse suite by enabling study programmers to create SDTM datasets in R, complementing the existing capabilities for ADaM, TLGs, eSubmission, etc.
 :::
+::::
+
+::: {.column width="40%"}
+![](images/sdtmoak.gif)
+:::
+::::::
 
 ## Challenges in SDTM Programming {.smaller}
 
@@ -117,31 +134,70 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 
 ## `sdtm.oak` v0.2 {.smaller}
 
-::: incremental
--   v0.2 is avaiable on CRAN.
--   **EDC agnostic** `sdtm.oak` is designed to be highly versatile,
-    accommodating varying raw data structures from different EDC systems
-    and external vendors.
--   **Data standards agnostic** It supports both CDISC-defined data
-    collection standards (CDASH) and various proprietary data collection
-    standards defined by pharmaceutical companies.
--   Provides a framework for modular programming, making it a valuable
-    addition to the pharmaverse ecosystem.
-:::
+::::::: columns
+
+:::::: {.column width="45%"}
+::::: {.pv-wheel}
+:::: {.pv-hub}
+R<br>package
+::::
+[[🔌]{.pv-ico}EDC<br>Agnostic]{.pv-seg .pv-top}
+[[📐]{.pv-ico}Data Standards<br>Agnostic]{.pv-seg .pv-left}
+[[🧩]{.pv-ico}Modular<br>Programming]{.pv-seg .pv-right}
+:::::
+::::::
+
+:::::: {.column width="55%"}
+[Available on **CRAN**]{.emphasis}
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🔌]{.pv-ico}
+[EDC agnostic]{.pv-title}
+Handles varying raw structures from different EDC systems & vendors
+::::
+:::: {.pv-card}
+[📐]{.pv-ico}
+[Standards agnostic]{.pv-title}
+Supports CDASH and proprietary collection standards
+::::
+:::: {.pv-card}
+[🧩]{.pv-ico}
+[Modular]{.pv-title}
+Composable building blocks for the pharmaverse ecosystem
+::::
+:::::
+::::::
+
+:::::::
 
 # Algorithms
 
-## Key concepts
+## Key concepts {.smaller}
 
-::: incremental
--   The SDTM mappings that transform the collected source data into the
-    target SDTM data model are grouped into algorithms.
--   These mapping algorithms form the backbone of {sdtm.oak}
--   Algorithms can be re-used across multiple SDTM domains.
--   **Programming language agnostic** This concept does not rely on a
-    specific programming language for implementation.
--   `sdtm.oak` has R functions to represent each algorithm
+::: {.pv-flow}
+[[📥]{.pv-ico}Collected source data]{.pv-step}
+[[🧩]{.pv-ico}Mapping algorithms]{.pv-step}
+[[📦]{.pv-ico}Target SDTM model]{.pv-step}
 :::
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🦴]{.pv-ico}
+[The backbone]{.pv-title}
+Mapping algorithms are the core of {sdtm.oak}
+::::
+:::: {.pv-card}
+[🔁]{.pv-ico}
+[Reusable]{.pv-title}
+The same algorithm works across many SDTM domains
+::::
+:::: {.pv-card}
+[🌐]{.pv-ico}
+[Language agnostic]{.pv-title}
+The concept isn't tied to R — here, each algorithm is an R function
+::::
+:::::
 
 ## assign_no_ct {.smaller}
 
@@ -199,7 +255,16 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 ```
 ## Reusable Algorithms
 
-![](./images/reusable_algorithms.jpg){.center}
+Algorithms are **modular building blocks** — compose them to map any domain.
+
+::: {.pv-puzzle}
+[assign_ct]{.pv-piece}
+[assign_no_ct]{.pv-piece}
+[hardcode_ct]{.pv-piece}
+[condition_add]{.pv-piece}
+:::
+
+![](./images/reusable_algorithms.jpg){.center width="60%"}
 
 ## Algorithms compared to `dplyr`  {.smaller}
 
@@ -232,15 +297,15 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 
 ## Programming steps {.smaller}
 
-::: incremental
--   Read Raw datasets
--   Create id vars in the raw dataset
--   Read study controlled terminology
--   Map Topic Variable
--   Map Rest of the variables
--   Repeat Map topic and Map rest for every topic variable
--   Create SDTM derived variables
--   Add Lables and Attributes
+::: {.pv-steps}
+- [1]{.pv-num} [📥]{.pv-ico} Read **raw** datasets
+- [2]{.pv-num} [🔑]{.pv-ico} Create **oak id** vars in the raw dataset
+- [3]{.pv-num} [📖]{.pv-ico} Read study **controlled terminology**
+- [4]{.pv-num} [🎯]{.pv-ico} Map **topic** variable
+- [5]{.pv-num} [🏷️]{.pv-ico} Map the **rest** of the variables
+- [6]{.pv-num} [🔁]{.pv-ico} Repeat *map topic → map rest* per topic variable
+- [7]{.pv-num} [🧮]{.pv-ico} Create SDTM **derived** variables
+- [8]{.pv-num} [🏁]{.pv-ico} Add **labels & attributes**
 :::
 
 ## oak id vars {.smaller}
@@ -487,6 +552,140 @@ ae <-
   )
 ```
 
+
+# Doing this with AI {background-color="#003559"}
+
+## From hand-written to AI-assisted {.smaller}
+
+We just wrote every `assign_ct` / `condition_add` call by hand.
+
+::: {.pv-flow .pv-flow-accent}
+[[📋]{.pv-ico}aCRF + specs]{.pv-step}
+[[🤖]{.pv-ico}AI **agent**]{.pv-step}
+[[🧠]{.pv-ico}**skill** = sdtm.oak know-how]{.pv-step}
+[[⌨️]{.pv-ico}Generated mapping code]{.pv-step}
+[[✅]{.pv-ico}You review & run]{.pv-step}
+:::
+
+::: {.pv-ai}
+[💡]{.pv-ico} The algorithms are *modular and predictable* — exactly the kind of
+repetitive pattern an AI agent can draft, and a human can quickly verify.
+:::
+
+## Agent vs. skill {.smaller}
+
+*(Recap from the intro — applied to SDTM)*
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🤖]{.pv-ico}
+[Agent]{.pv-title}
+An AI assistant that can **read your files, run R, and edit code** in your
+project — not just chat. It plans and executes multi-step tasks.
+::::
+:::: {.pv-card .pv-accent}
+[🧠]{.pv-ico}
+[Skill]{.pv-title}
+A **reusable, checked-in instruction set** that teaches the agent *your*
+conventions: how to map SDTM with `sdtm.oak`, where specs live, house style.
+::::
+:::::
+
+::: {.pv-ai}
+[🔑]{.pv-ico} Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next.
+:::
+
+## What an SDTM skill looks like {.smaller}
+
+A skill is just Markdown + examples the agent loads on demand:
+
+::::: {.pv-skill}
+
+[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+```markdown
+# SDTM mapping with sdtm.oak
+
+Use when: creating an SDTM domain from a raw dataset + aCRF.
+
+Steps
+1. Read the aCRF PDF and the domain spec to list target
+   variables, their CT codelists, and derivations.
+2. For each target variable pick the algorithm:
+   - collected, no CT ....... assign_no_ct()
+   - collected, with CT ..... assign_ct(ct_spec, ct_clst)
+   - hardcoded .............. hardcode_ct() / hardcode_no_ct()
+   - conditional ............ wrap raw_dat in condition_add()
+   - dates/times ............ assign_datetime()
+3. Chain topic then qualifiers with %>%, id_vars = oak_id_vars().
+4. Add labels & attributes; run the domain and show a preview.
+
+Conventions: raw vars use IT.<NAME>; CT lives in study_ct.
+```
+::::
+:::::
+
+## Prompt → generated code {.smaller}
+
+::::::: columns
+
+:::::: {.column width="42%"}
+::::: {.pv-skill}
+
+[[💬]{.pv-ico} Your prompt]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+> "Using the **sdtm-oak-mapping** skill, map **AESER** from
+> `IT.AESER` with codelist `C66742`, and **AESDTH** from
+> `IT.AESDTH` only when it equals *Yes*."
+::::
+
+:::::
+::::::
+
+:::::: {.column width="58%"}
+```{r, eval = FALSE}
+# Agent drafts, following the skill:
+ae <- ae_raw |>
+  assign_ct(
+    raw_var = "IT.AESER", tgt_var = "AESER",
+    ct_spec = study_ct, ct_clst = "C66742",
+    id_vars = oak_id_vars()
+  ) |>
+  # condition_add because AESDTH is conditional
+  assign_ct(
+    raw_dat = condition_add(ae_raw, IT.AESDTH == "Yes"),
+    raw_var = "IT.AESDTH", tgt_var = "AESDTH",
+    ct_spec = study_ct, ct_clst = "C66742",
+    id_vars = oak_id_vars()
+  )
+```
+::::::
+
+:::::::
+
+::: {.pv-ai}
+[🧑‍⚖️]{.pv-ico} The agent applied `condition_add()` on its own — **you stay the
+reviewer**: check the CT code, run it, confirm Barb looks right.
+:::
+
+## Human-in-the-loop {.smaller}
+
+AI drafts the repetitive parts; **you own correctness**.
+
+::: {.pv-steps}
+- [1]{.pv-num} [🧠]{.pv-ico} Skill encodes *how* your team maps SDTM
+- [2]{.pv-num} [🤖]{.pv-ico} Agent reads specs → drafts `sdtm.oak` code
+- [3]{.pv-num} [👀]{.pv-ico} You review: right algorithm? right CT? edge cases?
+- [4]{.pv-num} [▶️]{.pv-ico} Run and check the domain (find Barb!)
+- [5]{.pv-num} [♻️]{.pv-ico} Refine the skill so the next domain is even faster
+:::
+
+::: {.pv-ai}
+[⚠️]{.pv-ico} Generated code is a **starting point**, not a submission. Validation,
+CT correctness, and traceability remain your responsibility.
+:::
 
 ## Get Involved
 
