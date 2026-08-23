@@ -29,11 +29,12 @@ img_center_size <- 300
 
 ::: incremental
 -   By the end of this ADaM section you will have:
-    - **Gained** an understanding of how to use `admiral`, `metatools/metacore`, and `xportr` packages to create       ADaMs
+    - **Gained** an understanding of how to use `admiral`, `metatools/metacore`, and `xportr` packages - together with an AI assistant as a pair-programmer - to create ADaMs
     - **Seen** code executed to create variables and records common to `ADSL` and `ADVS`.
     - **Seen** small code snippets of certain functions with play data.
+    - **Practiced** prompting an AI assistant to explain, adapt, and troubleshoot `admiral` functions instead of hand-writing every line.
     - **Checked** in on our fav participant - Barb.
-    - **Completed** two short exercises using functions from admiral package.
+    - **Completed** two short exercises using functions from admiral package, leaning on an AI assistant when you get stuck.
 :::
 
 ## Play by Play to achieve our Objectives
@@ -102,8 +103,8 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 ::: incremental
 -   I will **pull out** certain functions of the  [`ADSL`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/adsl.R) and [`ADVS`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/advs.R) R scripts.
     - Let's take a quick peek at the [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts).
-    -   I will discuss **certain** functions and function arguments from [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts) for deriving variables/records. 
-    -   Will pull up full function arguments to briefly highlight other powers. 💡
+    -   I will discuss **certain** functions and function arguments from [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts) for deriving variables/records - and show how an AI assistant can pull up the same explanations on demand. 
+    -   Rather than memorizing every argument, we'll **ask an AI assistant** to summarize other powers. 💡
     -   When possible will have some play data and mini-runs of the function. 🏸
 :::
 
@@ -116,7 +117,7 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 -   Brief notes on the code in script and exercises:
     -   Code in scripts should run out of the box.
     -   You can run now, but if something doesn't work let's fix at the exercises.
-    -   Exercises will need some minor updates.
+    -   Exercises will need some minor updates - try asking an AI assistant to help fill in the blanks before hand-coding a fix.
     -   3 folks not presenting can help diagnose issues during exercises. 
 :::
 
@@ -191,6 +192,8 @@ makes use of tidyverse and base R code.
 - If a function isn't meeting your needs or looks too cumbersome, then that is okay!
 
 - These packages are all modular and play well with others. 
+
+- These are also well-documented, widely-used packages - meaning AI assistants tend to know them well and can help you write idiomatic `admiral` code faster.
 :::
 
 ## admiral {.smaller}
@@ -244,7 +247,7 @@ Most functions in admiral follow these conventions:
   * Using `{pharmaversesdtm}` data: `dm`, `suppdm`, `ex`, `ae`, `vs`, etc
   * Uses the `ADSL` section of our spec file
   * Creating a single record for each subject with a lot of variables.
-  * 306 observations and 54 variables.
+  * 306 observations and 48 variables.
   * Write out an xpt file for regulatory send-off!
   
 :::
@@ -347,7 +350,7 @@ derive_vars_dtm(
   min_dates = NULL,
   max_dates = NULL,
   preserve = FALSE,
-  ignore_seconds_flag = FALSE
+  ignore_seconds_flag = TRUE
 )
 ```
 :::
@@ -622,7 +625,7 @@ derive_vars_dtm(
   * Using the ADVS section of our spec file.
   * Creating **multiple records** for each subject.
   * Some `ADSL` variables included.
-  * 60K records and 106 variables.
+  * ~62K records and 68 variables.
   * Lot's of functions are repeated within the `ADVS` script used in `ADSL` script.
 
 ## Let's talk about lookup tables ^[Lines: 72-80]

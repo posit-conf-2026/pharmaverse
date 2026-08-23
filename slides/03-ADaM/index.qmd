@@ -1,5 +1,5 @@
 ---
-title: "ADaMs with {admiral} and friends" 
+title: "ADaMs with {admiral}, friends, and AI" 
 logo: "../../images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
