@@ -258,14 +258,14 @@ Most functions in admiral follow these conventions:
 adsl_spec <- spec_to_metacore(
   path = "slides/03-ADaM/metadata/posit_specs.xlsx",
   where_sep_sheet = FALSE,
-  quiet = TRUE
+  verbose = "silent"
 ) %>%
   select_dataset("ADSL")
 ```
 
 * Takes a P21-like spec and makes it into an object we can easily access.
 * `where_sep_sheet` - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs
-* `quiet` argument should be set to `TRUE` while developing your spec and ADaMs.
+* `verbose` argument should be set to `"silent"` while developing your spec and ADaMs (replaces the now-deprecated `quiet` argument).
 * Same call in ADVS script.
 
 ## Combine Parent and Supplementary Data ^[Lines: 53]
@@ -778,12 +778,13 @@ is issued if the observations of the input dataset are not unique with respect t
 ```{.r code-line-numbers="1|2|3|4|5"}
 advs_prefinal <- advs %>%
   drop_unspec_vars(advs_spec) %>% 
-  check_variables(advs_spec, dataset_name = "ADVS") %>% 
+  check_variables(advs_spec) %>% 
   order_cols(advs_spec) %>% 
   sort_by_key(advs_spec) 
 ```
 
 * Functions from `{metatools}`
+* `dataset_name` is no longer needed here - since our `advs_spec` metacore object is already scoped to a single dataset via `select_dataset()`, `check_variables()` picks that up automatically (the argument is deprecated as of `metatools` 0.2.0).
 * Note similar code in `ADSL` script!
 
 ## Let's get that data read for regulatory agencies ^[Lines: 313-319]
