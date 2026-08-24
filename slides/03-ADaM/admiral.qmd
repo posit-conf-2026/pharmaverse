@@ -37,6 +37,28 @@ img_center_size <- 300
     - **Completed** two short exercises using functions from admiral package, leaning on an AI assistant when you get stuck.
 :::
 
+## Meet Your Co-Pilot: Posit Assistant
+
+::: incremental
+-   `Posit Assistant` is the AI assistant built into RStudio (and Positron) that we'll lean on throughout this section.
+-   It connects directly to your **live R session** - it can see your loaded packages, objects, and data, not just your code.
+-   It combines conversational AI with **code execution**, so it can run, inspect, and iterate on `admiral` code alongside you rather than just describing it.
+-   Useful for: explaining unfamiliar functions/arguments, adapting example code to new variables, and troubleshooting errors as they come up.
+:::
+
+## How We'll Use It Today {.smaller}
+
+::: {.callout-note}
+Placeholder - to be fleshed out with the specific prompts/demos we'll run live.
+:::
+
+::: incremental
+-   Pulling up `admiral`/`metatools`/`xportr` function docs and arguments on demand, instead of memorizing them.
+-   Explaining *why* a derivation works the way it does with our `ADSL`/`ADVS` data.
+-   Helping during the two check-in exercises when you get stuck on `derive_vars_dtm()` or `derive_param_computed()`.
+-   Live demo(s) TBD - e.g., asking it to adapt a script snippet for a new parameter.
+:::
+
 ## Play by Play to achieve our Objectives
 
 ::: incremental
