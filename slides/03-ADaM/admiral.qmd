@@ -48,16 +48,45 @@ img_center_size <- 300
 
 ## How We'll Use It Today {.smaller}
 
-::: {.callout-note}
-Placeholder - to be fleshed out with the specific prompts/demos we'll run live.
-:::
-
 ::: incremental
 -   Pulling up `admiral`/`metatools`/`xportr` function docs and arguments on demand, instead of memorizing them.
 -   Explaining *why* a derivation works the way it does with our `ADSL`/`ADVS` data.
 -   Helping during the two check-in exercises when you get stuck on `derive_vars_dtm()` or `derive_param_computed()`.
--   Live demo(s) TBD - e.g., asking it to adapt a script snippet for a new parameter.
+-   Two live demos below - asking it to adapt a script snippet for a new date variable, then a new computed parameter.
 :::
+
+## Live Demo 1 - Adapting `derive_vars_dtm()` (in `ADSL`) {.smaller}
+
+* Our script imputes `EXSTDTC`/`EXENDTC` with `time_imputation = "last"` (Lines: 57-69).
+* We'll ask Posit Assistant, live, in the console:
+
+::: {.codewindow style="font-size: 0.75em;"}
+```
+Our adsl.R script calls derive_vars_dtm() on EXSTDTC and EXENDTC with
+time_imputation = "last". Write a similar derive_vars_dtm() call for
+DSSTDTC that imputes a missing day to the first of the month and a
+missing time to noon, and explain how flag_imputation would differ
+from what we used above.
+```
+:::
+
+* Goal: watch it read our actual script/objects, propose code, and explain the imputation flags - rather than us reciting the docs.
+
+## Live Demo 2 - A New Computed Parameter (in `ADVS`) {.smaller}
+
+* Our script derives `BMI` with `derive_param_computed()` from `WEIGHT`/`HEIGHT` (Lines: 100-111).
+* Before we reveal the MAP check-in exercise solution, we'll ask Posit Assistant:
+
+::: {.codewindow style="font-size: 0.75em;"}
+```
+Using the same pattern as our BMI derive_param_computed() call in
+advs.R, write a new call that derives Pulse Pressure
+(PP = SYSBP - DIABP) as a new parameter, PARAMCD = "PP", from the
+SYSBP and DIABP records.
+```
+:::
+
+* Goal: a second, independent example of adapting a derivation - deliberately different from the MAP formula you'll solve by hand shortly.
 
 ## Play by Play to achieve our Objectives
 
