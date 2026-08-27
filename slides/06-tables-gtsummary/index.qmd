@@ -39,5 +39,7 @@ options(width = 120)
 
 <!-- {{< include 08-LLMs.qmd >}} -->
 
+{{< include 08-coding-agents.qmd >}}
+
 {{< include 09-summary.qmd >}}
 
