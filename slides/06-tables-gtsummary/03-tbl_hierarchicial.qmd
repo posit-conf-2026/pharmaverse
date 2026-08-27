@@ -1,14 +1,14 @@
-# tbl_hierarchicial()
+# tbl_hierarchical()
 
 ## Adverse Event Reporting (and friends)
 
-Use `tbl_hierarchicial()` and `tbl_hierarchicial_count()` for reporting of AEs, Con Meds, and more.
+Use `tbl_hierarchical()` and `tbl_hierarchical_count()` for reporting of AEs, Con Meds, and more.
 
 ```{r}
 #| label: create-ae-tbl
-tbl_ae <- adae |> 
+tbl_ae <- adae |>
   tbl_hierarchical(
-    by = "ARM2", 
+    by = "ARM2",
     variables = c("AESOC", "AEDECOD"),
     id = "USUBJID",
     denominator = adsl
@@ -21,3 +21,55 @@ tbl_ae <- adae |>
 tbl_ae
 ```
 
+## Add an overall column {auto-animate="true"}
+
+```{r}
+#| label: 'ae-add-overall'
+#| output-location: "column"
+#| code-line-numbers: "2"
+tbl_ae |>
+  add_overall(last = TRUE)
+```
+
+-   `add_overall()`: adds an all-treatment-arms column, `last = TRUE` places it on the right
+
+## Sort by frequency {auto-animate="true"}
+
+```{r}
+#| label: 'ae-sort'
+#| output-location: "column"
+#| code-line-numbers: "2"
+tbl_ae |>
+  sort_hierarchical()
+```
+
+-   `sort_hierarchical()`: orders rows by descending event frequency (default)
+
+-   Use `sort = everything() ~ "alphanumeric"` to sort alphabetically instead
+
+## Filter to common events {auto-animate="true"}
+
+```{r}
+#| label: 'ae-filter'
+#| output-location: "column"
+#| code-line-numbers: "2,3,4"
+tbl_ae |>
+  sort_hierarchical() |>
+  filter_hierarchical(sum(n) >= 5)
+```
+
+-   `filter_hierarchical()`: keeps AEs meeting an occurrence threshold
+
+-   The filter is an expression on the underlying counts, e.g. `sum(n) >= 5`, `n_overall > 20`, or `p_overall > 0.05`
+
+## Adverse event differences
+
+```{r}
+#| label: 'ae-add-difference'
+#| output-location: "column"
+#| code-line-numbers: "2"
+tbl_ae |>
+  add_difference()
+```
+
+-   `add_difference()`: risk differences between arms, with confidence intervals (gtsummary 2.6.0)

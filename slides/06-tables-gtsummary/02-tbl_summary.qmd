@@ -300,9 +300,9 @@ ad_onco |>
     include = c(TUMOR_SIZE, PFS_EVENT),
     missing = "no"
   ) |> 
-  add_n() |> 
+  add_n() |>
   add_p(
-    pvalue_fun = \(x) round(x, 2)
+    pvalue_fun = label_style_pvalue(digits = 2)
   )
 ```
 
@@ -324,11 +324,11 @@ tbl <-
     stat_2 ~ "**Group B**"
   ) |> 
   modify_spanning_header(
-    all_stat_cols() ~ "**Drug**") |> 
-  modify_footnote(
-    all_stat_cols() ~ 
-      paste("median (IQR) for continuous;",
-            "n (%) for categorical")
+    all_stat_cols() ~ "**Drug**") |>
+  modify_footnote_header(
+    footnote = paste("median (IQR) for continuous;",
+                     "n (%) for categorical"),
+    columns = all_stat_cols()
   )
 tbl
 ```
@@ -459,55 +459,4 @@ tbl <-
 
 tbl
 ```
-
-<!-- ## Cross-tabulation with tbl_cross() -->
-
-<!-- `tbl_cross()` is a wrapper for `tbl_summary()` for **n x m** tables -->
-
-<!-- ```{r} -->
-<!-- #| label: 'tbl_cross' -->
-<!-- #| output-location: "column" -->
-<!-- adsl |> -->
-<!--   tbl_cross( -->
-<!--     row = ARM,  -->
-<!--     col = ETHNIC, -->
-<!--     percent = "row", -->
-<!--     margin = "row" -->
-<!--   ) |> -->
-<!--   bold_labels() -->
-<!-- ``` -->
-
-<!-- ## Continuous Summaries with tbl_continuous() -->
-
-<!-- `tbl_continuous()` summarizes a continuous variable by 1, 2, or more categorical variables -->
-
-<!-- ```{r} -->
-<!-- #| label: 'tbl_continuous' -->
-<!-- adsl |> -->
-<!--   tbl_continuous( -->
-<!--     variable = AGE, -->
-<!--     by = ARM, -->
-<!--     include = ETHNIC -->
-<!--   ) -->
-<!-- ``` -->
-
-<!-- ## Wide Summaries with tbl_wide_summary() -->
-
-<!-- `tbl_wide_summary()` summarizes a continuous variable with summary statistics spread across columns -->
-
-<!-- ```{r} -->
-<!-- #| label: 'tbl_wide_summary' -->
-<!-- adsl |> -->
-<!--   tbl_wide_summary(include = c(ETHNIC, FEMALE)) -->
-<!-- ``` -->
-
-<!-- ## Wide Summaries with tbl_wide_summary() -->
-
-<!-- ```{r} -->
-<!-- #| label: 'tbl_wide_summary2' -->
-<!-- adsl |> -->
-<!--   tbl_wide_summary(include = c(AGE, TRTDURD)) -->
-<!-- ``` -->
-
-<!-- Naturally, you can change the statistics, and which appear in each column. -->
 
