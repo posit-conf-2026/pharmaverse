@@ -1271,7 +1271,7 @@
     "href": "index.html#instructors",
     "title": "End-to-End Submissions in R with the Pharmaverse",
     "section": "Instructors",
-    "text": "Instructors\n\nDaniel D. Sjoberg (he/him) is a Senior Principal Data Scientist at Genentech. Previously, he was a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and a Senior Biostatistician at Memorial Sloan Kettering Cancer Center in New York City. He enjoys R package development, creating many packages available on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR (a community that supports, promotes and connects LGBTQ+ people who code in the R language) and of the R Medicine Conference. His research interests include adaptive methods in clinical trials, precision medicine, and predictive modeling. Daniel is the winner of the 2021 American Statistical Association (ASA) Innovation in Statistical Programming and Analytics award.\n   \n\nBecca Krouse is a data scientist in GSK’s Data Science Innovation and Engineering team where she focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n \nBen Straub is a Principal Programmer at GSK in the Immunology Therapeutic Area since 2018. He has led and helped with many initiatives around R Adoption activities within Clinical Programming since his start at GSK. He is also actively helping to develop and maintain an end-to-end R package pipeline (pharmaverse) that addresses all the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\nRammprasad Ganapathy (Ram) is a Principal Data Scientist at Roche/Genentech with over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.",
+    "text": "Instructors\n\nDaniel D. Sjoberg (he/him) is Executive Director of Data Sciences and Clinical Data Analytics at Kardigan. Previously, he was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and spent 13 years as an academic biostatistician at Memorial Sloan Kettering Cancer Center in New York City. He enjoys R package development, creating many packages available on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR (a community that supports, promotes, and connects LGBTQ+ people who code in the R language) and of the R Medicine Conference. His research interests include adaptive methods in clinical trials, precision medicine, and predictive modeling. Daniel is the recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the American Statistical Association (ASA) Innovation in Programming Award.\n   \n\nBecca Krouse is a data scientist in GSK’s Data Science Innovation and Engineering team where she focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n \nBen Straub is a Principal Programmer at GSK in the Immunology Therapeutic Area since 2018. He has led and helped with many initiatives around R Adoption activities within Clinical Programming since his start at GSK. He is also actively helping to develop and maintain an end-to-end R package pipeline (pharmaverse) that addresses all the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\nRammprasad Ganapathy (Ram) is a Principal Data Scientist at Roche/Genentech with over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.",
     "crumbs": [
       "Home"
     ]
@@ -2338,7 +2338,14 @@
     "href": "slides/06-tables-gtsummary/index.html#section",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "",
-    "text": "How it started\n\n\nBegan to address reproducible issues while working in academia\nGoal was to build a package to summarize study results with code that was both simple and customizable\nFirst release in May 2019\n\n\n\nHow it’s going\n\n\nThe stats\n\n1,600,000 installations from CRAN\n1,100 GitHub stars\n1,000 citations in peer-reviewed articles\n350 contributors\n50 code contributors\n\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
+    "text": "How it started\n\n\nBegan to address reproducibility issues while working in academia\nGoal to build a package to summarize study results with code that was both simple and customizable\n\n\n\nHow it’s going\n\n\nThe stats\n\n2,200,000+ installations from CRAN\n1,200 GitHub stars\n1,500 citations in peer-reviewed articles\n50 code contributors\n\nWon the 2025 Brian Bole Award of Excellence from R in Pharma\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
+  },
+  {
+    "objectID": "slides/06-tables-gtsummary/index.html#pharmaverse-30-day-cran-downloads",
+    "href": "slides/06-tables-gtsummary/index.html#pharmaverse-30-day-cran-downloads",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "{pharmaverse} 30-day CRAN Downloads",
+    "text": "{pharmaverse} 30-day CRAN Downloads\n\n\n\n\n\n\n\n\n\n\n\nFigure contains 30-day downloads for all summary table packages on CRAN."
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#gtsummary-overview",
@@ -2572,11 +2579,18 @@
     "text": "ARD + QC\nARDs are wonderful for QCing {gtsummary} tables. 😻\n\nARDs include the formatted and un-formatted numbers that appear in the table.\nExtract the ARD from the {gtsummary} table.\nBuild fresh ARD from source data, and compare it to the ARD from the table."
   },
   {
-    "objectID": "slides/06-tables-gtsummary/index.html#ard-qc-build-and-compare-ards",
-    "href": "slides/06-tables-gtsummary/index.html#ard-qc-build-and-compare-ards",
+    "objectID": "slides/06-tables-gtsummary/index.html#ard-qc-build-two-ards",
+    "href": "slides/06-tables-gtsummary/index.html#ard-qc-build-two-ards",
     "title": "Clinical Reporting with {gtsummary}",
-    "section": "ARD + QC: Build and Compare ARDs",
-    "text": "ARD + QC: Build and Compare ARDs\n\nard_demog &lt;- adsl |&gt; \n  cards::ard_stack(\n    cards::ard_summary(\n      variables = \"AGE\",\n      statistic = \n        AGE ~ cards::continuous_summary_fns(c(\"median\", \"p25\", \"p75\"))\n    ),\n    .by = \"ARM2\", \n  )\n\nThe next step is to simply compare the two ARDs to confirm results. As this is done programmatically, it is quick to repeat as data continues to accrue.\n\nThere are numerous ways to compare objects in R. We are currently developing a tool in {cards} that will streamline ARD comparison, with sensible defaults for ARDs. Stay tuned! 📺"
+    "section": "ARD + QC: Build two ARDs",
+    "text": "ARD + QC: Build two ARDs\n\n# 1. the ARD extracted from a {gtsummary} table\nard_table &lt;-\n  gather_ard(tbl) |&gt;\n  purrr::pluck(1) |&gt;\n  cards::apply_fmt_fun()   # add the formatted `stat_fmt` values\n\n# 2. a fresh ARD built independently from the source data\nard_source &lt;-\n  adsl |&gt;\n  cards::ard_stack(\n    .by = ARM2,\n    cards::ard_summary(\n      variables = AGE,\n      statistic = ~ cards::continuous_summary_fns(c(\"median\", \"p25\", \"p75\"))\n    ),\n    .attributes = TRUE,\n    .missing = TRUE,\n    .total_n = TRUE\n  ) |&gt;\n  # align formatting to the table (0 decimals) so `stat_fmt` matches too\n  cards::update_ard_fmt_fun(\n    stat_names = c(\"median\", \"p25\", \"p75\"),\n    fmt_fun = label_style_number(digits = 0)\n  ) |&gt;\n  cards::update_ard_fmt_fun(\n    stat_names = c(\"p_miss\", \"p_nonmiss\"),\n    fmt_fun = label_style_percent(digits = 0)\n  ) |&gt;\n  cards::apply_fmt_fun()"
+  },
+  {
+    "objectID": "slides/06-tables-gtsummary/index.html#ard-qc-compare-with-compare_ard",
+    "href": "slides/06-tables-gtsummary/index.html#ard-qc-compare-with-compare_ard",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "ARD + QC: Compare with compare_ard()",
+    "text": "ARD + QC: Compare with compare_ard()\ncards::compare_ard() lines the two ARDs up on their key columns and reports any rows that differ — here we check both the raw stat and the formatted stat_fmt values.\n\ncards::compare_ard(ard_table, ard_source, columns = c(\"stat\", \"stat_fmt\"))\n\nThe comparison `keys` are \"group1\", \"group1_level\", \"variable\", \"variable_level\", and \"stat_name\".\nThe comparison columns are \"stat\" and \"stat_fmt\".\n\n\n── Mis-matched Rows ────────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No rows in `x` that do not appear in `y`.\n\n✔ No rows in `y` that do not appear in `x`.\n\n\n\n── Comparison Results ──────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No differences found in column \"stat\".\n\n✔ No differences found in column \"stat_fmt\".\n\n\n\nNeed a single yes/no? cards::is_ard_equal() returns TRUE/FALSE, and cards::check_ard_equal() throws an error when they differ — handy in an automated QC script. As this is done programmatically, it is quick to repeat as data continue to accrue."
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#ard-first-tables-1",
@@ -2712,11 +2726,32 @@
     "text": "cardinal collaboration \nThe cardinal initiative is an industry collaborative effort under the pharmaverse.\nThe site includes examples for building ARDs and tables from the FDA Standard Safety Tables and Figures Integrated Guide using {cards} and {gtsummary}.\n Let’s Go!"
   },
   {
-    "objectID": "slides/06-tables-gtsummary/index.html#pharmaverse-30-day-cran-downloads",
-    "href": "slides/06-tables-gtsummary/index.html#pharmaverse-30-day-cran-downloads",
+    "objectID": "slides/06-tables-gtsummary/index.html#from-chat-llm-to-coding-partner",
+    "href": "slides/06-tables-gtsummary/index.html#from-chat-llm-to-coding-partner",
     "title": "Clinical Reporting with {gtsummary}",
-    "section": "{pharmaverse} 30-day CRAN Downloads",
-    "text": "{pharmaverse} 30-day CRAN Downloads\n\n\n\n\n\n\n\n\n\n\n\nFigure contains 30-day downloads for all summary table packages on CRAN."
+    "section": "From chat LLM to coding partner",
+    "text": "From chat LLM to coding partner\nEarlier we pasted a prompt into a chat LLM and copied code back.\nA coding agent (e.g. Claude Code) instead lives inside your project: it reads your files, runs R, and iterates — and it follows instructions you commit to the repo.\nThe goal: a coding partner that adheres to your domain standards without constant reminders.\n\nTwo files, checked into the repo, do this:\n\n\nCLAUDE.md\n\n\nAlways-on project memory\nShort, high-level rules\nLoaded into every session\n\n\n\nA Skill (SKILL.md)\n\n\nOn-demand capability\nDetailed, procedural\nLoaded only when the task matches its description\n\n\n\n\n\n\n\nRule of thumb: what’s always true → CLAUDE.md; how to do a specific job → a Skill."
+  },
+  {
+    "objectID": "slides/06-tables-gtsummary/index.html#the-golden-path",
+    "href": "slides/06-tables-gtsummary/index.html#the-golden-path",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "The golden path",
+    "text": "The golden path\nGive the agent an explicit priority order for building a table:\n\n\nSet the theme — crane::theme_gtsummary_roche() after loading packages.\nPrefer {crane} wrappers — tbl_roche_summary(), tbl_baseline_chg(), … when one fits.\nFall back to {gtsummary} — tbl_summary(), tbl_hierarchical(), …\nARD-first for complex/custom — build ARDs with {cards}/{cardx}, render with gtsummary::tbl_ard_*().\nLast resort — build the ARD yourself, then gtsummary::as_gtsummary().\n\n\n\n\n\nCross-cutting: prep data with tidyverse; always gather_ard() the result for QC and traceability."
+  },
+  {
+    "objectID": "slides/06-tables-gtsummary/index.html#claude.md-1",
+    "href": "slides/06-tables-gtsummary/index.html#claude.md-1",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "CLAUDE.md",
+    "text": "CLAUDE.md\nKeep it short — it loads into every session, so it should stay lean.\n# Clinical summary tables\n\nData: ADaM datasets in {pharmaverseadam} (e.g. adsl, adae, adlb).\nPrep data with tidyverse before summarizing.\n\n## House rules for tables\n- After loading packages, set the theme: crane::theme_gtsummary_roche()\n- Prefer {crane} wrappers (tbl_roche_summary(), tbl_baseline_chg());\n  else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical()).\n- For complex/custom tables, go ARD-first: build with {cards}/{cardx},\n  render with tbl_ard_*(); last resort as_gtsummary().\n- Always extract the ARD with gather_ard() for QC.\n\nSee the \"gtsummary-tables\" skill for the full workflow."
+  },
+  {
+    "objectID": "slides/06-tables-gtsummary/index.html#a-gtsummary-skill",
+    "href": "slides/06-tables-gtsummary/index.html#a-gtsummary-skill",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "A gtsummary Skill",
+    "text": "A gtsummary Skill\nA Skill is a folder with a SKILL.md. The YAML description is the trigger — write it as when to use it — and the body holds the procedure, loaded on demand.\n\nLives at .claude/skills/gtsummary-tables/SKILL.md. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across Claude Code, claude.ai, and the API.\n\n---\nname: gtsummary-tables\ndescription: Build clinical summary tables in R with crane, gtsummary,\n  and cards. Use whenever the user asks for a summary / demographics /\n  AE / lab table or a \"Table 1\".\n---\n\n# Clinical summary tables\n\nSetup: load tidyverse, crane, gtsummary, cards; then\ncrane::theme_gtsummary_roche().\n\n## Decision order\n1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits\n2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())\n3. complex/custom -&gt; ARD-first: cards::ard_stack() / cardx::ard_*()\n   -&gt; tbl_ard_*()\n4. last resort -&gt; build the ARD, then as_gtsummary()\n\nAlways gather_ard() the result for QC."
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#gtsummary-website",
