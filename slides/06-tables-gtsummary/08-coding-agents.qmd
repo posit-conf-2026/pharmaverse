@@ -1,0 +1,122 @@
+# Coding agents
+
+## From chat LLM to coding partner
+
+Earlier we [pasted a prompt into a chat LLM]{.emphasis} and copied code back.
+
+A [coding agent]{.emphasis} (e.g. Claude Code) instead lives inside your project: it reads your files, runs R, and iterates — and it follows instructions you [commit to the repo]{.emphasis}.
+
+The goal: a coding partner that adheres to your domain standards *without constant reminders.*
+
+::: {.fragment}
+
+Two files, checked into the repo, do this:
+
+::: columns
+::: {.column width="50%"}
+
+#### `CLAUDE.md`
+
+::: {.small}
+- Always-on project memory
+- Short, high-level rules
+- Loaded into [every]{.emphasis} session
+:::
+
+:::
+::: {.column width="50%"}
+
+#### A Skill (`SKILL.md`)
+
+::: {.small}
+- On-demand capability
+- Detailed, procedural
+- Loaded [only when]{.emphasis} the task matches its description
+:::
+
+:::
+:::
+
+:::
+
+::: aside
+::: {.small}
+Rule of thumb: *what's always true* → `CLAUDE.md`; *how to do a specific job* → a Skill.
+:::
+:::
+
+## The golden path
+
+Give the agent an explicit [priority order]{.emphasis} for building a table:
+
+::: {.small}
+
+1.  [Set the theme]{.emphasis} — `crane::theme_gtsummary_roche()` after loading packages.
+
+2.  [Prefer {crane} wrappers]{.emphasis} — `tbl_roche_summary()`, `tbl_baseline_chg()`, … when one fits.
+
+3.  [Fall back to {gtsummary}]{.emphasis} — `tbl_summary()`, `tbl_hierarchical()`, …
+
+4.  [ARD-first for complex/custom]{.emphasis} — build ARDs with {cards}/{cardx}, render with `gtsummary::tbl_ard_*()`.
+
+5.  [Last resort]{.emphasis} — build the ARD yourself, then `gtsummary::as_gtsummary()`.
+
+:::
+
+::: aside
+::: {.small}
+Cross-cutting: prep data with [tidyverse]{.emphasis}; always `gather_ard()` the result for QC and traceability.
+:::
+:::
+
+## `CLAUDE.md`
+
+Keep it [short]{.emphasis} — it loads into every session, so it should stay lean.
+
+``` md
+# Clinical summary tables
+
+Data: ADaM datasets in {pharmaverseadam} (e.g. adsl, adae, adlb).
+Prep data with tidyverse before summarizing.
+
+## House rules for tables
+- After loading packages, set the theme: crane::theme_gtsummary_roche()
+- Prefer {crane} wrappers (tbl_roche_summary(), tbl_baseline_chg());
+  else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical()).
+- For complex/custom tables, go ARD-first: build with {cards}/{cardx},
+  render with tbl_ard_*(); last resort as_gtsummary().
+- Always extract the ARD with gather_ard() for QC.
+
+See the "gtsummary-tables" skill for the full workflow.
+```
+
+## A gtsummary Skill
+
+A Skill is a folder with a `SKILL.md`. The YAML `description` is the [trigger]{.emphasis} — write it as *when to use it* — and the body holds the procedure, loaded [on demand]{.emphasis}.
+
+::: {.small}
+Lives at `.claude/skills/gtsummary-tables/SKILL.md`. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across Claude Code, claude.ai, and the API.
+:::
+
+``` md
+---
+name: gtsummary-tables
+description: Build clinical summary tables in R with crane, gtsummary,
+  and cards. Use whenever the user asks for a summary / demographics /
+  AE / lab table or a "Table 1".
+---
+
+# Clinical summary tables
+
+Setup: load tidyverse, crane, gtsummary, cards; then
+crane::theme_gtsummary_roche().
+
+## Decision order
+1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits
+2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())
+3. complex/custom -> ARD-first: cards::ard_stack() / cardx::ard_*()
+   -> tbl_ard_*()
+4. last resort -> build the ARD, then as_gtsummary()
+
+Always gather_ard() the result for QC.
+```
