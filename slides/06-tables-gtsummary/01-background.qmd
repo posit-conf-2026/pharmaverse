@@ -1,5 +1,6 @@
 
 ```{r}
+#| label: background-stats
 #| echo: false
 #| cache: false
 # Dynamic "How it's going" stats, refreshed at render time.
@@ -99,6 +100,7 @@ gtsummary_citations <-
 ## {pharmaverse} 30-day CRAN Downloads
 
 ```{r}
+#| label: cran-downloads-plot
 #| echo: false
 pkgs_all <-
   c("gtsummary", "stargazer", "arsenal", "rtables",

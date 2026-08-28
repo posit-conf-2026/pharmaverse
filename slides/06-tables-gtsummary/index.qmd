@@ -18,6 +18,7 @@ resources:
 ---
 
 ```{r}
+#| label: setup-options
 #| echo: false
 options(width = 120)
 ```

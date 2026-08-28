@@ -6,6 +6,7 @@ Reduced sizes of `adsl`, `adse`, `adlb`.
 Created `ad_onco` with oncologic outcomes.
 
 ```{r}
+#| label: import-data
 #| message: false
 library(tidyverse)
 
@@ -411,6 +412,7 @@ And a detailed `tbl_summary()` vignette at <http://www.danieldsjoberg.com/gtsumm
 3. Add the "completed" sticky note to your laptop when complete.
 
 ```{r}
+#| label: exercise-countdown
 #| echo: false
 #| cache: false
 countdown(minutes = 7)
@@ -419,6 +421,7 @@ countdown(minutes = 7)
 ## {gtsummary} Exercise
 
 ```{r}
+#| label: exercise-import-data
 #| echo: false
 
 ## Import data
@@ -441,6 +444,7 @@ df_gtsummary_exercise <- pharmaverseadam::adsl |>
 ```
 
 ```{r}
+#| label: exercise-solution
 #| code-line-numbers: "|4|6|7|8|9|10|13"
 #| output-location: slide
 tbl <-

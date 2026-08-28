@@ -101,6 +101,7 @@ Primary changes include:
 ## What else is in {crane}? <img src="https://raw.githubusercontent.com/insightsengineering/crane/main/man/figures/logo.png" align="right" height="120"/>
 
 ```{r}
+#| label: tbl-roche-summary-example
 #| output-location: column
 theme_gtsummary_roche()
 

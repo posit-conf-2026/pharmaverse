@@ -1,6 +1,7 @@
 # Introduction
 
 ```{r}
+#| label: setup-libraries
 #| echo: false
 #| cache: false
 library(gtsummary)
