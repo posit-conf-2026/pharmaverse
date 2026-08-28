@@ -13,6 +13,8 @@ format:
 execute:
   message: true
   echo: true
+resources:
+  - save_flex_docx/ae_table.pdf
 ---
 
 ```{r}
@@ -34,6 +36,8 @@ options(width = 120)
 {{< include 05-ard-first.qmd >}}
 
 {{< include 06-print_engines.qmd >}}
+
+{{< include 06b-save_flex_docx.qmd >}}
 
 {{< include 07-adopt.qmd >}}
 
