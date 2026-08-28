@@ -11,7 +11,7 @@ Pharma deliverables are typically **Word** and **RTF**. Convert any {gtsummary} 
 ```{r}
 #| label: 'as-flex-table'
 #| output-location: "column"
-#| code-line-numbers: "5"
+#| code-line-numbers: "7"
 tbl <- adsl |>
   tbl_summary(
     by = ARM2,
