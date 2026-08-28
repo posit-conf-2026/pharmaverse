@@ -67,16 +67,15 @@ cards::ADAE[1:150, ] |>
 
 ## One-step Word export
 
-`save_flex_docx()` writes any {gtsummary} (or {flextable}) table to a **submission-ready Word document** in a single step (gtsummary 2.6.0).
+`save_flex_docx()` writes any {gtsummary} (or {flextable}) table to a **submission-ready Word document** in a single step.
 
 ::: small
--   [Report headers & footers]{.emphasis} — pass a {flextable} to `header=`/`footer=` for protocol IDs, table titles, and live `Page X of Y` fields that update in Word
+-   [Report headers & footers]{.emphasis} — we can now place customized output into the header and footer areas of the word document, and place field codes (e.g. `Page X of Y`)
 
--   [Source notes & footnotes]{.emphasis} — `modify_source_note()` and footnote content flow straight into the `.docx`
+-   [Source notes & footnotes]{.emphasis} — by default, footnotes, source notes, and abbreviations are placed in the Word document's footer area
 
 -   [Templates & page setup]{.emphasis} — supply a Word `template=` or `pr_section=` to control page size, margins, and landscape orientation
 
--   [Batch export]{.emphasis} — write a `tbl_split()` result or a list of tables to one document
 :::
 
 The AE table below is built with a custom `header_ft`, three source notes (the last carries the git SHA), and saved to the repo — then converted to PDF.
