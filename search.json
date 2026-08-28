@@ -2653,7 +2653,7 @@
     "href": "slides/06-tables-gtsummary/index.html#one-step-word-export",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "One-step Word export",
-    "text": "One-step Word export\nsave_flex_docx() writes any {gtsummary} (or {flextable}) table to a submission-ready Word document in a single step (gtsummary 2.6.0).\n\n\nReport headers & footers — pass a {flextable} to header=/footer= for protocol IDs, table titles, and live Page X of Y fields that update in Word\nSource notes & footnotes — modify_source_note() and footnote content flow straight into the .docx\nTemplates & page setup — supply a Word template= or pr_section= to control page size, margins, and landscape orientation\nBatch export — write a tbl_split() result or a list of tables to one document\n\n\nThe AE table below is built with a custom header_ft, three source notes (the last carries the git SHA), and saved to the repo — then converted to PDF."
+    "text": "One-step Word export\nsave_flex_docx() writes any {gtsummary} (or {flextable}) table to a submission-ready Word document in a single step.\n\n\nReport headers & footers — we can now place customized output into the header and footer areas of the word document, and place field codes (e.g. Page X of Y)\nSource notes & footnotes — by default, footnotes, source notes, and abbreviations are placed in the Word document’s footer area\nTemplates & page setup — supply a Word template= or pr_section= to control page size, margins, and landscape orientation\n\n\nThe AE table below is built with a custom header_ft, three source notes (the last carries the git SHA), and saved to the repo — then converted to PDF."
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#save_flex_docx-output",
