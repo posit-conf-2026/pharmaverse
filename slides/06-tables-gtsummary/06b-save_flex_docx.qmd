@@ -3,6 +3,7 @@
 ```{r}
 #| label: save-flex-docx-build
 #| echo: false
+#| eval: false
 #| message: false
 # Build a submission-ready AE table and write it to a Word document in the repo.
 # The rendered .docx is later converted to PDF and embedded on the next slide.

@@ -60,7 +60,7 @@ But the general structure appears enough times in our catalog, we make it simple
 adlb |> 
   dplyr::filter(PARAM == "Albumin (g/L)") |> 
   tbl_baseline_chg(
-    by = "ARM2",
+    by = "ARM",
     baseline_level = "Baseline",
     denominator = adsl
   )
