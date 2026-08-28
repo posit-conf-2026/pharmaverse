@@ -57,6 +57,7 @@ list(tbl_drug_a, tbl_drug_b) |>
 - Modify the underlying data frame directly with `modify_table_body()`.
 
 ```{r}
-tbl_summary(adsl, include = c(AGE, ETHNIC), by = ARM2) |> 
+#| label: table-body
+tbl_summary(adsl, include = c(AGE, ETHNIC), by = ARM2) |>
   pluck("table_body")
 ```
