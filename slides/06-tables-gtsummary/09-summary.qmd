@@ -1,14 +1,49 @@
 # In Closing
 
-## {gtsummary} website
+## Three ideas to take home
 
-[http://www.danieldsjoberg.com/gtsummary/](http://www.danieldsjoberg.com/gtsummary/)
+::: {.fragment}
+### `r fontawesome::fa("table-cells", fill = fa_fill)` Consistent verbs, every table
 
-```{=html}
-<iframe width="780" height="500" src="http://www.danieldsjoberg.com/gtsummary/" title="gtsummary Documentation"></iframe>
-```
+One consistent set of `tbl_*()` verbs — from a *demographics table* to AE and lab tables.
+:::
 
-## 
+::: {.fragment}
+### `r fontawesome::fa("shield-halved", fill = fa_fill)` ARD-backed means trust
+
+Every cell is [traceable and QC-ready]{.emphasis} via `gather_ard()` — submission-ready by construction.
+:::
+
+::: {.fragment}
+### `r fontawesome::fa("arrow-up-right-dots", fill = fa_fill)` Encode it, then scale it
+
+A shared theme and reusable wrappers capture your house standards; a [coding agent applies them]{.emphasis} without reminders.
+:::
+
+
+## Where to go next
+
+::: columns
+::: {.column width="50%"}
+`r fontawesome::fa("book", fill = fa_fill)` Docs & cheat sheet — [danieldsjoberg.com/gtsummary](https://www.danieldsjoberg.com/gtsummary/)
+:::
+
+::: {.column width="50%"}
+`r fontawesome::fa("hospital", fill = fa_fill)` [{cardinal}](https://pharmaverse.github.io/cardinal/) — FDA safety-table catalog
+
+<br>
+
+`r fontawesome::fa("stack-overflow", fill = fa_fill)` Ask on [stackoverflow.com](https://stackoverflow.com/questions/tagged/gtsummary) — *use the gtsummary tag*. Just kidding — nobody uses Stack Overflow anymore; ask an AI.
+:::
+:::
+
+## Built by a community
+
+::: {.small}
+`r gtsummary_contributors` code contributors and counting — thank you.
+:::
+
+
 
 ::: columns
 ::: {.column width="60%" }
@@ -57,19 +92,16 @@ Gustavo Zapata Wainberg
 
 ## Thank you
 
-![](https://raw.githubusercontent.com/ddsjoberg/gtsummary/main/data-raw/misc_files/tbl_summary_demo_fast.gif)
+::: {.columns .v-center-container}
+::: {.column width="55%"}
+<img src="images/gtsummary-logo.png" width="60%"/>
 
-
-::: columns
-::: {.column width="50%"}
-`r fontawesome::fa("stack-overflow", fill = fa_fill)` Ask on [stackoverflow.com](stackoverflow.com) 
-
-`r fontawesome::fa("align-justify", fill = fa_fill)` *Use the gtsummary tag*
-
-`r fontawesome::fa("fire", fill = fa_fill)` Thousands of posts!
+::: {.small}
+[`r gtsummary_downloads` installations]{.emphasis} — go build something cute.
+:::
 :::
 
-::: {.column width="50%"}
+::: {.column width="45%"}
 `r fontawesome::fa("link", fill = fa_fill)` [danieldsjoberg.com](https://www.danieldsjoberg.com/)
 
 `r fontawesome::fa("bluesky", fill = fa_fill)` [ddsjoberg.bsky.social](https://bsky.app/profile/ddsjoberg.bsky.social)
