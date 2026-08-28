@@ -415,7 +415,7 @@ And a detailed `tbl_summary()` vignette at <http://www.danieldsjoberg.com/gtsumm
 #| label: exercise-countdown
 #| echo: false
 #| cache: false
-countdown(minutes = 7)
+countdown::countdown(minutes = 7)
 ```
 
 ## {gtsummary} Exercise

@@ -1,12 +1,16 @@
 ---
 title: "Clinical Reporting with {gtsummary}"
+subtitle: "Pharmaverse Workshop"
 author: "Daniel D. Sjoberg"
+event: "posit::conf(2026)"
 footer:  "[Pharmaverse Workshop (posit-conf-2026.github.io/pharmaverse/)](https://posit-conf-2026.github.io/pharmaverse/)"
 logo: "images/gtsummary-logo.png"
 editor: source
-format: 
-  revealjs: 
+format:
+  revealjs:
     theme: slides.scss
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
