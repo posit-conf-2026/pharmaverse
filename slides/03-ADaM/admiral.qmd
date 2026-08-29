@@ -7,6 +7,36 @@ library(countdown)
 library(tibble)
 library(admiral)
 library(lubridate)
+library(reactable)
+
+# Package badge colors for the function cheat sheets
+pkg_colors <- c(
+  admiral   = "#7570B3",
+  metacore  = "#1B9E77",
+  metatools = "#D95F02",
+  xportr    = "#E7298A"
+)
+
+pkg_badge <- function(pkg) {
+  glue(
+    "<span style='background-color:{pkg_colors[pkg]}; color:white; ",
+    "padding:2px 8px; border-radius:10px; font-size:0.85em;'>{pkg}</span>"
+  )
+}
+
+fn_link <- function(pkg, fn, base_url) {
+  glue(
+    "<a href='{base_url}{fn}.html' target='_blank'>",
+    "<code>{fn}()</code></a>"
+  )
+}
+
+cheat_sheet_theme <- reactableTheme(
+  headerStyle = list(fontWeight = 700),
+  stripedColor = "#f7f7f7",
+  highlightColor = "#eef3fb",
+  cellPadding = "8px 10px"
+)
 
 # Package hexes
 metacore_img <- "https://raw.githubusercontent.com/atorus-research/metacore/master/man/figures/metacore.PNG"
@@ -27,17 +57,37 @@ img_center_size <- 300
 
 ## Objectives
 
+By the end of this ADaM section you will have:
+
+::: {.incremental style="list-style: none; padding-left: 0;"}
+-   🎯 **Gained** an understanding of how to use `admiral`, `metatools/metacore`, and `xportr` packages - together with an AI assistant as a pair-programmer - to create "submission compliant" ADaMs
+-   👀 **Seen** code executed to create variables and records common to `ADSL` and `ADVS`.
+-   👀 **Seen** small code snippets of certain functions with play data.
+-   🛠️ **Practiced** prompting an AI assistant to explain, adapt, and troubleshoot `admiral` functions instead of hand-writing every line.
+-   ✅ **Completed** exercises using functions from admiral package, leaning on an AI assistant when you get stuck.
+:::
+
+## Play by Play to achieve our Objectives
+
 ::: incremental
--   By the end of this ADaM section you will have:
-    - **Gained** an understanding of how to use `admiral`, `metatools/metacore`, and `xportr` packages - together with an AI assistant as a pair-programmer - to create ADaMs
-    - **Seen** code executed to create variables and records common to `ADSL` and `ADVS`.
-    - **Seen** small code snippets of certain functions with play data.
-    - **Practiced** prompting an AI assistant to explain, adapt, and troubleshoot `admiral` functions instead of hand-writing every line.
-    - **Checked** in on our fav participant - Barb.
-    - **Completed** two short exercises using functions from admiral package, leaning on an AI assistant when you get stuck.
+-   🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions
+
+-   🕥11:15 - 11:35 Subject-level dataset: `ADSL`
+
+-   🕚11:35 - 11:50 Hands-on Exercise
+
+-   🕦11:50 - 12:10 Basic Data Structure: `ADVS`
+
+-   🕚12:10 - 12:30 Hands-on Exercise
+
+-   🕚12:30 Lunch!
 :::
 
 ## Meet Your Co-Pilot: Posit Assistant
+
+<div style="text-align: center;"> <img src="images/posit-assistant-logo.png" alt="Posit Assistant" style="width: 400px;"/> </div>
+
+<div style="text-align: center; font-style: italic;"> It won't judge your variable names. Much. </div>
 
 ::: incremental
 -   `Posit Assistant` is the AI assistant built into RStudio (and Positron) that we'll lean on throughout this section.
@@ -46,68 +96,8 @@ img_center_size <- 300
 -   Useful for: explaining unfamiliar functions/arguments, adapting example code to new variables, and troubleshooting errors as they come up.
 :::
 
-## How We'll Use It Today {.smaller}
+## Where We're Headed Today
 
-::: incremental
--   Pulling up `admiral`/`metatools`/`xportr` function docs and arguments on demand, instead of memorizing them.
--   Explaining *why* a derivation works the way it does with our `ADSL`/`ADVS` data.
--   Helping during the two check-in exercises when you get stuck on `derive_vars_dtm()` or `derive_param_computed()`.
--   Two live demos below - asking it to adapt a script snippet for a new date variable, then a new computed parameter.
-:::
-
-## Live Demo 1 - Adapting `derive_vars_dtm()` (in `ADSL`) {.smaller}
-
-* Our script imputes `EXSTDTC`/`EXENDTC` with `time_imputation = "last"` (Lines: 57-69).
-* We'll ask Posit Assistant, live, in the console:
-
-::: {.codewindow style="font-size: 0.75em;"}
-```
-Our adsl.R script calls derive_vars_dtm() on EXSTDTC and EXENDTC with
-time_imputation = "last". Write a similar derive_vars_dtm() call for
-DSSTDTC that imputes a missing day to the first of the month and a
-missing time to noon, and explain how flag_imputation would differ
-from what we used above.
-```
-:::
-
-* Goal: watch it read our actual script/objects, propose code, and explain the imputation flags - rather than us reciting the docs.
-
-## Live Demo 2 - A New Computed Parameter (in `ADVS`) {.smaller}
-
-* Our script derives `BMI` with `derive_param_computed()` from `WEIGHT`/`HEIGHT` (Lines: 100-111).
-* Before we reveal the MAP check-in exercise solution, we'll ask Posit Assistant:
-
-::: {.codewindow style="font-size: 0.75em;"}
-```
-Using the same pattern as our BMI derive_param_computed() call in
-advs.R, write a new call that derives Pulse Pressure
-(PP = SYSBP - DIABP) as a new parameter, PARAMCD = "PP", from the
-SYSBP and DIABP records.
-```
-:::
-
-* Goal: a second, independent example of adapting a derivation - deliberately different from the MAP formula you'll solve by hand shortly.
-
-## Play by Play to achieve our Objectives
-
-::: incremental
--   🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions
-
--   🕥11:15 - 11:40 Subject-level dataset: `ADSL`
-
--   🕚11:40 - 11:50 Check in on Barb / Exercise
-
--   🕦11:50 - 12:20 Basic Data Structure: `ADVS`
-
--   🕚12:20 - 12:30 Check in on Barb / Exercise
-
--   🕚12:30 Lunch!
-:::
-
-## End to End with Barb!!
-
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
- 
 ```{mermaid}
 %%| echo: FALSE
 flowchart LR
@@ -115,15 +105,18 @@ flowchart LR
   B[SDTM] --> C[ADaM]
   C[ADaM] --> D[ARD]
   D[ARD] --> E[TFL]
-  
-%% Apply the custom class "highlight" to node B
-class C highlight;
 
-%% Define the style for the "highlight" class:
-classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
+class C highlight;
+classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
 ```
 
-* We are going to take a **glimpse** of where Barb is in `ADSL` and `ADVS`
+::: incremental
+-   **Raw:** Where every study starts.
+-   **SDTM:** Standardized into a common shape across studies.
+-   **ADaM:** Our focus today - analysis-ready variables and records.
+-   **ARD:** Summarized into Analysis Results Datasets.
+-   **TFL:** Formatted into Tables, Figures, and Listings for submission.
+:::
 
 
 # Set the Stage
@@ -135,62 +128,55 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 ## Set the Stage
 
 ::: incremental
-
-*  How we will work for the next 90 minutes?
-*  Data (SDTMs, `ADSL`, and `ADVS`)
-*  Specs (Excel document with lots of tabs)
-*  pharmaverse packages
-    *  playing nice with tidyverse and base R!!
-*  Functions to make ADaM variables and records.
+-   Data: SDTMs &rarr; `ADSL` &rarr; `ADVS`
+-   Specs drive every derivation - we'll peek at ours shortly
+-   pharmaverse packages that play nice with tidyverse and base R
+-   Two exercises today: `derive_vars_dtm()` in `ADSL`, `derive_param_computed()` in `ADVS`
+-   Stuck? Ask your AI assistant before hand-coding a fix
 :::
-
-# How we will proceed today?
-
-<div style="text-align: center;"> <img src="./images/possible.jpg" alt="office" style="width: 400px;"/> </div>
-
-
-## How we will proceed today?
-
-::: incremental
--   I will **pull out** certain functions of the  [`ADSL`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/adsl.R) and [`ADVS`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/advs.R) R scripts.
-    - Let's take a quick peek at the [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts).
-    -   I will discuss **certain** functions and function arguments from [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts) for deriving variables/records - and show how an AI assistant can pull up the same explanations on demand. 
-    -   Rather than memorizing every argument, we'll **ask an AI assistant** to summarize other powers. 💡
-    -   When possible will have some play data and mini-runs of the function. 🏸
-:::
-
-## How we will proceed today continued?
-
-::: incremental
--   Two exercises set up to help explore two key functions discussed:
-    - `derive_vars_dtm()` at end of `ADSL`.
-    - `derive_param_computed()` at end of `ADVS`.
--   Brief notes on the code in script and exercises:
-    -   Code in scripts should run out of the box.
-    -   You can run now, but if something doesn't work let's fix at the exercises.
-    -   Exercises will need some minor updates - try asking an AI assistant to help fill in the blanks before hand-coding a fix.
-    -   3 folks not presenting can help diagnose issues during exercises. 
-:::
-
 
 # Datasets
 
-## ADSL - Subject Level Dataset  
+## `ADSL` & `ADVS` - Our Two Datasets {.smaller}
 
-<div style="text-align: center;"> <img src="./images/adsl.png" alt="adsl" style="width: 700px;"/> </div>
+:::: {.columns}
 
-* `ADSL` - Subject Level Dataset, i.e each subject has a record.  Focus on adding variables.
-* We will use SDTM data from the [pharmaversesdtm package](https://pharmaverse.github.io/pharmaversesdtm/).  
-* `ADSL` is available in the [pharmaverseadam package](https://pharmaverse.github.io/pharmaverseadam/)
+::: {.column width="50%"}
+<div style="text-align: center;"> <img src="./images/adsl.png" alt="adsl" style="width: 100%; max-width: 550px;"/> </div>
 
-## ADVS - Vital Signs Dataset
+* `ADSL` - one record per subject (306 obs, 48 vars). Focus: **adding variables**.
+* Built from `{pharmaversesdtm}` (`dm`, `suppdm`, `ex`, `ae`, `vs`, etc.) using the `ADSL` section of our spec.
+* Final version lives in [pharmaverseadam](https://pharmaverse.github.io/pharmaverseadam/), written out as an xpt file for regulatory send-off.
+:::
 
-<div style="text-align: center;"> <img src="./images/advs.png" alt="advs" style="width: 700px;"/> </div>
+::: {.column width="50%"}
+<div style="text-align: center;"> <img src="./images/advs.png" alt="advs" style="width: 100%; max-width: 550px;"/> </div>
 
-* ADVS - Is a Basic Data Structure (BDS) Dataset. Focus on adding records, but also some variables!
-* We will use SDTM data `vs` from the [pharmaversesdtm package](https://pharmaverse.github.io/pharmaversesdtm/) and
-`ADSL` from [dataset](TBL) created by the `adsl.R` script.
-* `ADVS` is available in the [pharmaverseadam package](https://pharmaverse.github.io/pharmaverseadam/)
+* `ADVS` - a Basic Data Structure (BDS) with **multiple records** per subject (~62K records, 68 vars).
+* Built from `{pharmaversesdtm}` `vs` + some `ADSL` variables, using the `ADVS` section of our spec.
+* Final version lives in [pharmaverseadam](https://pharmaverse.github.io/pharmaverseadam/); many functions repeat from the `ADSL` script.
+:::
+
+::::
+
+## Open the Scripts
+
+* No digging through folders - open both scripts straight from the R console:
+
+```{r, eval=FALSE}
+file.edit("scripts/adsl.R")
+file.edit("scripts/advs.R")
+```
+
+* Each opens in a new tab in your editor's Source pane.
+
+## How We'll Dig Into the Scripts
+
+::: incremental
+-   Every slide from here on references specific line numbers in `adsl.R`/`advs.R` (footnoted like `^[Lines: 20-25]`) - follow along in your open script.
+-   We'll walk through the key functions together first...
+-   ...then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line.
+:::
 
 # Specs
 
@@ -199,109 +185,124 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 ## Spec-details
 
 - Gives specifics on how we derive variables in the ADaMs (extreme traceability)
-- P21-like spec
-    - P21 is spec/data validation tool widely used in the industry for creating and validating SDTMs
-    and ADaMs.
-- These specs are not fit for purpose - just a helpful guide
-- What is in the the Specs:
-  -   Two datasets, dataset labels and variable keys
-  -   Variables - labels, lengths, types, linked to method
-  -   Codelists / Control Terms!!
-  
-## Spec-peek
+- P21-like spec - a data validation format widely used for creating/validating SDTMs and ADaMs
+- Not fit for purpose here - just a helpful guide
+- Contains: dataset labels/keys, variable labels/lengths/types linked to method, codelists/control terms
+- Let's take a quick [live peek](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/metadata) 👀
 
-- Let's take a quick peek at [metadata](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/metadata)
+## Key Functions Cheat Sheet: `{admiral}` {.smaller}
 
-<div style="text-align: center;"> <img src="./images/specs_peek.png" alt="sunny" style="width: 600px;"/> </div>
+```{r}
+#| echo: false
+admiral_base_url <- "https://pharmaverse.github.io/admiral/cran-release/reference/"
 
-## The core pharmaverse packages for creating ADaMs
+admiral_fns <- tibble::tribble(
+  ~fn, ~Purpose,
+  "derive_vars_merged",    "`left_join` on steroids",
+  "derive_param_computed", "Core function for wrappers used in ADVS",
+  "derive_vars_dtm",       "Take a `--DTC` variable and turn it into a `--DTM` variable",
+  "derive_vars_duration",  "Duration between timepoints",
+  "restrict_derivation",   "HOF: Execute a derivation on a subset of the input dataset"
+)
+admiral_fns$Function <- fn_link("admiral", admiral_fns$fn, admiral_base_url)
+admiral_fns$Package  <- pkg_badge("admiral")
 
-`r glue("<img src={metacore_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-`r glue("<img src={metatools_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
+reactable(
+  admiral_fns[, c("Package", "Function", "Purpose")],
+  columns = list(
+    Package  = colDef(html = TRUE, minWidth = 110),
+    Function = colDef(html = TRUE, minWidth = 220),
+    Purpose  = colDef(minWidth = 320)
+  ),
+  striped = TRUE,
+  highlight = TRUE,
+  bordered = TRUE,
+  compact = TRUE,
+  theme = cheat_sheet_theme
+)
+```
 
-Focus on **applying** information from our Specs to the ADaMs
+:::: {.columns}
 
-`r glue("<img src={admiral_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-
-Focus on **deriving** variables and records driven by our Specs
-
-`r glue("<img src={xportr_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-
-Focus on **preparing** the dataset as an xpt file to be sent to regulatory agencies.
-
-## pharmaverse plays nice!
-
-`r glue("<img src={dplyr_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-`r glue("<img src={str_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-`r glue("<img src={haven_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-`r glue("<img src={lub_img} height='{img_bullet_size}' style='display:inline-block; vertical-align:middle; margin-right:0.3em;'/>")`
-
+::: {.column width="75%"}
 ::: incremental
-- The ADaM code presented today utilizes all the previously mentioned packages, but also
-makes use of tidyverse and base R code.
-
-- If a function isn't meeting your needs or looks too cumbersome, then that is okay!
-
-- These packages are all modular and play well with others. 
-
-- These are also well-documented, widely-used packages - meaning AI assistants tend to know them well and can help you write idiomatic `admiral` code faster.
+-   `admiral` derives variables & records driven by our Specs, and plays nice with tidyverse and base R
+-   `_vars_` functions add **variables**; `_param_` functions add **records**
+-   Click a function name to jump to its docs - or just ask your AI assistant
+:::
 :::
 
-## admiral {.smaller}
+::: {.column width="25%"}
+<div style="text-align: right;">
+`r glue("<img src={admiral_img} height='100' style='display:inline-block;'/>")`
+</div>
+:::
 
-| Package | Function | Purpose |
-|----|----|----|
-| admiral | derive_vars_merged()        | `left_join` on steroids |
-| admiral | derive_param_computed()     | Core function for wrappers used in ADVS |
-| admiral | derive_vars_dy()            | Create the relative study day |
-| admiral | derive_vars_dtm()           | Take a `---DTC` variable and turn it into a `---DTM` variable |
-| admiral | derive_vars_duration()      | Duration between timepoints |
-| admiral | restrict_derivation()       | HOF: Execute a derivation on a subset of the input dataset. |
+::::
 
-Most functions in admiral follow these conventions:
+## Key Functions Cheat Sheet: `{metacore}`, `{metatools}`, `{xportr}` {.smaller}
 
-::: {.incremental}
+```{r}
+#| echo: false
+metacore_base_url  <- "https://atorus-research.github.io/metacore/reference/"
+metatools_base_url <- "https://pharmaverse.github.io/metatools/reference/"
+xportr_base_url    <- "https://atorus-research.github.io/xportr/reference/"
 
-* `var_` or `_vars_` functions add variable(s) to ADaMs
-* `_param_` functions add records to ADaMs
-* Other not following this convention typically execute more advanced stuff!!
+metadata_fns <- tibble::tribble(
+  ~pkg,        ~fn,                      ~base_url,           ~Purpose,
+  "metacore",  "spec_to_metacore",       metacore_base_url,   "Creates a \"special\" object from your specs",
+  "metatools", "combine_supp",           metatools_base_url,  "Join Parent and Supplementary Datasets",
+  "metatools", "create_var_from_codelist", metatools_base_url, "Numeric vars from Specs!",
+  "xportr",    "xportr_label",           xportr_base_url,     "Apply labels from Spec",
+  "xportr",    "xportr_write",           xportr_base_url,     "Write out an xpt file"
+)
+metadata_fns$Package  <- pkg_badge(metadata_fns$pkg)
+metadata_fns$Function <- purrr::pmap_chr(
+  metadata_fns[, c("pkg", "fn", "base_url")],
+  \(pkg, fn, base_url) fn_link(pkg, fn, base_url)
+)
 
-::: 
+reactable(
+  metadata_fns[, c("Package", "Function", "Purpose")],
+  columns = list(
+    Package  = colDef(html = TRUE, minWidth = 110),
+    Function = colDef(html = TRUE, minWidth = 220),
+    Purpose  = colDef(minWidth = 280)
+  ),
+  striped = TRUE,
+  highlight = TRUE,
+  bordered = TRUE,
+  compact = TRUE,
+  theme = cheat_sheet_theme
+)
+```
 
-## metacore, metatools and xportr  {.smaller}
+:::: {.columns}
 
-| Package | Function | Purpose |
-|----|----|----|
-| metacore    | spec_to_metacore()           | Creates a "special" object from your specs |
-| metatools   | combine_supp()               | Join Parent and Supplementary Datasets |
-| metatools   | create_var_from_codelist()   | Numeric Vars from Specs! |
-| metatools   | drop_unspec_vars()           | Easily drop variables not in Spec |
-| xportr      | xportr_label()               | Apply labels from Spec |
-| xportr      | xportr_write()               | Write out an xpt file |
+::: {.column width="75%"}
+::: incremental
+-   `metacore`/`metatools` apply spec info to the ADaMs
+-   `xportr` prepares the xpt file for regulatory agencies
+-   Click a function name to jump to its docs - or just ask your AI assistant
+:::
+:::
 
-* Most functions from these packages are about applying metadata from specs to your dataset.
-* xportr follows a standard naming convention with `xportr_`.
+::: {.column width="25%"}
+<div style="text-align: right;">
+`r glue("<img src={metacore_img} height='70' style='display:block; margin-left:auto;'/>")`
+`r glue("<img src={metatools_img} height='70' style='display:block; margin-left:auto; margin-top:0.3em;'/>")`
+`r glue("<img src={xportr_img} height='70' style='display:block; margin-left:auto; margin-top:0.3em;'/>")`
+</div>
+:::
+
+::::
 
 # `ADSL`
 
-🕥 11:15 - 11:40
+🕥 11:15 - 11:35
 
 
 * Note: Referencing lines in file at each section with a footnote (Lines: ##-##)
-
-## The Big Picture of `ADSL`
-
-* We have an `ADSL` script:
-
-::: {.incremental}
-  
-  * Using `{pharmaversesdtm}` data: `dm`, `suppdm`, `ex`, `ae`, `vs`, etc
-  * Uses the `ADSL` section of our spec file
-  * Creating a single record for each subject with a lot of variables.
-  * 306 observations and 48 variables.
-  * Write out an xpt file for regulatory send-off!
-  
-:::
 
 ## Reading in our spec for `ADSL` ^[Lines: 20-25 ]
 
@@ -359,52 +360,57 @@ adsl11 <- adsl10 %>%
   )
 ```
 
-## Example from documentation {.smaller}
+## Try It: Ask Your AI for Assistance on Dates {.smaller}
 
-```{r, message=FALSE}
-mhdt <- tribble(
-  ~MHSTDTC,
-  "2019-07-18T15:25:40",
-  "2019-07-18T15:25",
-  "2019-07-18",
-  "2019-02",
-  "2019",
-  "2019---07",
-  ""
-)
+* A great first prompt for getting comfortable with Posit Assistant and admiral - try it live in your own console!
 
-derive_vars_dtm(
- mhdt,
- new_vars_prefix = "AST",
- dtc = MHSTDTC,
- highest_imputation = "M",
- date_imputation = "last",
- time_imputation = "last",
- ignore_seconds_flag = FALSE
-)
-
+::: {.codewindow style="font-size: 1.05em;"}
 ```
+I want to see how admiral handles messy dates. Create a small dummy
+dataset with a --DTC style character date variable, and give it a
+realistic mix of partial values: one full date and time, one with
+the time missing, one missing just the day, one with only the year,
+and one that's completely blank.
 
+Then use admiral to derive a proper datetime variable from it. I'm
+fine with imputing all the way up through the month if it's missing,
+but not the year itself - if the year isn't there, just leave it
+missing. When a month or day is missing, impute to the end of that
+period rather than the beginning, and do the same for a missing time
+- push it to the end of the day. We do occasionally capture seconds
+in our real data, so don't suppress that from the imputation flag.
 
-## Woah...there is more!!
-
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-derive_vars_dtm(
-  dataset,
-  new_vars_prefix,
-  dtc,
-  highest_imputation = "h",
-  date_imputation = "first",
-  time_imputation = "first",
-  flag_imputation = "auto",
-  min_dates = NULL,
-  max_dates = NULL,
-  preserve = FALSE,
-  ignore_seconds_flag = TRUE
-)
+Show me the resulting dataset, including the imputation flags, and
+briefly explain what happened to each row.
 ```
 :::
+
+* Goal: practice describing what you want in plain language and let the AI assistant map that to the right `admiral` function and arguments - then compare its choices to what you'd have written by hand.
+
+## Try It: Ask Your AI for Assistance on Dates, Round 2 {.smaller}
+
+* Now let's push it further and put `min_dates`, `max_dates`, and `preserve` to work.
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Let's extend that last exercise. Add a treatment start datetime and
+a data cutoff datetime for each subject to the dataset. Also add one
+more --DTC record where the month is unknown but the day is - like
+"2019---07" for the 7th of some unspecified month.
+
+When you impute, don't throw away a date part just because a part
+above it was missing - if we already know the day, keep it even
+though we had to guess the month. Also make sure none of the imputed
+datetimes end up earlier than that subject's treatment start, or
+later than the data cutoff - adjust the imputed value to respect
+those boundaries instead of ignoring them.
+
+Show me the resulting dataset and explain how the reference dates
+changed the outcome compared to imputing without them.
+```
+:::
+
+* Goal: see how `admiral` can keep an imputed value from "wandering off" past dates you already know are true - useful when a partial date still needs to make logical sense next to other dates in the study.
 
 ## A Simple merge ^[Lines: 187-194]
 
@@ -443,28 +449,24 @@ derive_vars_merged(
 * `order` - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.
 * `mode` - Determines if the first or last observation is selected
 
-## Whoa!!! Way more options!!
+## Try It: Ask Your AI for Assistance on Merging {.smaller}
 
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-derive_vars_merged(
-  dataset,
-  dataset_add,
-  by_vars,
-  order = NULL,
-  new_vars = NULL,
-  filter_add = NULL,
-  mode = NULL,
-  exist_flag = NULL,
-  true_value = "Y",
-  false_value = NA_character_,
-  missing_values = NULL,
-  check_type = "warning",
-  duplicate_msg = NULL,
-  relationship = NULL
-)
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create two small example datasets - a subject-level dataset, and an
+exposure dataset with several dosing records per subject (some with
+a dose of zero for placebo). Then write an admiral call that pulls
+each subject's first qualifying dose date into the subject-level
+dataset as a new TRTSDTM variable.
+
+I know I need to join on subject, but I'm not sure what to set so
+that it picks the *first* qualifying record instead of just any one
+of them, or how to exclude the placebo records from consideration.
+Fill those parts in and explain the choices you made.
 ```
 :::
+
+* Goal: practice handing the AI a join scenario in plain language and seeing which arguments it reaches for to control ordering and filtering.
 
 ## Let's derive a Duration Variable ^[Lines: 122-126]
 
@@ -475,49 +477,6 @@ derive_vars_duration(
     end_date = DTHDT
   )
 ```
-
-## Example from documentation {.smaller}
-
-```{r}
-# Derive age in years
-data <- tribble(
-  ~USUBJID, ~BRTHDT,           ~RANDDT,
-  "P01",    ymd("1984-09-06"), ymd("2020-02-24"),
-  "P02",    ymd("1985-01-01"), NA,
-  "P03",    NA,                ymd("2021-03-10"),
-  "P04",    NA,                NA
-)
-
-derive_vars_duration(data,
-  new_var = AAGE,
-  new_var_unit = AAGEU,
-  start_date = BRTHDT,
-  end_date = RANDDT,
-  out_unit = "years",
-  add_one = FALSE,
-  trunc_out = TRUE
-)
-```
-
-## Ohhh there is more!!
-
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-derive_vars_duration(
-  dataset,
-  new_var,
-  new_var_unit = NULL,
-  start_date,
-  end_date,
-  in_unit = "days",
-  out_unit = "DAYS",
-  floor_in = TRUE,
-  add_one = TRUE,
-  trunc_out = FALSE,
-  type = "duration"
-)
-```
-:::
 
 ## Duration versus Interval
 
@@ -539,114 +498,66 @@ adsl16 %>%
 
 * Numeric Variables like the above are helpful for sorting options in Tables.
 
-## More details {.smaller}
+## Try It: Ask Your AI for Assistance on Codelists {.smaller}
 
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-create_var_from_codelist(
-  data,
-  metacore,
-  input_var,
-  out_var,
-  codelist = NULL,
-  decode_to_code = TRUE,
-  strict = TRUE
-)
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example dataset with a character SEX variable using
+values "M" and "F", and a separate codelist data frame with code and
+decode columns mapping those values to numeric codes.
+
+Then write a metatools call to add a new numeric SEXN variable
+derived from the codelist. I'm not sure whether my SEX values match
+the "code" side or the "decode" side of the codelist - pick the
+argument that controls that direction, tell me which way you assumed
+it goes, and explain what the output would look like if that
+assumption were backwards.
 ```
 :::
 
-`codelist` - Optional argument to supply a codelist. Must be a data.frame with code and decode columns such as those created by the function metacore::get_control_term. If no codelist is provided the codelist associated with the column supplied to out_var will be used. By default codelist is NULL.
+* Goal: practice a case where getting a single argument's direction wrong would silently produce the wrong numbers - a good habit to build before you're doing this on real data.
 
-`decode_to_code` - Direction of the translation. Default value is TRUE, i.e., assumes the input_var is the decode column of the codelist. Set to FALSE if the input_var is the code column of the codelist.
+# Check in / Exercise 
 
-`strict` - A logical value indicating whether to perform strict checking against the codelist. If TRUE will issue a warning if values in the input_var column are not present in the codelist. If FALSE no warning is issued and values not present in the codelist will likely result in NA results.
-
-# Check in on Barb / Exercise 
-
-🕚11:40 - 11:50
-
-## Check in on Barb in `ADSL` {.smaller}
-
-:::: {.columns}
-
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
-
-```{mermaid}
-%%| echo: FALSE
-flowchart LR
-  B[SDTM] --> C[ADaM]
-  C[ADaM] --> D[ARDs/TFLs]
-  
-%% Apply the custom class "highlight" to node B
-class C highlight;
-
-%% Define the style for the "highlight" class:
-classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
-```
-
-:::
-
-::: {.column} 
-
-* USUBJID:  01-701-1034
-* SEX:      F
-* AGE:      77
-* RANDDT:   2014-07-01
-* TRTSDT:   2014-07-01
-* TRTSDTM:  2014-07-01 23:59:59
-* TRTEDT:   2014-12-30
-* TRTDURD:  183
-* EOSDT:    2014-12-30
-* EOSSTT:   COMPLETED
-
-:::
-::::
+🕚11:35 - 11:50
 
 ## Check-in Exercise {.smaller}
 
-* Impute the date and time to be last month/day and 23:59:59
-* Two arguments to update: `????`
-* Check out admiral [`derive_vars_dtm()`](https://pharmaverse.github.io/admiral/cran-release/reference/derive_vars_dtm.html) documentation
-
-```{r, eval = FALSE}
+```{r}
 library(tibble)
 library(lubridate)
 library(admiral)
 
 posit_mh <- tribble(
-  ~USUBJID, ~MHSTDTC,
-  1,        "2019-07-18T15:25:40",
-  1,        "2019-07-18T15:25",
-  1,        "2019-07-18",
-  2,        "2024-02",
-  2,        "2019",
-  2,        "2019---07",
-  3,        ""
-)
-
-derive_vars_dtm(
-  dataset = posit_mh,
-  new_vars_prefix = "AST",
-  dtc = MHSTDTC,
-  highest_imputation = "M",
-  date_imputation = "????",
-  time_imputation = "????"
+  ~USUBJID,       ~MHSTDTC,
+  "01-701-1011",  "2019-07-18T15:25:40",
+  "01-701-1011",  "2019-07-18T15:25",
+  "01-701-1011",  "2019-07-18",
+  "01-701-1015",  "2024-02",
+  "01-701-1015",  "2019",
+  "01-701-1015",  "2019---07",
+  "01-701-1019",  ""
 )
 ```
+
+::: {.callout-important title="Your Task"}
+Using `derive_vars_dtm()`, impute a missing **date** to the **last** month/day, and a missing **time** to **23:59:59**.
+:::
+
+* Figure out which arguments make that happen - check the [documentation](https://pharmaverse.github.io/admiral/cran-release/reference/derive_vars_dtm.html) or ask your AI assistant if you get stuck.
 
 ## Check-in Exercise Solution {.smaller}
 
 ```{r}
 posit_mh <- tribble(
-  ~USUBJID, ~MHSTDTC,
-  1,        "2019-07-18T15:25:40",
-  1,        "2019-07-18T15:25",
-  1,        "2019-07-18",
-  2,        "2024-02",
-  2,        "2019",
-  2,        "2019---07",
-  3,        ""
+  ~USUBJID,       ~MHSTDTC,
+  "01-701-1011",  "2019-07-18T15:25:40",
+  "01-701-1011",  "2019-07-18T15:25",
+  "01-701-1011",  "2019-07-18",
+  "01-701-1015",  "2024-02",
+  "01-701-1015",  "2019",
+  "01-701-1015",  "2019---07",
+  "01-701-1019",  ""
 )
 
 derive_vars_dtm(
@@ -664,20 +575,9 @@ derive_vars_dtm(
 
 # `ADVS`
 
-🕦11:50 - 12:20
+🕦11:50 - 12:10
 
 * Note: Referencing lines in file at each section with a footnote (Lines: ##-##)
-
-
-## The Big Picture of ADVS
-
-* We have an ADVS script:
-  * Using `pharmaversesdtm` data: `vs`
-  * Using the ADVS section of our spec file.
-  * Creating **multiple records** for each subject.
-  * Some `ADSL` variables included.
-  * ~62K records and 68 variables.
-  * Lot's of functions are repeated within the `ADVS` script used in `ADSL` script.
 
 ## Let's talk about lookup tables ^[Lines: 72-80]
 
@@ -693,25 +593,6 @@ derive_vars_dtm(
 * Moving from `**TEST/**TESTCD` to `PARAM/PARAMCD`.
 * More information in the `PARAM/PARAMCD` - useful for displays.
 * Can be used for other lookup tables, e.g. Grading/Toxicity.
-
-## A Fuller Look!
-
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-derive_vars_merged_lookup(
-  dataset,
-  dataset_add,
-  by_vars,
-  order = NULL,
-  new_vars = NULL,
-  mode = NULL,
-  filter_add = NULL,
-  check_type = "warning",
-  duplicate_msg = NULL,
-  print_not_mapped = TRUE
-)
-```
-:::
 
 ## Let's add more records for each subject ^[Lines: 100-111]
 
@@ -731,26 +612,25 @@ advs <- advs %>%
 )
 ```
 
-## Only two arguments not used! {.smaller}
+## Try It: Ask Your AI for Assistance on Computed Parameters {.smaller}
 
-::: {.codewindow style="font-size: 0.6em;"}
-```r
-derive_param_computed(
-  dataset = NULL,
-  dataset_add = NULL,
-  by_vars,
-  parameters,
-  set_values_to,
-  filter = NULL,
-  constant_by_vars = NULL,
-  constant_parameters = NULL,
-  keep_nas = FALSE
-)
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example vital signs dataset with WEIGHT records at
+several visits per subject, but HEIGHT collected only once per
+subject. Then write an admiral call that derives a new BMI parameter
+from those records, using weight in kg divided by height in meters
+squared.
+
+Since HEIGHT is only collected once, I don't want to require it to
+be present at every visit for BMI to be calculated - I want that one
+HEIGHT value reused across all of a subject's visits. Figure out how
+to tell the function that, and explain what would happen if you left
+that part out.
 ```
 :::
 
-* `filter` - The specified condition is applied to the input dataset before deriving the new parameter, i.e., only observations fulfilling the condition are taken into account.
-* `keep_na` - If the argument is set to TRUE, observations are added even if some of the values contributing to the computed value are NA
+* Goal: practice a "one value applies to many records" scenario, which comes up any time a computed parameter mixes visit-level and subject-level inputs.
 
 ## Let's derive DTYPE summary records ^[Lines: 144-153]
 
@@ -791,6 +671,25 @@ restrict_derivation(
 for more information. 
 * `call_derivation()` is super handy if you are doing similar calls with same function,
 but just changing one or two arguments.
+
+## Try It: Ask Your AI for Assistance on Restricting a Derivation {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example vital signs dataset with multiple visits per
+subject and a treatment start date. Then use admiral's higher order
+function to flag the last on-treatment record per subject as the
+baseline flag - but only consider records collected on or before
+treatment start when deciding which one is "last."
+
+I'm not sure how to tell the function to only look at that subset of
+records without permanently filtering the rest of the dataset out of
+the result - figure out how to do that and explain how it's different
+from just filtering the dataset first.
+```
+:::
+
+* Goal: see how a higher order function like `restrict_derivation()` lets you scope a derivation to a subset of records without losing the rest of the dataset.
 
 ## Let's add a BASE variable ^[Lines: 210-217]
 
@@ -854,74 +753,29 @@ advs_final <- advs_prefinal %>%
 * Note similar code in `ADSL` script!
 * `domain` is needed depending on how `metacore` object is created.
 
-# Check in on Barb / Exercise
+# Check in / Exercise
 
-🕦 12:20 - 12:30
-
-## Check in on Barb in ADVS
-
-:::: {.columns}
-
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
-
-```{mermaid}
-%%| echo: FALSE
-flowchart LR
-  B[SDTM] --> C[ADaM]
-  C[ADaM] --> D[ARDs/TFLs]
-  
-%% Apply the custom class "highlight" to node B
-class C highlight;
-
-%% Define the style for the "highlight" class:
-classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
-```
-
-:::
-
-::: {.column}
-* USUBJID:  01-701-1034
-* PARAM/PARAMCD: MAP / Mean Arterial Pressure (mmHg)
-* ABLFL/ADT: Y / 2014-07-01
-* BASE:   94.33333
-* AVIST/ADT:  WEEK 2 / 2014-07-15
-* AVAL:   115.0
-* CHG:  20.6666667
-* PCHG: 21.9081272
-:::
-
-::::
-
+🕦 12:10 - 12:30
 
 ## Check-in Exercise {.smaller}
 
-* We are going to update the function `derive_param_computed()` for Mean Arterial Pressure.
-* Formula: $$ \frac{2DIABP + SYSBP}{3} $$
-
-```{.r code-line-numbers="1|2|3|4|5|6|7"}
+```{r}
 ADVS <- tribble(
   ~USUBJID,      ~PARAMCD, ~PARAM,                            ~AVALU,  ~AVAL, ~VISIT,
   "01-701-1015", "DIABP",  "Diastolic Blood Pressure (mmHg)", "mmHg",    51, "BASELINE",
   "01-701-1015", "SYSBP",  "Systolic Blood Pressure (mmHg)",  "mmHg",   121, "BASELINE",
   "01-701-1028", "DIABP",  "Diastolic Blood Pressure (mmHg)", "mmHg",    79, "BASELINE",
   "01-701-1028", "SYSBP",  "Systolic Blood Pressure (mmHg)",  "mmHg",   130, "BASELINE",
-) 
-```
-
-```{.r code-line-numbers="1|2|3|4|5|6|7|8|9"}
-derive_param_computed(
-  ADVS,
-  by_vars = exprs(USUBJID, VISIT),
-  parameters = c("????", "????"),
-  set_values_to = exprs(
-    AVAL = (AVAL.SYSBP + ?? * AVAL.DIABP) / ??,
-    PARAMCD = "MAP",
-    PARAM = "Mean Arterial Pressure (mmHg)",
-    AVALU = "mmHg",
-  )
 )
 ```
+
+::: {.callout-important title="Your Task"}
+Write a `derive_param_computed()` call that derives `MAP` from the `SYSBP`/`DIABP` records above:
+
+$$ MAP = \frac{2 \times DIABP + SYSBP}{3} $$
+:::
+
+* Figure out which arguments make that happen - ask your AI assistant if you get stuck.
 
 ## Check-in Exercise Solution {.smaller}
 
@@ -970,6 +824,146 @@ derive_param_computed(
 >     [pharmaverse.org](https://pharmaverse.org/contribute/)
 > -   Finally, be sure to join our community on
 >     [Slack!](https://join.slack.com/t/pharmaverse/shared_invite/zt-yv5atkr4-Np2ytJ6W_QKz_4Olo7Jo9A)
+
+# Explore on Your Own
+
+Ran out of time today? Try these extra "Ask Your AI" prompts on your own -
+same style as what we practiced live, just a few more functions worth
+getting comfortable with.
+
+## Try It: Ask Your AI for Assistance on Reading a Spec {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Pretend I have a P21-style Excel spec file at "metadata/my_spec.xlsx".
+Write the metacore call to read it in and scope it down to just the
+ADSL dataset.
+
+I'm developing this spec right now, so I don't want it printing extra
+messages or warnings while I iterate on it - figure out which argument
+controls that and set it appropriately. I also don't know whether my
+spec keeps its "where" conditions on a separate sheet or all in one
+sheet like newer specs do - make a reasonable assumption, tell me
+which one you picked, and explain what would change if it were the
+other way.
+```
+:::
+
+* Goal: practice letting the AI reason about a setting you're genuinely unsure of, rather than only using it for settings you already know the answer to.
+
+## Try It: Ask Your AI for Assistance on Supplemental Qualifiers {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example parent SDTM dataset (like DM) and a matching
+supplemental qualifier dataset (SUPPDM) with a couple of extra
+non-standard variables attached to a few of the same subjects.
+
+Then write the metatools call that joins the parent and supplemental
+data into one dataset. Show me the result, and explain what happens
+to a subject who appears in the supplemental dataset but not the
+parent dataset, or vice versa.
+```
+:::
+
+* Goal: build intuition for a one-line helper function by seeing it work (and fail gracefully) on data you understand.
+
+## Try It: Ask Your AI for Assistance on Durations {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example dataset with a birth date and a randomization
+date for a handful of subjects, including at least one subject
+missing one of those dates.
+
+Then write an admiral call to calculate each subject's age in years
+at randomization. I want a whole number of years - if someone hasn't
+had their most recent birthday yet relative to randomization, don't
+round their age up to the next year. Figure out which arguments
+control that rounding behavior and set them, then explain your
+choices and what happens for the subject with a missing date.
+```
+:::
+
+* Goal: practice describing a rounding/truncation preference in plain terms and letting the AI translate it into the right combination of arguments.
+
+## Try It: Ask Your AI for Assistance on Lookup Tables {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example vital signs dataset with a test code variable
+(like VSTESTCD), and a separate lookup table mapping those test codes
+to standardized PARAMCD/PARAM values. Include one test code in the
+vital signs data that doesn't have a matching row in the lookup
+table.
+
+Then write an admiral call that merges the lookup table into the
+vital signs dataset to add PARAMCD/PARAM. I want to know right away
+if any of my test codes don't have a match, instead of silently
+ending up with missing values - figure out which argument surfaces
+that and turn it on, then explain what happens for the unmatched
+code.
+```
+:::
+
+* Goal: practice catching a silent data-quality problem (an unmapped code) instead of discovering it downstream.
+
+## Try It: Ask Your AI for Assistance on Summary Records {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example vital signs dataset with three replicate blood
+pressure readings per subject at one visit, and make one of those
+three readings missing for one subject.
+
+Then write an admiral call that adds one new summary record per
+subject that averages the replicate readings, marking it as derived
+with DTYPE = "AVERAGE". I don't want the missing reading to turn the
+whole average into a missing value - figure out how to exclude it
+before averaging instead, and explain the difference between doing
+that versus averaging with `na.rm = TRUE`.
+```
+:::
+
+* Goal: notice that `filter_add` scopes which rows are averaged *before* the calculation runs, rather than needing to handle missing values inside the formula itself.
+
+## Try It: Ask Your AI for Assistance on Sequence Numbers {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example dataset with a couple of records per subject
+that would tie under a simple ordering - like two records with the
+same parameter and date but nothing to distinguish which came first.
+
+Then write an admiral call that adds an analysis sequence number per
+subject, ordered by the fields I do have. I want it to stop with a
+hard error if that ordering doesn't actually produce a unique number
+for every record, rather than silently assigning duplicate sequence
+numbers - figure out how to require that, and explain what the error
+tells you versus what would happen at the default setting.
+```
+:::
+
+* Goal: see how a strict `check_type` turns a silent data problem (duplicate ASEQ values) into something you're forced to notice and fix.
+
+## Try It: Ask Your AI for Assistance on Preparing an XPT File {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example ADaM-like dataset with a couple of variables
+that don't have labels yet, plus a tiny metadata object describing
+what those labels should be. Then write the xportr calls to apply
+those labels to the dataset and export it as an xpt file named
+"adsl.xpt".
+
+I don't remember everything xportr needs beyond the dataset and the
+file path to make sure the labels and dataset-level metadata carry
+through correctly into the xpt file - figure out what else to pass
+and explain what each additional piece is doing.
+```
+:::
+
+* Goal: practice the "last mile" of an ADaM - going from a labeled R data frame to a submission-ready xpt file - without having to memorize every xportr argument up front.
 
 ## Packages and Session Information
 
