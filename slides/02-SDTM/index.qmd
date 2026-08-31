@@ -1,5 +1,5 @@
 ---
-title: "CDISC SDTM (Study Data Tabulation Model) datasets in R"
+title: "CDISC SDTM <br> (Study Data Tabulation Model) <br> datasets in R"
 logo: "../../images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
@@ -38,13 +38,15 @@ img_center_size <- 300
 
 ## Objectives
 
-By the end of this session you will have:
+By the end of this session you will:
+
+<br>
 
 ::::: {.pv-cards}
 :::: {.pv-card}
 [🧩]{.pv-ico}
 [Understand]{.pv-title}
-How `sdtm.oak` and its **algorithms** work
+How `sdtm.oak` and its **reusable algorithms** work
 ::::
 :::: {.pv-card}
 [⚙️]{.pv-ico}
@@ -60,22 +62,19 @@ The same mappings with an **AI agent + skill**
 
 ## End to End with Barb!!
 
-<div style="text-align: left;"> <img src="./images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
- 
-```{mermaid}
-%%| echo: FALSE
-flowchart LR
-  A[Raw] --> B[SDTM]
-  B[SDTM] --> C[ADaM]
-  C[ADaM] --> D[ARD]
-  D[ARD] --> E[TFL]
-  
-%% Apply the custom class "highlight" to node B
-class B highlight;
+<div style="text-align: center;"> <img src="./images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
 
-%% Define the style for the "highlight" class:
-classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;  
-```
+::: {.pv-flow}
+[[📥]{.pv-ico}Raw]{.pv-step}
+[[📦]{.pv-ico}SDTM]{.pv-step .pv-current}
+[[🧬]{.pv-ico}ADaM]{.pv-step}
+[[📊]{.pv-ico}ARD]{.pv-step}
+[[📑]{.pv-ico}TLG]{.pv-step}
+:::
+
+::: {.pv-ai}
+[📦]{.pv-ico} Let's cover the **SDTM** step — where Barb's raw data becomes standardized.
+:::
 
 ## Assumptions
 
@@ -88,11 +87,11 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 
 ## Agenda
 
-::: {.pv-flow}
-[[📦]{.pv-ico}Intro to `sdtm.oak`<br>20 min]{.pv-step}
-[[🩺]{.pv-ico}`VS` domain<br>20 min]{.pv-step}
-[[👤]{.pv-ico}`DM` domain<br>10 min]{.pv-step}
-[[✏️]{.pv-ico}Exercise<br>10 min]{.pv-step}
+::: {.pv-flow .pv-flow-tight}
+[[📦]{.pv-ico}Intro to `sdtm.oak` · 20 min]{.pv-step}
+[[🩺]{.pv-ico}`VS` domain · 20 min]{.pv-step}
+[[👤]{.pv-ico}`DM` domain · 10 min]{.pv-step}
+[[✏️]{.pv-ico}Exercise · 10 min]{.pv-step}
 :::
 
 <br>
@@ -103,7 +102,7 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 
 # Introduction to `sdtm.oak`
 
-## {sdtm.oak} in pharmaverse {.smaller}
+## `sdtm.oak` in pharmaverse {.smaller}
 
 :::::: columns
 :::: {.column width="60%"}
@@ -132,22 +131,185 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
     the companies can still develop varying eCRFs using CDASH standards.
 :::
 
-## `sdtm.oak` v0.2 {.smaller}
+## The EDC landscape {.smaller}
 
-::::::: columns
+Sponsors and CROs collect raw data in **many different systems** — each with
+its own data model, export format, and naming conventions.
 
-:::::: {.column width="45%"}
-::::: {.pv-wheel}
-:::: {.pv-hub}
-R<br>package
+::::: {.pv-cards}
+:::: {.pv-card}
+[🗄️]{.pv-ico}
+[Medidata Rave]{.pv-title}
+Folders / forms / fields; exports as SAS or CSV per form
 ::::
-[[🔌]{.pv-ico}EDC<br>Agnostic]{.pv-seg .pv-top}
-[[📐]{.pv-ico}Data Standards<br>Agnostic]{.pv-seg .pv-left}
-[[🧩]{.pv-ico}Modular<br>Programming]{.pv-seg .pv-right}
+:::: {.pv-card}
+[🗄️]{.pv-ico}
+[Oracle InForm]{.pv-title}
+Visit → form → itemset hierarchy; its own item OIDs
+::::
+:::: {.pv-card}
+[🗄️]{.pv-ico}
+[Veeva CDMS]{.pv-title}
+Event / form model; API- and export-driven extracts
+::::
+:::::
+
+::: {.pv-ai}
+[🔌]{.pv-ico} …plus IBM Clinical, OpenClinica, REDCap, paper-to-EDC, external
+vendor labs — **`sdtm.oak` doesn't care which one** produced the raw data.
+:::
+
+## Same data, different eCRF {.smaller}
+
+The **same vital sign**, collected two different ways:
+
+::::::: {.pv-compare}
+
+:::::: {.pv-panel}
+[[🗄️]{.pv-ico} Medidata Rave — dedicated fields]{.pv-panel-head}
+
+::::: {.pv-panel-body}
+:::: {.pv-ecrf}
+::: {.pv-field}
+[Systolic BP]{.pv-label} [120 mmHg]{.pv-input .pv-filled}
+:::
+::: {.pv-field}
+[Position]{.pv-label} [SITTING]{.pv-input .pv-filled}
+:::
+::::
+[One field per test, unit fixed on the form]{.pv-note}
 :::::
 ::::::
 
-:::::: {.column width="55%"}
+:::::: {.pv-panel .pv-panel-b}
+[[🗄️]{.pv-ico} Oracle InForm — generic grid]{.pv-panel-head}
+
+::::: {.pv-panel-body}
+| Test | Result | Unit |
+|------|--------|------|
+| SYSBP | 120 | mmHg |
+| DIABP | 80 | mmHg |
+
+[Test name is *data*, not a column]{.pv-note}
+:::::
+::::::
+
+:::::::
+
+::: {.pv-ai}
+[👉]{.pv-ico} Same clinical fact → **different variable names, shapes, and units**.
+:::
+
+## Same data, different *raw table* {.smaller}
+
+What the programmer actually receives as an export:
+
+::::: {.pv-compare}
+
+:::: {.pv-panel}
+[[🗄️]{.pv-ico} Medidata Rave — wide]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| SUBJ | SYS_BP | DIA_BP | POS |
+|------|--------|--------|-----|
+| 1015 | 120 | 80 | SIT |
+
+[Each test is its **own column**]{.pv-note}
+:::
+::::
+
+:::: {.pv-panel .pv-panel-b}
+[[🗄️]{.pv-ico} Oracle InForm — long]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| SUBJ | VSTESTCD | VSORRES |
+|------|----------|---------|
+| 1015 | SYSBP | 120 |
+| 1015 | DIABP | 80 |
+
+[Each test is its **own row**]{.pv-note}
+:::
+::::
+
+:::::
+
+::: {.pv-ai}
+[🔑]{.pv-ico} `sdtm.oak` handles both — you map with the same algorithms; only
+`raw_var` / `raw_dat` and the id vars change.
+:::
+
+## Real raw data: `pharmaverseraw::vs_raw` {.smaller}
+
+The workshop data mimics a real EDC export — note the vendor-specific names:
+
+```{r}
+#| echo: true
+#| eval: false
+names(pharmaverseraw::vs_raw)
+#>  [1] "STUDY"  "PATNUM"  "INSTANCE"  "FORM"  "FORML"  "VTLD"
+#>  [7] "IT.HEIGHT_VSORRES"  "IT.WEIGHT"  "IT.TEMP"  "IT.TEMP_LOC"
+#> [11] "TMPTC"  "SYS_BP"  "DIA_BP"  "PULSE"  "SUBPOS"
+```
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🏷️]{.pv-ico}
+[Item prefixes]{.pv-title}
+`IT.` prefix, mixed styles: `SYS_BP` vs `IT.TEMP`
+::::
+:::: {.pv-card}
+[📄]{.pv-ico}
+[Vendor columns]{.pv-title}
+`INSTANCE`, `FORM`, `VTLD` — not SDTM, EDC metadata
+::::
+:::: {.pv-card}
+[🎯]{.pv-ico}
+[Your job]{.pv-title}
+Map these → `VS.VSTESTCD`, `VSORRES`, `VSORRESU`, `VSTPT`…
+::::
+:::::
+
+## CDASH vs a proprietary standard {.smaller}
+
+Even *with* CDASH, sponsors tailor eCRFs — collected values differ.
+
+::::: {.pv-compare}
+
+:::: {.pv-panel}
+[[✅]{.pv-ico} CDASH-aligned]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| Variable | Collected |
+|----------|-----------|
+| VSPOS | `SITTING` |
+| VSORRESU | `mmHg` |
+
+[Terms already close to CDISC CT]{.pv-note}
+:::
+::::
+
+:::: {.pv-panel .pv-panel-b}
+[[🏢]{.pv-ico} Proprietary]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| Variable | Collected |
+|----------|-----------|
+| POSITION | `Sit` |
+| UNIT | `mm Hg` |
+
+[Free-text-ish values → need CT mapping]{.pv-note}
+:::
+::::
+
+:::::
+
+::: {.pv-ai}
+[🔧]{.pv-ico} `assign_ct()` + a **CT spec** reconcile both to the same controlled
+term — e.g. `Sit`, `SITTING` → `SITTING`.
+:::
+
+## `sdtm.oak` v0.2 {.smaller}
+
 [Available on **CRAN**]{.emphasis}
 
 ::::: {.pv-cards}
@@ -167,9 +329,6 @@ Supports CDASH and proprietary collection standards
 Composable building blocks for the pharmaverse ecosystem
 ::::
 :::::
-::::::
-
-:::::::
 
 # Algorithms
 
@@ -199,49 +358,6 @@ The concept isn't tied to R — here, each algorithm is an R function
 ::::
 :::::
 
-## assign_no_ct {.smaller}
-
-| Algorithm or Function                         | Description of the Algorithm                                                                                                                              | Example SDTM mapping         |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::assign_no_ct()")` | One-to-one mapping between the raw source and a target SDTM variable that has no controlled terminology restrictions. Just a simple assignment statement. | MH.MHTERM <br><br> AE.AETERM |
-
-## assign_ct {.smaller}
-
-| Algorithm or Function                      | Description of the Algorithm                                                                                                                                                                                                                                                      | Example SDTM mapping       |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::assign_ct()")` | One-to-one mapping between the raw source and a target SDTM variable that is subject to controlled terminology restrictions. A simple assign statement and applying controlled terminology. This will be used only if the SDTM variable has an associated controlled terminology. | VS.VSPOS <br><br> VS.VSLAT |
-
-## assign_datetime {.smaller}
-
-| Algorithm or Function                            | Description of the Algorithm                                                                                                                                                                                                  | Example SDTM mapping           |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::assign_datetime()")` | One-to-one mapping between the raw source and a target that involves mapping a Date or time or datetime component. This mapping algorithm also takes care of handling unknown dates and converting them into. ISO8601 format. | MH.MHSTDTC <br><br> AE.AEENDTC |
-
-## hardcode_ct {.smaller}
-
-| Algorithm or Function                        | Description of the Algorithm                                                                                                                                                           | Example SDTM mapping                           |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::hardcode_ct()")` | Mapping a hardcoded value to a target SDTM variable that is subject to terminology restrictions. This will be used only if the SDTM variable has an associated controlled terminology. | MH.MHPRESP = ‘Y’ <br><br> VS.VSORRESU = ‘mmHg’ |
-
-## hardcode_no_ct {.smaller}
-
-| Algorithm or Function                           | Description of the Algorithm                                                              | Example SDTM mapping                                  |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::hardcode_no_ct()")` | Mapping a hardcoded value to a target SDTM variable that has no terminology restrictions. | CM.CMTRT = ‘FLUIDS’ <br><br> VS.VSCAT = ‘VITAL SIGNS’ |
-
-## condition_add {.smaller}
-
-| Algorithm or Function                          | Description of the Algorithm                                                                                                                                                                                                                                                                                                                                               | Example SDTM mapping                                                                    |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::condition_add()")` | Algorithm that is used to filter the source data and/or target domain based on a condition. The mapping will be applied only if the condition is met. This algorithm has to be used in conjunction with other algorithms, that is if the condition is met perform the mapping using algorithms like assign_ct, assign_no_ct, hardcode_ct, hardcode_no_ct, assign_datetime. | If MDPRIOR == 1 then CM.CMSTRTPT = ‘BEFORE’. <br><br>VS.VSMETHOD when VSTESTCD = ‘TEMP’ |
-
-## oak_cal_ref_dates {.smaller}
-
-| Algorithm or Function                           | Description of the Algorithm                                                              | Example SDTM mapping                                  |
-|---------------------|-----------------------------|----------------------|
-| `r link::to_call("sdtm.oak::oak_cal_ref_dates()")` | Derivation of Reference dates in the DM domain | DM.RFSTDTC <br><br> DM.RFPENDTC |
-
-
 ```{=html}
 <style>
 .centered-image {
@@ -253,18 +369,23 @@ The concept isn't tied to R — here, each algorithm is an R function
 }
 </style>
 ```
-## Reusable Algorithms
+## Reusable Algorithms {.smaller}
 
 Algorithms are **modular building blocks** — compose them to map any domain.
 
-::: {.pv-puzzle}
-[assign_ct]{.pv-piece}
-[assign_no_ct]{.pv-piece}
-[hardcode_ct]{.pv-piece}
-[condition_add]{.pv-piece}
-:::
+| Algorithm | What it does | Example |
+|---|---|---|
+| `assign_no_ct()` | One-to-one map, **no** controlled terminology | `AE.AETERM` |
+| `assign_ct()` | One-to-one map **with** controlled terminology | `VS.VSPOS` |
+| `assign_datetime()` | Map dates/times to ISO 8601 (handles unknowns) | `AE.AEENDTC` |
+| `hardcode_ct()` | Hardcode a value **with** controlled terminology | `VS.VSORRESU = 'mmHg'` |
+| `hardcode_no_ct()` | Hardcode a value, **no** controlled terminology | `VS.VSCAT = 'VITAL SIGNS'` |
+| `condition_add()` | Apply a mapping **only when** a condition holds | `VSMETHOD when VSTESTCD = 'TEMP'` |
+| `oak_cal_ref_dates()` | Derive DM reference dates | `DM.RFSTDTC` |
 
-![](./images/reusable_algorithms.jpg){.center width="60%"}
+::: {.pv-ai}
+[📎]{.pv-ico} Full descriptions for each algorithm are in the **appendix** at the end.
+:::
 
 ## Algorithms compared to `dplyr`  {.smaller}
 
@@ -351,7 +472,7 @@ Run the code and explain to the users
 :::: {.columns}
 
 ::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
 :::
 
 ::: {.column}
@@ -371,7 +492,7 @@ Run the code and explain to the users
 :::: {.columns}
 
 ::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
 :::
 
 ::: {.column}
@@ -437,7 +558,7 @@ Run the code and explain to the users
 :::: {.columns}
 
 ::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
 :::
 
 ::: {.column}
@@ -454,7 +575,7 @@ Run the code and explain to the users
 :::: {.columns}
 
 ::: {.column}
-<div style="text-align: left;"> <img src="images/barb.png" alt="Barb!" style="width: 200px;"/> </div>
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
 :::
 
 ::: {.column}
@@ -565,6 +686,10 @@ We just wrote every `assign_ct` / `condition_add` call by hand.
 [[🧠]{.pv-ico}**skill** = sdtm.oak know-how]{.pv-step}
 [[⌨️]{.pv-ico}Generated mapping code]{.pv-step}
 [[✅]{.pv-ico}You review & run]{.pv-step}
+:::
+
+::: {.pv-speed}
+[⏱️ Hours of hand-coding]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Minutes with agent + skill]{.pv-speed-fast}
 :::
 
 ::: {.pv-ai}
@@ -711,3 +836,47 @@ CDISC Wiki: https://wiki.cdisc.org/display/oakgarden
 
 ## Thank you
 
+
+# Appendix — Algorithm Reference {background-color="#003559"}
+
+## assign_no_ct {.smaller}
+
+| Algorithm or Function                         | Description of the Algorithm                                                                                                                              | Example SDTM mapping         |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::assign_no_ct()")` | One-to-one mapping between the raw source and a target SDTM variable that has no controlled terminology restrictions. Just a simple assignment statement. | MH.MHTERM <br><br> AE.AETERM |
+
+## assign_ct {.smaller}
+
+| Algorithm or Function                      | Description of the Algorithm                                                                                                                                                                                                                                                      | Example SDTM mapping       |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::assign_ct()")` | One-to-one mapping between the raw source and a target SDTM variable that is subject to controlled terminology restrictions. A simple assign statement and applying controlled terminology. This will be used only if the SDTM variable has an associated controlled terminology. | VS.VSPOS <br><br> VS.VSLAT |
+
+## assign_datetime {.smaller}
+
+| Algorithm or Function                            | Description of the Algorithm                                                                                                                                                                                                  | Example SDTM mapping           |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::assign_datetime()")` | One-to-one mapping between the raw source and a target that involves mapping a Date or time or datetime component. This mapping algorithm also takes care of handling unknown dates and converting them into. ISO8601 format. | MH.MHSTDTC <br><br> AE.AEENDTC |
+
+## hardcode_ct {.smaller}
+
+| Algorithm or Function                        | Description of the Algorithm                                                                                                                                                           | Example SDTM mapping                           |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::hardcode_ct()")` | Mapping a hardcoded value to a target SDTM variable that is subject to terminology restrictions. This will be used only if the SDTM variable has an associated controlled terminology. | MH.MHPRESP = ‘Y’ <br><br> VS.VSORRESU = ‘mmHg’ |
+
+## hardcode_no_ct {.smaller}
+
+| Algorithm or Function                           | Description of the Algorithm                                                              | Example SDTM mapping                                  |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::hardcode_no_ct()")` | Mapping a hardcoded value to a target SDTM variable that has no terminology restrictions. | CM.CMTRT = ‘FLUIDS’ <br><br> VS.VSCAT = ‘VITAL SIGNS’ |
+
+## condition_add {.smaller}
+
+| Algorithm or Function                          | Description of the Algorithm                                                                                                                                                                                                                                                                                                                                               | Example SDTM mapping                                                                    |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::condition_add()")` | Algorithm that is used to filter the source data and/or target domain based on a condition. The mapping will be applied only if the condition is met. This algorithm has to be used in conjunction with other algorithms, that is if the condition is met perform the mapping using algorithms like assign_ct, assign_no_ct, hardcode_ct, hardcode_no_ct, assign_datetime. | If MDPRIOR == 1 then CM.CMSTRTPT = ‘BEFORE’. <br><br>VS.VSMETHOD when VSTESTCD = ‘TEMP’ |
+
+## oak_cal_ref_dates {.smaller}
+
+| Algorithm or Function                           | Description of the Algorithm                                                              | Example SDTM mapping                                  |
+|---------------------|-----------------------------|----------------------|
+| `r link::to_call("sdtm.oak::oak_cal_ref_dates()")` | Derivation of Reference dates in the DM domain | DM.RFSTDTC <br><br> DM.RFPENDTC |

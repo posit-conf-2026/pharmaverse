@@ -235,6 +235,56 @@ $pv-accent: $custom-col; // #E67E3A
 .pv-flow .pv-step:nth-child(even) { background: $pv-light; }
 .pv-flow .pv-step .pv-ico { font-size: 1.1em; }
 .pv-flow.pv-flow-accent .pv-step:last-child { background: $pv-accent; color:#fff; }
+/* keep a flow on a single line (scales steps down instead of wrapping) */
+.pv-flow.pv-flow-tight,
+.pv-flow.pv-flow-tight > p { flex-wrap: nowrap; }
+.pv-flow.pv-flow-tight .pv-step {
+  font-size: 0.62em;
+  padding: 0.45em 0.9em 0.45em 1.1em;
+  white-space: nowrap;
+}
+/* highlight the current stage in a flow (e.g. SDTM in the Barb journey) */
+.pv-flow .pv-step.pv-current {
+  background: $pv-accent;
+  color: #fff;
+  font-size: 0.92em;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.45);
+  z-index: 3;
+}
+
+/* --- speed / "faster" indicator (slow -> fast) --- */
+.pv-speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin: 0.6em 0;
+  font-weight: 700;
+}
+.pv-speed > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin: 0;
+  width: 100%;
+}
+.pv-speed .pv-speed-slow {
+  background: #e9edf1;
+  color: #6b7b8b;
+  padding: 0.35em 0.9em;
+  border-radius: 999px;
+  font-size: 0.8em;
+}
+.pv-speed .pv-speed-arrow { color: $pv-accent; font-size: 1.3em; }
+.pv-speed .pv-speed-fast {
+  background: $pv-accent;
+  color: #fff;
+  padding: 0.4em 1.1em;
+  border-radius: 999px;
+  font-size: 0.9em;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
 
 /* --- Vertical numbered workflow --- */
 .pv-steps { list-style: none; margin: 0.3em 0; padding: 0; }

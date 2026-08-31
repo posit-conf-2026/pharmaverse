@@ -30,19 +30,19 @@ ex_raw <- admiral::convert_blanks_to_na(ex_raw)
 dm_raw <- admiral::convert_blanks_to_na(dm_raw)
 
 # Derive oak_id_vars
-ds_raw <- ds_raw %>%
+ds_raw <- ds_raw |>
   generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "ds_raw"
   )
 
-ex_raw <- ex_raw %>%
+ex_raw <- ex_raw |>
   generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "ex_raw"
   )
 
-dm_raw <- dm_raw %>%
+dm_raw <- dm_raw |>
   generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "dm_raw"
@@ -79,14 +79,14 @@ dm <-
     raw_var = "PATNUM",
     tgt_var = "SUBJID",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map AGE using assign_no_ct
   assign_no_ct(
     raw_dat = dm_raw,
     raw_var = "IT.AGE",
     tgt_var = "AGE",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map AGEU using hardcode_ct
   hardcode_ct(
     raw_dat = dm_raw,
@@ -96,7 +96,7 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "C66781",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map SEX using assign_ct
   assign_ct(
     raw_dat = dm_raw,
@@ -105,7 +105,7 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "C66731",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map ETHNIC using assign_ct
   assign_ct(
     raw_dat = dm_raw,
@@ -114,7 +114,7 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "C66790",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map RACE using assign_ct
   assign_ct(
     raw_dat = dm_raw,
@@ -123,7 +123,7 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "C74457",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map ARM using assign_ct
   assign_ct(
     raw_dat = dm_raw,
@@ -132,14 +132,14 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "ARM",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map ARMCD using assign_no_ct
   assign_no_ct(
     raw_dat = dm_raw,
     raw_var = "PLANNED_ARMCD",
     tgt_var = "ARMCD",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map ACTARM using assign_ct
   assign_ct(
     raw_dat = dm_raw,
@@ -148,14 +148,14 @@ dm <-
     ct_spec = study_ct,
     ct_clst = "ARM",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map ACTARMCD using assign_no_ct
   assign_no_ct(
     raw_dat = dm_raw,
     raw_var = "ACTUAL_ARMCD",
     tgt_var = "ACTARMCD",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map DMDTC using assign_datetime
   assign_datetime(
     raw_dat = dm_raw,
@@ -163,11 +163,11 @@ dm <-
     tgt_var = "DMDTC",
     raw_fmt = c("m/d/y"),
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   mutate(STUDYID = dm_raw$STUDY,
          DOMAIN = "DM",
          USUBJID = paste0("01-", dm_raw$PATNUM),
-         COUNTRY = dm_raw$COUNTRY) %>%
+         COUNTRY = dm_raw$COUNTRY) |>
   # Derive RFXSTDTC using oak_cal_ref_dates
   # Variable `RFXSTDTC` is the Date/Time of First Study Treatment. 
   # Usually equivalent to date/time when subject was first exposed
@@ -177,7 +177,7 @@ dm <-
   # for the calculation.
   
   # Users can pass all applicable raw datasets to raw_source parameter
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFXSTDTC",
                     min_max = "min",
                     ref_date_config_df = ref_date_conf_df,
@@ -186,23 +186,23 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   # Derive RFXENDTC using oak_cal_ref_dates
   # Equivalent to the date/time of the last study treatment. we need 
   # to calculate the maximum date of the `IT.ECENDAT` for each subject from the 
   # `ec_raw` dataset. Therefore, in `min_max` parameter, "max" is selected for the calculation.
   
   # Users can pass just pass the one applicable raw datasets to raw_source parameter
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFXENDTC",
                     min_max = "max",
                     ref_date_config_df = ref_date_conf_df,
                     raw_source = list(
                       ex_raw = ex_raw
                     )
-  ) %>%
+  ) |>
   # Derive RFSTDTC using oak_cal_ref_dates
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFSTDTC",
                     min_max = "min",
                     ref_date_config_df = ref_date_conf_df,
@@ -211,9 +211,9 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   # Derive RFENDTC using oak_cal_ref_dates
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFENDTC",
                     min_max = "max",
                     ref_date_config_df = ref_date_conf_df,
@@ -222,9 +222,9 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   # Derive RFICDTC using oak_cal_ref_dates
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFICDTC",
                     min_max = "min",
                     ref_date_config_df = ref_date_conf_df,
@@ -233,9 +233,9 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   # Derive RFPENDTC using oak_cal_ref_dates
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "RFPENDTC",
                     min_max = "max",
                     ref_date_config_df = ref_date_conf_df,
@@ -244,9 +244,9 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   # Map DTHDTC using oak_cal_ref_dates
-  oak_cal_ref_dates(ds_in = .,
+  oak_cal_ref_dates(
                     der_var = "DTHDTC",
                     min_max = "min",
                     ref_date_config_df = ref_date_conf_df,
@@ -255,17 +255,19 @@ dm <-
                       ds_raw = ds_raw,
                       dm_raw = dm_raw
                     )
-  ) %>%
+  ) |>
   dplyr::mutate(DTHFL = dplyr::if_else(is.na(DTHDTC), NA_character_, "Y"),
-                SITEID = substr(SUBJID, 1, 3)) %>%
-  # Derive DMDY
-  derive_study_day(
-    sdtm_in = .,
-    dm_domain = .,
+                SITEID = substr(SUBJID, 1, 3))
+
+# Derive DMDY (derive_study_day needs the same dataset for both sdtm_in and
+# dm_domain, so break the pipe here - the base |> cannot fill two arguments).
+dm <- derive_study_day(
+    sdtm_in = dm,
+    dm_domain = dm,
     tgdt = "DMDTC",
     refdt = "RFXSTDTC",
     study_day_var = "DMDY"
-  ) %>%
+  ) |>
   select(
     "STUDYID", "DOMAIN", "USUBJID", "SUBJID",  "RFSTDTC", "RFENDTC", "RFXSTDTC", "RFXENDTC", "RFICDTC", "RFPENDTC", 
     "DTHDTC", "DTHFL", "SITEID", "AGE", "AGEU", "SEX", "RACE", "ETHNIC", "ARMCD", "ARM", "ACTARMCD", "ACTARM",

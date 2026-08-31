@@ -472,26 +472,29 @@ knowledge — not a copy of it.
 :::
 ::::
 
-## End-to-End with Barb!
+## End-to-End with Barb! {.smaller}
 
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
+**Data Collection** — find Barb on the eCRF (raw data).
 
-<img src="barb-sdtm.png" alt="Barb!" style="width: 100%;"/>
+::: {style="text-align: center;"}
+<img src="barb-sdtm.png" alt="Data Collection" style="max-width: 78%; max-height: 58vh; width: auto; height: auto;"/>
+:::
 
-## End-to-End with Barb!
+## End-to-End with Barb! {.smaller}
 
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
+**Data Aggregation** — Barb flows from SDTM into analysis-ready ADaM.
 
-<img src="barb-adam.png" alt="Barb!" style="width: 100%;"/>
+::: {style="text-align: center;"}
+<img src="barb-adam.png" alt="Data Aggregation" style="max-width: 90%; max-height: 58vh; width: auto; height: auto;"/>
+:::
 
-## End-to-End with Barb!
+## End-to-End with Barb! {.smaller}
 
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
+**Results** — Barb is counted in the final tables (TLGs).
 
-<img src="barb-tlg.png" alt="Barb!" style="width: 100%;"/>
+::: {style="text-align: center;"}
+<img src="barb-tlg.png" alt="Results" style="max-width: 86%; max-height: 62vh; height: auto;"/>
+:::
 
 ## End-to-End: The Data
 
