@@ -23,7 +23,7 @@ cache: false
 
 -   Find a seat where you can see the screen!
 
--   Join the Posit Cloud workspace: [link](https://posit.cloud/spaces/679631/join?access_code=o6j4FZfDKnkiUYDW0g5izzl6qCMQpdsm5RZwk5ay)
+-   Join the Posit Cloud workspace: [link](https://posit.cloud/spaces/805889/join?access_code=mONmRVun3L8xnHX7mn225bnxYUJflMi1mWue5312)
 
 -   Join the Slack from [pharmaverse.slack.com/](https://pharmaverse.slack.com/)
 
@@ -51,27 +51,7 @@ cache: false
 
 ## Instructors
 
-::: columns
-::: {.column width="70%"}
-
-![](instructors2.png)
-
-:::
-
-::: {.column width="30%"}
-
-Daniel Sjoberg<br>
-
-Becca Krouse
-
-<br><br>
-
-Magda Krochmal<br>
-
-Ben X. Straub
-
-:::
-:::::
+![](instructors-2026.png)
 
 
 ## Your turn!
@@ -200,6 +180,8 @@ library(pharmaverse)
 Clinical programming is full of **standardized, repetitive patterns** —
 exactly what AI is good at drafting (and you are good at reviewing).
 
+<br>
+
 :::: {.pv-cards}
 ::: {.pv-card}
 [📐]{.pv-ico}
@@ -219,6 +201,7 @@ We already double-check everything — human-in-the-loop by design
 ::::
 
 ## Agent vs. skill {.smaller}
+
 
 :::: {.pv-cards}
 ::: {.pv-card}
@@ -243,7 +226,23 @@ conventions — the pharmaverse way of doing a task.
 
 ## One agent, many skills {.smaller}
 
-The same agent, pointed at a different skill, helps at every stage:
+**What the agent does in practice** — a loop, not a single answer:
+
+<br>
+
+::: {.pv-flow .pv-flow-accent}
+[[📖]{.pv-ico}Read<br>files & specs]{.pv-step}
+[[🧭]{.pv-ico}Plan<br>the steps]{.pv-step}
+[[⌨️]{.pv-ico}Write<br>R code]{.pv-step}
+[[▶️]{.pv-ico}Run<br>& check]{.pv-step}
+[[👀]{.pv-ico}You<br>review]{.pv-step}
+:::
+
+<br>
+
+The same agent, pointed at a different **skill**, helps at every stage:
+
+<br>
 
 ::: {.pv-flow}
 [[📦]{.pv-ico}SDTM<br>skill]{.pv-step}
@@ -252,9 +251,200 @@ The same agent, pointed at a different skill, helps at every stage:
 [[📑]{.pv-ico}TLG<br>skill]{.pv-step}
 :::
 
+<br>
+
 ::: {.pv-ai}
 [💡]{.pv-ico} We'll see a concrete **SDTM mapping skill** in the next session —
 turning an aCRF into `sdtm.oak` code that you review and run.
+:::
+
+## What a skill looks like in practice {.smaller}
+
+A skill can be **one file** — or a **folder** with supporting material.
+
+::::::: columns
+
+:::::: {.column width="48%"}
+[**Single document**]{.pv-title}
+
+::::: {.pv-tree}
+[📄 sdtm-mapping.md]{.pv-main}
+:::::
+
+Good for a focused, self-contained task. Everything the agent needs in
+one place.
+::::::
+
+:::::: {.column width="52%"}
+[**Folder with resources**]{.pv-title}
+
+::::: {.pv-tree}
+[📁 sdtm-oak-mapping/]{.pv-dir}<br>
+├─ [📄 SKILL.md]{.pv-main} [← entry point]{.pv-cmt}<br>
+├─ 📁 examples/<br>
+│&nbsp;&nbsp;├─ 📄 vs_domain.R<br>
+│&nbsp;&nbsp;└─ 📄 dm_domain.R<br>
+└─ 📁 reference/<br>
+&nbsp;&nbsp;&nbsp;├─ 📄 ct_spec.csv<br>
+&nbsp;&nbsp;&nbsp;└─ 📄 algorithms.md
+:::::
+
+Scales to reusable patterns: worked code, specs, house style.
+::::::
+
+:::::::
+
+::: {.pv-ai}
+[🔑]{.pv-ico} The agent reads `SKILL.md` first, then opens the extra files **only
+when the task needs them** — not all at once.
+:::
+
+## `AGENTS.md` in practice {.smaller}
+
+Project-wide **house rules** the agent reads for *every* task — checked into the repo root.
+
+::::: {.pv-skill}
+
+[[🤖]{.pv-ico} AGENTS.md]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+```markdown
+# Project: Study ABC-123 clinical reporting
+
+## Conventions
+- Use the pharmaverse (sdtm.oak, admiral, gtsummary).
+- Style: tidyverse; pipe with |>; snake_case objects.
+- Never edit files under derived/ by hand.
+
+## Workflow
+- Restore packages with renv::restore() before running.
+- Put SDTM code in sdtm/, ADaM in adam/.
+
+## Review
+- Explain each derivation in a comment.
+- Show a data preview before saving a dataset.
+```
+::::
+:::::
+
+::: {.pv-ai}
+[💡]{.pv-ico} `AGENTS.md` = *who we are & how we work*. It's global context, always on.
+:::
+
+## `SKILL.md` in practice {.smaller}
+
+A **task-specific** recipe — loaded only when that task comes up.
+
+::::: {.pv-skill}
+
+[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+```markdown
+# Map a raw dataset to an SDTM domain
+
+Use when: creating an SDTM domain from raw + aCRF.
+
+Steps
+1. List target variables and their CT from the spec.
+2. Pick the algorithm per variable:
+   - collected, no CT ... assign_no_ct()
+   - collected, with CT . assign_ct(ct_spec, ct_clst)
+   - conditional ........ condition_add()
+3. Chain topic then qualifiers; id_vars = oak_id_vars().
+4. Add labels; run the domain and preview it.
+
+See examples/vs_domain.R for a full worked case.
+```
+::::
+:::::
+
+::: {.pv-ai}
+[🔑]{.pv-ico} `AGENTS.md` is *always* loaded; a `SKILL.md` is pulled in *on demand* —
+keeping each prompt lean.
+:::
+
+## Good skills: short & to the point {.smaller}
+
+A skill is loaded into the prompt — **longer skill = more tokens = higher
+cost & slower**, and the signal gets diluted.
+
+::::::::: {.pv-gb}
+
+:::::::: {.pv-good}
+[✅ To the point]{.pv-gb-head}
+
+- *When to use*, then clear steps
+- Points to examples instead of pasting them
+- One responsibility per skill
+
+::::::: {.pv-meter}
+tokens / cost
+
+:::::: {.pv-bar}
+::::: {.pv-fill .pv-fill-lo}
+:::::
+::::::
+:::::::
+::::::::
+
+:::::::: {.pv-bad}
+[❌ Too long]{.pv-gb-head}
+
+- Whole standards pasted inline
+- Repeats what the model already knows
+- Ten tasks crammed into one file
+
+::::::: {.pv-meter}
+tokens / cost
+
+:::::: {.pv-bar}
+::::: {.pv-fill .pv-fill-hi}
+:::::
+::::::
+:::::::
+::::::::
+
+:::::::::
+
+::: {.pv-ai}
+[💡]{.pv-ico} Aim for **instructions, not encyclopedias**. Teach the *how* and
+*where to look* — let the model bring the general knowledge.
+:::
+
+## URLs & big references {.smaller}
+
+Can a skill point to external resources? **Yes** — and it should, for
+anything large.
+
+::: {.pv-steps}
+- [1]{.pv-num} [🔗]{.pv-ico} **URLs are allowed** — the agent can fetch a page *on demand*
+- [2]{.pv-num} [📚]{.pv-ico} Big files are read **in chunks / searched**, not all at once
+- [3]{.pv-num} [🎯]{.pv-ico} Link the **specific section**, not the whole spec
+:::
+
+::::: {.pv-gb}
+
+:::: {.pv-bad}
+[❌ Don't]{.pv-gb-head}
+
+- Paste the full **CDISC SDTMIG (400+ pages)** into the skill
+- Blows the context window, adds cost, buries the point
+::::
+
+:::: {.pv-good}
+[✅ Do]{.pv-gb-head}
+
+- Summarise the **rules you actually apply**
+- Link the exact codelist / IG section as a URL
+- Keep a small `ct_spec.csv` the agent can query
+::::
+
+:::::
+
+::: {.pv-ai}
+[⚖️]{.pv-ico} Rule of thumb: **retrieve, don't embed.** A skill is a map to the
+knowledge — not a copy of it.
 :::
 
 ## pharmaverse: TRUE or FALSE?

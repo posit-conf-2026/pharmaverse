@@ -11,7 +11,7 @@ editor:
 
 🗓️ September 14, 2026  09:00 - 17:00 
 
-🏨 Hyatt Regency Atlanta, Room TBA
+🏨 Hilton Americas-Houston
 
 📝 [Workshop Registration](http://pos.it/conf)
 
@@ -27,8 +27,8 @@ Ready to optimize your regulatory submission process? This workshop offers a pra
 #| echo: false
 tibble::tribble(
   ~time, ~desc,
-  "09:00 - 9:30", "[Introduction + Overview](slides/01-intro/index.html)",
-  "09:30 - 10:30", "[SDTM](slides/02-SDTM/index.html)", 
+  "09:00 - 10:00", "[Introduction + Overview](slides/01-intro/index.html)",
+  "10:00 - 10:30", "[SDTM](slides/02-SDTM/index.html)", 
   "10:30 - 11:00", "*Coffee Break*",
   "11:00 - 12:30", "[ADaMs with {admiral} and friends](slides/03-ADaM/index.html)",
   "12:30 - 13:30", "*Lunch*",
@@ -87,12 +87,14 @@ award.
 **Becca Krouse** is a data scientist in GSK’s Data Science Innovation and Engineering team where she focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.
 
 <br>
-![](images/ben-circle.jpg){style="float:left;padding: 0 20px 0 20px;" fig-alt="Headshot of Becca Krouse" width="140"}
+![](images/ben-circle.jpg){style="float:left;padding: 0 20px 0 20px;" fig-alt="Headshot of Ben Straub" width="140"}
 
 **Ben Straub** is a Principal Programmer at GSK in the Immunology Therapeutic Area since 2018.
 He has led and helped with many initiatives around R Adoption activities within Clinical Programming  since his start at GSK.  He is also actively helping to develop and maintain an end-to-end R package pipeline [(pharmaverse)](https://pharmaverse.org/) that addresses all the needs of Clinical Reporting with many awesome companies and individuals.  He is very excited for the future of using R and open source for Clinical Reporting.  
 
-![](images/ram-circle.png){style="float:left;padding: 0 20px 0 20px;"
-fig-alt="Headshot of Rammprasad Ganapathy" width="140"}
+![](images/magda-circle.png){style="float:left;padding: 0 20px 0 20px;"
+fig-alt="Headshot of Magdalena Krochmal" width="140"}
 
 **Magdalena Krochmal*** (Magda) is a Senior Real-Time Visual Analytics Specialist at Roche with over a decade of experience bridging the gap between advanced data engineering and user-centered application design. With a strong focus on clinical submission innovations, she is actively involved in the development and implementation of the SDTM automation project, {roak}. Magda leverages her expertise in R, Shiny, and AI-driven workflows to engineer intuitive medical data review tools, taking complex clinical data and translating it into high-impact, interactive visual analytics.
+
+[`r fontawesome::fa("linkedin", fill = "#606060")`](https://www.linkedin.com/in/magdalena-krochmal/)

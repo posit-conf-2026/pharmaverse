@@ -207,6 +207,16 @@ $pv-accent: $custom-col; // #E67E3A
   margin: 0.6em 0;
   flex-wrap: wrap;
 }
+/* pandoc wraps the step spans in a <p>; make that a flex row too */
+.pv-flow > p {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  width: 100%;
+}
 .pv-flow .pv-step {
   position: relative;
   background: $pv-light;
@@ -214,7 +224,7 @@ $pv-accent: $custom-col; // #E67E3A
   padding: 0.5em 1.1em 0.5em 1.4em;
   font-weight: 600;
   font-size: 0.8em;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.4em;
   clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
@@ -325,3 +335,109 @@ $pv-accent: $custom-col; // #E67E3A
 }
 .pv-skill .pv-skill-body { padding: 0.5em 0.7em; background: #F3F7FB; }
 .pv-skill .pv-skill-body code { font-size: 0.95em; }
+
+/* --- Side-by-side comparison panels (EDC A vs EDC B, CDASH vs proprietary) --- */
+.pv-compare { display:flex; gap: 0.8em; align-items: stretch; flex-wrap: wrap; margin: 0.4em 0; }
+.pv-panel {
+  flex: 1 1 0;
+  min-width: 240px;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.62em;
+}
+.pv-panel .pv-panel-head {
+  background: $pv-blue;
+  color:#fff;
+  font-weight:700;
+  padding: 0.4em 0.7em;
+  display:flex; align-items:center; gap:0.4em;
+}
+.pv-panel.pv-panel-b .pv-panel-head { background: $pv-accent; }
+.pv-panel .pv-panel-body { padding: 0.5em 0.7em; }
+.pv-panel table { width:100%; border-collapse: collapse; margin: 0; }
+.pv-panel th, .pv-panel td {
+  border: 1px solid #d9e2ec;
+  padding: 0.18em 0.4em;
+  text-align: left;
+  font-size: 0.95em;
+}
+.pv-panel th { background: #EBF7FF; }
+.pv-panel.pv-panel-b th { background: #FDF1E8; }
+.pv-panel .pv-note { color:#666; font-style: italic; margin-top: 0.3em; display:block; }
+
+/* Mock eCRF form field */
+.pv-ecrf { border:1px solid #cfd9e3; border-radius:6px; padding:0.5em 0.6em; background:#fafcff; }
+.pv-ecrf .pv-field { display:flex; align-items:center; gap:0.5em; margin:0.25em 0; }
+.pv-ecrf .pv-label { flex: 0 0 42%; font-weight:600; color:$pv-navy; }
+.pv-ecrf .pv-input {
+  flex:1; border:1px solid #b9c6d4; border-radius:4px;
+  padding:0.12em 0.4em; background:#fff; color:#333;
+}
+.pv-ecrf .pv-input.pv-filled { background:#fffbe6; }
+
+/* Screenshot placeholder – drop a real EDC screenshot here later */
+.pv-shot {
+  border: 2px dashed $pv-light;
+  border-radius: 8px;
+  background: #F3F7FB;
+  color: #7090A5;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding: 1.2em 0.8em;
+  font-size: 0.62em;
+  min-height: 140px;
+}
+.pv-shot .pv-ico { font-size: 1.8em; margin-bottom:0.25em; }
+.pv-shot code { font-size: 0.9em; }
+
+/* Arrow that maps raw -> SDTM */
+.pv-maps-to { display:flex; align-items:center; justify-content:center; font-size:1.4em; color:$pv-accent; padding:0 0.2em; }
+
+/* --- File tree (skill as a folder) --- */
+.pv-tree {
+  font-family: $font-family-monospace;
+  font-size: 0.62em;
+  background: #F3F7FB;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.6em 0.9em;
+  line-height: 1.7;
+  color: $pv-navy;
+  white-space: nowrap;
+}
+.pv-tree .pv-dir  { color: $pv-blue; font-weight: 700; }
+.pv-tree .pv-main { color: $pv-accent; font-weight: 700; }
+.pv-tree .pv-cmt  { color: #7090A5; }
+
+/* --- Good vs. bad comparison --- */
+.pv-gb { display:flex; gap: 0.8em; flex-wrap: wrap; margin: 0.4em 0; }
+.pv-good, .pv-bad {
+  flex: 1 1 0;
+  min-width: 240px;
+  border-radius: 8px;
+  padding: 0.6em 0.8em;
+  font-size: 0.72em;
+}
+.pv-good { background: #E9F7EF; border-left: 4px solid #2e8b57; }
+.pv-bad  { background: #FDECEA; border-left: 4px solid #c0392b; }
+.pv-good .pv-gb-head, .pv-bad .pv-gb-head {
+  font-weight: 700; display:flex; align-items:center; gap:0.4em; margin-bottom:0.3em;
+}
+.pv-good .pv-gb-head { color:#2e8b57; }
+.pv-bad .pv-gb-head  { color:#c0392b; }
+.pv-good ul, .pv-bad ul { margin: 0; padding-left: 1.1em; }
+
+/* --- Cost / length meter --- */
+.pv-meter { margin: 0.35em 0; font-size: 0.72em; }
+.pv-meter .pv-bar {
+  height: 14px; border-radius: 7px; background: #e3ebf2; overflow: hidden; margin-top: 0.15em;
+}
+.pv-meter .pv-fill { height: 100%; border-radius: 7px; }
+.pv-meter .pv-fill-lo { width: 30%;  background: #2e8b57; }
+.pv-meter .pv-fill-hi { width: 100%; background: #c0392b; }
