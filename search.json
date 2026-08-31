@@ -2338,7 +2338,7 @@
     "href": "slides/06-tables-gtsummary/index.html#section",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "",
-    "text": "How it started\n\n\nBegan to address reproducibility issues while working in academia\nGoal to build a package to summarize study results with code that was both simple and customizable\n\n\n\nHow it’s going\n\n\nThe stats\n\n2,200,000+ installations from CRAN\n1,200 GitHub stars\n1,500 citations in peer-reviewed articles\n50 code contributors\n\nWon the 2025 Brian Bole Award of Excellence from R in Pharma\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
+    "text": "How it started\n\n\nBegan to address reproducibility issues while working in academia\nGoal to build a package to summarize study results with code that was both simple and customizable\n\n\n\nHow it’s going\n\n\nThe stats\n\n2,300,000+ installations from CRAN\n1,200 GitHub stars\n1,500 citations in peer-reviewed articles\n50 code contributors\n\nWon the 2025 Brian Bole Award of Excellence from R in Pharma\nWon the 2021 American Statistical Association (ASA) Innovation in Programming Award\nWon the 2024 Posit Pharma Table Contest"
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#pharmaverse-30-day-cran-downloads",
@@ -2527,7 +2527,7 @@
     "href": "slides/06-tables-gtsummary/index.html#adverse-event-differences",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Adverse event differences",
-    "text": "Adverse event differences\n\n\ntbl_ae |&gt;\n  add_difference()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\nRate Difference2\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n-0.1%\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n-1.2%\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n1.1%\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n\n1 n (%)\n\n\n2 Difference: Placebo - Xanomeline\n\n\n\n\n\n\n\n\n\nadd_difference(): risk differences between arms, with confidence intervals (gtsummary 2.6.0)"
+    "text": "Adverse event differences\n\n\ntbl_ae |&gt;\n  add_difference()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\nRate Difference2\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n-0.1%\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n-1.2%\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n1.1%\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n\n1 n (%)\n\n\n2 Difference: Placebo - Xanomeline\n\n\n\n\n\n\n\n\n\nadd_difference(): risk differences between arms"
   },
   {
     "objectID": "slides/06-tables-gtsummary/index.html#tbl_merge-for-side-by-side-tables",
@@ -2793,6 +2793,6 @@
     "href": "slides/06-tables-gtsummary/index.html#thank-you",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Thank you",
-    "text": "Thank you\n\n\n\n\n2,200,000+ installations — go build something cute.\n\n\n danieldsjoberg.com\n ddsjoberg.bsky.social\n linkedin.com/in/ddsjoberg/\n github.com/ddsjoberg"
+    "text": "Thank you\n\n\n\n\n2,300,000+ installations — go build something cute.\n\n\n danieldsjoberg.com\n ddsjoberg.bsky.social\n linkedin.com/in/ddsjoberg/\n github.com/ddsjoberg"
   }
 ]
