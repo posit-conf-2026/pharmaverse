@@ -72,4 +72,4 @@ tbl_ae |>
   add_difference()
 ```
 
--   `add_difference()`: risk differences between arms, with confidence intervals (gtsummary 2.6.0)
+-   `add_difference()`: risk differences between arms
