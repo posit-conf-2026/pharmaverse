@@ -1,12 +1,17 @@
 ---
 title: "ARDs (Analysis Results Datasets) in R"
-logo: "../../images/pharmaverse-hex.png"
-footer:  "[Pharmaverse Workshop (pos.it/pharmaverse-conf25)](https://posit-conf-2025.github.io/pharmaverse/)"
+subtitle: "Pharmaverse Workshop"
+author: "Daniel D. Sjoberg"
+event: "posit::conf(2026)"
+logo: "images/cards-hex.png"
+footer:  "[Pharmaverse Workshop (pos.it/pharmaverse-conf26)](https://posit-conf-2026.github.io/pharmaverse/)"
 editor: source
 engine: knitr
-format: 
-  revealjs: 
-    theme: ../slides.scss
+format:
+  revealjs:
+    theme: slides.scss
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
@@ -17,8 +22,11 @@ cache: false
 --- 
 
 ```{r}
+#| label: setup-options
 #| echo: false
 options(width = 200)
+# print at most 10 rows of any ARD (tibble)
+options(pillar.print_max = 10, pillar.print_min = 10)
 ```
 
 {{< include intro_to_ards.qmd >}}
