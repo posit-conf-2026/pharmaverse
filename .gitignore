@@ -9,6 +9,9 @@
 docs
 site_libs
 
+# Quarto per-document render artifacts
+**/*_files/
+
 **/*.quarto_ipynb
 
 README.qmd

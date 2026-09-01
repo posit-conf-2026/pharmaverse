@@ -2,8 +2,10 @@
 
 // fonts
 @import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&display=swap');
 
 $font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
+$font-family-display: "Fraunces", Georgia, serif;
 $presentation-heading-color: #7090A5;
 $presentation-title-slide-text-align: "left";
 $presentation-font-size-root: 33px;
@@ -491,3 +493,436 @@ $pv-accent: $custom-col; // #E67E3A
 .pv-meter .pv-fill { height: 100%; border-radius: 7px; }
 .pv-meter .pv-fill-lo { width: 30%;  background: #2e8b57; }
 .pv-meter .pv-fill-hi { width: 100%; background: #c0392b; }
+
+/* ---------------------------------------------------------------------------
+   Custom title slide (shared with the gtsummary deck):
+   display-font title, accent rule, headshot + affiliation author block, and a
+   logo hero card. Scoped to a title slide that uses the .custom-title partial,
+   so decks without the partial keep the default Quarto title slide.
+--------------------------------------------------------------------------- */
+#title-slide:has(.custom-title) {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f8 100%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: -60px;
+    bottom: -80px;
+    width: 360px;
+    height: 360px;
+    background-image: url('images/pharmaverse-hex.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .custom-title {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4%;
+    height: 100%;
+    text-align: left;
+  }
+
+  .title-left { flex: 1 1 58%; min-width: 0; }
+
+  h1.title {
+    font-family: $font-family-display;
+    font-weight: 600;
+    font-size: 2.5em;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    color: $pv-navy;
+    margin: 0;
+  }
+
+  .title-rule {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: $custom-col;
+    margin: 0.5em 0 0.55em;
+  }
+
+  .subtitle {
+    font-family: $font-family-sans-serif;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7090A5;
+    margin: 0 0 1.4em;
+  }
+
+  .title-author { display: flex; align-items: center; gap: 0.7em; }
+
+  .title-avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: #26394d 0px 6px 16px -6px;
+    margin: 0;
+  }
+
+  .title-author-text { line-height: 1.2; }
+
+  .author-name {
+    font-family: $font-family-sans-serif;
+    font-weight: 700;
+    font-size: 0.72em;
+    color: $pv-navy;
+    margin: 0;
+  }
+
+  .author-affil {
+    font-family: $font-family-sans-serif;
+    font-size: 0.55em;
+    color: #7090A5;
+    margin: 0.1em 0 0;
+  }
+
+  .title-hero { flex: 0 0 34%; display: flex; justify-content: center; }
+
+  .title-logo-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: #26394d 0px 20px 30px -10px;
+
+    img { display: block; width: 100%; max-width: 300px; margin: 0; }
+  }
+
+  @media (max-width: 800px) {
+    .custom-title {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 1em;
+    }
+    .title-hero { flex-basis: auto; }
+    h1.title { font-size: 2em; }
+  }
+}
+
+/* hide the shared corner logo on the custom title slide (the hero card replaces
+   it); it returns on all content slides. */
+.reveal:has(section#title-slide.present .custom-title) .slide-logo {
+  display: none !important;
+}
+
+/* --- Acknowledgements slide (sdtm.oak contributors) --- */
+.ack-hero { text-align: center; margin: 0 0 0.4em; }
+.ack-hero .ack-logo { height: 70px; width: auto; margin: 0 auto; }
+
+.ack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em 0.7em;
+  margin-top: 0.6em;
+}
+.ack-card {
+  background: #f5f8fb;
+  border: 1px solid #dbe5ee;
+  border-left: 4px solid $pv-light;
+  border-radius: 6px;
+  padding: 0.45em 0.7em;
+  line-height: 1.15;
+}
+.ack-card .ack-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.62em;
+  color: $pv-navy;
+}
+.ack-card .ack-role {
+  display: block;
+  font-size: 0.5em;
+  color: #7090A5;
+  margin-top: 0.1em;
+}
+/* highlight the lead author */
+.ack-card.ack-lead {
+  grid-column: span 2;
+  background: rgba(230, 126, 58, 0.12);
+  border: 1px solid $custom-col;
+  border-left: 4px solid $custom-col;
+}
+.ack-card.ack-lead .ack-name { font-size: 0.72em; }
+.ack-card.ack-lead .ack-role { color: $custom-col; font-weight: 700; }
+
+@media (max-width: 800px) {
+  .ack-grid { grid-template-columns: repeat(2, 1fr); }
+  .ack-card.ack-lead { grid-column: span 2; }
+}
+
+/* --- Challenge -> solution rows (sdtm.oak property : challenge it solves) --- */
+.pv-solve { display: flex; flex-direction: column; gap: 0.7em; margin-top: 0.8em; }
+.pv-solve-row {
+  display: grid;
+  grid-template-columns: 0.9fr 2fr;
+  align-items: center;
+  gap: 1em;
+}
+.pv-solve-key {
+  background: $pv-navy;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 0.6em 0.8em;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 53, 89, 0.2);
+}
+.pv-solve-key p { margin: 0; }
+.pv-solve-val {
+  border-left: 4px solid $custom-col;
+  padding: 0.3em 0 0.3em 0.8em;
+  color: #1a1a1a;
+}
+.pv-solve-val p { margin: 0; }
+@media (max-width: 800px) {
+  .pv-solve-row { grid-template-columns: 1fr; gap: 0.3em; }
+}
+
+/* --- EDC system badges --- */
+.pv-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 0.5em;
+  margin: 0.6em 0 0.9em;
+}
+.pv-badge {
+  display: inline-block;
+  background: #eef4fb;
+  color: $pv-navy;
+  border: 1px solid $pv-light;
+  border-radius: 999px;
+  padding: 0.25em 0.8em;
+  font-size: 0.62em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* --- SDTM concept: subject -> observation -> row --- */
+.pv-concept {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-concept .pv-concept-node {
+  background: #EBF7FF;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.4em 0.8em;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.8em;
+}
+.pv-concept .pv-concept-node .pv-ico { margin-right: 0.3em; }
+.pv-concept .pv-concept-arrow { color: $pv-accent; font-size: 1.2em; font-weight: 700; }
+
+/* --- Observation broken into roles (colored cells) --- */
+.pv-obs {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-obs .pv-obs-cell {
+  flex: 1 1 0;
+  min-width: 130px;
+  max-width: 220px;
+  border-radius: 8px;
+  padding: 0.5em 0.7em;
+  text-align: center;
+  border-top: 4px solid $pv-blue;
+  background: #EBF7FF;
+}
+.pv-obs .pv-obs-role {
+  display: block;
+  font-size: 0.62em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $pv-blue;
+  margin-bottom: 0.2em;
+}
+.pv-obs .pv-obs-val {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.9em;
+}
+
+/* Role color coding, shared by .pv-obs cells and .pv-role cards */
+.pv-role-id     { border-top-color: $pv-mid !important;    background: #EAF2FB !important; }
+.pv-role-topic  { border-top-color: $pv-accent !important; background: #FDF1E8 !important; }
+.pv-role-timing { border-top-color: $pv-blue !important;   background: #EBF7FF !important; }
+.pv-role-qual   { border-top-color: $pv-navy !important;   background: #E7EEF4 !important; }
+.pv-role-rule   { border-top-color: #7090A5 !important;    background: #EEF2F5 !important; }
+.pv-obs .pv-role-id .pv-obs-role     { color: $pv-mid; }
+.pv-obs .pv-role-topic .pv-obs-role  { color: $pv-accent; }
+.pv-obs .pv-role-timing .pv-obs-role { color: $pv-blue; }
+.pv-obs .pv-role-qual .pv-obs-role   { color: $pv-navy; }
+.pv-obs .pv-role-rule .pv-obs-role   { color: #7090A5; }
+
+/* --- Five role cards --- */
+.pv-roles {
+  display: flex;
+  gap: 0.6em;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-roles .pv-role {
+  flex: 1 1 0;
+  min-width: 150px;
+  max-width: 220px;
+  background: #EBF7FF;
+  border-top: 4px solid $pv-blue;
+  border-radius: 8px;
+  padding: 0.6em 0.7em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.72em;
+}
+.pv-roles .pv-role .pv-ico { font-size: 1.5em; display: block; margin-bottom: 0.15em; }
+.pv-roles .pv-role .pv-role-name {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  margin-bottom: 0.2em;
+  font-size: 1.05em;
+}
+
+/* --- oak id vars linkage diagram --- */
+.pv-idmap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  margin: 0.7em 0;
+}
+.pv-idmap .pv-idmap-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  background: #EBF7FF;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.5em 0.6em;
+  min-width: 150px;
+}
+.pv-idmap .pv-idmap-side.pv-idmap-target {
+  background: #FDF1E8;
+  border-color: $pv-accent;
+}
+.pv-idmap .pv-idmap-head {
+  font-size: 0.6em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $pv-blue;
+}
+.pv-idmap .pv-idmap-target .pv-idmap-head { color: $pv-accent; }
+.pv-idmap .pv-idmap-cell {
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  padding: 0.2em 0.5em;
+  font-size: 0.68em;
+  color: $pv-navy;
+  white-space: nowrap;
+}
+.pv-idmap .pv-idmap-conn { display: flex; align-items: center; justify-content: center; }
+.pv-idmap .pv-idmap-key   { font-size: 1.5em; color: $pv-accent; }
+.pv-idmap .pv-idmap-arrow { font-size: 1.5em; color: $pv-accent; font-weight: 700; }
+
+/* --- Agenda spread across the full slide --- */
+.pv-agenda {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2em;
+  margin: 1.4em 0;
+}
+.pv-agenda .pv-agenda-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #EBF7FF;
+  border-top: 5px solid $pv-blue;
+  border-radius: 10px;
+  padding: 1.4em 0.8em;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+  min-height: 200px;
+}
+.pv-agenda .pv-agenda-item:nth-child(2) { border-top-color: $pv-mid; }
+.pv-agenda .pv-agenda-item:nth-child(3) { border-top-color: $pv-light; }
+.pv-agenda .pv-agenda-item:nth-child(4) { border-top-color: $pv-navy; }
+.pv-agenda .pv-agenda-ico   { font-size: 2.6em; display: block; margin-bottom: 0.3em; }
+.pv-agenda .pv-agenda-title { font-weight: 700; color: $pv-navy; font-size: 1.05em; display: block; }
+.pv-agenda .pv-agenda-time  { color: $pv-blue; font-weight: 700; margin-top: 0.3em; display: block; }
+
+.pv-agenda-accent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  background: $pv-accent;
+  color: #fff;
+  border-radius: 10px;
+  padding: 1em 1.2em;
+  font-size: 1.1em;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
+.pv-agenda-accent .pv-agenda-ico { font-size: 1.6em; }
+
+/* --- Wrap-up: three rows filling the full slide height --- */
+.pv-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  height: 68vh;
+  max-height: 68vh;
+  margin: 0.3em 0;
+  overflow: hidden;
+}
+.pv-wrap .pv-wrap-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+  border-radius: 10px;
+  padding: 0.6em 1.2em;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+}
+.pv-wrap .pv-wrap-row.pv-wrap-accent {
+  background: #FDF1E8;
+  border-left-color: $pv-accent;
+}
+.pv-wrap .pv-wrap-ico { font-size: 2.6em; flex: 0 0 auto; display: flex; align-items: center; }
+.pv-wrap .pv-wrap-ico p { margin: 0; }
+.pv-wrap .pv-wrap-body { flex: 1 1 auto; }
+.pv-wrap .pv-wrap-title {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 1.2em;
+  margin-bottom: 0.2em;
+}

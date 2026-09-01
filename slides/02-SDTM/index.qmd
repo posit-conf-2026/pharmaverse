@@ -1,12 +1,17 @@
 ---
-title: "CDISC SDTM <br> (Study Data Tabulation Model) <br> datasets in R"
-logo: "../../images/pharmaverse-hex.png"
-footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
+title: "CDISC SDTM datasets in R"
+subtitle: "Pharmaverse Workshop"
+author: "Magdalena Krochmal"
+event: "posit::conf(2026)"
+logo: "images/sdtmoak-logo.png"
+footer: "[Pharmaverse Workshop (posit-conf-2026.github.io/pharmaverse/)](https://posit-conf-2026.github.io/pharmaverse/)"
 editor: source
 engine: knitr
 format: 
   revealjs: 
     theme: ../slides.scss
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
@@ -14,6 +19,8 @@ execute:
   echo: true
   freeze: false
 cache: false
+resources:
+  - images/pharmaverse-hex.png
 --- 
 ```{r}
 #| include: false
@@ -21,6 +28,9 @@ library(glue)
 library(link)
 library(sdtm.oak)
 library(dplyr)
+
+# Study controlled terminology used by the live mapping examples
+study_ct <- read.csv("metadata/sdtm_ct.csv")
 
 link::auto(keep_pkg_prefix = FALSE,
            keep_braces = FALSE)
@@ -60,44 +70,33 @@ The same mappings with an **AI agent + skill**
 ::::
 :::::
 
-## End to End with Barb!!
-
-<div style="text-align: center;"> <img src="./images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
-
-::: {.pv-flow}
-[[📥]{.pv-ico}Raw]{.pv-step}
-[[📦]{.pv-ico}SDTM]{.pv-step .pv-current}
-[[🧬]{.pv-ico}ADaM]{.pv-step}
-[[📊]{.pv-ico}ARD]{.pv-step}
-[[📑]{.pv-ico}TLG]{.pv-step}
-:::
-
-::: {.pv-ai}
-[📦]{.pv-ico} Let's cover the **SDTM** step — where Barb's raw data becomes standardized.
-:::
-
-## Assumptions
-
-::: incremental
--   Basic knowledge of CDISC Standards (SDTM Domains)
--   Check out the [SDTM IG & other documents](https://www.cdisc.org/standards/foundational/sdtm)
--     🦺 But even lacking CDSIC knowledge, we still think you will gain some great learnings today! 🦺
--   Basic familiarity in R, RStudio IDE and its packages
-:::
-
 ## Agenda
 
-::: {.pv-flow .pv-flow-tight}
-[[📦]{.pv-ico}Intro to `sdtm.oak` · 20 min]{.pv-step}
-[[🩺]{.pv-ico}`VS` domain · 20 min]{.pv-step}
-[[👤]{.pv-ico}`DM` domain · 10 min]{.pv-step}
-[[✏️]{.pv-ico}Exercise · 10 min]{.pv-step}
+::: {.pv-agenda}
+::: {.pv-agenda-item}
+[📦]{.pv-agenda-ico}
+[Intro to `sdtm.oak`]{.pv-agenda-title}
+[20 min]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[🩺]{.pv-agenda-ico}
+[`VS` domain]{.pv-agenda-title}
+[20 min]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[👤]{.pv-agenda-ico}
+[`DM` domain]{.pv-agenda-title}
+[10 min]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[✏️]{.pv-agenda-ico}
+[Exercise]{.pv-agenda-title}
+[10 min]{.pv-agenda-time}
+:::
 :::
 
-<br>
-
-::: {.pv-flow .pv-flow-accent}
-[[🤖]{.pv-ico}Same work, with an AI agent + skill]{.pv-step}
+::: {.pv-agenda-accent}
+[🤖]{.pv-agenda-ico} Same work, accelerated with an **AI agent + skill**
 :::
 
 # Introduction to `sdtm.oak`
@@ -120,55 +119,98 @@ The same mappings with an **AI agent + skill**
 
 ## Challenges in SDTM Programming {.smaller}
 
-::: incremental
--   Although SDTM is simpler with less complex derivations compared to
-    ADaM, it presents unique challenges. Unlike ADaM, which uses SDTM
-    datasets as its source with a well-defined structure, SDTM relies on
-    raw datasets as input.
--   **Raw Data structure** - Different EDC systems produce data in
-    different structures, different variable names, dataset names etc.
--   **Varying Data Collection standards** - Although CDASH is available,
-    the companies can still develop varying eCRFs using CDASH standards.
+SDTM maps from **raw data** — so the challenges come from the source.
+`sdtm.oak` (on **CRAN**) is designed to meet each one:
+
+::::: {.pv-solve}
+
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+🔌 EDC agnostic
 :::
+::: {.pv-solve-val}
+**Raw data structure varies** — different EDC systems use different dataset names, variable names, and structures.
+:::
+::::
+
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+📐 Standards agnostic
+:::
+::: {.pv-solve-val}
+**Collection standards vary** — even with CDASH, sponsors build different eCRFs; proprietary standards are common.
+:::
+::::
+
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+🧩 Modular
+:::
+::: {.pv-solve-val}
+**Mapping is repetitive** — composable algorithms build any domain from the same building blocks.
+:::
+::::
+
+:::::
 
 ## The EDC landscape {.smaller}
 
-Sponsors and CROs collect raw data in **many different systems** — each with
-its own data model, export format, and naming conventions.
+Sponsors and CROs collect raw data in **many different systems** — each with its
+own data model, export format, and naming conventions.
 
-::::: {.pv-cards}
-:::: {.pv-card}
-[🗄️]{.pv-ico}
-[Medidata Rave]{.pv-title}
-Folders / forms / fields; exports as SAS or CSV per form
+::: {.pv-badges}
+[Medidata Rave]{.pv-badge}
+[Oracle InForm]{.pv-badge}
+[Veeva CDMS]{.pv-badge}
+[IBM Clinical]{.pv-badge}
+[OpenClinica]{.pv-badge}
+[REDCap]{.pv-badge}
+[paper-to-EDC]{.pv-badge}
+[vendor labs]{.pv-badge}
+:::
+
+They differ in three ways that matter for mapping:
+
+::::: {.pv-solve}
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+🏷️ Names
+:::
+::: {.pv-solve-val}
+Different variable & dataset names (`SYS_BP` vs `IT.SYSBP`), plus vendor metadata columns.
+:::
 ::::
-:::: {.pv-card}
-[🗄️]{.pv-ico}
-[Oracle InForm]{.pv-title}
-Visit → form → itemset hierarchy; its own item OIDs
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+📐 Shape
+:::
+::: {.pv-solve-val}
+Wide (one column per test) vs long (one row per test).
+:::
 ::::
-:::: {.pv-card}
-[🗄️]{.pv-ico}
-[Veeva CDMS]{.pv-title}
-Event / form model; API- and export-driven extracts
+:::: {.pv-solve-row}
+::: {.pv-solve-key}
+🔤 Values
+:::
+::: {.pv-solve-val}
+Collected terms vary (`Sit` vs `SITTING`, `mm Hg` vs `mmHg`).
+:::
 ::::
 :::::
 
 ::: {.pv-ai}
-[🔌]{.pv-ico} …plus IBM Clinical, OpenClinica, REDCap, paper-to-EDC, external
-vendor labs — **`sdtm.oak` doesn't care which one** produced the raw data.
+[🔌]{.pv-ico} **`sdtm.oak` doesn't care which system** produced the raw data.
 :::
 
-## Same data, different eCRF {.smaller}
+## Same data, many raw shapes — 🏷️ eCRF {.smaller}
 
-The **same vital sign**, collected two different ways:
+*How it's collected — dedicated fields vs a generic grid.*
 
-::::::: {.pv-compare}
-
-:::::: {.pv-panel}
+::::: {.pv-compare}
+:::: {.pv-panel}
 [[🗄️]{.pv-ico} Medidata Rave — dedicated fields]{.pv-panel-head}
 
-::::: {.pv-panel-body}
+::: {.pv-panel-body}
 :::: {.pv-ecrf}
 ::: {.pv-field}
 [Systolic BP]{.pv-label} [120 mmHg]{.pv-input .pv-filled}
@@ -178,36 +220,30 @@ The **same vital sign**, collected two different ways:
 :::
 ::::
 [One field per test, unit fixed on the form]{.pv-note}
-:::::
-::::::
+:::
+::::
 
-:::::: {.pv-panel .pv-panel-b}
+:::: {.pv-panel .pv-panel-b}
 [[🗄️]{.pv-ico} Oracle InForm — generic grid]{.pv-panel-head}
 
-::::: {.pv-panel-body}
+::: {.pv-panel-body}
 | Test | Result | Unit |
 |------|--------|------|
 | SYSBP | 120 | mmHg |
 | DIABP | 80 | mmHg |
 
 [Test name is *data*, not a column]{.pv-note}
-:::::
-::::::
-
-:::::::
-
-::: {.pv-ai}
-[👉]{.pv-ico} Same clinical fact → **different variable names, shapes, and units**.
 :::
+::::
+:::::
 
-## Same data, different *raw table* {.smaller}
+## Same data, many raw shapes — 📐 Raw table {.smaller}
 
-What the programmer actually receives as an export:
+*What the programmer receives — wide vs long.*
 
 ::::: {.pv-compare}
-
 :::: {.pv-panel}
-[[🗄️]{.pv-ico} Medidata Rave — wide]{.pv-panel-head}
+[[🗄️]{.pv-ico} Rave — wide]{.pv-panel-head}
 
 ::: {.pv-panel-body}
 | SUBJ | SYS_BP | DIA_BP | POS |
@@ -219,7 +255,7 @@ What the programmer actually receives as an export:
 ::::
 
 :::: {.pv-panel .pv-panel-b}
-[[🗄️]{.pv-ico} Oracle InForm — long]{.pv-panel-head}
+[[🗄️]{.pv-ico} InForm — long]{.pv-panel-head}
 
 ::: {.pv-panel-body}
 | SUBJ | VSTESTCD | VSORRES |
@@ -230,12 +266,43 @@ What the programmer actually receives as an export:
 [Each test is its **own row**]{.pv-note}
 :::
 ::::
+:::::
 
+## Same data, many raw shapes — 🔤 Standards {.smaller}
+
+*What's stored — CDASH-aligned vs proprietary terms.*
+
+::::: {.pv-compare}
+:::: {.pv-panel}
+[[✅]{.pv-ico} CDASH-aligned]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| Variable | Collected |
+|----------|-----------|
+| VSPOS | `SITTING` |
+| VSORRESU | `mmHg` |
+
+[Terms already close to CDISC CT]{.pv-note}
+:::
+::::
+
+:::: {.pv-panel .pv-panel-b}
+[[🏢]{.pv-ico} Proprietary]{.pv-panel-head}
+
+::: {.pv-panel-body}
+| Variable | Collected |
+|----------|-----------|
+| POSITION | `Sit` |
+| UNIT | `mm Hg` |
+
+[Free-text-ish values → need CT mapping]{.pv-note}
+:::
+::::
 :::::
 
 ::: {.pv-ai}
-[🔑]{.pv-ico} `sdtm.oak` handles both — you map with the same algorithms; only
-`raw_var` / `raw_dat` and the id vars change.
+[🔑]{.pv-ico} Same algorithms map all of these — only `raw_var` / `raw_dat` change,
+and `assign_ct()` + a CT spec reconcile the values (`Sit`, `SITTING` → `SITTING`).
 :::
 
 ## Real raw data: `pharmaverseraw::vs_raw` {.smaller}
@@ -269,94 +336,7 @@ Map these → `VS.VSTESTCD`, `VSORRES`, `VSORRESU`, `VSTPT`…
 ::::
 :::::
 
-## CDASH vs a proprietary standard {.smaller}
-
-Even *with* CDASH, sponsors tailor eCRFs — collected values differ.
-
-::::: {.pv-compare}
-
-:::: {.pv-panel}
-[[✅]{.pv-ico} CDASH-aligned]{.pv-panel-head}
-
-::: {.pv-panel-body}
-| Variable | Collected |
-|----------|-----------|
-| VSPOS | `SITTING` |
-| VSORRESU | `mmHg` |
-
-[Terms already close to CDISC CT]{.pv-note}
-:::
-::::
-
-:::: {.pv-panel .pv-panel-b}
-[[🏢]{.pv-ico} Proprietary]{.pv-panel-head}
-
-::: {.pv-panel-body}
-| Variable | Collected |
-|----------|-----------|
-| POSITION | `Sit` |
-| UNIT | `mm Hg` |
-
-[Free-text-ish values → need CT mapping]{.pv-note}
-:::
-::::
-
-:::::
-
-::: {.pv-ai}
-[🔧]{.pv-ico} `assign_ct()` + a **CT spec** reconcile both to the same controlled
-term — e.g. `Sit`, `SITTING` → `SITTING`.
-:::
-
-## `sdtm.oak` v0.2 {.smaller}
-
-[Available on **CRAN**]{.emphasis}
-
-::::: {.pv-cards}
-:::: {.pv-card}
-[🔌]{.pv-ico}
-[EDC agnostic]{.pv-title}
-Handles varying raw structures from different EDC systems & vendors
-::::
-:::: {.pv-card}
-[📐]{.pv-ico}
-[Standards agnostic]{.pv-title}
-Supports CDASH and proprietary collection standards
-::::
-:::: {.pv-card}
-[🧩]{.pv-ico}
-[Modular]{.pv-title}
-Composable building blocks for the pharmaverse ecosystem
-::::
-:::::
-
-# Algorithms
-
-## Key concepts {.smaller}
-
-::: {.pv-flow}
-[[📥]{.pv-ico}Collected source data]{.pv-step}
-[[🧩]{.pv-ico}Mapping algorithms]{.pv-step}
-[[📦]{.pv-ico}Target SDTM model]{.pv-step}
-:::
-
-::::: {.pv-cards}
-:::: {.pv-card}
-[🦴]{.pv-ico}
-[The backbone]{.pv-title}
-Mapping algorithms are the core of {sdtm.oak}
-::::
-:::: {.pv-card}
-[🔁]{.pv-ico}
-[Reusable]{.pv-title}
-The same algorithm works across many SDTM domains
-::::
-:::: {.pv-card}
-[🌐]{.pv-ico}
-[Language agnostic]{.pv-title}
-The concept isn't tied to R — here, each algorithm is an R function
-::::
-:::::
+# `sdtm.oak`
 
 ```{=html}
 <style>
@@ -369,12 +349,114 @@ The concept isn't tied to R — here, each algorithm is an R function
 }
 </style>
 ```
-## Reusable Algorithms {.smaller}
 
-Algorithms are **modular building blocks** — compose them to map any domain.
+## The SDTM concept {.smaller}
+
+SDTM organizes everything as **observations** about **subjects** — each observation is a **row**, described by **variables**.
+
+::: {.pv-concept}
+[[🧍]{.pv-ico} Subject]{.pv-concept-node} [→]{.pv-concept-arrow} [[👀]{.pv-ico} Observation]{.pv-concept-node} [→]{.pv-concept-arrow} [[📊]{.pv-ico} Row of variables]{.pv-concept-node}
+:::
+
+> *"Subject **101** had **mild nausea** starting on **study day 6**."*
+
+::::: {.pv-obs}
+:::: {.pv-obs-cell .pv-role-id}
+[Identifier]{.pv-obs-role}
+[101]{.pv-obs-val}
+::::
+:::: {.pv-obs-cell .pv-role-topic}
+[Topic]{.pv-obs-role}
+[NAUSEA]{.pv-obs-val}
+::::
+:::: {.pv-obs-cell .pv-role-timing}
+[Timing]{.pv-obs-role}
+[Study day 6]{.pv-obs-val}
+::::
+:::: {.pv-obs-cell .pv-role-qual}
+[Qualifier]{.pv-obs-role}
+[MILD]{.pv-obs-val}
+::::
+:::::
+
+## Every variable has a **role** {.smaller}
+
+A variable's *role* determines what it tells you about the observation.
+
+::::: {.pv-roles}
+:::: {.pv-role .pv-role-id}
+[🆔]{.pv-ico}
+[Identifier]{.pv-role-name}
+Study, subject, domain, sequence number
+::::
+:::: {.pv-role .pv-role-topic}
+[🎯]{.pv-ico}
+[Topic]{.pv-role-name}
+The focus of the observation (e.g. the lab test)
+::::
+:::: {.pv-role .pv-role-timing}
+[🕒]{.pv-ico}
+[Timing]{.pv-role-name}
+When it happened (start / end dates)
+::::
+:::: {.pv-role .pv-role-qual}
+[🏷️]{.pv-ico}
+[Qualifier]{.pv-role-name}
+Extra detail: results, units, descriptors
+::::
+:::: {.pv-role .pv-role-rule}
+[⚙️]{.pv-ico}
+[Rule]{.pv-role-name}
+Start / end / branch / loop in Trial Design
+::::
+:::::
+
+::: {.fragment}
+**Qualifiers** carry most of the detail — they split into 5 kinds:
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[Grouping]{.pv-title}
+`--CAT`, `--SCAT`
+::::
+:::: {.pv-card}
+[Result]{.pv-title}
+`--ORRES`, `--STRESC`
+::::
+:::: {.pv-card}
+[Synonym]{.pv-title}
+`--DECOD`, `--TEST`
+::::
+:::: {.pv-card}
+[Record]{.pv-title}
+`AGE`, `SEX`, `--BLFL`
+::::
+:::: {.pv-card}
+[Variable]{.pv-title}
+`--ORRESU`, `--DOSU`
+::::
+:::::
+:::
+
+::: {.fragment}
+::: {.pv-ai}
+[📦]{.pv-ico} A **domain** = related observations with a common topic, one dataset with a 2-char code
+prefixing its variables — e.g. **VS** (Vital Signs: `VSTESTCD`, `VSORRES`) and **AE** (Adverse Events: `AETERM`, `AESEV`).
+:::
+:::
+
+## Reusable algorithms are the **backbone** {.smaller}
+
+::: {.pv-flow}
+[[📥]{.pv-ico}Collected source data]{.pv-step}
+[[🧩]{.pv-ico}Mapping algorithms]{.pv-step}
+[[📦]{.pv-ico}Target SDTM model]{.pv-step}
+:::
+
+**Modular building blocks** — reusable across domains, each one an R function you compose to map any domain.
 
 | Algorithm | What it does | Example |
-|---|---|---|
+|:----------|:-----------------------------------------|:---------------------|
 | `assign_no_ct()` | One-to-one map, **no** controlled terminology | `AE.AETERM` |
 | `assign_ct()` | One-to-one map **with** controlled terminology | `VS.VSPOS` |
 | `assign_datetime()` | Map dates/times to ISO 8601 (handles unknowns) | `AE.AEENDTC` |
@@ -387,65 +469,212 @@ Algorithms are **modular building blocks** — compose them to map any domain.
 [📎]{.pv-ico} Full descriptions for each algorithm are in the **appendix** at the end.
 :::
 
-## Algorithms compared to `dplyr`  {.smaller}
+## Build a mapping, one algorithm at a time {auto-animate="true"}
 
-::: incremental
-- `sdtm.oak` algorithms enhances `dplyr` functions
-  - Allowing users to perform multiple actions within a single function call.
-  - Applying if_else condtions, Controlled Terminology in a single function call by providing a simple approach compared to case_when statements.
-  - Mapping an SDTM variable only if the source contains data, which is particularly useful when hardcoding.
-  - Handling unknown dates, as well as date and time collected in separate or the same raw variables.
-  - Adding qualifiers to topic variables using oak id variables.
-- While all these can be achieved using `dplyr`, the algorithms in `sdtm.oak` provide a more
-  elegant and efficient approach.
+```{r}
+#| label: 'oak-build-1'
+#| output-location: "column"
+#| code-line-numbers: "3,4,5,6,7,8,9"
+vs_raw <- pharmaverseraw::vs_raw |>
+  generate_oak_id_vars(pat_var = "PATNUM", raw_src = "vitals")
+vs <-
+  # Topic: which test is this row?
+  hardcode_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSTESTCD", tgt_val = "SYSBP",
+    ct_spec = study_ct, ct_clst = "C66741"
+  ) |>
+  dplyr::filter(!is.na(VSTESTCD))
+vs |> dplyr::select(patient_number, VSTESTCD) |> head(4)
+```
+
+::: {.pv-ai}
+[🎯]{.pv-ico} Start with the **topic** — `hardcode_ct()` says "these rows are systolic BP".
 :::
 
-# sdtm.oak Programming {.smaller}
+## Build a mapping, one algorithm at a time {auto-animate="true"}
 
-## Programming concepts {.smaller}
+```{r}
+#| label: 'oak-build-2'
+#| output-location: "column"
+#| code-line-numbers: "11,12,13,14,15"
+vs_raw <- pharmaverseraw::vs_raw |>
+  generate_oak_id_vars(pat_var = "PATNUM", raw_src = "vitals")
+vs <-
+  # Topic: which test is this row?
+  hardcode_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSTESTCD", tgt_val = "SYSBP",
+    ct_spec = study_ct, ct_clst = "C66741"
+  ) |>
+  dplyr::filter(!is.na(VSTESTCD)) |>
+  # Result qualifier: the collected value
+  assign_no_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSORRES", id_vars = oak_id_vars()
+  )
+vs |> dplyr::select(patient_number, VSTESTCD, VSORRES) |> head(4)
+```
 
-::: incremental
--   Is very close to the key SDTM concepts.
--   Provide a straightforward way to do step-by-step SDTM programming in
-    R, that is, mapping topic variable and its qualifiers.
--   Programming steps are generic across SDTM domain classes like
-    Events, Interventions, Findings
+::: {.pv-ai}
+[🏷️]{.pv-ico} Add a **qualifier** — `assign_no_ct()` copies the collected result into `VSORRES`.
 :::
 
-## SDTM Concept
+## Build a mapping, one algorithm at a time {auto-animate="true"}
 
-![sdtm concept](./images/sdtm_concept.png){.center}
+```{r}
+#| label: 'oak-build-3'
+#| output-location: "column"
+#| code-line-numbers: "16,17,18,19,20,21"
+vs_raw <- pharmaverseraw::vs_raw |>
+  generate_oak_id_vars(pat_var = "PATNUM", raw_src = "vitals")
+vs <-
+  # Topic: which test is this row?
+  hardcode_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSTESTCD", tgt_val = "SYSBP",
+    ct_spec = study_ct, ct_clst = "C66741"
+  ) |>
+  dplyr::filter(!is.na(VSTESTCD)) |>
+  # Result qualifier: the collected value
+  assign_no_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSORRES", id_vars = oak_id_vars()
+  ) |>
+  # Variable qualifier: the unit
+  hardcode_ct(
+    raw_dat = vs_raw, raw_var = "SYS_BP",
+    tgt_var = "VSORRESU", tgt_val = "mmHg",
+    ct_spec = study_ct, ct_clst = "C66770",
+    id_vars = oak_id_vars()
+  )
+vs |> dplyr::select(patient_number, VSTESTCD, VSORRES, VSORRESU) |> head(4)
+```
+
+::: {.pv-ai}
+[🔁]{.pv-ico} Same **pattern**, one algorithm per variable — chain as many as the domain needs.
+:::
+
+## Algorithms vs. plain `dplyr` {.smaller}
+
+One `sdtm.oak` call does what several `dplyr` steps would.
+
+::::: columns
+
+:::: {.column width="50%"}
+🧰 **plain dplyr**
+
+```r
+vs_raw |>
+  mutate(
+    VSPOS = case_when(
+      SUBPOS == "STANDING" ~ "STANDING",
+      SUBPOS == "SITTING"  ~ "SITTING",
+      TRUE ~ NA_character_
+    )
+  )
+# + separate join to apply CT
+# + manual oak id bookkeeping
+```
+::::
+
+:::: {.column width="50%"}
+🌳 **sdtm.oak**
+
+```r
+vs_raw |>
+  assign_ct(
+    raw_var  = "SUBPOS",
+    tgt_var  = "VSPOS",
+    ct_spec  = study_ct,
+    ct_clst  = "C71148",
+    id_vars  = oak_id_vars()
+  )
+# CT + id linkage handled for you
+```
+::::
+
+:::::
+
+::: {.pv-ai}
+[⚡]{.pv-ico} Mapping, controlled terminology, conditions, and oak id linkage collapse into **one call**.
+:::
+
+## oak id vars — the linkage key {.smaller}
+
+Raw data is **long**: each collected item is a column. `sdtm.oak` needs to know
+which SDTM record each qualifier belongs to.
+
+::::: {.pv-idmap}
+:::: {.pv-idmap-side}
+[Raw row]{.pv-idmap-head}
+[patient `701-1015`]{.pv-idmap-cell}
+[row `5`]{.pv-idmap-cell}
+[source `vitals`]{.pv-idmap-cell}
+::::
+:::: {.pv-idmap-conn}
+[🔑]{.pv-idmap-key}
+::::
+:::: {.pv-idmap-side}
+[oak id vars]{.pv-idmap-head}
+[`patient_number`]{.pv-idmap-cell}
+[`oak_id`]{.pv-idmap-cell}
+[`raw_source`]{.pv-idmap-cell}
+::::
+:::: {.pv-idmap-conn}
+[→]{.pv-idmap-arrow}
+::::
+:::: {.pv-idmap-side .pv-idmap-target}
+[SDTM records]{.pv-idmap-head}
+[VSTESTCD = SYSBP]{.pv-idmap-cell}
+[VSORRES = 131]{.pv-idmap-cell}
+[VSORRESU = mmHg]{.pv-idmap-cell}
+::::
+:::::
+
+::: {.pv-ai}
+[🔗]{.pv-ico} `patient_number` + `oak_id` (raw row) + `raw_source` uniquely tie every
+qualifier back to its topic — and the SDTM record back to the raw dataset.
+:::
 
 ## Programming steps {.smaller}
 
+::::::: columns
+
+:::::: {.column width="42%"}
 ::: {.pv-steps}
-- [1]{.pv-num} [📥]{.pv-ico} Read **raw** datasets
-- [2]{.pv-num} [🔑]{.pv-ico} Create **oak id** vars in the raw dataset
-- [3]{.pv-num} [📖]{.pv-ico} Read study **controlled terminology**
-- [4]{.pv-num} [🎯]{.pv-ico} Map **topic** variable
-- [5]{.pv-num} [🏷️]{.pv-ico} Map the **rest** of the variables
-- [6]{.pv-num} [🔁]{.pv-ico} Repeat *map topic → map rest* per topic variable
-- [7]{.pv-num} [🧮]{.pv-ico} Create SDTM **derived** variables
-- [8]{.pv-num} [🏁]{.pv-ico} Add **labels & attributes**
+- [1]{.pv-num} [📥]{.pv-ico} [Read **raw** datasets]{.fragment fragment-index=0}
+- [2]{.pv-num} [🔑]{.pv-ico} [Create **oak id** vars]{.fragment fragment-index=0}
+- [3]{.pv-num} [📖]{.pv-ico} [Read study **CT**]{.fragment fragment-index=1}
+- [4]{.pv-num} [🎯]{.pv-ico} [Map **topic** variable]{.fragment fragment-index=2}
+- [5]{.pv-num} [🏷️]{.pv-ico} [Map the **rest**]{.fragment fragment-index=2}
+- [6]{.pv-num} [🔁]{.pv-ico} [Repeat per topic variable]{.fragment fragment-index=2}
+- [7]{.pv-num} [🧮]{.pv-ico} [Create **derived** vars]{.fragment fragment-index=3}
+- [8]{.pv-num} [🏁]{.pv-ico} [Add **labels & attributes**]{.fragment fragment-index=3}
 :::
+::::::
 
-## oak id vars {.smaller}
+:::::: {.column width="58%"}
+```{.r code-line-numbers="|1-3|4-5|6-11|12-15"}
+# 1-2  read raw + create oak id vars
+vs_raw <- pharmaverseraw::vs_raw |>
+  generate_oak_id_vars(pat_var = "PATNUM", raw_src = "vitals")
+# 3  read study controlled terminology
+study_ct <- read.csv("sdtm_ct.csv")
+# 4-6  map topic, map rest, repeat per topic var
+vs <- hardcode_ct(vs_raw, "SYS_BP",
+        tgt_var = "VSTESTCD", tgt_val = "SYSBP",
+        ct_spec = study_ct, ct_clst = "C66741") |>
+  assign_no_ct(vs_raw, "SYS_BP",
+        tgt_var = "VSORRES", id_vars = oak_id_vars())
+# 7-8  derived vars + labels & attributes
+vs <- vs |>
+  derive_seq(tgt_var = "VSSEQ", ...) |>
+  derive_study_day(...)
+```
+::::::
 
-::: incremental
--   Raw data can be in long format, where each piece of collected data
-    is represented as a column.
--   In SDTM mappings, transposing may be necessary to create multiple
-    records from a single row in a raw dataset (e.g., HEIGHT and WEIGHT
-    in the VS domain).
--   Alternatively, a single row in an SDTM domain can be created from
-    one row of the raw dataset (e.g., AETERM from the adverse events raw
-    dataset).
--   Qualifiers need to be mapped to their corresponding topic variables.
--   The OAK ID variables are a combination of `patient number`, 
-    `row number of the raw dataset`, and `raw source name`.
--   These id variables provide key linkage between the
-    SDTM datasets and the raw datasets during programming.
-:::
+:::::::
 
 # Workshop - Create VS domain
 
@@ -463,19 +692,17 @@ Review aCRF
 
 -  [VitalSigns_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/VitalSigns_aCRF.pdf)
 
-## Code Walkthrough
-
-Run the code and explain to the users
-
-## Check in on Barb in Vitals Raw dataset
+## Check in on Barb — Vitals raw → VS {.smaller}
 
 :::: {.columns}
 
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
+::: {.column width="20%"}
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
 :::
 
-::: {.column}
+::: {.column width="40%"}
+**Vitals raw**
+
 * PATNUM:  701-1034
 * OAK_ID:  213
 * INSTANCE: WEEK2
@@ -485,17 +712,9 @@ Run the code and explain to the users
 * DIA_BP:   81.0
 :::
 
-::::
+::: {.column width="40%"}
+**VS domain**
 
-## Check in on Barb in VS
-
-:::: {.columns}
-
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
-:::
-
-::: {.column}
 * USUBJID:  01-701-1034
 * VSTESTCD: SYSBP and DIABP
 * VISIT: WEEK2
@@ -549,36 +768,26 @@ Review aCRF
 -   tformat: Format of the time collected in raw data. 
 -   sdtm_var_name : Reference variable name.
 
-## Code Walkthrough
-
-Run the code and explain to the users
-
-## Check in on Barb in Raw dataset
+## Check in on Barb — DM raw → DM {.smaller}
 
 :::: {.columns}
 
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
+::: {.column width="20%"}
+<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
 :::
 
-::: {.column}
+::: {.column width="40%"}
+**DM raw**
+
 * PATNUM:  701-1034
 * OAK_ID:  5
 * IT.AGE: 77
 * IT.SEX: Female
 :::
 
-::::
+::: {.column width="40%"}
+**DM domain**
 
-## Check in on Barb in DM
-
-:::: {.columns}
-
-::: {.column}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 200px;"/> </div>
-:::
-
-::: {.column}
 * USUBJID:  01-701-1034
 * AGE:  77
 * SEX: FEMALE
@@ -599,18 +808,6 @@ Run the code and explain to the users
     collected value use assign algorithms**
     
 ::: 
-
-# Release summary
-
-::: incremental
--   Users can create the majority of the SDTM domains.
--   **Not Supported Domains**\
-    Trial Design Domains\
-    SV (Subject Visits)\
-    SE (Subject Elements)\
-    RELREC (Related Records)\
-    Associated Person domains.
-:::
 
 ## Check-in Exercise {.smaller}
 
@@ -812,27 +1009,92 @@ AI drafts the repetitive parts; **you own correctness**.
 CT correctness, and traceability remain your responsibility.
 :::
 
-## Get Involved
+## Wrap-up & resources {.smaller}
 
-Please try the package and provide us with your feedback, or get
-involved in the development of new features. We can be reached through
-any of the following means:
+:::::: {.pv-wrap}
+::::: {.pv-wrap-row}
+:::: {.pv-wrap-ico}
+✅
+::::
+::: {.pv-wrap-body}
+[What you can build]{.pv-wrap-title}
+Most SDTM domains today. *Not yet:* Trial Design, SV, SE, RELREC, Associated Persons.
+:::
+:::::
+::::: {.pv-wrap-row .pv-wrap-accent}
+:::: {.pv-wrap-ico}
+🤝
+::::
+::: {.pv-wrap-body}
+[Get involved]{.pv-wrap-title}
+[💬 Slack](https://oakgarden.slack.com) · [🐙 GitHub](https://github.com/pharmaverse/sdtm.oak) · [📖 CDISC Wiki](https://wiki.cdisc.org/display/oakgarden)
+:::
+:::::
+::::: {.pv-wrap-row}
+:::: {.pv-wrap-ico}
+📚
+::::
+::: {.pv-wrap-body}
+[Learn more]{.pv-wrap-title}
+[📄 Docs](https://pharmaverse.github.io/sdtm.oak/) · [🧩 Examples](https://pharmaverse.github.io/examples/) · [▶️ Video](https://www.youtube.com/watch?v=H0FdhG9_ttU&list=PLMtxz1fUYA5C67SvhSCINluOV2EmyjKql&index=3&ab_channel=RinPharma) · [📝 Blog](https://pharmaverse.github.io/blog/posts/2024-10-24_introducing.../introducing_sdtm.oak.html) · [📊 Poster](https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/Connect/US/Orlando/POS_PP31.pdf)
+:::
+:::::
+::::::
 
-Slack: https://oakgarden.slack.com\
-GitHub: https://github.com/pharmaverse/sdtm.oak\
-CDISC Wiki: https://wiki.cdisc.org/display/oakgarden
+## Acknowledgements {.smaller}
 
-## Learning Resources
+::: {.ack-hero}
+<img src="images/sdtmoak-logo.png" alt="sdtm.oak logo" class="ack-logo"/>
+:::
 
-[sdtm.oak Documentation](https://pharmaverse.github.io/sdtm.oak/)
+The `sdtm.oak` package is the work of many contributors:
 
-[Pharmaverse Examples](https://pharmaverse.github.io/examples/)
-
-[sdtm.oak Youtube Video](https://www.youtube.com/watch?v=H0FdhG9_ttU&list=PLMtxz1fUYA5C67SvhSCINluOV2EmyjKql&index=3&ab_channel=RinPharma)
-
-[sdtm.oak Pharmaverse Blog](https://pharmaverse.github.io/blog/posts/2024-10-24_introducing.../introducing_sdtm.oak.html)
-
-[SDTM Programming in R with sdtm.oak Poster](https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/Connect/US/Orlando/POS_PP31.pdf)
+::: {.ack-grid}
+::: {.ack-card .ack-lead}
+[Rammprasad Ganapathy]{.ack-name}
+[Lead Author]{.ack-role}
+:::
+::: {.ack-card}
+[Adam Forys]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Edgar Manukyan]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Rosemary Li]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Preetesh Parikh]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Lisa Houterloot]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Yogesh Gupta]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Omar Garcia]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Ramiro Magno]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Kamil Sijko]{.ack-name}
+[Author]{.ack-role}
+:::
+::: {.ack-card}
+[Shiyu Chen]{.ack-name}
+[Author]{.ack-role}
+:::
+:::
 
 ## Thank you
 
