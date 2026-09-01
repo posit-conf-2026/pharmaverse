@@ -1,12 +1,4 @@
 
-## Check in with Barb!
-
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
-
-Barb has arrived at RESULTS!
-
-<img src="images/barb-tlg.png" alt="Barb!" style="width: 100%;"/>
 
 ## ARDS 🤝 Tables: A Dynamic Duo 
 
