@@ -12,7 +12,7 @@
 
 -   Can be used within the ARS workflow and separately
 
--   38k downloads per month 🤯
+-   `r scales::number_format(scale = 1e-3, suffix = "K", accuracy = 1)(cranlogs::cran_downloads(packages = "gtsummary", when = "last-month")$count |> sum())` downloads per month 🤯
 
 ## Data used in examples
 
@@ -408,9 +408,9 @@ ard_hier |>
 ## Why the stacking functions?
 
 
-- Displays for hierarchical data report on **each level** of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)
+- Displays for hierarchical data report on **each level** of the hierarchy (by System Organ Class, by Preferred Term)
 
-- Producing that by hand means several calls to the simpler `ard_hierarchical()` / `ard_hierarchical_count()` functions, each on a **different subset** of the data (e.g. Overall rates need 1 record per subject in ADAE)
+- Producing that by hand means several calls to the simpler `ard_hierarchical()` / `ard_hierarchical_count()` functions, each on a **different subset** of the data 
 
 - `ard_stack_hierarchical*()` runs those calls in the background and **stacks** the results into one ARD
 
