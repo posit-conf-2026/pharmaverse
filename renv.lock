@@ -9,6 +9,24 @@
     ]
   },
   "Packages": {
+    "AsioHeaders": {
+      "Package": "AsioHeaders",
+      "Version": "1.30.2-1",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "'Asio' C++ Header Files",
+      "Date": "2025-04-15",
+      "Authors@R": "c(person(\"Dirk\", \"Eddelbuettel\", role = c(\"aut\", \"cre\"), email = \"edd@debian.org\", comment = c(ORCID = \"0000-0001-6419-907X\")), person(\"Christopher M.\", \"Kohlhoff\", role = \"aut\", comment = \"Author of Asio\"))",
+      "Description": "'Asio' is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach. It is also included in Boost but requires linking when used with Boost. Standalone it can be used header-only (provided a recent compiler). 'Asio' is written and maintained by Christopher M. Kohlhoff, and released under the 'Boost Software License', Version 1.0.",
+      "Copyright": "file inst/COPYRIGHTS",
+      "License": "BSL-1.0",
+      "URL": "https://github.com/eddelbuettel/asioheaders, https://dirk.eddelbuettel.com/code/asioheaders.html",
+      "BugReports": "https://github.com/eddelbuettel/asioheaders/issues",
+      "NeedsCompilation": "no",
+      "Author": "Dirk Eddelbuettel [aut, cre] (<https://orcid.org/0000-0001-6419-907X>), Christopher M. Kohlhoff [aut] (Author of Asio)",
+      "Maintainer": "Dirk Eddelbuettel <edd@debian.org>",
+      "Repository": "CRAN"
+    },
     "DBI": {
       "Package": "DBI",
       "Version": "1.3.0",
@@ -1349,6 +1367,52 @@
       "Maintainer": "Michel Lang <michellang@gmail.com>",
       "Repository": "CRAN"
     },
+    "chromote": {
+      "Package": "chromote",
+      "Version": "0.5.1",
+      "Source": "Repository",
+      "Title": "Headless Chrome Web Browser Interface",
+      "Authors@R": "c( person(\"Garrick\", \"Aden-Buie\", , \"garrick@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-7111-0077\")), person(\"Winston\", \"Chang\", , \"winston@posit.co\", role = \"aut\"), person(\"Barret\", \"Schloerke\", , \"barret@posit.co\", role = \"aut\", comment = c(ORCID = \"0000-0001-9986-114X\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")) )",
+      "Description": "An implementation of the 'Chrome DevTools Protocol', for controlling a headless Chrome web browser.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://rstudio.github.io/chromote/, https://github.com/rstudio/chromote",
+      "BugReports": "https://github.com/rstudio/chromote/issues",
+      "Imports": [
+        "cli",
+        "curl",
+        "fastmap",
+        "jsonlite",
+        "later (>= 1.1.0)",
+        "magrittr",
+        "processx",
+        "promises (>= 1.1.1)",
+        "R6",
+        "rlang (>= 1.1.0)",
+        "utils",
+        "websocket (>= 1.2.0)",
+        "withr",
+        "zip"
+      ],
+      "Suggests": [
+        "knitr",
+        "rmarkdown",
+        "showimage",
+        "testthat (>= 3.0.0)"
+      ],
+      "VignetteBuilder": "knitr",
+      "Config/Needs/website": "r-lib/pkgdown, rstudio/bslib",
+      "Config/testthat/edition": "3",
+      "Config/testthat/parallel": "FALSE",
+      "Config/testthat/start-first": "chromote_session",
+      "Encoding": "UTF-8",
+      "Language": "en-US",
+      "RoxygenNote": "7.3.2",
+      "SystemRequirements": "Google Chrome or other Chromium-based browser. chromium: chromium (rpm) or chromium-browser (deb)",
+      "NeedsCompilation": "no",
+      "Author": "Garrick Aden-Buie [aut, cre] (<https://orcid.org/0000-0002-7111-0077>), Winston Chang [aut], Barret Schloerke [aut] (<https://orcid.org/0000-0001-9986-114X>), Posit Software, PBC [cph, fnd] (03wc8by49)",
+      "Maintainer": "Garrick Aden-Buie <garrick@posit.co>",
+      "Repository": "CRAN"
+    },
     "class": {
       "Package": "class",
       "Version": "7.3-24",
@@ -1452,6 +1516,23 @@
       "NeedsCompilation": "no",
       "Author": "Matthew Lincoln [aut, cre] (ORCID: <https://orcid.org/0000-0002-4387-3384>), Louis Maddox [ctb], Steve Simpson [ctb], Jennifer Bryan [ctb]",
       "Maintainer": "Matthew Lincoln <matthew.d.lincoln@gmail.com>",
+      "Repository": "CRAN"
+    },
+    "codetools": {
+      "Package": "codetools",
+      "Version": "0.2-20",
+      "Source": "Repository",
+      "Priority": "recommended",
+      "Author": "Luke Tierney <luke-tierney@uiowa.edu>",
+      "Description": "Code analysis tools for R.",
+      "Title": "Code Analysis Tools for R",
+      "Depends": [
+        "R (>= 2.1)"
+      ],
+      "Maintainer": "Luke Tierney <luke-tierney@uiowa.edu>",
+      "URL": "https://gitlab.com/luke-tierney/codetools",
+      "License": "GPL",
+      "NeedsCompilation": "no",
       "Repository": "CRAN"
     },
     "commonmark": {
@@ -4082,6 +4163,46 @@
       "Author": "Joseph Larmarange [aut, cre] (ORCID: <https://orcid.org/0000-0001-7097-700X>), Daniel Ludecke [ctb], Hadley Wickham [ctb], Michal Bojanowski [ctb], François Briatte [ctb]",
       "Repository": "CRAN"
     },
+    "later": {
+      "Package": "later",
+      "Version": "1.4.8",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Utilities for Scheduling Functions to Execute Later with Event Loops",
+      "Authors@R": "c( person(\"Winston\", \"Chang\", , \"winston@posit.co\", role = \"aut\", comment = c(ORCID = \"0000-0002-1576-2126\")), person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"), person(\"Charlie\", \"Gao\", , \"charlie.gao@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-0750-061X\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")), person(\"Marcus\", \"Geelnard\", role = c(\"ctb\", \"cph\"), comment = \"TinyCThread library, https://tinycthread.github.io/\"), person(\"Evan\", \"Nemerson\", role = c(\"ctb\", \"cph\"), comment = \"TinyCThread library, https://tinycthread.github.io/\") )",
+      "Description": "Executes arbitrary R or C functions some time after the current time, after the R execution stack has emptied. The functions are scheduled in an event loop.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://later.r-lib.org, https://github.com/r-lib/later",
+      "BugReports": "https://github.com/r-lib/later/issues",
+      "Depends": [
+        "R (>= 3.5)"
+      ],
+      "Imports": [
+        "Rcpp (>= 1.0.10)",
+        "rlang"
+      ],
+      "Suggests": [
+        "knitr",
+        "nanonext",
+        "promises",
+        "rmarkdown",
+        "testthat (>= 3.0.0)"
+      ],
+      "LinkingTo": [
+        "Rcpp"
+      ],
+      "VignetteBuilder": "knitr",
+      "Config/build/compilation-database": "true",
+      "Config/Needs/website": "tidyverse/tidytemplate",
+      "Config/testthat/edition": "3",
+      "Config/usethis/last-upkeep": "2025-07-18",
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.3",
+      "NeedsCompilation": "yes",
+      "Author": "Winston Chang [aut] (ORCID: <https://orcid.org/0000-0002-1576-2126>), Joe Cheng [aut], Charlie Gao [aut, cre] (ORCID: <https://orcid.org/0000-0002-0750-061X>), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>), Marcus Geelnard [ctb, cph] (TinyCThread library, https://tinycthread.github.io/), Evan Nemerson [ctb, cph] (TinyCThread library, https://tinycthread.github.io/)",
+      "Maintainer": "Charlie Gao <charlie.gao@posit.co>",
+      "Repository": "CRAN"
+    },
     "lattice": {
       "Package": "lattice",
       "Version": "0.22-9",
@@ -4267,6 +4388,54 @@
       "Collate": "'Dates.r' 'POSIXt.r' 'util.r' 'parse.r' 'timespans.r' 'intervals.r' 'difftimes.r' 'durations.r' 'periods.r' 'accessors-date.R' 'accessors-day.r' 'accessors-dst.r' 'accessors-hour.r' 'accessors-minute.r' 'accessors-month.r' 'accessors-quarter.r' 'accessors-second.r' 'accessors-tz.r' 'accessors-week.r' 'accessors-year.r' 'am-pm.r' 'time-zones.r' 'numeric.r' 'coercion.r' 'constants.r' 'cyclic_encoding.r' 'data.r' 'decimal-dates.r' 'deprecated.r' 'format_ISO8601.r' 'guess.r' 'hidden.r' 'instants.r' 'leap-years.r' 'ops-addition.r' 'ops-compare.r' 'ops-division.r' 'ops-integer-division.r' 'ops-m+.r' 'ops-modulo.r' 'ops-multiplication.r' 'ops-subtraction.r' 'package.r' 'pretty.r' 'round.r' 'stamp.r' 'tzdir.R' 'update.r' 'vctrs.R' 'zzz.R'",
       "NeedsCompilation": "yes",
       "Author": "Vitalie Spinu [aut, cre], Garrett Grolemund [aut], Hadley Wickham [aut], Davis Vaughan [ctb], Ian Lyttle [ctb], Imanuel Costigan [ctb], Jason Law [ctb], Doug Mitarotonda [ctb], Joseph Larmarange [ctb], Jonathan Boiser [ctb], Chel Hee Lee [ctb]",
+      "Repository": "CRAN"
+    },
+    "magick": {
+      "Package": "magick",
+      "Version": "2.9.1",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Advanced Graphics and Image-Processing in R",
+      "Authors@R": "person(\"Jeroen\", \"Ooms\", role = c(\"aut\", \"cre\"), email = \"jeroenooms@gmail.com\", comment = c(ORCID = \"0000-0002-4035-0289\"))",
+      "Description": "Bindings to 'ImageMagick': the most comprehensive open-source image processing library available. Supports many common formats (png, jpeg, tiff, pdf, etc) and manipulations (rotate, scale, crop, trim, flip, blur, etc). All operations are vectorized via the Magick++ STL meaning they operate either on a single frame or a series of frames for working with layers, collages, or animation. In RStudio images are automatically previewed when printed to the console, resulting in an interactive editing environment. Also includes a graphics device for creating drawing onto images using pixel coordinates.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://docs.ropensci.org/magick/ https://ropensci.r-universe.dev/magick",
+      "BugReports": "https://github.com/ropensci/magick/issues",
+      "SystemRequirements": "ImageMagick++: ImageMagick-c++-devel (rpm) or libmagick++-dev (deb)",
+      "VignetteBuilder": "knitr",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ],
+      "Imports": [
+        "Rcpp (>= 0.12.12)",
+        "magrittr",
+        "curl"
+      ],
+      "LinkingTo": [
+        "Rcpp"
+      ],
+      "Suggests": [
+        "av",
+        "spelling",
+        "jsonlite",
+        "methods",
+        "knitr",
+        "rmarkdown",
+        "rsvg",
+        "webp",
+        "pdftools",
+        "ggplot2",
+        "gapminder",
+        "IRdisplay",
+        "tesseract",
+        "gifski"
+      ],
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.3",
+      "Language": "en-US",
+      "NeedsCompilation": "yes",
+      "Author": "Jeroen Ooms [aut, cre] (ORCID: <https://orcid.org/0000-0002-4035-0289>)",
+      "Maintainer": "Jeroen Ooms <jeroenooms@gmail.com>",
       "Repository": "CRAN"
     },
     "magrittr": {
@@ -4962,6 +5131,69 @@
       "Maintainer": "Lionel Henry <lionel@posit.co>",
       "Repository": "CRAN"
     },
+    "png": {
+      "Package": "png",
+      "Version": "0.1-9",
+      "Source": "Repository",
+      "Title": "Read and write PNG images",
+      "Author": "Simon Urbanek [aut, cre, cph] (https://urbanek.nz, ORCID: <https://orcid.org/0000-0003-2297-1732>)",
+      "Authors@R": "person(\"Simon\", \"Urbanek\", role=c(\"aut\",\"cre\",\"cph\"), email=\"Simon.Urbanek@r-project.org\", comment=c(\"https://urbanek.nz\", ORCID=\"0000-0003-2297-1732\"))",
+      "Maintainer": "Simon Urbanek <Simon.Urbanek@r-project.org>",
+      "Depends": [
+        "R (>= 2.9.0)"
+      ],
+      "Description": "This package provides an easy and simple way to read, write and display bitmap images stored in the PNG format. It can read and write both files and in-memory raw vectors.",
+      "License": "GPL-2 | GPL-3",
+      "SystemRequirements": "libpng",
+      "URL": "https://www.rforge.net/png/",
+      "BugReports": "https://github.com/s-u/png/issues/",
+      "NeedsCompilation": "yes",
+      "Repository": "CRAN"
+    },
+    "polish": {
+      "Package": "polish",
+      "Version": "0.3.1",
+      "Source": "Repository",
+      "Title": "Polishing Content for 'Word' and 'PowerPoint'",
+      "Authors@R": "c( person(\"Romain\", \"François\", email = \"romain@tada.science\", role = \"aut\"),  person(\"Ellis\", \"Hughes\", email = \"ellis.h.hughes@gsk.com\", role = c(\"aut\", \"cre\")),  person(\"Shannon\", \"Haughton\", email = \"shannon.l.haughton@gsk.com\", role = \"aut\"), person(\"GlaxoSmithKline Research & Development Limited\", role = c(\"cph\", \"fnd\")) )",
+      "Description": "Set of functions to polish content for Microsoft 'Word' and 'PowerPoint'  into 'OOXML'. Polishing is the conversion of the R object into an 'OOXML' representation of the object that can then be added to 'Word' or 'PowerPoint'  files.",
+      "License": "Apache License (>= 2)",
+      "Encoding": "UTF-8",
+      "RoxygenNote": "7.3.3",
+      "URL": "https://gsk-biostatistics.github.io/polish/, https://github.com/GSK-Biostatistics/polish/",
+      "BugReports": "https://github.com/GSK-Biostatistics/polish/issues/",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ],
+      "Imports": [
+        "cli",
+        "commonmark",
+        "dplyr",
+        "flextable",
+        "ggplot2",
+        "glue",
+        "gt",
+        "htmltools",
+        "magick",
+        "officer (>= 0.6.9)",
+        "purrr",
+        "rlang",
+        "rmarkdown",
+        "sloop",
+        "tibble",
+        "webshot2",
+        "xml2"
+      ],
+      "Suggests": [
+        "testthat (>= 3.0.0)",
+        "withr"
+      ],
+      "Config/testthat/edition": "3",
+      "NeedsCompilation": "no",
+      "Author": "Romain François [aut], Ellis Hughes [aut, cre], Shannon Haughton [aut], GlaxoSmithKline Research & Development Limited [cph, fnd]",
+      "Maintainer": "Ellis Hughes <ellis.h.hughes@gsk.com>",
+      "Repository": "CRAN"
+    },
     "prettyunits": {
       "Package": "prettyunits",
       "Version": "1.2.0",
@@ -5090,6 +5322,53 @@
       "NeedsCompilation": "no",
       "Author": "Gábor Csárdi [aut, cre], Rich FitzJohn [aut], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Gábor Csárdi <csardi.gabor@gmail.com>",
+      "Repository": "CRAN"
+    },
+    "promises": {
+      "Package": "promises",
+      "Version": "1.5.0",
+      "Source": "Repository",
+      "Type": "Package",
+      "Title": "Abstractions for Promise-Based Asynchronous Programming",
+      "Authors@R": "c( person(\"Joe\", \"Cheng\", , \"joe@posit.co\", role = \"aut\"), person(\"Barret\", \"Schloerke\", , \"barret@posit.co\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0001-9986-114X\")), person(\"Winston\", \"Chang\", , \"winston@posit.co\", role = \"aut\", comment = c(ORCID = \"0000-0002-1576-2126\")), person(\"Charlie\", \"Gao\", , \"charlie.gao@posit.co\", role = \"aut\", comment = c(ORCID = \"0000-0002-0750-061X\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")) )",
+      "Description": "Provides fundamental abstractions for doing asynchronous programming in R using promises. Asynchronous programming is useful for allowing a single R process to orchestrate multiple tasks in the background while also attending to something else. Semantics are similar to 'JavaScript' promises, but with a syntax that is idiomatic R.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://rstudio.github.io/promises/, https://github.com/rstudio/promises",
+      "BugReports": "https://github.com/rstudio/promises/issues",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ],
+      "Imports": [
+        "fastmap (>= 1.1.0)",
+        "later",
+        "lifecycle",
+        "magrittr (>= 1.5)",
+        "otel (>= 0.2.0)",
+        "R6",
+        "rlang"
+      ],
+      "Suggests": [
+        "future (>= 1.21.0)",
+        "knitr",
+        "mirai",
+        "otelsdk (>= 0.2.0)",
+        "purrr",
+        "Rcpp",
+        "rmarkdown",
+        "spelling",
+        "testthat (>= 3.0.0)",
+        "vembedr"
+      ],
+      "VignetteBuilder": "knitr",
+      "Config/Needs/website": "rsconnect, tidyverse/tidytemplate",
+      "Config/testthat/edition": "3",
+      "Config/usethis/last-upkeep": "2025-05-27",
+      "Encoding": "UTF-8",
+      "Language": "en-US",
+      "RoxygenNote": "7.3.3",
+      "NeedsCompilation": "no",
+      "Author": "Joe Cheng [aut], Barret Schloerke [aut, cre] (ORCID: <https://orcid.org/0000-0001-9986-114X>), Winston Chang [aut] (ORCID: <https://orcid.org/0000-0002-1576-2126>), Charlie Gao [aut] (ORCID: <https://orcid.org/0000-0002-0750-061X>), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
+      "Maintainer": "Barret Schloerke <barret@posit.co>",
       "Repository": "CRAN"
     },
     "proxy": {
@@ -6175,6 +6454,39 @@
       "Maintainer": "Simon Potter <simon@sjp.co.nz>",
       "Repository": "CRAN"
     },
+    "sloop": {
+      "Package": "sloop",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Title": "Helpers for 'OOP' in R",
+      "Authors@R": "c( person(\"Hadley\", \"Wickham\", , \"hadley@rstudio.com\", role = c(\"aut\", \"cre\")), person(\"RStudio\", role = \"cph\") )",
+      "Description": "A collection of helper functions designed to help you to better understand object oriented programming in R, particularly using 'S3'.",
+      "License": "GPL-3",
+      "URL": "https://github.com/r-lib/sloop, https://sloop.r-lib.org",
+      "BugReports": "https://github.com/r-lib/sloop/issues",
+      "Depends": [
+        "R (>= 3.3)"
+      ],
+      "Imports": [
+        "codetools",
+        "crayon",
+        "methods",
+        "purrr",
+        "rlang",
+        "tibble (>= 2.0.1)"
+      ],
+      "Suggests": [
+        "covr",
+        "testthat"
+      ],
+      "Encoding": "UTF-8",
+      "LazyData": "true",
+      "RoxygenNote": "6.1.1",
+      "NeedsCompilation": "no",
+      "Author": "Hadley Wickham [aut, cre], RStudio [cph]",
+      "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
+      "Repository": "CRAN"
+    },
     "stringi": {
       "Package": "stringi",
       "Version": "1.8.9",
@@ -7082,6 +7394,74 @@
       "NeedsCompilation": "yes",
       "Author": "Jim Hester [aut] (ORCID: <https://orcid.org/0000-0002-2739-7082>), Hadley Wickham [aut] (ORCID: <https://orcid.org/0000-0003-4757-117X>), Jennifer Bryan [aut, cre] (ORCID: <https://orcid.org/0000-0002-6983-2759>), Shelby Bearrows [ctb], https://github.com/mandreyel/ [cph] (mio library), Jukka Jylänki [cph] (grisu3 implementation), Mikkel Jørgensen [cph] (grisu3 implementation), Posit Software, PBC [cph, fnd] (ROR: <https://ror.org/03wc8by49>)",
       "Maintainer": "Jennifer Bryan <jenny@posit.co>",
+      "Repository": "CRAN"
+    },
+    "webshot2": {
+      "Package": "webshot2",
+      "Version": "0.1.2",
+      "Source": "Repository",
+      "Title": "Take Screenshots of Web Pages",
+      "Authors@R": "c( person(\"Winston\", \"Chang\", , \"winston@posit.co\", role = c(\"aut\", \"cre\")), person(\"Barret\", \"Schloerke\", , \"barret@posit.co\", role = \"ctb\", comment = c(ORCID = \"0000-0001-9986-114X\")), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\"), comment = c(ROR = \"03wc8by49\")) )",
+      "Description": "Takes screenshots of web pages, including Shiny applications and R Markdown documents. 'webshot2' uses headless Chrome or Chromium as the browser back-end.",
+      "License": "MIT + file LICENSE",
+      "URL": "https://rstudio.github.io/webshot2/, https://github.com/rstudio/webshot2",
+      "BugReports": "https://github.com/rstudio/webshot2/issues",
+      "Depends": [
+        "R (>= 3.2)"
+      ],
+      "Imports": [
+        "callr",
+        "chromote (>= 0.1.0)",
+        "later",
+        "magrittr",
+        "promises"
+      ],
+      "Suggests": [
+        "httpuv",
+        "rmarkdown",
+        "shiny"
+      ],
+      "Config/Needs/website": "r-lib/pkgdown, rstudio/bslib",
+      "Encoding": "UTF-8",
+      "Language": "en-US",
+      "RoxygenNote": "7.3.2",
+      "NeedsCompilation": "no",
+      "Author": "Winston Chang [aut, cre], Barret Schloerke [ctb] (<https://orcid.org/0000-0001-9986-114X>), Posit Software, PBC [cph, fnd] (03wc8by49)",
+      "Maintainer": "Winston Chang <winston@posit.co>",
+      "Repository": "CRAN"
+    },
+    "websocket": {
+      "Package": "websocket",
+      "Version": "1.4.4",
+      "Source": "Repository",
+      "Title": "'WebSocket' Client Library",
+      "Description": "Provides a 'WebSocket' client interface for R. 'WebSocket' is a protocol for low-overhead real-time communication: <https://en.wikipedia.org/wiki/WebSocket>.",
+      "Authors@R": "c( person(\"Winston\", \"Chang\", role = c(\"aut\", \"cre\"), email = \"winston@posit.co\"), person(\"Joe\", \"Cheng\", role = \"aut\", email = \"joe@posit.co\"), person(\"Alan\", \"Dipert\", role = \"aut\"), person(\"Barbara\", \"Borges\", role = \"aut\"), person(family = \"Posit, PBC\", role = \"cph\"), person(\"Peter\", \"Thorson\", role = c(\"ctb\", \"cph\"), comment = \"WebSocket++ library\"), person(\"René\", \"Nyffenegger\", role = c(\"ctb\", \"cph\"), comment = \"Base 64 library\"), person(\"Micael\", \"Hildenborg\", role = c(\"ctb\", \"cph\"), comment = \"SHA1 library\"), person(family = \"Aladdin Enterprises\", role = \"cph\", comment = \"MD5 library\"), person(\"Bjoern\", \"Hoehrmann\", role = c(\"ctb\", \"cph\"), comment = \"UTF8 Validation library\"))",
+      "License": "GPL-2",
+      "Encoding": "UTF-8",
+      "ByteCompile": "true",
+      "Imports": [
+        "R6",
+        "later (>= 1.2.0)"
+      ],
+      "LinkingTo": [
+        "cpp11",
+        "AsioHeaders",
+        "later"
+      ],
+      "BugReports": "https://github.com/rstudio/websocket/issues",
+      "SystemRequirements": "GNU make, OpenSSL >= 1.0.2",
+      "RoxygenNote": "7.3.2",
+      "Suggests": [
+        "httpuv",
+        "testthat",
+        "knitr",
+        "rmarkdown"
+      ],
+      "VignetteBuilder": "knitr",
+      "NeedsCompilation": "yes",
+      "Author": "Winston Chang [aut, cre], Joe Cheng [aut], Alan Dipert [aut], Barbara Borges [aut], Posit, PBC [cph], Peter Thorson [ctb, cph] (WebSocket++ library), René Nyffenegger [ctb, cph] (Base 64 library), Micael Hildenborg [ctb, cph] (SHA1 library), Aladdin Enterprises [cph] (MD5 library), Bjoern Hoehrmann [ctb, cph] (UTF8 Validation library)",
+      "Maintainer": "Winston Chang <winston@posit.co>",
       "Repository": "CRAN"
     },
     "withr": {
