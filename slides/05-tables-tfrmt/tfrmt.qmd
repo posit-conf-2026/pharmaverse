@@ -1058,13 +1058,11 @@ print_to_gt(tfrmt_demog, ard_demog_display) |>
 
 ## Exercise 🏃‍➡️ (Together!)
 
-1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R` #todo add docorator
+1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R`
 
-2. Update the demog table from the slides as described. 
+2. Create, modify, and output the AE table as described.
 
-3. Create, modify, and output the AE table as described.
-
-4. Add the "completed" sticky note to your laptop when complete.
+3. Add the "completed" sticky note to your laptop when complete.
 
 ```{r}
 #| echo: false
