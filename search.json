@@ -373,56 +373,56 @@
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#objectives",
     "href": "slides/04-ARD/intro_to_ards.html#objectives",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Objectives",
     "text": "Objectives\n\n\nBy the end of this ARD section you will have:\n\nDeveloped an understanding of ARDs\nSeen examples of univariate and hierarachical calculations\nGained an awareness of other possibilities in cards and statistical capabilities in cardx"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#play-by-play-to-achieve-our-objectives",
     "href": "slides/04-ARD/intro_to_ards.html#play-by-play-to-achieve-our-objectives",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Play by Play to achieve our Objectives",
     "text": "Play by Play to achieve our Objectives\n\n\n🕙 5 mins: Intro to ARDs and the ARS\n🕥 20 mins: Basic summaries using {cards}\n🕚 10 mins: Exercise\n🕦 10 mins: Intro to stats with {cardx}"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#what-are-ards",
     "href": "slides/04-ARD/intro_to_ards.html#what-are-ards",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "What are ARDs?",
     "text": "What are ARDs?\n\n\nDataset that stores key metadata and raw results from analysis\nLong dataset that is 1 record per result value\nMay contained formatted values as well\nThe ARD can be used to to subsequently create tables and figures.\nThe ARD does not describe the layout of the results"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#analysis-results-data-ard",
     "href": "slides/04-ARD/intro_to_ards.html#analysis-results-data-ard",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Analysis Results Data (ARD)",
     "text": "Analysis Results Data (ARD)\n\nAfter the initial creation of an ARD, the results can later be re-used again and again for subsequent reporting needs."
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#a-few-notes-about-ards",
     "href": "slides/04-ARD/intro_to_ards.html#a-few-notes-about-ards",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "A few notes about ARDs",
     "text": "A few notes about ARDs\n\n\nARDs give us the opportunity to rethink QC\n\nQC can be focused on the raw value, as well as the formatted display\n\nYou don’t have to waste time trying to match formatting to match QC\n\n\nARDs can be flexibly saved to different file types\n\nFor example: a dataset (rds, xpt, etc) or json file"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#zooming-out-the-analysis-results-standard-ars",
     "href": "slides/04-ARD/intro_to_ards.html#zooming-out-the-analysis-results-standard-ars",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Zooming Out: The Analysis Results Standard (ARS)",
     "text": "Zooming Out: The Analysis Results Standard (ARS)\n\n\n\n\n\n\nObjectives include:\n\nTo leverage analysis results metadata to drive the automation of results\nTo support storage, access, processing, traceability and reproducibility of results\nLearn more at https://www.cdisc.org/events/webinar/analysis-results-standard-public-review"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#proposed-metadata-framework-in-the-ars",
     "href": "slides/04-ARD/intro_to_ards.html#proposed-metadata-framework-in-the-ars",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Proposed Metadata Framework in the ARS",
     "text": "Proposed Metadata Framework in the ARS\n\n\n\n\n\n\nThe ARS provides a metadata-driven infrastructure for analysis"
   },
   {
     "objectID": "slides/04-ARD/intro_to_ards.html#proposed-metadata-framework-in-the-ars-1",
     "href": "slides/04-ARD/intro_to_ards.html#proposed-metadata-framework-in-the-ars-1",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Proposed Metadata Framework in the ARS",
     "text": "Proposed Metadata Framework in the ARS\n\n\n\n\n\n\nThe ARS provides a metadata-driven infrastructure for analysis\n{cards} serves as the engine for the analysis"
   },
@@ -1215,9 +1215,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "",
-    "text": "🗓️ September 16, 2025 09:00 - 17:00\n🏨 Hyatt Regency Atlanta, Room TBA\n📝 Workshop Registration",
+    "text": "🗓️ September 14, 2026 · 09:00 – 17:00 CDT 🏨 Hilton Americas-Houston · 1600 Lamar Street, Houston, TX 📝 Workshop Registration",
     "crumbs": [
       "Home"
     ]
@@ -1225,9 +1225,9 @@
   {
     "objectID": "index.html#description",
     "href": "index.html#description",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Description",
-    "text": "Description\nReady to optimize your regulatory submission process? This workshop offers a practical, end-to-end introduction to using R for a streamlined workflow from raw data to tables, listings, and graphs (TLGs). We’ll dive into the power of key R packages from the Pharmaverse, starting with SDTM data preparation; learn to effortlessly map, transform, and validate your data to CDISC standards, ensuring both quality and compliance. Next, create ADaM datasets using modular and pipe-able syntax. Finally, get ready to generate compelling TLGs supported by Analysis Results Datasets (ARDs). We’ll explore techniques for producing publication-ready output, customized to meet your specific reporting needs. Walk away with the skills to confidently use R for every stage of the submission process.",
+    "text": "Description\nModern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You’ll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You’ll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.",
     "crumbs": [
       "Home"
     ]
@@ -1235,9 +1235,9 @@
   {
     "objectID": "index.html#schedule",
     "href": "index.html#schedule",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Schedule",
-    "text": "Schedule\n\n\n\n\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 - 9:30\nIntroduction + Overview\n\n\n09:30 - 10:30\nSDTM\n\n\n10:30 - 11:00\nCoffee Break\n\n\n11:00 - 12:30\nADaMs with {admiral} and friends\n\n\n12:30 - 13:30\nLunch\n\n\n13:30 - 14:15\nAnalysis Results Datasets\n\n\n14:15 - 15:00\nCreate Tables with {tfrmt}\n\n\n15:00 - 15:30\nCoffee Break\n\n\n15:30 - 16:15\nCreate Tables with {gtsummary}\n\n\n16:15 - 17:00\nOther Topics Overview + Wrap-up",
+    "text": "Schedule\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 – 09:30\nIntroduction + Overview\n\n\n09:30 – 10:30\nSDTM\n\n\n10:30 – 11:00\nCoffee Break\n\n\n11:00 – 12:30\nADaMs with {admiral} and friends\n\n\n12:30 – 13:30\nLunch\n\n\n13:30 – 14:15\nAnalysis Results Datasets\n\n\n14:15 – 15:00\nCreate Tables with {tfrmt}\n\n\n15:00 – 15:30\nCoffee Break\n\n\n15:30 – 16:15\nCreate Tables with {gtsummary}\n\n\n16:15 – 17:00\nOther Topics Overview + Wrap-up",
     "crumbs": [
       "Home"
     ]
@@ -1245,9 +1245,9 @@
   {
     "objectID": "index.html#pre-work",
     "href": "index.html#pre-work",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Pre-work",
-    "text": "Pre-work\n\nBookmark this site. You’ll reference it throughout the workshop. pos.it/pharmaverse-conf25\nSign up for a free Posit Cloud account.\nBring your laptop and charger to the workshop.",
+    "text": "Pre-work\n\nBookmark this site. You’ll reference it throughout the workshop. pos.it/pharmaverse-conf26\nSign up for a free Posit Cloud account.\nBring your laptop and charger to the workshop.",
     "crumbs": [
       "Home"
     ]
@@ -1255,9 +1255,9 @@
   {
     "objectID": "index.html#instructors",
     "href": "index.html#instructors",
-    "title": "End-to-End Submissions in R with the Pharmaverse",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Instructors",
-    "text": "Instructors\n\nDaniel D. Sjoberg (he/him) is Executive Director of Data Sciences and Clinical Data Analytics at Kardigan. Previously, he was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and spent 13 years as an academic biostatistician at Memorial Sloan Kettering Cancer Center in New York City. He enjoys R package development, creating many packages available on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR (a community that supports, promotes, and connects LGBTQ+ people who code in the R language) and of the R Medicine Conference. His research interests include adaptive methods in clinical trials, precision medicine, and predictive modeling. Daniel is the recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the American Statistical Association (ASA) Innovation in Programming Award.\n   \n\nBecca Krouse is a data scientist in GSK’s Data Science Innovation and Engineering team where she focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n \nBen Straub is a Principal Programmer at GSK in the Immunology Therapeutic Area since 2018. He has led and helped with many initiatives around R Adoption activities within Clinical Programming since his start at GSK. He is also actively helping to develop and maintain an end-to-end R package pipeline (pharmaverse) that addresses all the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\nRammprasad Ganapathy (Ram) is a Principal Data Scientist at Roche/Genentech with over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.",
+    "text": "Instructors\n\n\n\nDaniel D. Sjoberg\nExecutive Director of Data Sciences & Clinical Data Analytics, Kardigan (he/him)\nDaniel leads the Data Science and Clinical Analytics groups at Kardigan. Previously was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and an academic biostatistician at Memorial Sloan Kettering Cancer Center for 13 years. He enjoys R package development, creating many packages on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR and of the R Medicine Conference, and a recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the ASA Innovation in Programming Award.\n\n   \n\n\n\n\nBecca Krouse\nData Scientist, GSK Data Science Innovation & Engineering\nBecca focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n\n\n\nBen Straub\nPrincipal Programmer, GSK Immunology Therapeutic Area\nAt GSK since 2018, Ben has led and helped with many initiatives around R adoption within Clinical Programming. He actively helps develop and maintain an end-to-end R package pipeline, pharmaverse, that addresses the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\n\n\nRammprasad Ganapathy\nPrincipal Data Scientist, Roche/Genentech\nRam has over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.",
     "crumbs": [
       "Home"
     ]
