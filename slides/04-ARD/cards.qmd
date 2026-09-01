@@ -357,75 +357,20 @@ ard_stack(
 
 Following hierarchical summary functions aid in nested tabulations (e.g. AE terms within SOC):
 
--   `ard_hierarchical()`: calculating nested subject-level rates
+-   `ard_stack_hierarchical()`: calculating nested subject-level rates
 
--   `ard_hierarchical_count()`: calculating nested event-level counts
-  
+-   `ard_stack_hierarchical_count()`: calculating nested event-level counts
 
-## {cards}: `ard_hierarchical` 
 
-::: {.small}
-
-This function specializes in calculating **subject**-level rates.
-
-- Rates computed on lowest level `variables`, nested within others
-
-- `id` helps to check that no duplicate rows exist within the `c(id, variables)` columns
-
-- `denominator` dictates the denominator for the rates
-
-:::
-
-```{r}
-#| label: hierarchical
-#| message: true
-adae |>
-  dplyr::slice_tail(n = 1L, by = c(USUBJID, ARM, AESOC, AEDECOD)) |>
-  ard_hierarchical(
-    variables = c(AESOC, AEDECOD),
-    by = TRT01A,
-    id = USUBJID,
-    denominator = adsl
-  )
-```
-
-## {cards}: `ard_hierarchical_count` 
+## {cards}: `ard_stack_hierarchical`
 
 ::: {.small}
 
-This function specializes in calculating **event**-level frequencies.
+- Our go-to function for nested **subject**-level rates — one call handles the whole hierarchy
 
-:::
+- A single call returns rows for **both** the System Organ Class (`group2_level`) and the nested AE term (`variable_level`)
 
-```{r}
-#| label: hierarchical-count
-#| message: true
-adae |>
-  ard_hierarchical_count(
-    variables = c(AESOC, AEDECOD),
-    by = TRT01A
-  )
-```
-
-## Hierarchical summaries many ways
-
-- Displays for hierarchical data typically report on each level of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)
-
-- This can mean several calls to the `ard_hierarchical_*` functions 
-
-- Further, subject-level summaries require a different subset of the data each time. For example, to calculate Overall rates, we need to subset to 1 record per subject in ADAE. 
-
-::: {.fragment}
-- Is there an easier way?
-:::
-
-## {cards}: Stacking function for `ard_hierarchical()`
-
-::: {.small}
-
-- `ard_hierarchical` stacking functions simplify this multi-step process into a single step
-
-- The `id` argument is used to subset the data along the way
+- `id` checks for duplicate rows and subsets the data along the way; `denominator` dictates the denominator for the rates
 
 :::
 
@@ -452,15 +397,25 @@ ard_hier <- ard_stack_hierarchical(
   denominator = pharmaverseadam::adsl
 )
 
-ard_hier |> 
+ard_hier |>
   dplyr::filter(
-    dplyr::if_any(c(group2_level, variable_level), ~ .x %in% "GASTROINTESTINAL DISORDERS"), 
+    dplyr::if_any(c(group2_level, variable_level), ~ .x %in% "GASTROINTESTINAL DISORDERS"),
     group1_level %in% "Placebo"
     )
 
 ```
 
-## {cards}: Stacking function for `ard_hierarchical_count()`
+## Why the stacking functions?
+
+
+- Displays for hierarchical data report on **each level** of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)
+
+- Producing that by hand means several calls to the simpler `ard_hierarchical()` / `ard_hierarchical_count()` functions, each on a **different subset** of the data (e.g. Overall rates need 1 record per subject in ADAE)
+
+- `ard_stack_hierarchical*()` runs those calls in the background and **stacks** the results into one ARD
+
+
+## {cards}: `ard_stack_hierarchical_count`
 
 ::: {.small}
 
@@ -598,8 +553,7 @@ adsl |>
 adsl |>
   cards::ard_mvsummary(
     variables = AGE,
-    statistic = 
-      ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
+    statistic = ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
   ) |> 
   dplyr::mutate(group1 = "ARM2", context = "t_test_two_sample") |> 
   cards::tidy_ard_column_order()
@@ -710,7 +664,7 @@ Starting from raw data, we built ARDs and never touched a layout:
 
 - **Univariate summaries** with `ard_summary()` (continuous) and `ard_tabulate()` (categorical) — custom statistics, `by` groups, and formatting
 
-- **Hierarchical summaries** with `ard_hierarchical()` / `ard_hierarchical_count()` and their `ard_stack_*()` helpers for nested AE tabulations
+- **Hierarchical summaries** with `ard_stack_hierarchical()` / `ard_stack_hierarchical_count()` for nested AE tabulations (built on the lower-level `ard_hierarchical*()` functions)
 
 - **Stacking** everything into a single ARD with `ard_stack()` — overall rows, total N, and all
 
