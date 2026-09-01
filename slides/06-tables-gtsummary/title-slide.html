@@ -1,0 +1,35 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+
+<div class="custom-title">
+
+  <div class="title-left">
+
+    <h1 class="title">$title$</h1>
+
+    <div class="title-rule"></div>
+
+$if(subtitle)$
+    <p class="subtitle">$subtitle$</p>
+$endif$
+
+    <div class="title-author">
+      <img class="title-avatar" src="images/dan-circle.png" alt="Speaker headshot">
+      <div class="title-author-text">
+        <p class="author-name">$for(author)$$author$$sep$, $endfor$</p>
+$if(event)$
+        <p class="author-affil">$event$</p>
+$endif$
+      </div>
+    </div>
+
+  </div>
+
+  <div class="title-hero">
+    <div class="title-logo-card">
+      <img src="images/gtsummary-logo.png" alt="gtsummary logo">
+    </div>
+  </div>
+
+</div>
+
+</section>

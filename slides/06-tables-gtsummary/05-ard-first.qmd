@@ -39,29 +39,55 @@ ARDs are **wonderful** for QCing {gtsummary} tables. 😻
 
 - Build fresh ARD from source data, and compare it to the ARD from the table.
 
-## ARD + QC: Build and Compare ARDs
+## ARD + QC: Build two ARDs
 
 ```{r}
-#| label: build-ae-tbl-ard
-ard_demog <- adsl |> 
+#| label: build-qc-ards
+# 1. the ARD extracted from a {gtsummary} table
+ard_table <-
+  gather_ard(tbl) |>
+  purrr::pluck(1) |>
+  cards::apply_fmt_fun()   # add the formatted `stat_fmt` values
+
+# 2. a fresh ARD built independently from the source data
+ard_source <-
+  adsl |>
   cards::ard_stack(
+    .by = ARM2,
     cards::ard_summary(
-      variables = "AGE",
-      statistic = 
-        AGE ~ cards::continuous_summary_fns(c("median", "p25", "p75"))
+      variables = AGE,
+      statistic = ~ cards::continuous_summary_fns(c("median", "p25", "p75"))
     ),
-    .by = "ARM2", 
-  )
+    .attributes = TRUE,
+    .missing = TRUE,
+    .total_n = TRUE
+  ) |>
+  # align formatting to the table (0 decimals) so `stat_fmt` matches too
+  cards::update_ard_fmt_fun(
+    stat_names = c("median", "p25", "p75"),
+    fmt_fun = label_style_number(digits = 0)
+  ) |>
+  cards::update_ard_fmt_fun(
+    stat_names = c("p_miss", "p_nonmiss"),
+    fmt_fun = label_style_percent(digits = 0)
+  ) |>
+  cards::apply_fmt_fun()
 ```
 
-The next step is to simply compare the two ARDs to confirm results.
-As this is done programmatically, it is quick to repeat as data continues to accrue.
+## ARD + QC: Compare with `compare_ard()`
+
+`cards::compare_ard()` lines the two ARDs up on their key columns and reports any rows that differ — here we check both the raw `stat` and the formatted `stat_fmt` values.
+
+```{r}
+#| label: compare-qc-ards
+#| message: true
+cards::compare_ard(ard_table, ard_source, columns = c("stat", "stat_fmt"))
+```
 
 ::: {.small}
 
-There are numerous ways to compare objects in R.
-We are currently developing a tool in {cards} that will streamline ARD comparison, with sensible defaults for ARDs.
-Stay tuned! 📺
+Need a single yes/no? `cards::is_ard_equal()` returns `TRUE`/`FALSE`, and `cards::check_ard_equal()` throws an error when they differ — handy in an automated QC script. As this is done programmatically, it is quick to repeat as data continue to accrue.
+
 :::
 
 

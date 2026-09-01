@@ -1,7 +1,297 @@
 /*-- scss:defaults --*/
 
-@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+// Fonts ----------------------------------------------------------------------
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap';
 
-$font-family: "Atkinson Hyperlegible", sans-serif;
+$font-family-sans-serif: "Atkinson Hyperlegible", -apple-system, "Segoe UI", sans-serif;
+$font-family: $font-family-sans-serif;
+
+// Brand palette (refined slate blue) -----------------------------------------
+$slate:        #7090A5;  // primary
+$slate-dark:   #557084;  // hover / darker slate
+$navy:         #003559;  // deep anchor, headings, hero
+$orange:       #E67E3A;  // accent CTA (used sparingly)
+$slate-tint:   #F3F7FB;  // soft section / card background
+$slate-tint-2: #EBF7FF;  // secondary tint
+$ink:          #1F2A30;  // body text
+$surface:      #FFFFFF;
+
+// Bootstrap variable overrides -----------------------------------------------
+$primary:   $slate;
+$body-color: $ink;
+$body-bg:    $surface;
+$link-color: $slate;
+$link-hover-color: $navy;
+
+$headings-color: $navy;
+$headings-font-weight: 700;
+
+$border-radius:     0.6rem;
+$border-radius-sm:  0.4rem;
+$border-radius-lg:  0.9rem;
+
+$border-color: rgba($navy, 0.12);
 
 /*-- scss:rules --*/
+
+// Global polish --------------------------------------------------------------
+body {
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4, h5 {
+  letter-spacing: -0.01em;
+}
+
+// Section headings get a subtle slate underline accent
+#quarto-document-content h2 {
+  padding-bottom: 0.35rem;
+  border-bottom: 3px solid rgba($slate, 0.35);
+  margin-top: 2.75rem;
+}
+
+a {
+  text-underline-offset: 0.15em;
+}
+
+// Hero title banner (Quarto title-block-banner) ------------------------------
+.quarto-title-block .quarto-title-banner {
+  background: linear-gradient(135deg, $navy 0%, $slate-dark 100%) !important;
+}
+
+.quarto-title-banner .title,
+.quarto-title-banner .subtitle {
+  color: #ffffff !important;
+}
+
+.quarto-title-banner .title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.quarto-title-banner .subtitle a code,
+.quarto-title-banner .subtitle code {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-radius: $border-radius-sm;
+  padding: 0.05em 0.4em;
+}
+
+// Event detail badges (hero-badges) ------------------------------------------
+// Pandoc wraps the badge spans in a <p>, so the flex column must live on
+// both the container and that inner paragraph to stack the pills.
+.hero-badges {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.75rem 0 2.5rem;
+}
+
+.hero-badges,
+.hero-badges > p {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.85rem;
+}
+
+.hero-badges > p {
+  margin: 0;
+  width: 100%;
+}
+
+// Registration button matches the width of the pills and centers its label
+.hero-badges a.badge-cta {
+  justify-content: center;
+}
+
+.hero-badges .badge-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.8rem 1.5rem;
+  background: $slate-tint;
+  border: 1px solid $border-color;
+  border-radius: 999px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: $ink;
+}
+
+.hero-badges .badge-item .ico {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+// Registration CTA button
+.hero-badges a.badge-cta,
+a.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.6rem;
+  background: $orange;
+  color: #ffffff !important;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid darken($orange, 6%);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+
+.hero-badges a.badge-cta:hover,
+a.btn-cta:hover {
+  background: darken($orange, 6%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba($orange, 0.32);
+}
+
+// Schedule table -------------------------------------------------------------
+.schedule-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0.5rem 0 1rem;
+  overflow: hidden;
+  border-radius: $border-radius;
+  border: 1px solid $border-color;
+  font-size: 1rem;
+}
+
+.schedule-table thead th {
+  background: $navy;
+  color: #ffffff;
+  text-align: left;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  border: none;
+}
+
+.schedule-table tbody td {
+  padding: 0.62rem 1rem;
+  border: none;
+  border-top: 1px solid $border-color;
+  vertical-align: top;
+}
+
+.schedule-table tbody td:first-child {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  color: $navy;
+  font-weight: 700;
+  width: 1%;
+}
+
+.schedule-table tbody tr:hover td {
+  background: $slate-tint;
+}
+
+// De-emphasize break rows (Coffee Break / Lunch — rendered in italics)
+.schedule-table tbody tr:has(em) td {
+  color: rgba($ink, 0.6);
+  background: $slate-tint-2;
+  font-style: italic;
+}
+
+.schedule-table tbody tr:has(em):hover td {
+  background: $slate-tint-2;
+}
+
+// Instructor cards -----------------------------------------------------------
+.instructor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0 1rem;
+}
+
+@media (max-width: 720px) {
+  .instructor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.instructor-card {
+  background: $surface;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba($navy, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.instructor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba($navy, 0.12);
+}
+
+.instructor-card img {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid $slate-tint;
+  box-shadow: 0 2px 8px rgba($navy, 0.14);
+  margin-bottom: 0.9rem;
+}
+
+.instructor-card .instructor-name {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: $navy;
+  margin: 0 0 0.1rem;
+  display: block;
+  text-decoration: none;
+}
+
+.instructor-card a.instructor-name:hover {
+  color: $slate;
+}
+
+.instructor-card .instructor-role {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $slate;
+  margin-bottom: 0.75rem;
+}
+
+.instructor-card p {
+  font-size: 0.94rem;
+  line-height: 1.55;
+  margin-bottom: 0.75rem;
+}
+
+.instructor-card .instructor-social {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.instructor-card .instructor-social a {
+  display: inline-flex;
+  opacity: 0.85;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.instructor-card .instructor-social a:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.instructor-card .instructor-social svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+// Sidebar + footer chrome (soft slate tint instead of flat grey) -------------
+.sidebar,
+#quarto-sidebar,
+.quarto-secondary-nav {
+  background: $slate-tint !important;
+}
+
+.page-footer,
+.nav-footer {
+  background: $slate-tint !important;
+  color: rgba($ink, 0.75);
+}

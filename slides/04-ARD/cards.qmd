@@ -1,6 +1,6 @@
 # ARDs using {cards} 
  
-<a href="https://insightsengineering.github.io/cards/"><img src="https://raw.githubusercontent.com/insightsengineering/cards/main/man/figures/logo.png" align="center" height="300" alt="cards website" /></a>
+<a href="https://pharmaverse.github.io/cards/"><img src="https://raw.githubusercontent.com/pharmaverse/cards/main/man/figures/logo.png" align="center" height="300" alt="cards website" /></a>
 
 ## {cards}: Introduction
 

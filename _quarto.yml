@@ -7,7 +7,7 @@ project:
 
 website:
   page-navigation: true
-  title: "AI-powered clinical reporting in R with the Pharmaverse"
+  title: "AI-Powered Clinical Reporting in R with the Pharmaverse"
   description: "posit::conf(2026) Workshop"
   favicon: "images/pharmaverse-hex.png"
 
@@ -16,10 +16,10 @@ website:
 
   page-footer:
     left: "This page is built with ❤️ and [Quarto](https://quarto.org/). Inspired by [@minecr.bsky.social](https://bsky.app/profile/minecr.bsky.social)."
-    background: "#E2E2E2"
+    background: "#F3F7FB"
 
   sidebar:
-    background: "#E2E2E2"
+    background: "#F3F7FB"
     logo: "images/pharmaverse-hex.png"
     pinned: true
     align: center
@@ -44,6 +44,8 @@ format:
     code-overflow: scroll
     mainfont: "Atkinson Hyperlegible"
     highlight-style: a11y
+    title-block-banner: "#003559"
+    title-block-banner-color: white
 
 editor: source
 

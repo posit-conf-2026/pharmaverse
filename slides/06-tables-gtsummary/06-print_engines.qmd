@@ -4,18 +4,38 @@
 
 ![](images/gtsummary_rmarkdown.png)
 
-<!-- ## {gtsummary} print engines -->
+## Submission-ready output {auto-animate="true"}
 
-<!-- Use any print engine to customize table -->
+Pharma deliverables are typically **Word** and **RTF**. Convert any {gtsummary} table to a {flextable} for those formats.
 
-<!-- ```{r} -->
-<!-- #| output-location: "column" -->
-<!-- #| code-line-numbers: "1,5,6,7,8" -->
-<!-- library(gt) -->
-<!-- adsl |> -->
-<!--   tbl_summary(include = c(AGE, ETHNIC, FEMALE)) |> -->
-<!--   as_gt() |> -->
-<!--   cols_width(label ~ px(300)) |> -->
-<!--   cols_align(columns = stat_0,  -->
-<!--              align = "right") -->
-<!-- ``` -->
+```{r}
+#| label: 'as-flex-table'
+#| output-location: "column"
+#| code-line-numbers: "7"
+tbl <- adsl |>
+  tbl_summary(
+    by = ARM2,
+    include = c(AGE, ETHNIC, FEMALE)
+  )
+
+tbl |> as_flex_table()
+```
+
+## Submission-ready output
+
+```r
+# one-step export to a Word document (gtsummary 2.6.0)
+tbl |> save_flex_docx(path = "table1.docx")
+```
+
+Other print engines are available for different targets:
+
+::: small
+-   `as_gt()`: HTML (the default), highly customizable via {gt}
+
+-   `as_kable_extra()`: LaTeX / PDF
+
+-   `as_hux_table()` / `as_hux_xlsx()`: Excel workbooks
+:::
+
+The {crane} Roche theme shown next prints through {flextable} to meet submission styling.

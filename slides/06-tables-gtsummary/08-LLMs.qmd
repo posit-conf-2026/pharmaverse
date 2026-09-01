@@ -120,8 +120,9 @@ ARDs can be represented in language-agnostic formats like JSON and YAML.
 A summary table has a representation that is readily digestible by your favorite LLM.
 
 ```{r}
+#| label: llm-ard-json
 #| output-location: slide
-dplyr::filter(pharmaverseadam::adsl, SAFFL == "Y") |> 
+dplyr::filter(pharmaverseadam::adsl, SAFFL == "Y") |>
   tbl_summary(
     include = c(AGE, AGEGR1),
     type = AGE ~ "continuous2",
