@@ -926,3 +926,12 @@ $pv-accent: $custom-col; // #E67E3A
   font-size: 1.2em;
   margin-bottom: 0.2em;
 }
+
+/* --- Annotated aCRF screenshot --- */
+.pv-acrf-img {
+  width: 100%;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  background: #fff;
+}

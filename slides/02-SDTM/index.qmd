@@ -678,12 +678,12 @@ vs <- vs |>
 
 # Workshop - Create VS domain
 
-## How we will "code" today
+## How we will "code" today {.smaller}
 
 ::: incremental
--   We will walk you through coding `VS` and `DM`
-    -   Discussion on each function and function arguments
-    -   Check-in Poll
+-   **Hand-code** the first topic variables together — one algorithm per line, discussing each argument.
+-   Then **hand it to an AI agent + skill** to draft the remaining variables.
+-   **Verify** the result against Barb's known VS numbers.
 :::
 
 ## Review specs
@@ -691,6 +691,103 @@ vs <- vs |>
 Review aCRF
 
 -  [VitalSigns_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/VitalSigns_aCRF.pdf)
+
+## Start by hand, finish with AI {.smaller}
+
+We hand-code **TEMP** and **blood pressure**, then let an **agent + skill** draft the rest.
+
+::: {.pv-flow .pv-flow-accent}
+[[✍️]{.pv-ico}Hand-code TEMP + BP]{.pv-step}
+[[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
+[[🤖]{.pv-ico}Agent drafts HEIGHT / WEIGHT / PULSE]{.pv-step}
+[[✅]{.pv-ico}Verify with Barb]{.pv-step}
+:::
+
+::: {.pv-speed}
+[⏱️ Repetitive topic/qualifier blocks by hand]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Agent drafts them in seconds]{.pv-speed-fast}
+:::
+
+::: {.pv-ai}
+[💡]{.pv-ico} The remaining vitals follow the **same pattern** we just coded — ideal work to delegate to the agent, then review.
+:::
+
+## The pre-prepared skill {.smaller}
+
+A checked-in skill teaches the agent *our* `sdtm.oak` conventions:
+
+::::: {.pv-skill}
+
+[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+```markdown
+# SDTM mapping with sdtm.oak
+
+Use when: creating an SDTM domain from a raw dataset + aCRF.
+
+For each vitals topic (HEIGHT, WEIGHT, PULSE):
+  1. hardcode_ct() -> VSTESTCD, VSTEST   (from CT codelists)
+  2. assign_no_ct() -> VSORRES           (the collected value)
+  3. hardcode_ct() -> VSORRESU           (the unit)
+Chain topic then qualifiers with |>, id_vars = oak_id_vars().
+
+Conventions: raw vars use IT.<NAME>; CT lives in study_ct.
+```
+::::
+:::::
+
+## The prompt + aCRF {.smaller}
+
+::::::: columns
+
+:::::: {.column width="42%"}
+::::: {.pv-skill}
+
+[[💬]{.pv-ico} Your prompt]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+> "Using the **sdtm-oak-mapping** skill and the **annotated Vitals aCRF**,
+> map the remaining VS topics — **PULSE** and **DIA_BP** —
+> with their `VSORRES`, `VSORRESU` and `VSPOS` qualifiers."
+::::
+
+:::::
+::::::
+
+:::::: {.column width="58%"}
+![Annotated Vitals aCRF — the agent reads these callouts](images/vitals-acrf-annotated.png){.pv-acrf-img}
+::::::
+
+:::::::
+
+::: {.pv-ai}
+[🔎]{.pv-ico} The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right `raw_var`, unit, and codelist.
+:::
+
+## Agent drafts the remaining VS vars {.smaller}
+
+```{r, eval = FALSE}
+# Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)
+vs_pulse <- hardcode_ct(
+    raw_dat = vs_raw, raw_var = "PULSE",
+    tgt_var = "VSTESTCD", tgt_val = "PULSE",
+    ct_spec = study_ct, ct_clst = "C66741"
+  ) |>
+  dplyr::filter(!is.na(VSTESTCD)) |>
+  assign_no_ct(
+    raw_dat = vs_raw, raw_var = "PULSE",
+    tgt_var = "VSORRES", id_vars = oak_id_vars()
+  ) |>
+  hardcode_ct(
+    raw_dat = vs_raw, raw_var = "PULSE",
+    tgt_var = "VSORRESU", tgt_val = "beats/min",
+    ct_spec = study_ct, ct_clst = "C66770", id_vars = oak_id_vars()
+  )
+```
+
+::: {.pv-ai}
+[🧑‍⚖️]{.pv-ico} Same shape as our hand-written blocks — **you stay the reviewer**: check the CT code, run it, confirm Barb looks right.
+:::
 
 ## Check in on Barb — Vitals raw → VS {.smaller}
 
@@ -747,26 +844,107 @@ Review aCRF
 -  [Exposure_as_collected_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Exposure_as_collected_aCRF.pdf)
 -  [Subject_Disposition_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Subject_Disposition_aCRF.pdf)
 
-## Reference date derivation
+## Start by hand, finish with AI {.smaller}
 
--   DM domain has reference date variables like RFSTDTC, RFENDTC, RFICDTC, RFPENDTC.
--   Usually the programming logic includes deriving this as a minimum or maximum date
-    from the raw data across multiple eCRFs.
--   `oak_cal_ref_dates` function can help users derive these reference dates
-    based on the metadata provided in a configuration file - `ref_date_config_df`.
--   Users have to prepare this additional metadata file to derive reference dates.
+DM's **reference dates** are repetitive config rows — perfect to hand off after one worked example.
 
-## Reference date configuration file
+::: {.pv-flow .pv-flow-accent}
+[[✍️]{.pv-ico}Derive RFXSTDTC by hand]{.pv-step}
+[[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
+[[🤖]{.pv-ico}Agent fills remaining ref dates]{.pv-step}
+[[✅]{.pv-ico}Verify with Barb]{.pv-step}
+:::
 
--   An intuitive way to let {sdtm.oak} know where to look for the reference dates.
--   Multiple eCRFs or raw datasets and variables can be specified to derive a specific
-    reference date. The columns in the file are
--   raw_dataset_name : Name of the raw dataset. 
--   date_var : Date variable name from the raw dataset. 
--   time_var : Time variable name from the raw dataset. 
--   dformat : Format of the date collected in raw data. 
--   tformat: Format of the time collected in raw data. 
--   sdtm_var_name : Reference variable name.
+::: {.pv-speed}
+[⏱️ Seven near-identical config rows + calls]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Agent drafts them from the aCRFs]{.pv-speed-fast}
+:::
+
+## Reference date derivation {.smaller}
+
+-   DM has several **reference dates**: `RFSTDTC`, `RFENDTC`, `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`.
+-   Each is a **min/max date** pulled from raw data across **multiple eCRFs**.
+-   `oak_cal_ref_dates()` derives them from a small **config table** (`ref_date_config_df`) — no bespoke code per date.
+
+::: {.pv-ai}
+[💡]{.pv-ico} Same idea as VS: **walk through one** reference date by hand, then let an **agent + skill** fill in the rest of the config.
+:::
+
+## Config file — walk through one row {.smaller}
+
+Each row tells `sdtm.oak` where **one** reference date lives:
+
+| column | meaning | example |
+|:-----------------|:----------------------------------|:----------------|
+| `raw_dataset_name` | source raw dataset | `ex_raw` |
+| `date_var` | date variable in that dataset | `IT.ECSTDAT` |
+| `time_var` | time variable (if any) | `NA` |
+| `dformat` | date format collected | `dd-mmm-yyyy` |
+| `tformat` | time format collected | `NA` |
+| `sdtm_var_name` | reference date to derive | `RFXSTDTC` |
+
+## Derive one by hand — RFXSTDTC {.smaller}
+
+```{r, eval = FALSE}
+# 1 config: one row per reference date
+ref_date_conf_df <- tibble::tribble(
+  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat, ~sdtm_var_name,
+  "ex_raw",       "IT.ECSTDAT", NA_character_, "dd-mmm-yyyy", NA_character_, "RFXSTDTC"
+)
+
+# 2 derive RFXSTDTC from that config
+dm <- oak_cal_ref_dates(
+  dm_domain          = dm,
+  der_var            = "RFXSTDTC",
+  min_max            = "min",
+  ref_date_config_df = ref_date_conf_df,
+  raw_source         = list(ex_raw = ex_raw)
+)
+```
+
+::: {.pv-ai}
+[🔑]{.pv-ico} One config row + one call. The **remaining reference dates repeat this pattern** with different sources.
+:::
+
+## Let AI populate the rest {.smaller}
+
+::::::: columns
+
+:::::: {.column width="46%"}
+::::: {.pv-skill}
+
+[[💬]{.pv-ico} Your prompt]{.pv-skill-head}
+
+:::: {.pv-skill-body}
+> "Using the **sdtm-oak-mapping** skill and the DM / EX / DS **aCRFs**,
+> add config rows and `oak_cal_ref_dates()` calls for the remaining
+> reference dates: **RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC**."
+::::
+
+:::::
+::::::
+
+:::::: {.column width="54%"}
+```{r, eval = FALSE}
+# Agent extends the config, following the skill:
+ref_date_conf_df <- tibble::tribble(
+  ~raw_dataset_name, ~date_var,  ~time_var, ~dformat,     ~tformat, ~sdtm_var_name,
+  "ex_raw", "IT.ECSTDAT", NA,      "dd-mmm-yyyy", NA,   "RFXSTDTC",
+  "ex_raw", "IT.ECENDAT", NA,      "dd-mmm-yyyy", NA,   "RFXENDTC",
+  "ds_raw", "IT.DSSTDAT", NA,      "mm-dd-yyyy",  NA,   "RFSTDTC",
+  "ex_raw", "IT.ECENDAT", NA,      "dd-mmm-yyyy", NA,   "RFENDTC",
+  "dm_raw", "IC_DT",      NA,      "mm/dd/yyyy",  NA,   "RFICDTC",
+  "ds_raw", "DSDTCOL",    "DSTMCOL","mm-dd-yyyy", "H:M","RFPENDTC",
+  "ds_raw", "DEATHDT",    NA,      "mm/dd/yyyy",  NA,   "DTHDTC"
+)
+# ...then one oak_cal_ref_dates() call per der_var
+```
+::::::
+
+:::::::
+
+::: {.pv-ai}
+[🧑‍⚖️]{.pv-ico} You **review each row** against the aCRFs — correct source, date format, min vs max — then run and check Barb.
+:::
 
 ## Check in on Barb — DM raw → DM {.smaller}
 
@@ -873,30 +1051,9 @@ ae <-
 
 # Doing this with AI {background-color="#003559"}
 
-## From hand-written to AI-assisted {.smaller}
-
-We just wrote every `assign_ct` / `condition_add` call by hand.
-
-::: {.pv-flow .pv-flow-accent}
-[[📋]{.pv-ico}aCRF + specs]{.pv-step}
-[[🤖]{.pv-ico}AI **agent**]{.pv-step}
-[[🧠]{.pv-ico}**skill** = sdtm.oak know-how]{.pv-step}
-[[⌨️]{.pv-ico}Generated mapping code]{.pv-step}
-[[✅]{.pv-ico}You review & run]{.pv-step}
-:::
-
-::: {.pv-speed}
-[⏱️ Hours of hand-coding]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Minutes with agent + skill]{.pv-speed-fast}
-:::
-
-::: {.pv-ai}
-[💡]{.pv-ico} The algorithms are *modular and predictable* — exactly the kind of
-repetitive pattern an AI agent can draft, and a human can quickly verify.
-:::
-
 ## Agent vs. skill {.smaller}
 
-*(Recap from the intro — applied to SDTM)*
+We just used an **agent + skill** to finish the VS domain. What are they?
 
 ::::: {.pv-cards}
 :::: {.pv-card}
@@ -915,81 +1072,6 @@ conventions: how to map SDTM with `sdtm.oak`, where specs live, house style.
 
 ::: {.pv-ai}
 [🔑]{.pv-ico} Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next.
-:::
-
-## What an SDTM skill looks like {.smaller}
-
-A skill is just Markdown + examples the agent loads on demand:
-
-::::: {.pv-skill}
-
-[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
-
-:::: {.pv-skill-body}
-```markdown
-# SDTM mapping with sdtm.oak
-
-Use when: creating an SDTM domain from a raw dataset + aCRF.
-
-Steps
-1. Read the aCRF PDF and the domain spec to list target
-   variables, their CT codelists, and derivations.
-2. For each target variable pick the algorithm:
-   - collected, no CT ....... assign_no_ct()
-   - collected, with CT ..... assign_ct(ct_spec, ct_clst)
-   - hardcoded .............. hardcode_ct() / hardcode_no_ct()
-   - conditional ............ wrap raw_dat in condition_add()
-   - dates/times ............ assign_datetime()
-3. Chain topic then qualifiers with %>%, id_vars = oak_id_vars().
-4. Add labels & attributes; run the domain and show a preview.
-
-Conventions: raw vars use IT.<NAME>; CT lives in study_ct.
-```
-::::
-:::::
-
-## Prompt → generated code {.smaller}
-
-::::::: columns
-
-:::::: {.column width="42%"}
-::::: {.pv-skill}
-
-[[💬]{.pv-ico} Your prompt]{.pv-skill-head}
-
-:::: {.pv-skill-body}
-> "Using the **sdtm-oak-mapping** skill, map **AESER** from
-> `IT.AESER` with codelist `C66742`, and **AESDTH** from
-> `IT.AESDTH` only when it equals *Yes*."
-::::
-
-:::::
-::::::
-
-:::::: {.column width="58%"}
-```{r, eval = FALSE}
-# Agent drafts, following the skill:
-ae <- ae_raw |>
-  assign_ct(
-    raw_var = "IT.AESER", tgt_var = "AESER",
-    ct_spec = study_ct, ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  ) |>
-  # condition_add because AESDTH is conditional
-  assign_ct(
-    raw_dat = condition_add(ae_raw, IT.AESDTH == "Yes"),
-    raw_var = "IT.AESDTH", tgt_var = "AESDTH",
-    ct_spec = study_ct, ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  )
-```
-::::::
-
-:::::::
-
-::: {.pv-ai}
-[🧑‍⚖️]{.pv-ico} The agent applied `condition_add()` on its own — **you stay the
-reviewer**: check the CT code, run it, confirm Barb looks right.
 :::
 
 ## Human-in-the-loop {.smaller}
