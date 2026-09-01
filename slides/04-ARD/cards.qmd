@@ -407,7 +407,6 @@ ard_hier |>
 
 ## Why the stacking functions?
 
-::: {.small}
 
 - Displays for hierarchical data report on **each level** of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)
 
@@ -415,7 +414,6 @@ ard_hier |>
 
 - `ard_stack_hierarchical*()` runs those calls in the background and **stacks** the results into one ARD
 
-:::
 
 ## {cards}: `ard_stack_hierarchical_count`
 
@@ -555,8 +553,7 @@ adsl |>
 adsl |>
   cards::ard_mvsummary(
     variables = AGE,
-    statistic = 
-      ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
+    statistic = ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
   ) |> 
   dplyr::mutate(group1 = "ARM2", context = "t_test_two_sample") |> 
   cards::tidy_ard_column_order()
