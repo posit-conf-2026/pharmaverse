@@ -1,53 +1,145 @@
 
+```{r}
+#| label: background-stats
+#| echo: false
+#| cache: false
+# Dynamic "How it's going" stats, refreshed at render time.
+# Each network fetch is wrapped in tryCatch() with a fallback so the deck
+# still renders (with the last-known value) if the source is unreachable.
+round_to <- function(x, to) round(x / to) * to
+fmt_num  <- function(x) format(x, big.mark = ",", scientific = FALSE)
+
+# Total gtsummary CRAN downloads since 2019-01-01, rounded DOWN to the
+# nearest 100,000 and suffixed with "+" (e.g. "2,100,000+").
+gtsummary_downloads <-
+  cranlogs::cran_downloads(
+    packages = "gtsummary",
+    from = "2019-01-01",
+    to = Sys.Date()
+  ) |>
+  dplyr::pull(count) |>
+  sum() |>
+  (\(x) floor(x / 1e5) * 1e5)() |>
+  format(big.mark = ",", scientific = FALSE) |>
+  paste0("+")
+
+# GitHub stars, rounded to the nearest 100 (fallback: 1,200).
+gtsummary_stars <-
+  tryCatch(
+    round_to(gh::gh("/repos/ddsjoberg/gtsummary")$stargazers_count, 100),
+    error = function(e) 1200
+  ) |>
+  fmt_num()
+
+# GitHub code contributors, rounded to the nearest 10 (fallback: 50).
+gtsummary_contributors <-
+  tryCatch(
+    round_to(
+      length(gh::gh("/repos/ddsjoberg/gtsummary/contributors", per_page = 100, .limit = Inf)),
+      10
+    ),
+    error = function(e) 50
+  ) |>
+  fmt_num()
+
+# Google Scholar citations for the gtsummary paper, rounded to the nearest
+# 100 (fallback: 1,500). Scholar can rate-limit automated requests.
+gtsummary_citations <-
+  tryCatch(
+    {
+      pubs <- scholar::get_publications("4empyKkAAAAJ")
+      val <- pubs$cites[pubs$pubid == "ji7lAbPyDbYC"]
+      if (length(val) != 1 || is.na(val)) stop("citation count not found")
+      round_to(val, 100)
+    },
+    error = function(e) 1500
+  ) |>
+  fmt_num()
+```
+
 ##
 
-::: {.columns}
-::: {.column width="65%"}
-
-### How it started
-
-::: small
-
-- Began to address reproducible issues while working in academia
-
-- Goal was to build a package to summarize study results with code that was [both simple and customizable]{.emphasis}
-
-- First release in May 2019
-
-:::
-
-::: {.fragment}
-
-### How it's going
+:::::::: columns
+:::::: {.column width="65%"}
+#### How it started
 
 ::: small
+-   Began to address reproducibility issues while working in academia
 
-- The stats
-
-  - [1,600,000 installations]{.emphasis} from CRAN
-  - 1,100 GitHub stars
-  - 1,000 citations in peer-reviewed articles
-  - 350 contributors 
-  - 50 code contributors
-  
-- Won the 2021 American Statistical Association (ASA) Innovation in Programming Award
-
-- Won the 2024 Posit Pharma Table Contest
-
-:::
+-   Goal to build a package to summarize study results with code that was [both simple and customizable]{.emphasis}
 :::
 
+:::: fragment
+#### How it's going
+
+::: small
+-   The stats
+
+    -   [`r gtsummary_downloads` installations]{.emphasis} from CRAN
+    -   `r gtsummary_stars` GitHub stars
+    -   `r gtsummary_citations` citations in peer-reviewed articles
+    -   `r gtsummary_contributors` code contributors
+
+-   Won the 2025 Brian Bole Award of Excellence from R in Pharma
+
+-   Won the 2021 American Statistical Association (ASA) Innovation in Programming Award
+
+-   Won the 2024 Posit Pharma Table Contest
+
 :::
+::::
+::::::
+
 ::: {.column width="35%"}
+<img src="images/gtsummary-logo.png" width="450"/>
 
-<img src="images/gtsummary-logo.png" width="650"/>
-
-
-<img src="images/asa.png" width="200"/><img src="images/posit.png" width="200"/>
-
+<img src="images/asa.png" width="150"/><img src="images/posit.png" width="150"/><img src="images/r-in-pharma.png" width="250"/>
 :::
-:::
+::::::::
 
+## {pharmaverse} 30-day CRAN Downloads
+
+```{r}
+#| label: cran-downloads-plot
+#| echo: false
+pkgs_all <-
+  c("gtsummary", "stargazer", "arsenal", "rtables",
+    "table1", "tableone", "modelsummary",
+    "finalfit", "furniture", "compareGroups",
+    "tangram", "atable", "texreg", "apsrtable",
+    "tables", "qwraps2", "summarytools", "tfrmt", "tidytlg", "Tplyr")
+pkgs_pharmaverse <- c("gtsummary", "rtables", "tfrmt", "tidytlg", "Tplyr")
+
+df_30day <-
+  cranlogs::cran_downloads(packages = pkgs_all, when = "last-month") |>
+  dplyr::summarise(.by = package, count = sum(count)) |>
+  dplyr::arrange(-count) |>
+  dplyr::mutate(
+    pharmaverse = package %in% pkgs_pharmaverse
+  )
+
+# pharmaverse downloads
+df_30day |>
+  dplyr::mutate(
+    pharmaverse = ifelse(pharmaverse, "pharmaverse package", "non-pharmaverse package")
+  ) |>
+  ggplot(aes(y = count, x = fct_reorder(package, count), color = pharmaverse, fill = pharmaverse)) +
+  geom_bar(stat = "identity", linewidth = 0.1) +
+  scale_y_continuous(expand = c(0, 0), n.breaks = 20, labels = gtsummary::label_style_number()) +
+  scale_x_discrete(label = \(.x) ifelse(.x == "gtsummary", "gtsummary", strrep("x", nchar(.x)))) +
+  coord_flip() +
+  labs(x = NULL, y = "30-Day Downloads", color = NULL, fill = NULL) +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 20, vjust = 0.8, hjust=0.8)) +
+  scale_color_manual(values=c("#DBD6D1", "#007AC2")) +
+  scale_fill_manual(values=c("#DBD6D1", "#007AC2")) +
+  NULL
+```
+
+::: aside
+Figure contains 30-day downloads for all summary table packages on CRAN.
+:::
 
 ## {gtsummary} overview
 

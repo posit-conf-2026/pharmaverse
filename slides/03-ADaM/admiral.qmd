@@ -100,9 +100,9 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
 ## How we will proceed today?
 
 ::: incremental
--   I will **pull out** certain functions of the  [`ADSL`](https://github.com/posit-conf-2025/pharmaverse/blob/main/slides/03-ADaM/scripts/adsl.R) and [`ADVS`](https://github.com/posit-conf-2025/pharmaverse/blob/main/slides/03-ADaM/scripts/advs.R) R scripts.
-    - Let's take a quick peek at the [scripts](https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/scripts).
-    -   I will discuss **certain** functions and function arguments from [scripts](https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/scripts) for deriving variables/records. 
+-   I will **pull out** certain functions of the  [`ADSL`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/adsl.R) and [`ADVS`](https://github.com/posit-conf-2026/pharmaverse/blob/main/slides/03-ADaM/scripts/advs.R) R scripts.
+    - Let's take a quick peek at the [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts).
+    -   I will discuss **certain** functions and function arguments from [scripts](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/scripts) for deriving variables/records. 
     -   Will pull up full function arguments to briefly highlight other powers. 💡
     -   When possible will have some play data and mini-runs of the function. 🏸
 :::
@@ -158,7 +158,7 @@ classDef highlight fill:#F9B, stroke:#333, stroke-width:2px;
   
 ## Spec-peek
 
-- Let's take a quick peek at [metadata](https://github.com/posit-conf-2025/pharmaverse/tree/main/slides/03-ADaM/metadata)
+- Let's take a quick peek at [metadata](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/metadata)
 
 <div style="text-align: center;"> <img src="./images/specs_peek.png" alt="sunny" style="width: 600px;"/> </div>
 
@@ -326,6 +326,7 @@ derive_vars_dtm(
  highest_imputation = "M",
  date_imputation = "last",
  time_imputation = "last",
+ ignore_seconds_flag = FALSE
 )
 
 ```
@@ -600,7 +601,8 @@ derive_vars_dtm(
   dtc = MHSTDTC,
   highest_imputation = "M",
   date_imputation = "last",
-  time_imputation = "last"
+  time_imputation = "last",
+  ignore_seconds_flag = FALSE
 )
 
 ```

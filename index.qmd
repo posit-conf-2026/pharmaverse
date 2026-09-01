@@ -1,56 +1,42 @@
 ---
-title: "End-to-End Submissions in R with the Pharmaverse"
-subtitle: "Workshop@[`posit::conf(2025)`](https://posit.co/conference/)"
+title: "AI-Powered Clinical Reporting in R with the Pharmaverse"
+subtitle: "Workshop@[`posit::conf(2026)`](https://posit.co/conference/)"
 engine: knitr
 editor: 
   markdown: 
     wrap: 72
 ---
 
-------------------------------------------------------------------------
-
-🗓️ September 16, 2025  09:00 - 17:00 
-
-🏨 Hyatt Regency Atlanta, Room TBA
-
-📝 [Workshop Registration](http://pos.it/conf)
-
-------------------------------------------------------------------------
+::: {.hero-badges}
+[[🗓️]{.ico} September 14, 2026 · 09:00 – 17:00 CDT]{.badge-item}
+[[🏨]{.ico} Hilton Americas-Houston · 1600 Lamar Street, Houston, TX]{.badge-item}
+[[📝]{.ico} Workshop Registration](http://pos.it/conf){.badge-cta}
+:::
 
 ## Description
 
-Ready to optimize your regulatory submission process? This workshop offers a practical, end-to-end introduction to using R for a streamlined workflow from raw data to tables, listings, and graphs (TLGs). We'll dive into the power of key R packages from the Pharmaverse, starting with SDTM data preparation; learn to effortlessly map, transform, and validate your data to CDISC standards, ensuring both quality and compliance. Next, create ADaM datasets using modular and pipe-able syntax. Finally, get ready to generate compelling TLGs supported by Analysis Results Datasets (ARDs). We'll explore techniques for producing publication-ready output, customized to meet your specific reporting needs. Walk away with the skills to confidently use R for every stage of the submission process.
+Modern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You'll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You'll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.
 
 ## Schedule
 
-```{r}
-#| echo: false
-tibble::tribble(
-  ~time, ~desc,
-  "09:00 - 9:30", "[Introduction + Overview](slides/01-intro/index.html)",
-  "09:30 - 10:30", "[SDTM](slides/02-SDTM/index.html)", 
-  "10:30 - 11:00", "*Coffee Break*",
-  "11:00 - 12:30", "[ADaMs with {admiral} and friends](slides/03-ADaM/index.html)",
-  "12:30 - 13:30", "*Lunch*",
-  "13:30 - 14:15", "[Analysis Results Datasets](slides/04-ARD/index.html)",
-  "14:15 - 15:00", "[Create Tables with {tfrmt}](slides/05-tables-tfrmt/index.html)",
-  "15:00 - 15:30", "*Coffee Break*",
-  "15:30 - 16:15", "[Create Tables with {gtsummary}](slides/06-tables-gtsummary/index.html)",
-  "16:15 - 17:00", "[Other Topics Overview + Wrap-up](slides/07-submissions-wrapup/index.html)"
-) |> 
-  gt::gt() |> 
-  gt::cols_align(align = "left") |> 
-  gt::tab_style(
-    style = "vertical-align:top",
-    locations = gt::cells_body(columns = gt::everything())
-  ) |> 
-  gt::cols_label(time = gt::md("**Time**"), desc = gt::md("**Activity**")) |> 
-  gt::fmt_markdown()
-```
+::: {.schedule-table}
+| Time          | Activity                                                             |
+|---------------|---------------------------------------------------------------------|
+| 09:00 – 09:30 | [Introduction + Overview](slides/01-intro/index.html)               |
+| 09:30 – 10:30 | [SDTM](slides/02-SDTM/index.html)                                    |
+| 10:30 – 11:00 | *Coffee Break*                                                      |
+| 11:00 – 12:30 | [ADaMs with {admiral} and friends](slides/03-ADaM/index.html)       |
+| 12:30 – 13:30 | *Lunch*                                                             |
+| 13:30 – 14:15 | [Analysis Results Datasets](slides/04-ARD/index.html)               |
+| 14:15 – 15:00 | [Create Tables with {tfrmt}](slides/05-tables-tfrmt/index.html)     |
+| 15:00 – 15:30 | *Coffee Break*                                                      |
+| 15:30 – 16:15 | [Create Tables with {gtsummary}](slides/06-tables-gtsummary/index.html) |
+| 16:15 – 17:00 | [Other Topics Overview + Wrap-up](slides/07-submissions-wrapup/index.html) |
+:::
 
 ## Pre-work
 
-- [ ] Bookmark this site. You'll reference it throughout the workshop.   [pos.it/pharmaverse-conf25](pos.it/pharmaverse-conf25)
+- [ ] Bookmark this site. You'll reference it throughout the workshop.   [pos.it/pharmaverse-conf26](pos.it/pharmaverse-conf26)
 
 - [ ] Sign up for a *free* [Posit Cloud](https://posit.cloud/) account.
 
@@ -59,40 +45,53 @@ tibble::tribble(
 
 ## Instructors
 
-![](images/dan-circle.png){style="float:left;padding: 0 10px 0 0;" fig-alt="Headshot of Daniel Sjoberg" width="150"}
+::: {.instructor-grid}
 
-[**Daniel D. Sjoberg**](https://www.danieldsjoberg.com/) (he/him) is a
-Senior Principal Data Scientist at Genentech. Previously, he was a Lead
-Data Science Manager at the Prostate Cancer Clinical Trials Consortium,
-and a Senior Biostatistician at Memorial Sloan Kettering Cancer Center
-in New York City. He enjoys R package development, creating many
-packages available on [CRAN](https://cran.r-project.org/web/packages/),
-[R-Universe](https://ddsjoberg.r-universe.dev/ui#packages), and
-[GitHub](https://github.com/ddsjoberg). He's a co-organizer of 
-[rainbowR](https://rainbowr.netlify.app/) (a community that supports, promotes 
-and connects LGBTQ+ people who code in the R language) and of the [R Medicine Conference](https://rconsortium.github.io/RMedicine_website/). 
-His research interests include
-adaptive methods in clinical trials, precision medicine, and predictive
-modeling. Daniel is the winner of the 2021 American Statistical
-Association (ASA) Innovation in Statistical Programming and Analytics
-award.
+::: {.instructor-card}
+![](images/dan-circle.png){fig-alt="Headshot of Daniel Sjoberg"}
 
-[`r fontawesome::fa("link", fill = "#606060")`](https://www.danieldsjoberg.com/)
-[`r fontawesome::fa("bluesky", fill = "#606060")`](https://bsky.app/profile/ddsjoberg.bsky.social)
-[`r fontawesome::fa("linkedin", fill = "#606060")`](https://www.linkedin.com/in/ddsjoberg/)
-[`r fontawesome::fa("github", fill = "#606060")`](https://github.com/ddsjoberg/)
+[**Daniel D. Sjoberg**](https://www.danieldsjoberg.com/){.instructor-name}
 
-![](images/becca.png){style="float:left;padding: 0 20px 0 20px;" fig-alt="Headshot of Becca Krouse" width="140"}
+[Executive Director of Data Sciences & Clinical Data Analytics, Kardigan (he/him)]{.instructor-role}
 
-**Becca Krouse** is a data scientist in GSK’s Data Science Innovation and Engineering team where she focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.
+Daniel leads the Data Science and Clinical Analytics groups at Kardigan. Previously was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and an academic biostatistician at Memorial Sloan Kettering Cancer Center for 13 years. He enjoys R package development, creating many packages on [CRAN](https://cran.r-project.org/web/packages/), [R-Universe](https://ddsjoberg.r-universe.dev/ui#packages), and [GitHub](https://github.com/ddsjoberg). He's a co-organizer of [rainbowR](https://rainbowr.netlify.app/) and of the [R Medicine Conference](https://rconsortium.github.io/RMedicine_website/), and a recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the ASA Innovation in Programming Award.
 
-<br>
-![](images/ben-circle.jpg){style="float:left;padding: 0 20px 0 20px;" fig-alt="Headshot of Becca Krouse" width="140"}
+::: {.instructor-social}
+[`r fontawesome::fa("link", fill = "#7090A5")`](https://www.danieldsjoberg.com/)
+[`r fontawesome::fa("bluesky", fill = "#7090A5")`](https://bsky.app/profile/ddsjoberg.bsky.social)
+[`r fontawesome::fa("linkedin", fill = "#7090A5")`](https://www.linkedin.com/in/ddsjoberg/)
+[`r fontawesome::fa("github", fill = "#7090A5")`](https://github.com/ddsjoberg/)
+:::
+:::
 
-**Ben Straub** is a Principal Programmer at GSK in the Immunology Therapeutic Area since 2018.
-He has led and helped with many initiatives around R Adoption activities within Clinical Programming  since his start at GSK.  He is also actively helping to develop and maintain an end-to-end R package pipeline [(pharmaverse)](https://pharmaverse.org/) that addresses all the needs of Clinical Reporting with many awesome companies and individuals.  He is very excited for the future of using R and open source for Clinical Reporting.  
+::: {.instructor-card}
+![](images/becca.png){fig-alt="Headshot of Becca Krouse"}
 
-![](images/ram-circle.png){style="float:left;padding: 0 20px 0 20px;"
-fig-alt="Headshot of Rammprasad Ganapathy" width="140"}
+[**Becca Krouse**]{.instructor-name}
 
-**Rammprasad Ganapathy** (Ram) is a Principal Data Scientist at Roche/Genentech with over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.
+[Data Scientist, GSK Data Science Innovation & Engineering]{.instructor-role}
+
+Becca focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.
+:::
+
+::: {.instructor-card}
+![](images/ben-circle.jpg){fig-alt="Headshot of Ben Straub"}
+
+[**Ben Straub**]{.instructor-name}
+
+[Principal Programmer, GSK Immunology Therapeutic Area]{.instructor-role}
+
+At GSK since 2018, Ben has led and helped with many initiatives around R adoption within Clinical Programming. He actively helps develop and maintain an end-to-end R package pipeline, [pharmaverse](https://pharmaverse.org/), that addresses the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.
+:::
+
+::: {.instructor-card}
+![](images/ram-circle.png){fig-alt="Headshot of Rammprasad Ganapathy"}
+
+[**Rammprasad Ganapathy**]{.instructor-name}
+
+[Principal Data Scientist, Roche/Genentech]{.instructor-role}
+
+Ram has over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.
+:::
+
+:::

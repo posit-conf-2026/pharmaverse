@@ -60,7 +60,7 @@ But the general structure appears enough times in our catalog, we make it simple
 adlb |> 
   dplyr::filter(PARAM == "Albumin (g/L)") |> 
   tbl_baseline_chg(
-    by = "ARM2",
+    by = "ARM",
     baseline_level = "Baseline",
     denominator = adsl
   )
@@ -82,105 +82,6 @@ adlb |>
 
 ![](images/Merge.png){fig-align="center" width="80%"}
 
-<!-- ## {gtsummary} default theme -->
-
-<!-- ```{r} -->
-<!-- #| output-location: "column" -->
-<!-- #| label: "theme1" -->
-<!-- reset_gtsummary_theme() -->
-
-<!-- adsl |>  -->
-<!--   tbl_summary( -->
-<!--     by = ARM2,  -->
-<!--     include = c(AGE, ETHNIC) -->
-<!--   ) |> -->
-<!--   modify_caption( -->
-<!--     "Default Theme" -->
-<!--   ) -->
-<!-- ``` -->
-
-<!-- ## {gtsummary} theme_gtsummary_journal() -->
-
-<!-- ```{r} -->
-<!-- #| output-location: "column" -->
-<!-- reset_gtsummary_theme() -->
-<!-- theme_gtsummary_journal(journal = "jama") -->
-
-<!-- adsl |>  -->
-<!--   tbl_summary( -->
-<!--     by = ARM2,  -->
-<!--     include = c(AGE, ETHNIC) -->
-<!--   ) |> -->
-<!--   modify_caption( -->
-<!--     "Journal Theme (JAMA)" -->
-<!--   ) -->
-<!-- ``` -->
-
-<!-- ## {gtsummary} theme_gtsummary_language() -->
-
-<!-- ```{r} -->
-<!-- #| output-location: "column" -->
-<!-- reset_gtsummary_theme() -->
-<!-- theme_gtsummary_language(language = "zh-tw") -->
-
-<!-- adsl |>  -->
-<!--   tbl_summary( -->
-<!--     by = ARM2,  -->
-<!--     include = c(AGE, ETHNIC) -->
-<!--   ) |> -->
-<!--   add_p() |>  -->
-<!--   modify_caption( -->
-<!--     "Language Theme (Chinese)" -->
-<!--   ) -->
-<!-- ``` -->
-
-<!-- **Language options:** -->
-
-<!-- :::::: {.columns style="font-size:0.65em"} -->
-<!-- ::: {.column width="30%"} -->
-<!-- -   German -->
-<!-- -   English -->
-<!-- -   Spanish -->
-<!-- -   French -->
-<!-- -   Gujarati -->
-<!-- -   Hindi -->
-<!-- ::: -->
-
-<!-- ::: {.column width="30%"} -->
-<!-- -   Icelandic -->
-<!-- -   Japanese -->
-<!-- -   Korean -->
-<!-- -   Marathi -->
-<!-- -   Dutch -->
-<!-- ::: -->
-
-<!-- ::: {.column width="30%"} -->
-<!-- -   Norwegian -->
-<!-- -   Portuguese -->
-<!-- -   Swedish -->
-<!-- -   Chinese Simplified -->
-<!-- -   Chinese Traditional -->
-<!-- ::: -->
-<!-- :::::: -->
-
-<!-- ## {gtsummary} theme_gtsummary_compact() -->
-
-<!-- ```{r} -->
-<!-- reset_gtsummary_theme() -->
-<!-- theme_gtsummary_compact() -->
-
-<!-- adsl |>  -->
-<!--   tbl_summary( -->
-<!--     by = ARM2,  -->
-<!--     include = c(AGE, ETHNIC) -->
-<!--   ) |> -->
-<!--   modify_caption("Compact Theme") -->
-<!-- ``` -->
-
-<!-- *Reduces padding and font size* -->
-
-<!-- Learn more at <http://www.danieldsjoberg.com/gtsummary/articles/themes.html> -->
-
 ## A pharma theme with {crane}
 
 Our theme is implemented in `crane::theme_gtsummary_roche()`
@@ -200,6 +101,7 @@ Primary changes include:
 ## What else is in {crane}? <img src="https://raw.githubusercontent.com/insightsengineering/crane/main/man/figures/logo.png" align="right" height="120"/>
 
 ```{r}
+#| label: tbl-roche-summary-example
 #| output-location: column
 theme_gtsummary_roche()
 

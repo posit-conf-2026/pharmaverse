@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.Renviron
 
 /.quarto/
 
@@ -9,3 +10,8 @@ docs
 site_libs
 
 **/*.quarto_ipynb
+
+README.qmd
+languages.qmd
+project.Rproj
+data/

@@ -1,6 +1,6 @@
 # ARDs using {cards} 
  
-<a href="https://insightsengineering.github.io/cards/"><img src="https://raw.githubusercontent.com/insightsengineering/cards/main/man/figures/logo.png" align="center" height="300" alt="cards website" /></a>
+<a href="https://pharmaverse.github.io/cards/"><img src="https://raw.githubusercontent.com/pharmaverse/cards/main/man/figures/logo.png" align="center" height="300" alt="cards website" /></a>
 
 ## {cards}: Introduction
 
@@ -12,24 +12,26 @@
 
 -   Can be used within the ARS workflow and separately
 
--   38k downloads per month 🤯
+-   `r scales::number_format(scale = 1e-3, suffix = "K", accuracy = 1)(cranlogs::cran_downloads(packages = "gtsummary", when = "last-month")$count |> sum())` downloads per month 🤯
 
 ## Data used in examples
 
 ADSL from `pharmaverseadam`
 ```{r }
+#| label: data-adsl
 #| code-fold: true
 
-adsl <- pharmaverseadam::adsl |> 
+adsl <- pharmaverseadam::adsl |>
   dplyr::filter(SAFFL=="Y") |> 
   dplyr::mutate(ARM2 = ifelse(startsWith(ARM, "Xanomeline"), "Xanomeline", ARM))
 ```
 
 ADAE from `pharmaverseadam`
 ```{r }
+#| label: data-adae
 #| code-fold: true
 
-adae <- pharmaverseadam::adae |> 
+adae <- pharmaverseadam::adae |>
   dplyr::filter(SAFFL=="Y") |> 
   dplyr::mutate(ARM2 = ifelse(startsWith(ARM, "Xanomeline"), "Xanomeline", ARM)) |> 
   dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |> 
@@ -46,6 +48,7 @@ adae <- pharmaverseadam::adae |>
 :::
 
 ```{r}
+#| label: tabulate-agegr1
 #| message: true
 library(cards)
 
@@ -63,22 +66,23 @@ adsl |>
 :::
 
 ```{r}
+#| label: tabulate-agegr1-by
 #| message: true
-adsl |> 
+adsl |>
   ard_tabulate(
     by = ARM2,
     variables = AGEGR1
-  ) 
+  )
 ```
 
 
 ## {cards}: `ard_summary()`
 
 ```{r}
+#| label: summary-age
 #| message: true
-#| 
 # create ARD with default summary statistics
-adsl |> 
+adsl |>
   ard_summary(
     variables = AGE
   )
@@ -92,12 +96,13 @@ adsl |>
 :::
 
 ```{r}
+#| label: summary-age-by
 #| message: true
-adsl |> 
+adsl |>
   ard_summary(
     variables = AGE,
     by = ARM2         # stats by treatment arm
-  ) 
+  )
 ```
 
 ## {cards}: `ard_summary()` statistics
@@ -108,6 +113,7 @@ adsl |>
 
 
 ```{r}
+#| label: summary-age-cv
 #| message: true
 cv <- function(x)  sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE)
 
@@ -127,9 +133,10 @@ Customize the statistics returned for each variable
 :::
 
 ```{r}
+#| label: summary-age-custom
 #| message: true
-adsl |> 
-  dplyr::mutate(AGE2 = AGE) |> 
+adsl |>
+  dplyr::mutate(AGE2 = AGE) |>
   ard_summary(
     variables = c(AGE, AGE2),
     by = ARM2,
@@ -146,13 +153,14 @@ adsl |>
 :::
  
 ```{r}
+#| label: summary-age-fmt
 #| message: true
-adsl |> 
+adsl |>
   ard_summary(
     variables = AGE,
-    by = ARM2,                               
-    fmt_fun = ~list(mean = 0)                
-  ) |> 
+    by = ARM2,
+    fmt_fun = ~list(mean = 0)
+  ) |>
   apply_fmt_fun() # add a character column of rounded results
 ```
 
@@ -188,10 +196,11 @@ Wrangling: `get_ard_statistics()`, `replace_null_statistic()`, etc.
 :::
 
 ```{r}
+#| label: stack-intro
 #| message: true
-adsl |> 
-  ard_stack( 
-    .by = ARM2,      
+adsl |>
+  ard_stack(
+    .by = ARM2,
     ard_summary(variables = AGE, statistic = ~ continuous_summary_fns(c("mean","sd"))), 
     ard_tabulate(variables = AGEGR1, statistic = ~ "p")
   )  
@@ -206,11 +215,12 @@ adsl |>
 
 
 ```{r}
+#| label: recap-summary-skeleton
 #| eval: false
 ard_summary(
   data = adsl,
   by = ,
-  variables = 
+  variables =
 )
 ```
 
@@ -223,12 +233,13 @@ ard_summary(
 :::
 
 ```{r}
+#| label: recap-summary
 #| message: true
 #| code-line-numbers: "3,4"
 ard_summary(
   data = adsl,
   by = ARM2,
-  variables = AGE 
+  variables = AGE
 )
 ```
  
@@ -240,11 +251,12 @@ ard_summary(
 ::: 
 
 ```{r}
+#| label: recap-tabulate-skeleton
 #| eval: false
 ard_tabulate(
   data = adsl,
   by = ,
-  variables = 
+  variables =
 )
 ```
 
@@ -256,12 +268,13 @@ ard_tabulate(
 - Next, we compute the categorical summaries for AGEGR1 and SEX by ARM2
 ::: 
 ```{r}
+#| label: recap-tabulate
 #| message: true
 #| code-line-numbers: "3,4"
 ard_tabulate(
   data = adsl,
   by = ARM2,
-  variables = c(AGEGR1, SEX) 
+  variables = c(AGEGR1, SEX)
 )
 ```
 
@@ -280,13 +293,14 @@ Let's compute summaries for a demography table that includes age (AGE), age grou
 :::
 
 ```{r}
+#| label: recap-stack-skeleton
 #| eval: false
 ard_stack(
   data = adsl,
   .by = ARM2,
-  
+
   # add ard_* calls here
-  
+
 )
 ```
 
@@ -304,6 +318,7 @@ Let's compute summaries for a demography table that includes age (AGE), age grou
 :::
 
 ```{r}
+#| label: recap-stack
 #| message: true
 #| code-line-numbers: "4,5"
 ard_stack(
@@ -324,6 +339,7 @@ We can also add:
 :::
 
 ```{r}
+#| label: recap-stack-overall
 #| message: true
 #| code-line-numbers: "6,7"
 ard_stack(
@@ -341,79 +357,27 @@ ard_stack(
 
 Following hierarchical summary functions aid in nested tabulations (e.g. AE terms within SOC):
 
--   `ard_hierarchical()`: calculating nested subject-level rates
+-   `ard_stack_hierarchical()`: calculating nested subject-level rates
 
--   `ard_hierarchical_count()`: calculating nested event-level counts
-  
+-   `ard_stack_hierarchical_count()`: calculating nested event-level counts
 
-## {cards}: `ard_hierarchical` 
 
-::: {.small}
-
-This function specializes in calculating **subject**-level rates.
-
-- Rates computed on lowest level `variables`, nested within others
-
-- `id` helps to check that no duplicate rows exist within the `c(id, variables)` columns
-
-- `denominator` dictates the denominator for the rates
-
-:::
-
-```{r} 
-#| message: true
-adae |> 
-  dplyr::slice_tail(n = 1L, by = c(USUBJID, ARM, AESOC, AEDECOD)) |> 
-  ard_hierarchical(
-    variables = c(AESOC, AEDECOD),
-    by = TRT01A,
-    id = USUBJID,
-    denominator = adsl
-  )
-```
-
-## {cards}: `ard_hierarchical_count` 
+## {cards}: `ard_stack_hierarchical`
 
 ::: {.small}
 
-This function specializes in calculating **event**-level frequencies.
+- Our go-to function for nested **subject**-level rates — one call handles the whole hierarchy
+
+- A single call returns rows for **both** the System Organ Class (`group2_level`) and the nested AE term (`variable_level`)
+
+- `id` checks for duplicate rows and subsets the data along the way; `denominator` dictates the denominator for the rates
 
 :::
 
 ```{r}
-#| message: true
-adae |> 
-  ard_hierarchical_count( 
-    variables = c(AESOC, AEDECOD),
-    by = TRT01A
-  )
-```
-
-## Hierarchical summaries many ways
-
-- Displays for hierarchical data typically report on each level of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)
-
-- This can mean several calls to the `ard_hierarchical_*` functions 
-
-- Further, subject-level summaries require a different subset of the data each time. For example, to calculate Overall rates, we need to subset to 1 record per subject in ADAE. 
-
-::: {.fragment}
-- Is there an easier way?
-:::
-
-## {cards}: Stacking function for `ard_hierarchical()`
-
-::: {.small}
-
-- `ard_hierarchical` stacking functions simplify this multi-step process into a single step
-
-- The `id` argument is used to subset the data along the way
-
-:::
-
-```{r}
+#| label: stack-hierarchical-code
 #| eval: FALSE
-adae |> 
+adae |>
   ard_stack_hierarchical(
     variables = c(AESOC, AEDECOD),
     by = TRT01A,
@@ -423,6 +387,7 @@ adae |>
 ```
 
 ```{r}
+#| label: stack-hierarchical-output
 #| echo: FALSE
 ard_hier <- ard_stack_hierarchical(
   data = adae,
@@ -432,15 +397,25 @@ ard_hier <- ard_stack_hierarchical(
   denominator = pharmaverseadam::adsl
 )
 
-ard_hier |> 
+ard_hier |>
   dplyr::filter(
-    dplyr::if_any(c(group2_level, variable_level), ~ .x %in% "GASTROINTESTINAL DISORDERS"), 
+    dplyr::if_any(c(group2_level, variable_level), ~ .x %in% "GASTROINTESTINAL DISORDERS"),
     group1_level %in% "Placebo"
     )
 
 ```
 
-## {cards}: Stacking function for `ard_hierarchical_count()`
+## Why the stacking functions?
+
+
+- Displays for hierarchical data report on **each level** of the hierarchy (by System Organ Class, by Preferred Term)
+
+- Producing that by hand means several calls to the simpler `ard_hierarchical()` / `ard_hierarchical_count()` functions, each on a **different subset** of the data 
+
+- `ard_stack_hierarchical*()` runs those calls in the background and **stacks** the results into one ARD
+
+
+## {cards}: `ard_stack_hierarchical_count`
 
 ::: {.small}
 
@@ -449,8 +424,9 @@ ard_hier |>
 :::
 
 ```{r}
+#| label: stack-hierarchical-count-code
 #| eval: FALSE
-adae |> 
+adae |>
   ard_stack_hierarchical_count(
     variables = c(AESOC, AEDECOD),
     by = TRT01A, 
@@ -459,6 +435,7 @@ adae |>
 ```
 
 ```{r}
+#| label: stack-hierarchical-count-output
 #| echo: FALSE
 ard_hier_c <- ard_stack_hierarchical_count(
   data = adae,
@@ -485,6 +462,7 @@ ard_hier_c |>
 
 
 ```{r}
+#| label: countdown
 #| echo: false
 #| cache: false
 library(countdown)
@@ -532,8 +510,9 @@ countdown(minutes = 10, play_sound = TRUE)
 :::
 
 ```{r}
+#| label: cardx-ttest
 #| message: true
-adsl |> 
+adsl |>
   cardx::ard_stats_t_test(by = ARM2, variables = AGE)
 ```
 
@@ -550,12 +529,13 @@ adsl |>
 :::
 
 ```{r}
+#| label: cardx-ttest-one-sample
 #| message: true
-adsl |> 
+adsl |>
   cards::ard_summary(
     variables = AGE,
     statistic = everything() ~ list(t_test = \(x) t.test(x) |> broom::tidy())
-  ) |> 
+  ) |>
   dplyr::mutate(context = "t_test_one_sample")
 ```
 
@@ -568,12 +548,12 @@ adsl |>
 :::
 
 ```{r}
+#| label: cardx-ttest-two-sample
 #| message: true
-adsl |> 
+adsl |>
   cards::ard_mvsummary(
     variables = AGE,
-    statistic = 
-      ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
+    statistic = ~ list(t_test = \(x, data, ...) t.test(x ~ data$ARM2) |> broom::tidy())
   ) |> 
   dplyr::mutate(group1 = "ARM2", context = "t_test_two_sample") |> 
   cards::tidy_ard_column_order()
@@ -593,6 +573,7 @@ adsl |>
 
 
 ```{r}
+#| label: cardx-regression-model
 #| message: true
 #| warning: false
 library(survival)
@@ -611,9 +592,10 @@ tbl <- gtsummary::tbl_regression(mod, exponentiate = TRUE) |>
 <br>
 
 ```{r}
+#| label: cardx-regression-tbl
 #| echo: false
-tbl |> 
-  gtsummary::as_gt() |> 
+tbl |>
+  gtsummary::as_gt() |>
   gt::cols_width(c(stat_n, stat_nevent, estimate, p.value) ~ gt::px(25))
 ```
 
@@ -637,8 +619,9 @@ What happens when statistics are un-calculable?
 
 :::
 ```{r}
+#| label: ard-gone-wrong
 #| message: true
-ard_gone_wrong <- 
+ard_gone_wrong <-
   adsl |> 
   ard_summary(
     by = ARM2,
@@ -670,5 +653,73 @@ cards::print_ard_conditions(ard_gone_wrong)
   - This allows you to design everything up-front.
   
 - We can also report these warnings and errors back to users. <!CLICK!>
+
+:::
+
+## Recap: what we covered
+
+::: {.small}
+
+Starting from raw data, we built ARDs and never touched a layout:
+
+- **Univariate summaries** with `ard_summary()` (continuous) and `ard_tabulate()` (categorical) — custom statistics, `by` groups, and formatting
+
+- **Hierarchical summaries** with `ard_stack_hierarchical()` / `ard_stack_hierarchical_count()` for nested AE tabulations (built on the lower-level `ard_hierarchical*()` functions)
+
+- **Stacking** everything into a single ARD with `ard_stack()` — overall rows, total N, and all
+
+- **Statistical results** with `{cardx}`: t-tests, regression models, and wrapping your own methods
+
+- A structure that holds together **even when a statistic can't be computed**
+
+:::
+
+## Why ARDs? 🤝
+
+::: {.incremental}
+
+- **Compute once, reuse everywhere** — one ARD feeds any number of tables and figures
+
+- **QC the values** — numeric or rounded/formatted...or both!
+
+- **Composable by design** — every `ard_*()` result stacks into one tidy data frame 🥞
+
+- **The engine for the ARS** — {cards} powers a metadata-driven, reproducible analysis workflow
+
+:::
+
+::: {.fragment}
+::: {.goal}
+ARDs are the *foundation*. Next, we turn these results into tables. ➡️
+:::
+:::
+
+## Learn more
+
+::: {.columns .v-center-container}
+
+::: {.column width="55%"}
+
+![](images/cards-cardx-hex.png){fig-alt="cards and cardx package logos" width="90%"}
+
+:::
+
+::: {.column width="45%"}
+
+::: {.small}
+
+📦 [{cards}](https://pharmaverse.github.io/cards/) — build ARDs
+
+📦 [{cardx}](https://pharmaverse.github.io/cardx/) — statistical ARDs
+
+🌐 [pharmaverse.org](https://pharmaverse.org/)
+
+📖 [CDISC Analysis Results Standard](https://www.cdisc.org/standards/foundational/analysis-results-standard)
+
+:::
+
+Thank you! Questions? 🙋
+
+:::
 
 :::

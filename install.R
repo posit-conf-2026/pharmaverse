@@ -15,5 +15,4 @@ install.packages(c("devtools",
                    "tfrmt",
                    "labelled",
                    "pharmaverseadam",
-                  "crane",
-                  "docorator")) 
+                  "crane")) 

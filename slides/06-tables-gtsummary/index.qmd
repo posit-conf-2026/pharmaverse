@@ -1,21 +1,28 @@
 ---
 title: "Clinical Reporting with {gtsummary}"
+subtitle: "Pharmaverse Workshop"
 author: "Daniel D. Sjoberg"
-footer:  "[Pharmaverse Workshop (pos.it/pharmaverse-conf25)](https://posit-conf-2025.github.io/pharmaverse/)"
+event: "posit::conf(2026)"
+footer:  "[Pharmaverse Workshop (posit-conf-2026.github.io/pharmaverse/)](https://posit-conf-2026.github.io/pharmaverse/)"
 logo: "images/gtsummary-logo.png"
 editor: source
-format: 
-  revealjs: 
+format:
+  revealjs:
     theme: slides.scss
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
 execute:
   message: true
   echo: true
+resources:
+  - save_flex_docx/ae_table.pdf
 ---
 
 ```{r}
+#| label: setup-options
 #| echo: false
 options(width = 120)
 ```
@@ -35,9 +42,13 @@ options(width = 120)
 
 {{< include 06-print_engines.qmd >}}
 
+{{< include 06b-save_flex_docx.qmd >}}
+
 {{< include 07-adopt.qmd >}}
 
 <!-- {{< include 08-LLMs.qmd >}} -->
+
+{{< include 08-coding-agents.qmd >}}
 
 {{< include 09-summary.qmd >}}
 
