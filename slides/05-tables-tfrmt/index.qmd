@@ -21,6 +21,7 @@ cache: false
 #| echo: false
 #| cache: false
 library(tfrmt)
+library(docorator)
 ```
 
 {{< include tfrmt.qmd >}}
