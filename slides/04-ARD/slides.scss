@@ -1,0 +1,276 @@
+/*-- scss:defaults --*/
+
+// fonts
+@import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&display=swap');
+
+$font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
+$font-family-display: "Fraunces", Georgia, serif;
+$presentation-heading-color: #1A1A40;
+$presentation-title-slide-text-align: "left";
+$presentation-font-size-root: 33px;
+$code-block-font-size: 0.6em;
+$link-color: #1A1A40;
+$custom-col: #FF6B6B;
+
+/*-- scss:rules --*/
+
+.emphasis {
+  font-weight: bold;
+  color: $custom-col;
+}
+
+details>summary {
+  font-size: 0.75em;
+}
+
+.smallest {
+  font-size: 0.35em;
+}
+
+.smaller {
+  font-size: 0.5em;
+}
+
+.small {
+  font-size: 0.7em;
+}
+
+.smallish {
+  font-size: 0.4em;
+}
+
+.larger {
+  font-size: 1.5em;
+}
+
+.largest {
+  font-size: 2em;
+}
+
+.reveal .slide .question {
+  border-left: 3px solid #7090A5;
+  padding-left: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background: #A9BCC9;
+}
+
+.reveal .slide .poll {
+  border-left: 3px solid #FFD166;
+  padding-left: 0.5em;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
+  background: #FFEDC2;
+}
+
+.reveal .slide .appex {
+  border-left: 3px solid #003559;
+  padding: 0.25em;
+  background: #EBF7FF;
+}
+
+.reveal .slide .cloud {
+  border-left: 3px solid #8DB6DB;
+  margin-top: 0.5em;
+  padding: 0.25em;
+  background: #F3F7FB;
+  font-size: 0.75em;
+}
+
+.reveal .slide .share {
+  border-left: 3px solid #717DEF;
+  padding: 0.25em;
+  background: #F0F2FD;
+  font-size: 0.75em;
+}
+
+.reveal .slide .in-out {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  padding-left: 1em;
+  background: #E8E8E8;
+  font-family: $font-family-monospace;
+  font-size: 0.6em;
+}
+
+
+.reveal .slide .goal {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding-top: 0.1em;
+  padding-bottom: 0.1em;
+  padding-left: 1em;
+  background: #ccddeb;
+}
+
+.reveal countdown {
+  position: fixed;
+  bottom: 0em;
+  right: 0em;
+  font-size: 40px;
+  border: 2px solid;
+  border-radius: 5px;
+  padding-left: 12px;
+  padding-right: 12px;
+  user-select: none;
+}
+
+.reveal pre {
+  overflow-x: auto;
+}
+.reveal pre code {
+  word-wrap: normal;
+  white-space: pre;
+}
+
+.reveal .slide .v-center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+}
+
+/* ---------------------------------------------------------------------------
+   Custom title slide (Emil Hvitfeldt-inspired):
+   display-font title, coral accent rule, headshot + affiliation author block,
+   and a gtsummary logo hero card echoing the codewindow shadow motif.
+   All rules are scoped to #title-slide so no content slide is affected.
+--------------------------------------------------------------------------- */
+#title-slide {
+  // soft light gradient ground
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f8 100%);
+
+  // subtle pharmaverse hex watermark, pinned bottom-left, well behind content
+  &::after {
+    content: "";
+    position: absolute;
+    left: -60px;
+    bottom: -80px;
+    width: 360px;
+    height: 360px;
+    background-image: url('images/pharmaverse-hex.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .custom-title {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4%;
+    height: 100%;
+    text-align: left;
+  }
+
+  .title-left {
+    flex: 1 1 58%;
+    min-width: 0;
+  }
+
+  h1.title {
+    font-family: $font-family-display;
+    font-weight: 600;
+    font-size: 2.5em;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    color: $presentation-heading-color;
+    margin: 0;
+  }
+
+  .title-rule {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: $custom-col;
+    margin: 0.5em 0 0.55em;
+  }
+
+  .subtitle {
+    font-family: $font-family-sans-serif;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7090A5;
+    margin: 0 0 1.4em;
+  }
+
+  .title-author {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+  }
+
+  .title-avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: #26394d 0px 6px 16px -6px;
+    margin: 0;
+  }
+
+  .title-author-text { line-height: 1.2; }
+
+  .author-name {
+    font-family: $font-family-sans-serif;
+    font-weight: 700;
+    font-size: 0.72em;
+    color: $presentation-heading-color;
+    margin: 0;
+  }
+
+  .author-affil {
+    font-family: $font-family-sans-serif;
+    font-size: 0.55em;
+    color: #7090A5;
+    margin: 0.1em 0 0;
+  }
+
+  .title-hero {
+    flex: 0 0 34%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .title-logo-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: #26394d 0px 20px 30px -10px;
+
+    img {
+      display: block;
+      width: 100%;
+      max-width: 300px;
+      margin: 0;
+    }
+  }
+
+  // stack columns on very narrow viewports so nothing overlaps
+  @media (max-width: 800px) {
+    .custom-title {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 1em;
+    }
+    .title-hero { flex-basis: auto; }
+    h1.title { font-size: 2em; }
+  }
+}
+
+// hide the shared corner logo while the custom title slide is the active slide
+// (the hero logo card replaces it there); it returns on all content slides.
+.reveal:has(section#title-slide.present) .slide-logo {
+  display: none !important;
+}
