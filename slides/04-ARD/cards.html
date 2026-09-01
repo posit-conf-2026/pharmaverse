@@ -208,11 +208,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#quick-recap-5" id="toc-quick-recap-5" class="nav-link" data-scroll-target="#quick-recap-5">Quick recap!</a></li>
   <li><a href="#quick-recap-6" id="toc-quick-recap-6" class="nav-link" data-scroll-target="#quick-recap-6">Quick recap!</a></li>
   <li><a href="#cards-hierarchical-summary-functions" id="toc-cards-hierarchical-summary-functions" class="nav-link" data-scroll-target="#cards-hierarchical-summary-functions">{cards}: Hierarchical Summary Functions</a></li>
-  <li><a href="#cards-ard_hierarchical" id="toc-cards-ard_hierarchical" class="nav-link" data-scroll-target="#cards-ard_hierarchical">{cards}: <code>ard_hierarchical</code></a></li>
-  <li><a href="#cards-ard_hierarchical_count" id="toc-cards-ard_hierarchical_count" class="nav-link" data-scroll-target="#cards-ard_hierarchical_count">{cards}: <code>ard_hierarchical_count</code></a></li>
-  <li><a href="#hierarchical-summaries-many-ways" id="toc-hierarchical-summaries-many-ways" class="nav-link" data-scroll-target="#hierarchical-summaries-many-ways">Hierarchical summaries many ways</a></li>
-  <li><a href="#cards-stacking-function-for-ard_hierarchical" id="toc-cards-stacking-function-for-ard_hierarchical" class="nav-link" data-scroll-target="#cards-stacking-function-for-ard_hierarchical">{cards}: Stacking function for <code>ard_hierarchical()</code></a></li>
-  <li><a href="#cards-stacking-function-for-ard_hierarchical_count" id="toc-cards-stacking-function-for-ard_hierarchical_count" class="nav-link" data-scroll-target="#cards-stacking-function-for-ard_hierarchical_count">{cards}: Stacking function for <code>ard_hierarchical_count()</code></a></li>
+  <li><a href="#cards-ard_stack_hierarchical" id="toc-cards-ard_stack_hierarchical" class="nav-link" data-scroll-target="#cards-ard_stack_hierarchical">{cards}: <code>ard_stack_hierarchical</code></a></li>
+  <li><a href="#why-the-stacking-functions" id="toc-why-the-stacking-functions" class="nav-link" data-scroll-target="#why-the-stacking-functions">Why the stacking functions?</a></li>
+  <li><a href="#cards-ard_stack_hierarchical_count" id="toc-cards-ard_stack_hierarchical_count" class="nav-link" data-scroll-target="#cards-ard_stack_hierarchical_count">{cards}: <code>ard_stack_hierarchical_count</code></a></li>
   <li><a href="#exercise" id="toc-exercise" class="nav-link" data-scroll-target="#exercise">Exercise 🏃‍➡️</a></li>
   <li><a href="#cardx" id="toc-cardx" class="nav-link" data-scroll-target="#cardx">{cardx}</a></li>
   <li><a href="#cardx-1" id="toc-cardx-1" class="nav-link" data-scroll-target="#cardx-1">{cardx}</a></li>
@@ -746,109 +744,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="cards-hierarchical-summary-functions">{cards}: Hierarchical Summary Functions</h2>
 <p>Following hierarchical summary functions aid in nested tabulations (e.g.&nbsp;AE terms within SOC):</p>
 <ul>
-<li><p><code>ard_hierarchical()</code>: calculating nested subject-level rates</p></li>
-<li><p><code>ard_hierarchical_count()</code>: calculating nested event-level counts</p></li>
+<li><p><code>ard_stack_hierarchical()</code>: calculating nested subject-level rates</p></li>
+<li><p><code>ard_stack_hierarchical_count()</code>: calculating nested event-level counts</p></li>
 </ul>
 </section>
-<section id="cards-ard_hierarchical" class="level2">
-<h2 class="anchored" data-anchor-id="cards-ard_hierarchical">{cards}: <code>ard_hierarchical</code></h2>
+<section id="cards-ard_stack_hierarchical" class="level2">
+<h2 class="anchored" data-anchor-id="cards-ard_stack_hierarchical">{cards}: <code>ard_stack_hierarchical</code></h2>
 <div class="small">
-<p>This function specializes in calculating <strong>subject</strong>-level rates.</p>
 <ul>
-<li><p>Rates computed on lowest level <code>variables</code>, nested within others</p></li>
-<li><p><code>id</code> helps to check that no duplicate rows exist within the <code>c(id, variables)</code> columns</p></li>
-<li><p><code>denominator</code> dictates the denominator for the rates</p></li>
+<li><p>Our go-to function for nested <strong>subject</strong>-level rates — one call handles the whole hierarchy</p></li>
+<li><p>A single call returns rows for <strong>both</strong> the System Organ Class (<code>group2_level</code>) and the nested AE term (<code>variable_level</code>)</p></li>
+<li><p><code>id</code> checks for duplicate rows and subsets the data along the way; <code>denominator</code> dictates the denominator for the rates</p></li>
 </ul>
 </div>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>adae <span class="sc">|&gt;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>L, <span class="at">by =</span> <span class="fu">c</span>(USUBJID, ARM, AESOC, AEDECOD)) <span class="sc">|&gt;</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_hierarchical</span>(</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> USUBJID,</span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">denominator =</span> adsl</span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># An ARD data frame: 81 × 13
-   group1 group1_level group2 group2_level     variable variable_level stat_name
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;           &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    
- 1 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  DIARRHOEA      n        
- 2 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  DIARRHOEA      N        
- 3 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  DIARRHOEA      p        
- 4 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  HIATUS HERNIA  n        
- 5 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  HIATUS HERNIA  N        
- 6 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  HIATUS HERNIA  p        
- 7 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  VOMITING       n        
- 8 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  VOMITING       N        
- 9 TRT01A Placebo      AESOC  GASTROINTESTINA… AEDECOD  VOMITING       p        
-10 TRT01A Placebo      AESOC  GENERAL DISORDE… AEDECOD  APPLICATION S… n        
-# ℹ 71 more rows
-# ℹ 6 more variables: context &lt;chr&gt;, stat_label &lt;chr&gt;, stat &lt;list&gt;,
-#   fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="cards-ard_hierarchical_count" class="level2">
-<h2 class="anchored" data-anchor-id="cards-ard_hierarchical_count">{cards}: <code>ard_hierarchical_count</code></h2>
-<div class="small">
-<p>This function specializes in calculating <strong>event</strong>-level frequencies.</p>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>adae <span class="sc">|&gt;</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_hierarchical_count</span>(</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># An ARD data frame: 27 × 13
-   group1 group1_level     group2 group2_level variable variable_level stat_name
-   &lt;chr&gt;  &lt;list&gt;           &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    
- 1 TRT01A Placebo          AESOC  GASTROINTES… AEDECOD  DIARRHOEA      n        
- 2 TRT01A Placebo          AESOC  GASTROINTES… AEDECOD  HIATUS HERNIA  n        
- 3 TRT01A Placebo          AESOC  GASTROINTES… AEDECOD  VOMITING       n        
- 4 TRT01A Placebo          AESOC  GENERAL DIS… AEDECOD  APPLICATION S… n        
- 5 TRT01A Placebo          AESOC  GENERAL DIS… AEDECOD  APPLICATION S… n        
- 6 TRT01A Placebo          AESOC  GENERAL DIS… AEDECOD  FATIGUE        n        
- 7 TRT01A Placebo          AESOC  SKIN AND SU… AEDECOD  ERYTHEMA       n        
- 8 TRT01A Placebo          AESOC  SKIN AND SU… AEDECOD  PRURITUS       n        
- 9 TRT01A Placebo          AESOC  SKIN AND SU… AEDECOD  PRURITUS GENE… n        
-10 TRT01A Xanomeline High… AESOC  GASTROINTES… AEDECOD  DIARRHOEA      n        
-# ℹ 17 more rows
-# ℹ 6 more variables: context &lt;chr&gt;, stat_label &lt;chr&gt;, stat &lt;list&gt;,
-#   fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
-</div>
-</div>
-</section>
-<section id="hierarchical-summaries-many-ways" class="level2">
-<h2 class="anchored" data-anchor-id="hierarchical-summaries-many-ways">Hierarchical summaries many ways</h2>
-<ul>
-<li><p>Displays for hierarchical data typically report on each level of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)</p></li>
-<li><p>This can mean several calls to the <code>ard_hierarchical_*</code> functions</p></li>
-<li><p>Further, subject-level summaries require a different subset of the data each time. For example, to calculate Overall rates, we need to subset to 1 record per subject in ADAE.</p></li>
-</ul>
-<div class="fragment">
-<ul>
-<li>Is there an easier way?</li>
-</ul>
-</div>
-</section>
-<section id="cards-stacking-function-for-ard_hierarchical" class="level2">
-<h2 class="anchored" data-anchor-id="cards-stacking-function-for-ard_hierarchical">{cards}: Stacking function for <code>ard_hierarchical()</code></h2>
-<div class="small">
-<ul>
-<li><p><code>ard_hierarchical</code> stacking functions simplify this multi-step process into a single step</p></li>
-<li><p>The <code>id</code> argument is used to subset the data along the way</p></li>
-</ul>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>adae <span class="sc">|&gt;</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_stack_hierarchical</span>(</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A,</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> USUBJID,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">denominator =</span> pharmaverseadam<span class="sc">::</span>adsl</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_stack_hierarchical</span>(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> USUBJID,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">denominator =</span> pharmaverseadam<span class="sc">::</span>adsl</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -872,20 +788,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="cards-stacking-function-for-ard_hierarchical_count" class="level2">
-<h2 class="anchored" data-anchor-id="cards-stacking-function-for-ard_hierarchical_count">{cards}: Stacking function for <code>ard_hierarchical_count()</code></h2>
+<section id="why-the-stacking-functions" class="level2">
+<h2 class="anchored" data-anchor-id="why-the-stacking-functions">Why the stacking functions?</h2>
+<ul>
+<li><p>Displays for hierarchical data report on <strong>each level</strong> of the hierarchy (Any AE Overall, by System Organ Class, by Preferred Term)</p></li>
+<li><p>Producing that by hand means several calls to the simpler <code>ard_hierarchical()</code> / <code>ard_hierarchical_count()</code> functions, each on a <strong>different subset</strong> of the data (e.g.&nbsp;Overall rates need 1 record per subject in ADAE)</p></li>
+<li><p><code>ard_stack_hierarchical*()</code> runs those calls in the background and <strong>stacks</strong> the results into one ARD</p></li>
+</ul>
+</section>
+<section id="cards-ard_stack_hierarchical_count" class="level2">
+<h2 class="anchored" data-anchor-id="cards-ard_stack_hierarchical_count">{cards}: <code>ard_stack_hierarchical_count</code></h2>
 <div class="small">
 <ul>
 <li>Below is the stacking function for event-level summaries, aligned with <code>ard_hierarchical_count()</code></li>
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>adae <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_stack_hierarchical_count</span>(</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A, </span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">denominator =</span> pharmaverseadam<span class="sc">::</span>adsl</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>adae <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_stack_hierarchical_count</span>(</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> TRT01A, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">denominator =</span> pharmaverseadam<span class="sc">::</span>adsl</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -910,7 +834,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_66c16ad9" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_87b4cbab" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -956,8 +880,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  cardx<span class="sc">::</span><span class="fu">ard_stats_t_test</span>(<span class="at">by =</span> ARM2, <span class="at">variables =</span> AGE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  cardx<span class="sc">::</span><span class="fu">ard_stats_t_test</span>(<span class="at">by =</span> ARM2, <span class="at">variables =</span> AGE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 14 × 9
    group1 variable context  stat_name stat_label stat                    fmt_fun
@@ -990,12 +914,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">ard_summary</span>(</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> AGE,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">everything</span>() <span class="sc">~</span> <span class="fu">list</span>(<span class="at">t_test =</span> \(x) <span class="fu">t.test</span>(x) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>())</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">context =</span> <span class="st">"t_test_one_sample"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">ard_summary</span>(</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> AGE,</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="fu">everything</span>() <span class="sc">~</span> <span class="fu">list</span>(<span class="at">t_test =</span> \(x) <span class="fu">t.test</span>(x) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>())</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">context =</span> <span class="st">"t_test_one_sample"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 8 × 8
   variable context stat_name stat_label stat              fmt_fun warning error 
@@ -1019,14 +943,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">ard_mvsummary</span>(</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> AGE,</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> </span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">list</span>(<span class="at">t_test =</span> \(x, data, ...) <span class="fu">t.test</span>(x <span class="sc">~</span> data<span class="sc">$</span>ARM2) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>())</span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">group1 =</span> <span class="st">"ARM2"</span>, <span class="at">context =</span> <span class="st">"t_test_two_sample"</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">tidy_ard_column_order</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>adsl <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">ard_mvsummary</span>(</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables =</span> AGE,</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="sc">~</span> <span class="fu">list</span>(<span class="at">t_test =</span> \(x, data, ...) <span class="fu">t.test</span>(x <span class="sc">~</span> data<span class="sc">$</span>ARM2) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>())</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">group1 =</span> <span class="st">"ARM2"</span>, <span class="at">context =</span> <span class="st">"t_test_two_sample"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">tidy_ard_column_order</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 10 × 9
    group1 variable context  stat_name stat_label stat                    fmt_fun
@@ -1057,38 +980,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="cardx-regression-example" class="level2">
 <h2 class="anchored" data-anchor-id="cardx-regression-example">{cardx} Regression Example</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># build model</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adtte_onco <span class="sc">|&gt;</span> </span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAM <span class="sc">%in%</span> <span class="st">"Progression Free Survival"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coxph</span>(ggsurvfit<span class="sc">::</span><span class="fu">Surv_CNSR</span>() <span class="sc">~</span> ARM, <span class="at">data =</span> _)</span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="co"># put model in a summary table</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(mod, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_n</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="st">'label'</span>, <span class="st">'level'</span>)) <span class="sc">|&gt;</span> </span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_nevent</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="st">'label'</span>, <span class="st">'level'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="co"># build model</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>mod <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adtte_onco <span class="sc">|&gt;</span> </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAM <span class="sc">%in%</span> <span class="st">"Progression Free Survival"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coxph</span>(ggsurvfit<span class="sc">::</span><span class="fu">Surv_CNSR</span>() <span class="sc">~</span> ARM, <span class="at">data =</span> _)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a><span class="co"># put model in a summary table</span></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> gtsummary<span class="sc">::</span><span class="fu">tbl_regression</span>(mod, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_n</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="st">'label'</span>, <span class="st">'level'</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>  gtsummary<span class="sc">::</span><span class="fu">add_nevent</span>(<span class="at">location =</span> <span class="fu">c</span>(<span class="st">'label'</span>, <span class="st">'level'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="dprivpucxq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dprivpucxq table {
+<div id="xmknetwkcd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xmknetwkcd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dprivpucxq thead, #dprivpucxq tbody, #dprivpucxq tfoot, #dprivpucxq tr, #dprivpucxq td, #dprivpucxq th {
+#xmknetwkcd thead, #xmknetwkcd tbody, #xmknetwkcd tfoot, #xmknetwkcd tr, #xmknetwkcd td, #xmknetwkcd th {
   border-style: none;
 }
 
-#dprivpucxq p {
+#xmknetwkcd p {
   margin: 0;
   padding: 0;
 }
 
-#dprivpucxq .gt_table {
+#xmknetwkcd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1114,12 +1037,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-left-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_caption {
+#xmknetwkcd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dprivpucxq .gt_title {
+#xmknetwkcd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1131,7 +1054,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-width: 0;
 }
 
-#dprivpucxq .gt_subtitle {
+#xmknetwkcd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1143,7 +1066,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-width: 0;
 }
 
-#dprivpucxq .gt_heading {
+#xmknetwkcd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1155,13 +1078,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_bottom_border {
+#xmknetwkcd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_col_headings {
+#xmknetwkcd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1176,7 +1099,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_col_heading {
+#xmknetwkcd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1196,7 +1119,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#dprivpucxq .gt_column_spanner_outer {
+#xmknetwkcd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1208,15 +1131,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 4px;
 }
 
-#dprivpucxq .gt_column_spanner_outer:first-child {
+#xmknetwkcd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dprivpucxq .gt_column_spanner_outer:last-child {
+#xmknetwkcd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dprivpucxq .gt_column_spanner {
+#xmknetwkcd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1228,11 +1151,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   width: 100%;
 }
 
-#dprivpucxq .gt_spanner_row {
+#xmknetwkcd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dprivpucxq .gt_group_heading {
+#xmknetwkcd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1258,7 +1181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   text-align: left;
 }
 
-#dprivpucxq .gt_empty_group_heading {
+#xmknetwkcd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1273,15 +1196,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: middle;
 }
 
-#dprivpucxq .gt_from_md > :first-child {
+#xmknetwkcd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dprivpucxq .gt_from_md > :last-child {
+#xmknetwkcd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dprivpucxq .gt_row {
+#xmknetwkcd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1300,7 +1223,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   overflow-x: hidden;
 }
 
-#dprivpucxq .gt_stub {
+#xmknetwkcd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1313,7 +1236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dprivpucxq .gt_stub_row_group {
+#xmknetwkcd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1327,15 +1250,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   vertical-align: top;
 }
 
-#dprivpucxq .gt_row_group_first td {
+#xmknetwkcd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dprivpucxq .gt_row_group_first th {
+#xmknetwkcd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dprivpucxq .gt_summary_row {
+#xmknetwkcd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1345,16 +1268,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dprivpucxq .gt_first_summary_row {
+#xmknetwkcd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_first_summary_row.thick {
+#xmknetwkcd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dprivpucxq .gt_last_summary_row {
+#xmknetwkcd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1364,7 +1287,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_grand_summary_row {
+#xmknetwkcd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1374,7 +1297,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dprivpucxq .gt_first_grand_summary_row {
+#xmknetwkcd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1384,7 +1307,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-top-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_last_grand_summary_row_top {
+#xmknetwkcd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1394,11 +1317,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_striped {
+#xmknetwkcd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dprivpucxq .gt_table_body {
+#xmknetwkcd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1407,7 +1330,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-bottom-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_footnotes {
+#xmknetwkcd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1421,7 +1344,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_footnote {
+#xmknetwkcd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1430,7 +1353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dprivpucxq .gt_sourcenotes {
+#xmknetwkcd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1444,7 +1367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   border-right-color: #D3D3D3;
 }
 
-#dprivpucxq .gt_sourcenote {
+#xmknetwkcd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1452,72 +1375,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   padding-right: 5px;
 }
 
-#dprivpucxq .gt_left {
+#xmknetwkcd .gt_left {
   text-align: left;
 }
 
-#dprivpucxq .gt_center {
+#xmknetwkcd .gt_center {
   text-align: center;
 }
 
-#dprivpucxq .gt_right {
+#xmknetwkcd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dprivpucxq .gt_font_normal {
+#xmknetwkcd .gt_font_normal {
   font-weight: normal;
 }
 
-#dprivpucxq .gt_font_bold {
+#xmknetwkcd .gt_font_bold {
   font-weight: bold;
 }
 
-#dprivpucxq .gt_font_italic {
+#xmknetwkcd .gt_font_italic {
   font-style: italic;
 }
 
-#dprivpucxq .gt_super {
+#xmknetwkcd .gt_super {
   font-size: 65%;
 }
 
-#dprivpucxq .gt_footnote_marks {
+#xmknetwkcd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dprivpucxq .gt_asterisk {
+#xmknetwkcd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dprivpucxq .gt_indent_1 {
+#xmknetwkcd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dprivpucxq .gt_indent_2 {
+#xmknetwkcd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dprivpucxq .gt_indent_3 {
+#xmknetwkcd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dprivpucxq .gt_indent_4 {
+#xmknetwkcd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dprivpucxq .gt_indent_5 {
+#xmknetwkcd .gt_indent_5 {
   text-indent: 25px;
 }
 
-#dprivpucxq .katex-display {
+#xmknetwkcd .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#dprivpucxq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#xmknetwkcd div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1600,15 +1523,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>What happens when statistics are un-calculable?</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>ard_gone_wrong <span class="ot">&lt;-</span></span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  adsl <span class="sc">|&gt;</span> </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_summary</span>(</span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> ARM2,</span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> AGEGR1,</span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">kurtosis =</span> \(x) e1071<span class="sc">::</span><span class="fu">kurtosis</span>(x))</span>
-<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
-<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">replace_null_statistic</span>()</span>
-<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>ard_gone_wrong</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>ard_gone_wrong <span class="ot">&lt;-</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  adsl <span class="sc">|&gt;</span> </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ard_summary</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> ARM2,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> AGEGR1,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">statistic =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">kurtosis =</span> \(x) e1071<span class="sc">::</span><span class="fu">kurtosis</span>(x))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">replace_null_statistic</span>()</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>ard_gone_wrong</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 2 × 10
   group1 group1_level variable context stat_name stat_label stat   warning error
@@ -1619,7 +1542,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="fragment">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>cards<span class="sc">::</span><span class="fu">print_ard_conditions</span>(ard_gone_wrong)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>cards<span class="sc">::</span><span class="fu">print_ard_conditions</span>(ard_gone_wrong)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><img src="images/ard-error-msg.png" class="img-fluid"></p>
 </div>
 <div class="notes">
@@ -1640,7 +1563,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Starting from raw data, we built ARDs and never touched a layout:</p>
 <ul>
 <li><p><strong>Univariate summaries</strong> with <code>ard_summary()</code> (continuous) and <code>ard_tabulate()</code> (categorical) — custom statistics, <code>by</code> groups, and formatting</p></li>
-<li><p><strong>Hierarchical summaries</strong> with <code>ard_hierarchical()</code> / <code>ard_hierarchical_count()</code> and their <code>ard_stack_*()</code> helpers for nested AE tabulations</p></li>
+<li><p><strong>Hierarchical summaries</strong> with <code>ard_stack_hierarchical()</code> / <code>ard_stack_hierarchical_count()</code> for nested AE tabulations (built on the lower-level <code>ard_hierarchical*()</code> functions)</p></li>
 <li><p><strong>Stacking</strong> everything into a single ARD with <code>ard_stack()</code> — overall rows, total N, and all</p></li>
 <li><p><strong>Statistical results</strong> with <code>{cardx}</code>: t-tests, regression models, and wrapping your own methods</p></li>
 <li><p>A structure that holds together <strong>even when a statistic can’t be computed</strong></p></li>
