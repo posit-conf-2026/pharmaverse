@@ -10,6 +10,7 @@
 <link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
 
+  <meta name="author" content="Daniel D. Sjoberg">
   <title>End-to-End Submissions in R with the Pharmaverse – ARDs (Analysis Results Datasets) in R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -101,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-e68fc8d0ca575124bedaaa7814b19abe.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-f1880d40869cbc8cb83d00545a4b2ad5.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -202,10 +203,34 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">ARDs (Analysis Results Datasets) in R</h1>
+<section id="title-slide" class="center">
 
-<div class="quarto-title-authors">
+<div class="custom-title">
+
+  <div class="title-left">
+
+    <h1 class="title">ARDs (Analysis Results Datasets) in R</h1>
+
+    <div class="title-rule"></div>
+
+    <p class="subtitle">Pharmaverse Workshop</p>
+
+    <div class="title-author">
+      <img class="title-avatar" src="images/dan-circle.png" alt="Speaker headshot">
+      <div class="title-author-text">
+        <p class="author-name">Daniel D. Sjoberg</p>
+        <p class="author-affil">posit::conf(2026)</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="title-hero">
+    <div class="title-logo-card">
+      <img src="images/cards-hex.png" alt="cards logo">
+    </div>
+  </div>
+
 </div>
 
 </section>
@@ -221,33 +246,38 @@
 <img data-src="images/diagram-pkgs.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="objectives" class="slide level2">
 <h2>Objectives</h2>
+<!-- ::: incremental -->
 <ul>
-<li class="fragment">By the end of this ARD section you will have:
+<li>By the end of this ARD section you will have:
 <ul>
-<li class="fragment">Developed an understanding of ARDs</li>
-<li class="fragment">Seen examples of univariate and hierarachical calculations</li>
-<li class="fragment">Gained an awareness of other possibilities in <code>cards</code> and statistical capabilities in <code>cardx</code></li>
+<li>Developed an understanding of ARDs</li>
+<li>Seen examples of univariate and hierarachical calculations</li>
+<li>Gained an awareness of other possibilities in <code>cards</code> and statistical capabilities in <code>cardx</code> <!-- ::: --></li>
 </ul></li>
 </ul>
 </section>
 <section id="play-by-play-to-achieve-our-objectives" class="slide level2">
 <h2>Play by Play to achieve our Objectives</h2>
+<!-- ::: incremental -->
 <ul>
-<li class="fragment"><p>🕙 5 mins: Intro to ARDs and the ARS</p></li>
-<li class="fragment"><p>🕥 20 mins: Basic summaries using {cards}</p></li>
-<li class="fragment"><p>🕚 10 mins: Exercise</p></li>
-<li class="fragment"><p>🕦 10 mins: Intro to stats with {cardx}</p></li>
+<li><p>🕙 5 mins: Intro to ARDs and the ARS</p></li>
+<li><p>🕥 20 mins: Basic summaries using {cards}</p></li>
+<li><p>🕚 10 mins: Exercise</p></li>
+<li><p>🕦 10 mins: Intro to stats with {cardx}</p></li>
 </ul>
+<!-- ::: -->
 </section>
 <section id="what-are-ards" class="slide level2">
 <h2>What are ARDs?</h2>
+<!-- ::: incremental -->
 <ul>
-<li class="fragment"><p>Dataset that stores key metadata and <em>raw results</em> from analysis</p></li>
-<li class="fragment"><p>Long dataset that is 1 record per result value</p></li>
-<li class="fragment"><p>May contained formatted values as well</p></li>
-<li class="fragment"><p>The ARD can be used to to subsequently create tables and figures.</p></li>
-<li class="fragment"><p>The ARD does <em>not</em> describe the layout of the results</p></li>
+<li><p>Dataset that stores key metadata and <em>raw results</em> from analysis</p></li>
+<li><p>Long dataset that is 1 record per result value</p></li>
+<li><p>May contained formatted values as well</p></li>
+<li><p>The ARD can be used to to subsequently create tables and figures.</p></li>
+<li><p>The ARD does <em>not</em> describe the layout of the results</p></li>
 </ul>
+<!-- ::: -->
 </section>
 <section id="analysis-results-data-ard" class="slide level2">
 <h2>Analysis Results Data (ARD)</h2>
@@ -258,20 +288,21 @@
 <img data-src="images/ard-flow.png" class="quarto-figure quarto-figure-center r-stretch"></section>
 <section id="a-few-notes-about-ards" class="slide level2">
 <h2>A few notes about ARDs</h2>
+<!-- :::{.incremental} -->
 <ul>
-<li class="fragment"><p>ARDs give us the opportunity to <em>rethink</em> QC</p>
+<li><p>ARDs give us the opportunity to <em>rethink</em> QC</p>
 <ul>
-<li class="fragment"><p>QC can be focused on the raw value, as well as the formatted display</p>
+<li><p>QC can be focused on the raw value, as well as the formatted display</p>
 <ul>
-<li class="fragment"><p>You don’t have to waste time trying to match formatting to match QC</p></li>
-<li class="fragment"><p>But…QC will be more sensitive to floating point</p></li>
+<li>You don’t have to waste time trying to match formatting to match QC</li>
 </ul></li>
 </ul></li>
-<li class="fragment"><p>ARDs can be flexibly saved to different file types</p>
+<li><p>ARDs can be flexibly saved to different file types</p>
 <ul>
-<li class="fragment">For example: a dataset (rds, xpt, etc) or json file</li>
+<li>For example: a dataset (rds, xpt, etc) or json file</li>
 </ul></li>
 </ul>
+<!-- ::: -->
 </section>
 <section id="zooming-out-the-analysis-results-standard-ars" class="slide level2">
 <h2>Zooming Out: The Analysis Results Standard (ARS)</h2>
@@ -321,7 +352,7 @@
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a>adsl <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a>adsl <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adsl <span class="sc">|&gt;</span></span>
 <span id="cb1-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(SAFFL<span class="sc">==</span><span class="st">"Y"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb1-3"><a aria-label="3"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">ARM2 =</span> <span class="fu">ifelse</span>(<span class="fu">startsWith</span>(ARM, <span class="st">"Xanomeline"</span>), <span class="st">"Xanomeline"</span>, ARM))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -330,7 +361,7 @@
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a>adae <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adae <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a aria-label="1"></a>adae <span class="ot">&lt;-</span> pharmaverseadam<span class="sc">::</span>adae <span class="sc">|&gt;</span></span>
 <span id="cb2-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(SAFFL<span class="sc">==</span><span class="st">"Y"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb2-3"><a aria-label="3"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">ARM2 =</span> <span class="fu">ifelse</span>(<span class="fu">startsWith</span>(ARM, <span class="st">"Xanomeline"</span>), <span class="st">"Xanomeline"</span>, ARM)) <span class="sc">|&gt;</span> </span>
 <span id="cb2-4"><a aria-label="4"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(AESOC <span class="sc">%in%</span> <span class="fu">unique</span>(AESOC)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]) <span class="sc">|&gt;</span> </span>
@@ -377,11 +408,11 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb5-2"><a aria-label="2"></a>  <span class="fu">ard_tabulate</span>(</span>
 <span id="cb5-3"><a aria-label="3"></a>    <span class="at">by =</span> ARM2,</span>
 <span id="cb5-4"><a aria-label="4"></a>    <span class="at">variables =</span> AGEGR1</span>
-<span id="cb5-5"><a aria-label="5"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 12 × 11
    group1 group1_level variable variable_level context  stat_name stat_label    stat fmt_fun warning error 
@@ -396,8 +427,7 @@
  8 ARM2   Xanomeline   AGEGR1   18-64          tabulate N         N          168     0       &lt;NULL&gt;  &lt;NULL&gt;
  9 ARM2   Xanomeline   AGEGR1   18-64          tabulate p         %            0.113 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;
 10 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate n         n          149     0       &lt;NULL&gt;  &lt;NULL&gt;
-11 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate N         N          168     0       &lt;NULL&gt;  &lt;NULL&gt;
-12 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p         %            0.887 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 2 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -405,7 +435,7 @@
 <h2>{cards}: <code>ard_summary()</code></h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a aria-label="1"></a><span class="co"># create ARD with default summary statistics</span></span>
-<span id="cb7-2"><a aria-label="2"></a>adsl <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a aria-label="2"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb7-3"><a aria-label="3"></a>  <span class="fu">ard_summary</span>(</span>
 <span id="cb7-4"><a aria-label="4"></a>    <span class="at">variables =</span> AGE</span>
 <span id="cb7-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -430,11 +460,11 @@
 <p><code>by</code>: summary statistics are calculated by all combinations of the by variables, including unobserved factor levels</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb9-2"><a aria-label="2"></a>  <span class="fu">ard_summary</span>(</span>
 <span id="cb9-3"><a aria-label="3"></a>    <span class="at">variables =</span> AGE,</span>
 <span id="cb9-4"><a aria-label="4"></a>    <span class="at">by =</span> ARM2         <span class="co"># stats by treatment arm</span></span>
-<span id="cb9-5"><a aria-label="5"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 10
    group1 group1_level variable context stat_name stat_label   stat fmt_fun warning error 
@@ -449,12 +479,7 @@
  8 ARM2   Placebo      AGE      summary max       Max         89          1 &lt;NULL&gt;  &lt;NULL&gt;
  9 ARM2   Xanomeline   AGE      summary N         N          168          0 &lt;NULL&gt;  &lt;NULL&gt;
 10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1 &lt;NULL&gt;  &lt;NULL&gt;
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1 &lt;NULL&gt;  &lt;NULL&gt;
-12 ARM2   Xanomeline   AGE      summary median    Median      77          1 &lt;NULL&gt;  &lt;NULL&gt;
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1 &lt;NULL&gt;  &lt;NULL&gt;
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1 &lt;NULL&gt;  &lt;NULL&gt;
-15 ARM2   Xanomeline   AGE      summary min       Min         51          1 &lt;NULL&gt;  &lt;NULL&gt;
-16 ARM2   Xanomeline   AGE      summary max       Max         88          1 &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 6 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -487,8 +512,8 @@
 <p>Customize the statistics returned for each variable</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
-<span id="cb13-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">AGE2 =</span> AGE) <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">AGE2 =</span> AGE) <span class="sc">|&gt;</span></span>
 <span id="cb13-3"><a aria-label="3"></a>  <span class="fu">ard_summary</span>(</span>
 <span id="cb13-4"><a aria-label="4"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AGE, AGE2),</span>
 <span id="cb13-5"><a aria-label="5"></a>    <span class="at">by =</span> ARM2,</span>
@@ -517,12 +542,12 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb15-2"><a aria-label="2"></a>  <span class="fu">ard_summary</span>(</span>
 <span id="cb15-3"><a aria-label="3"></a>    <span class="at">variables =</span> AGE,</span>
-<span id="cb15-4"><a aria-label="4"></a>    <span class="at">by =</span> ARM2,                               </span>
-<span id="cb15-5"><a aria-label="5"></a>    <span class="at">fmt_fun =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>)                </span>
-<span id="cb15-6"><a aria-label="6"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb15-4"><a aria-label="4"></a>    <span class="at">by =</span> ARM2,</span>
+<span id="cb15-5"><a aria-label="5"></a>    <span class="at">fmt_fun =</span> <span class="sc">~</span><span class="fu">list</span>(<span class="at">mean =</span> <span class="dv">0</span>)</span>
+<span id="cb15-6"><a aria-label="6"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb15-7"><a aria-label="7"></a>  <span class="fu">apply_fmt_fun</span>() <span class="co"># add a character column of rounded results</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 11
@@ -538,12 +563,7 @@
  8 ARM2   Placebo      AGE      summary max       Max         89    89.0           1 &lt;NULL&gt;  &lt;NULL&gt;
  9 ARM2   Xanomeline   AGE      summary N         N          168    168            0 &lt;NULL&gt;  &lt;NULL&gt;
 10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0  75             0 &lt;NULL&gt;  &lt;NULL&gt;
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09 8.1            1 &lt;NULL&gt;  &lt;NULL&gt;
-12 ARM2   Xanomeline   AGE      summary median    Median      77    77.0           1 &lt;NULL&gt;  &lt;NULL&gt;
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71    71.0           1 &lt;NULL&gt;  &lt;NULL&gt;
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81    81.0           1 &lt;NULL&gt;  &lt;NULL&gt;
-15 ARM2   Xanomeline   AGE      summary min       Min         51    51.0           1 &lt;NULL&gt;  &lt;NULL&gt;
-16 ARM2   Xanomeline   AGE      summary max       Max         88    88.0           1 &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 6 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -573,9 +593,9 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
-<span id="cb17-2"><a aria-label="2"></a>  <span class="fu">ard_stack</span>( </span>
-<span id="cb17-3"><a aria-label="3"></a>    <span class="at">.by =</span> ARM2,      </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a aria-label="2"></a>  <span class="fu">ard_stack</span>(</span>
+<span id="cb17-3"><a aria-label="3"></a>    <span class="at">.by =</span> ARM2,</span>
 <span id="cb17-4"><a aria-label="4"></a>    <span class="fu">ard_summary</span>(<span class="at">variables =</span> AGE, <span class="at">statistic =</span> <span class="sc">~</span> <span class="fu">continuous_summary_fns</span>(<span class="fu">c</span>(<span class="st">"mean"</span>,<span class="st">"sd"</span>))), </span>
 <span id="cb17-5"><a aria-label="5"></a>    <span class="fu">ard_tabulate</span>(<span class="at">variables =</span> AGEGR1, <span class="at">statistic =</span> <span class="sc">~</span> <span class="st">"p"</span>)</span>
 <span id="cb17-6"><a aria-label="6"></a>  )  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -593,10 +613,7 @@
  8 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p         %            0.887 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;
  9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate n         n           86     0       &lt;NULL&gt;  &lt;NULL&gt;
 10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate N         N          254     0       &lt;NULL&gt;  &lt;NULL&gt;
-11 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate p         %            0.339 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;
-12 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate n         n          168     0       &lt;NULL&gt;  &lt;NULL&gt;
-13 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate N         N          254     0       &lt;NULL&gt;  &lt;NULL&gt;
-14 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate p         %            0.661 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 4 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -612,7 +629,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a><span class="fu">ard_summary</span>(</span>
 <span id="cb19-2"><a aria-label="2"></a>  <span class="at">data =</span> adsl,</span>
 <span id="cb19-3"><a aria-label="3"></a>  <span class="at">by =</span> ,</span>
-<span id="cb19-4"><a aria-label="4"></a>  <span class="at">variables =</span> </span>
+<span id="cb19-4"><a aria-label="4"></a>  <span class="at">variables =</span></span>
 <span id="cb19-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -628,7 +645,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20" data-code-line-numbers="3,4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="fu">ard_summary</span>(</span>
 <span id="cb20-2"><a aria-label="2"></a>  <span class="at">data =</span> adsl,</span>
 <span id="cb20-3"><a aria-label="3"></a>  <span class="at">by =</span> ARM2,</span>
-<span id="cb20-4"><a aria-label="4"></a>  <span class="at">variables =</span> AGE </span>
+<span id="cb20-4"><a aria-label="4"></a>  <span class="at">variables =</span> AGE</span>
 <span id="cb20-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 10
@@ -644,12 +661,7 @@
  8 ARM2   Placebo      AGE      summary max       Max         89          1 &lt;NULL&gt;  &lt;NULL&gt;
  9 ARM2   Xanomeline   AGE      summary N         N          168          0 &lt;NULL&gt;  &lt;NULL&gt;
 10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1 &lt;NULL&gt;  &lt;NULL&gt;
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1 &lt;NULL&gt;  &lt;NULL&gt;
-12 ARM2   Xanomeline   AGE      summary median    Median      77          1 &lt;NULL&gt;  &lt;NULL&gt;
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1 &lt;NULL&gt;  &lt;NULL&gt;
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1 &lt;NULL&gt;  &lt;NULL&gt;
-15 ARM2   Xanomeline   AGE      summary min       Min         51          1 &lt;NULL&gt;  &lt;NULL&gt;
-16 ARM2   Xanomeline   AGE      summary max       Max         88          1 &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 6 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -665,7 +677,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a><span class="fu">ard_tabulate</span>(</span>
 <span id="cb22-2"><a aria-label="2"></a>  <span class="at">data =</span> adsl,</span>
 <span id="cb22-3"><a aria-label="3"></a>  <span class="at">by =</span> ,</span>
-<span id="cb22-4"><a aria-label="4"></a>  <span class="at">variables =</span> </span>
+<span id="cb22-4"><a aria-label="4"></a>  <span class="at">variables =</span></span>
 <span id="cb22-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -681,7 +693,7 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23" data-code-line-numbers="3,4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a aria-label="1"></a><span class="fu">ard_tabulate</span>(</span>
 <span id="cb23-2"><a aria-label="2"></a>  <span class="at">data =</span> adsl,</span>
 <span id="cb23-3"><a aria-label="3"></a>  <span class="at">by =</span> ARM2,</span>
-<span id="cb23-4"><a aria-label="4"></a>  <span class="at">variables =</span> <span class="fu">c</span>(AGEGR1, SEX) </span>
+<span id="cb23-4"><a aria-label="4"></a>  <span class="at">variables =</span> <span class="fu">c</span>(AGEGR1, SEX)</span>
 <span id="cb23-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 24 × 11
@@ -715,9 +727,9 @@
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a aria-label="1"></a><span class="fu">ard_stack</span>(</span>
 <span id="cb25-2"><a aria-label="2"></a>  <span class="at">data =</span> adsl,</span>
 <span id="cb25-3"><a aria-label="3"></a>  <span class="at">.by =</span> ARM2,</span>
-<span id="cb25-4"><a aria-label="4"></a>  </span>
+<span id="cb25-4"><a aria-label="4"></a></span>
 <span id="cb25-5"><a aria-label="5"></a>  <span class="co"># add ard_* calls here</span></span>
-<span id="cb25-6"><a aria-label="6"></a>  </span>
+<span id="cb25-6"><a aria-label="6"></a></span>
 <span id="cb25-7"><a aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
@@ -811,8 +823,8 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span> </span>
-<span id="cb30-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>L, <span class="at">by =</span> <span class="fu">c</span>(USUBJID, ARM, AESOC, AEDECOD)) <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a aria-label="2"></a>  dplyr<span class="sc">::</span><span class="fu">slice_tail</span>(<span class="at">n =</span> <span class="dv">1</span>L, <span class="at">by =</span> <span class="fu">c</span>(USUBJID, ARM, AESOC, AEDECOD)) <span class="sc">|&gt;</span></span>
 <span id="cb30-3"><a aria-label="3"></a>  <span class="fu">ard_hierarchical</span>(</span>
 <span id="cb30-4"><a aria-label="4"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
 <span id="cb30-5"><a aria-label="5"></a>    <span class="at">by =</span> TRT01A,</span>
@@ -843,8 +855,8 @@
 <p>This function specializes in calculating <strong>event</strong>-level frequencies.</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a aria-label="2"></a>  <span class="fu">ard_hierarchical_count</span>( </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a aria-label="2"></a>  <span class="fu">ard_hierarchical_count</span>(</span>
 <span id="cb32-3"><a aria-label="3"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
 <span id="cb32-4"><a aria-label="4"></a>    <span class="at">by =</span> TRT01A</span>
 <span id="cb32-5"><a aria-label="5"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -888,7 +900,7 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span></span>
 <span id="cb34-2"><a aria-label="2"></a>  <span class="fu">ard_stack_hierarchical</span>(</span>
 <span id="cb34-3"><a aria-label="3"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
 <span id="cb34-4"><a aria-label="4"></a>    <span class="at">by =</span> TRT01A,</span>
@@ -911,8 +923,7 @@
  8 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA              hierarchical N         N          86      0       &lt;NULL&gt;  &lt;NULL&gt;
  9 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA              hierarchical p         %           0.0116 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;
 10 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING                   hierarchical n         n           3      0       &lt;NULL&gt;  &lt;NULL&gt;
-11 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING                   hierarchical N         N          86      0       &lt;NULL&gt;  &lt;NULL&gt;
-12 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING                   hierarchical p         %           0.0349 &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;</code></pre>
+# ℹ 2 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -924,7 +935,7 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a aria-label="1"></a>adae <span class="sc">|&gt;</span></span>
 <span id="cb36-2"><a aria-label="2"></a>  <span class="fu">ard_stack_hierarchical_count</span>(</span>
 <span id="cb36-3"><a aria-label="3"></a>    <span class="at">variables =</span> <span class="fu">c</span>(AESOC, AEDECOD),</span>
 <span id="cb36-4"><a aria-label="4"></a>    <span class="at">by =</span> TRT01A, </span>
@@ -952,7 +963,7 @@
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_094fab05" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_d00adea5" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -994,26 +1005,23 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb39-2"><a aria-label="2"></a>  cardx<span class="sc">::</span><span class="fu">ard_stats_t_test</span>(<span class="at">by =</span> ARM2, <span class="at">variables =</span> AGE)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 14 × 9
-   group1 variable context      stat_name   stat_label          stat                    fmt_fun      warning      error       
-   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;               &lt;named list&gt;            &lt;named list&gt; &lt;named list&gt; &lt;named list&gt;
- 1 ARM2   AGE      stats_t_test estimate    Mean Difference     0.1854928               1            &lt;NULL&gt;       &lt;NULL&gt;      
- 2 ARM2   AGE      stats_t_test estimate1   Group 1 Mean        75.2093                 1            &lt;NULL&gt;       &lt;NULL&gt;      
- 3 ARM2   AGE      stats_t_test estimate2   Group 2 Mean        75.02381                1            &lt;NULL&gt;       &lt;NULL&gt;      
- 4 ARM2   AGE      stats_t_test statistic   t Statistic         0.1660687               1            &lt;NULL&gt;       &lt;NULL&gt;      
- 5 ARM2   AGE      stats_t_test p.value     p-value             0.8683091               1            &lt;NULL&gt;       &lt;NULL&gt;      
- 6 ARM2   AGE      stats_t_test parameter   Degrees of Freedom  162.6425                1            &lt;NULL&gt;       &lt;NULL&gt;      
- 7 ARM2   AGE      stats_t_test conf.low    CI Lower Bound      -2.020129               1            &lt;NULL&gt;       &lt;NULL&gt;      
- 8 ARM2   AGE      stats_t_test conf.high   CI Upper Bound      2.391114                1            &lt;NULL&gt;       &lt;NULL&gt;      
- 9 ARM2   AGE      stats_t_test method      method              Welch Two Sample t-test &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
-10 ARM2   AGE      stats_t_test alternative alternative         two.sided               &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
-11 ARM2   AGE      stats_t_test mu          H0 Mean             0                       1            &lt;NULL&gt;       &lt;NULL&gt;      
-12 ARM2   AGE      stats_t_test paired      Paired t-test       FALSE                   &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
-13 ARM2   AGE      stats_t_test var.equal   Equal Variances     FALSE                   &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
-14 ARM2   AGE      stats_t_test conf.level  CI Confidence Level 0.95                    1            &lt;NULL&gt;       &lt;NULL&gt;      </code></pre>
+   group1 variable context      stat_name   stat_label         stat                    fmt_fun      warning      error       
+   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;       &lt;chr&gt;              &lt;named list&gt;            &lt;named list&gt; &lt;named list&gt; &lt;named list&gt;
+ 1 ARM2   AGE      stats_t_test estimate    Mean Difference    0.1854928               1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 2 ARM2   AGE      stats_t_test estimate1   Group 1 Mean       75.2093                 1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 3 ARM2   AGE      stats_t_test estimate2   Group 2 Mean       75.02381                1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 4 ARM2   AGE      stats_t_test statistic   t Statistic        0.1660687               1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 5 ARM2   AGE      stats_t_test p.value     p-value            0.8683091               1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 6 ARM2   AGE      stats_t_test parameter   Degrees of Freedom 162.6425                1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 7 ARM2   AGE      stats_t_test conf.low    CI Lower Bound     -2.020129               1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 8 ARM2   AGE      stats_t_test conf.high   CI Upper Bound     2.391114                1            &lt;NULL&gt;       &lt;NULL&gt;      
+ 9 ARM2   AGE      stats_t_test method      method             Welch Two Sample t-test &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
+10 ARM2   AGE      stats_t_test alternative alternative        two.sided               &lt;NULL&gt;       &lt;NULL&gt;       &lt;NULL&gt;      
+# ℹ 4 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -1027,11 +1035,11 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb41-2"><a aria-label="2"></a>  cards<span class="sc">::</span><span class="fu">ard_summary</span>(</span>
 <span id="cb41-3"><a aria-label="3"></a>    <span class="at">variables =</span> AGE,</span>
 <span id="cb41-4"><a aria-label="4"></a>    <span class="at">statistic =</span> <span class="fu">everything</span>() <span class="sc">~</span> <span class="fu">list</span>(<span class="at">t_test =</span> \(x) <span class="fu">t.test</span>(x) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>())</span>
-<span id="cb41-5"><a aria-label="5"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb41-5"><a aria-label="5"></a>  ) <span class="sc">|&gt;</span></span>
 <span id="cb41-6"><a aria-label="6"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">context =</span> <span class="st">"t_test_one_sample"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 8 × 8
@@ -1056,7 +1064,7 @@
 </ul>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a aria-label="1"></a>adsl <span class="sc">|&gt;</span></span>
 <span id="cb43-2"><a aria-label="2"></a>  cards<span class="sc">::</span><span class="fu">ard_mvsummary</span>(</span>
 <span id="cb43-3"><a aria-label="3"></a>    <span class="at">variables =</span> AGE,</span>
 <span id="cb43-4"><a aria-label="4"></a>    <span class="at">statistic =</span> </span>
@@ -1108,23 +1116,23 @@
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="yecygapync" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#yecygapync table {
+<div id="swgraekrum" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#swgraekrum table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#yecygapync thead, #yecygapync tbody, #yecygapync tfoot, #yecygapync tr, #yecygapync td, #yecygapync th {
+#swgraekrum thead, #swgraekrum tbody, #swgraekrum tfoot, #swgraekrum tr, #swgraekrum td, #swgraekrum th {
   border-style: none;
 }
 
-#yecygapync p {
+#swgraekrum p {
   margin: 0;
   padding: 0;
 }
 
-#yecygapync .gt_table {
+#swgraekrum .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1150,12 +1158,12 @@
   border-left-color: #D3D3D3;
 }
 
-#yecygapync .gt_caption {
+#swgraekrum .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#yecygapync .gt_title {
+#swgraekrum .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1167,7 +1175,7 @@
   border-bottom-width: 0;
 }
 
-#yecygapync .gt_subtitle {
+#swgraekrum .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1179,7 +1187,7 @@
   border-top-width: 0;
 }
 
-#yecygapync .gt_heading {
+#swgraekrum .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1191,13 +1199,13 @@
   border-right-color: #D3D3D3;
 }
 
-#yecygapync .gt_bottom_border {
+#swgraekrum .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yecygapync .gt_col_headings {
+#swgraekrum .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1212,7 +1220,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yecygapync .gt_col_heading {
+#swgraekrum .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1232,7 +1240,7 @@
   overflow-x: hidden;
 }
 
-#yecygapync .gt_column_spanner_outer {
+#swgraekrum .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1244,15 +1252,15 @@
   padding-right: 4px;
 }
 
-#yecygapync .gt_column_spanner_outer:first-child {
+#swgraekrum .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yecygapync .gt_column_spanner_outer:last-child {
+#swgraekrum .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yecygapync .gt_column_spanner {
+#swgraekrum .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1264,11 +1272,11 @@
   width: 100%;
 }
 
-#yecygapync .gt_spanner_row {
+#swgraekrum .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#yecygapync .gt_group_heading {
+#swgraekrum .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1294,7 +1302,7 @@
   text-align: left;
 }
 
-#yecygapync .gt_empty_group_heading {
+#swgraekrum .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1309,15 +1317,15 @@
   vertical-align: middle;
 }
 
-#yecygapync .gt_from_md > :first-child {
+#swgraekrum .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yecygapync .gt_from_md > :last-child {
+#swgraekrum .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yecygapync .gt_row {
+#swgraekrum .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1336,7 +1344,7 @@
   overflow-x: hidden;
 }
 
-#yecygapync .gt_stub {
+#swgraekrum .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1349,7 +1357,7 @@
   padding-right: 5px;
 }
 
-#yecygapync .gt_stub_row_group {
+#swgraekrum .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1363,15 +1371,15 @@
   vertical-align: top;
 }
 
-#yecygapync .gt_row_group_first td {
+#swgraekrum .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#yecygapync .gt_row_group_first th {
+#swgraekrum .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#yecygapync .gt_summary_row {
+#swgraekrum .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1381,16 +1389,16 @@
   padding-right: 5px;
 }
 
-#yecygapync .gt_first_summary_row {
+#swgraekrum .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#yecygapync .gt_first_summary_row.thick {
+#swgraekrum .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#yecygapync .gt_last_summary_row {
+#swgraekrum .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1400,7 +1408,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yecygapync .gt_grand_summary_row {
+#swgraekrum .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1410,7 +1418,7 @@
   padding-right: 5px;
 }
 
-#yecygapync .gt_first_grand_summary_row {
+#swgraekrum .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1420,7 +1428,7 @@
   border-top-color: #D3D3D3;
 }
 
-#yecygapync .gt_last_grand_summary_row_top {
+#swgraekrum .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1430,11 +1438,11 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yecygapync .gt_striped {
+#swgraekrum .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yecygapync .gt_table_body {
+#swgraekrum .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1443,7 +1451,7 @@
   border-bottom-color: #D3D3D3;
 }
 
-#yecygapync .gt_footnotes {
+#swgraekrum .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1457,7 +1465,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yecygapync .gt_footnote {
+#swgraekrum .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1466,7 +1474,7 @@
   padding-right: 5px;
 }
 
-#yecygapync .gt_sourcenotes {
+#swgraekrum .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1480,7 +1488,7 @@
   border-right-color: #D3D3D3;
 }
 
-#yecygapync .gt_sourcenote {
+#swgraekrum .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1488,72 +1496,72 @@
   padding-right: 5px;
 }
 
-#yecygapync .gt_left {
+#swgraekrum .gt_left {
   text-align: left;
 }
 
-#yecygapync .gt_center {
+#swgraekrum .gt_center {
   text-align: center;
 }
 
-#yecygapync .gt_right {
+#swgraekrum .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yecygapync .gt_font_normal {
+#swgraekrum .gt_font_normal {
   font-weight: normal;
 }
 
-#yecygapync .gt_font_bold {
+#swgraekrum .gt_font_bold {
   font-weight: bold;
 }
 
-#yecygapync .gt_font_italic {
+#swgraekrum .gt_font_italic {
   font-style: italic;
 }
 
-#yecygapync .gt_super {
+#swgraekrum .gt_super {
   font-size: 65%;
 }
 
-#yecygapync .gt_footnote_marks {
+#swgraekrum .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#yecygapync .gt_asterisk {
+#swgraekrum .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#yecygapync .gt_indent_1 {
+#swgraekrum .gt_indent_1 {
   text-indent: 5px;
 }
 
-#yecygapync .gt_indent_2 {
+#swgraekrum .gt_indent_2 {
   text-indent: 10px;
 }
 
-#yecygapync .gt_indent_3 {
+#swgraekrum .gt_indent_3 {
   text-indent: 15px;
 }
 
-#yecygapync .gt_indent_4 {
+#swgraekrum .gt_indent_4 {
   text-indent: 20px;
 }
 
-#yecygapync .gt_indent_5 {
+#swgraekrum .gt_indent_5 {
   text-indent: 25px;
 }
 
-#yecygapync .katex-display {
+#swgraekrum .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#yecygapync div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#swgraekrum div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1636,7 +1644,7 @@
 <p>What happens when statistics are un-calculable?</p>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-label="1"></a>ard_gone_wrong <span class="ot">&lt;-</span> </span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a aria-label="1"></a>ard_gone_wrong <span class="ot">&lt;-</span></span>
 <span id="cb46-2"><a aria-label="2"></a>  adsl <span class="sc">|&gt;</span> </span>
 <span id="cb46-3"><a aria-label="3"></a>  <span class="fu">ard_summary</span>(</span>
 <span id="cb46-4"><a aria-label="4"></a>    <span class="at">by =</span> ARM2,</span>
@@ -1678,14 +1686,56 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</section>
+<section id="recap-what-we-covered" class="slide level2">
+<h2>Recap: what we covered</h2>
+<div class="small">
+<p>Starting from raw data, we built ARDs and never touched a layout:</p>
+<ul>
+<li><p><strong>Univariate summaries</strong> with <code>ard_summary()</code> (continuous) and <code>ard_tabulate()</code> (categorical) — custom statistics, <code>by</code> groups, and formatting</p></li>
+<li><p><strong>Hierarchical summaries</strong> with <code>ard_hierarchical()</code> / <code>ard_hierarchical_count()</code> and their <code>ard_stack_*()</code> helpers for nested AE tabulations</p></li>
+<li><p><strong>Stacking</strong> everything into a single ARD with <code>ard_stack()</code> — overall rows, total N, and all</p></li>
+<li><p><strong>Statistical results</strong> with <code>{cardx}</code>: t-tests, regression models, and wrapping your own methods</p></li>
+<li><p>A structure that holds together <strong>even when a statistic can’t be computed</strong></p></li>
+</ul>
+</div>
+</section>
+<section id="why-ards" class="slide level2">
+<h2>Why ARDs? 🤝</h2>
+<ul>
+<li class="fragment"><p><strong>Compute once, reuse everywhere</strong> — one ARD feeds any number of tables and figures</p></li>
+<li class="fragment"><p><strong>QC the values</strong> — numeric or rounded/formatted…or both!</p></li>
+<li class="fragment"><p><strong>Composable by design</strong> — every <code>ard_*()</code> result stacks into one tidy data frame 🥞</p></li>
+<li class="fragment"><p><strong>The engine for the ARS</strong> — {cards} powers a metadata-driven, reproducible analysis workflow</p></li>
+</ul>
+<div class="fragment">
+<div class="goal">
+<p>ARDs are the <em>foundation</em>. Next, we turn these results into tables. ➡️</p>
+</div>
+</div>
+</section>
+<section id="learn-more" class="slide level2">
+<h2>Learn more</h2>
+<div class="columns v-center-container">
+<div class="column" style="width:55%;">
+<p><img data-src="images/cards-cardx-hex.png" style="width:90.0%" alt="cards and cardx package logos"></p>
+</div><div class="column" style="width:45%;">
+<div class="small">
+<p>📦 <a href="https://pharmaverse.github.io/cards/">{cards}</a> — build ARDs</p>
+<p>📦 <a href="https://pharmaverse.github.io/cardx/">{cardx}</a> — statistical ARDs</p>
+<p>🌐 <a href="https://pharmaverse.org/">pharmaverse.org</a></p>
+<p>📖 <a href="https://www.cdisc.org/standards/foundational/analysis-results-standard">CDISC Analysis Results Standard</a></p>
+</div>
+<p>Thank you! Questions? 🙋</p>
+</div></div>
 
 
 </section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
-<p><img src="../../images/pharmaverse-hex.png" class="slide-logo"></p>
+<p><img src="images/cards-hex.png" class="slide-logo"></p>
 <div class="footer footer-default">
-<p><a href="https://posit-conf-2025.github.io/pharmaverse/">Pharmaverse Workshop (pos.it/pharmaverse-conf25)</a></p>
+<p><a href="https://posit-conf-2026.github.io/pharmaverse/">Pharmaverse Workshop (pos.it/pharmaverse-conf26)</a></p>
 </div>
 </div></div>
 
