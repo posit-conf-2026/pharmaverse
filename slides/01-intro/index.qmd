@@ -176,49 +176,16 @@ library(pharmaverse)
 
 ## pharmaverse: TRUE or FALSE?
 
-<img src="TRUEandFALSE.png" style="width: 200px;"/>
-
-## End-to-End with Barb!
-
-::: columns
-
-::: column
-::: {style="text-align: center;"}
-<img src="barb-transparent.png" alt="Barb!" style="width: 200px;"/>
+::: small
+| | |
+|:-------------------------------------------------------|:---------:|
+| Pharmaverse makes decisions on how R should be used in the pharma space | [FALSE]{.tf-false} |
+| Pharmaverse serves as a source of information on available R packages that help with the Clinical Data Workflow | [TRUE]{.tf-true} |
+| Pharmaverse allows commercial interests from Collaborators to drive decisions | [FALSE]{.tf-false} |
+| The scope of Pharmaverse starts at SDTM and ends at TLF creation | [FALSE]{.tf-false} |
+| Pharmaverse does not require you to be part of it to use the tools coming from it | [TRUE]{.tf-true} |
+| Pharmaverse packages need to be reviewed by your own GxP process | [TRUE]{.tf-true} |
 :::
-:::
-
-::: column
-- Yes, she is a cat!
-
-- Yes, she is cute!
-
-- Yes, she is enrolled in the clinical trial we will be walking through today.
-
-- Named after Ben's mother-in-law? Perhaps! 
-:::
-::::
-
-## End-to-End with Barb!
-
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
-
-<img src="barb-sdtm.png" alt="Barb!" style="width: 100%;"/>
-
-## End-to-End with Barb!
-
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
-
-<img src="barb-adam.png" alt="Barb!" style="width: 100%;"/>
-
-## End-to-End with Barb!
-
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
-
-<img src="barb-tlg.png" alt="Barb!" style="width: 100%;"/>
 
 ## End-to-End: The Data
 

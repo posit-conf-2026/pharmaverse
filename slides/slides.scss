@@ -46,6 +46,16 @@ details>summary {
   font-size: 3em;
 }
 
+.tf-true {
+  color: #4FA8DE;
+  font-weight: bold;
+}
+
+.tf-false {
+  color: #E74C3C;
+  font-weight: bold;
+}
+
 .reveal .slide .question {
   border-left: 3px solid #7090A5;
   padding-left: 0.5em;
