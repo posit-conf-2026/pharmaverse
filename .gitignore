@@ -15,3 +15,5 @@ README.qmd
 languages.qmd
 project.Rproj
 data/
+
+.DS_Store
