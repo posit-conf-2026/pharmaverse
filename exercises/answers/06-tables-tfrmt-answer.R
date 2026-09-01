@@ -1,6 +1,6 @@
 # Table Exercise: AE summary table using {tfrmt}
 
-# For this exercise, we will use the AE ARD from the last section to
+# For this exercise, we will use an AE ARD (from the {cards} section) to
 # create a {tfrmt} table
 
 
@@ -44,18 +44,18 @@ ard_ae_tidy <- ard_ae |>
   shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
   prep_big_n(vars = "ARM") |> 
   prep_hierarchical_fill(vars = c("AESOC","AEDECOD"),
-                       fill_from_left = TRUE)|> 
-  dplyr::select(-c(context, stat_label, stat_variable)) 
+                         fill_from_left = TRUE)|> 
+  dplyr::select(-c(context, stat_label, stat_variable))  
 
 
-# B. Create a basic tfrmt, filling in the missing variable names
+# B. Create a basic tfrmt, filling in the appropriate variable names
 
 ae_tfrmt <- tfrmt(
   group = AESOC,
   label = AEDECOD,
-  param = , # fill
-  value = , # fill
-  column = , # fill
+  param = stat_name,
+  value = stat,
+  column = ARM,
   body_plan = body_plan(
     frmt_structure(group_val = ".default", label_val = ".default", 
                    frmt_combine(
@@ -77,8 +77,8 @@ print_to_gt(ae_tfrmt,
 ae_tfrmt <- ae_tfrmt |> 
   tfrmt(
     col_plan = col_plan(
-      "Placebo",
-      starts_with("Xanomeline")
+      starts_with("Xanomeline"),
+      "Placebo"
     )
   )  
 
@@ -89,10 +89,11 @@ print_to_gt(ae_tfrmt, ard_ae_tidy)
 
 ae_tfrmt <- ae_tfrmt |> 
   tfrmt(
-    title = "", # fill
+    title = "AE Table",
     footnote_plan = footnote_plan(
-      footnote_structure("") # fill with footnote text
+      footnote_structure("A typical AE Table")
     ) 
   )
 
 print_to_gt(ae_tfrmt, ard_ae_tidy)
+

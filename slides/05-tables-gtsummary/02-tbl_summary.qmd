@@ -405,7 +405,7 @@ And a detailed `tbl_summary()` vignette at <http://www.danieldsjoberg.com/gtsumm
 
 ## {gtsummary} Exercise
 
-1. Navigate to Posit Cloud script `06-tables-gtsummary.R`.
+1. Navigate to Posit Cloud script `exercises/05-tables-gtsummary.R`.
 
 2. Create the table outlined in the script.
 
