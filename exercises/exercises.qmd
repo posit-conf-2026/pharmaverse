@@ -49,25 +49,25 @@ editor: source
   cat(sep = "\n")
 ```
 
-## `05-tables-tfrmt.R`
+## `05-tables-gtsummary.R`
 
 ```{r}
 #| echo: false
 #| class-output: "sourceCode r"
 
-"05-tables-tfrmt.R" |> 
-  readLines() |> 
+"05-tables-gtsummary.R" |>
+  readLines() |>
   cat(sep = "\n")
 ```
 
-## `06-tables-gtsummary.R`
+## `06-tables-tfrmt.R`
 
 ```{r}
 #| echo: false
 #| class-output: "sourceCode r"
 
-"06-tables-gtsummary.R" |> 
-  readLines() |> 
+"06-tables-tfrmt.R" |>
+  readLines() |>
   cat(sep = "\n")
 ```
 
@@ -118,24 +118,24 @@ editor: source
   cat(sep = "\n")
 ```
 
-## `05-tables-tfrmt.R`
+## `05-tables-gtsummary.R`
 
 ```{r}
 #| echo: false
 #| class-output: "sourceCode r"
 
-"answers/05-tables-tfrmt-answer.R" |> 
-  readLines() |> 
+"answers/05-tables-gtsummary-answer.R" |>
+  readLines() |>
   cat(sep = "\n")
 ```
 
-## `06-tables-gtsummary.R`
+## `06-tables-tfrmt.R`
 
 ```{r}
 #| echo: false
 #| class-output: "sourceCode r"
 
-"answers/06-tables-gtsummary-answer.R" |> 
-  readLines() |> 
+"answers/06-tables-tfrmt-answer.R" |>
+  readLines() |>
   cat(sep = "\n")
 ```

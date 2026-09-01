@@ -1058,7 +1058,7 @@ print_to_gt(tfrmt_demog, ard_demog_display) |>
 
 ## Exercise 🏃‍➡️ (Together!)
 
-1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R`
+1. Navigate to Posit Cloud script `exercises/06-tables-tfrmt.R`
 
 2. Create, modify, and output the AE table as described.
 
