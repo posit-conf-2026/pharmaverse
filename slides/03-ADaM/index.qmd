@@ -1,21 +1,17 @@
 ---
 title: "ADaMs with {admiral}, friends, and AI" 
-subtitle: |
-  <div style="display:flex; align-items:center; justify-content:center; gap:0.5em; margin-top:0.6em;">
-    <img src="https://raw.githubusercontent.com/pharmaverse/admiral/master/man/figures/logo.png" style="height:70px;"/>
-    <img src="https://raw.githubusercontent.com/pharmaverse/metatools/master/man/figures/metatools.png" style="height:70px;"/>
-    <img src="https://raw.githubusercontent.com/atorus-research/metacore/master/man/figures/metacore.PNG" style="height:70px;"/>
-    <img src="https://raw.githubusercontent.com/atorus-research/xportr/master/man/figures/logo.png" style="height:70px;"/>
-    <span style="font-size:1.6em;">🤝</span>
-    <img src="images/posit-assistant-icon.png" style="height:70px; border-radius:8px;"/>
-  </div>
+subtitle: "Pharmaverse Workshop"
+author: "Ben Straub"
+event: "posit::conf(2026)"
 logo: "../../images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
   revealjs: 
-    theme: ../slides.scss
+    theme: [../slides.scss, title.scss]
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
