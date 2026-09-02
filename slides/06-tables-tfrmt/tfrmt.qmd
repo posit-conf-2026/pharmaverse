@@ -20,6 +20,8 @@
 
 -   🕚 10 mins: cards-to-tfrmt helpers
 
+-   🕦 10 mins: Outputs using `docorator`
+
 -   🕦 10 mins: Exercise
 
 :::
@@ -1010,12 +1012,55 @@ print_to_gt(tfrmt_demog, ard_demog_display)|>
   )
 ```
 
+# Outputs using docorator
+
+So we have a table, now what? 
+
+## From `tfrmt` display to production output {.black-header}
+
+::: incremental
+-   {docorator} = **Decorate** + **Output**
+
+-   Takes a `gt` table (like our `tfrmt` output!), a `gt_group`, a `ggplot2` figure, or a PNG path
+
+-   *Decorate*: wraps the display with document-level headers, footers, and page numbers
+
+-   *Output*: renders the decorated display to PDF and/or RTF
+
+-   More here: [https://gsk-biostatistics.github.io/docorator/](https://gsk-biostatistics.github.io/docorator/)
+:::
+
+## Passing a `tfrmt` display to `docorator`
+
+::: {.small}
+
+Our `gt` table produced by `print_to_gt()` can be passed straight into `as_docorator()`, then rendered as a PDF.
+
+:::
+
+```{r}
+#| eval: false
+library(docorator)
+
+print_to_gt(tfrmt_demog, ard_demog_display) |> 
+  as_docorator(
+    display_name = "demog_table",
+    header = fancyhead(
+      fancyrow(left = "Study 1234", center = NA, right = doc_pagenum()),
+      fancyrow(left = NA, center = "Demographics Table", right = NA)
+    ),
+    footer = fancyfoot(
+      fancyrow(left = "program.R", center = NA, right = "Data as of 2026-08-14")
+    )
+  ) |> 
+  render_pdf()
+```
 
 ## Exercise 🏃‍➡️ (Together!)
 
-1. Navigate to Posit Cloud script `exercises/05-tables-tfrmt.R`
+1. Navigate to Posit Cloud script `exercises/06-tables-tfrmt.R`
 
-2. Create and modify the AE table as described.
+2. Create, modify, and output the AE table as described.
 
 3. Add the "completed" sticky note to your laptop when complete.
 

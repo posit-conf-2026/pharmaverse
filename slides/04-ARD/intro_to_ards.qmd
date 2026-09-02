@@ -1,12 +1,4 @@
 
-## Check in with Barb!
-
-Barb is on a journey from raw data to the TFLs.
-At various points we will be finding Barb in our data as we transform from Raw to TFL.
-
-Barb has arrived at RESULTS!
-
-<img src="images/barb-tlg.png" alt="Barb!" style="width: 100%;"/>
 
 ## ARDS 🤝 Tables: A Dynamic Duo 
 
@@ -14,16 +6,16 @@ Barb has arrived at RESULTS!
 
 ## Objectives
 
-::: incremental
+<!-- ::: incremental -->
 -   By the end of this ARD section you will have:
     - Developed an understanding of ARDs
     - Seen examples of univariate and hierarachical calculations
     - Gained an awareness of other possibilities in `cards` and statistical capabilities in `cardx`
-:::
+<!-- ::: -->
 
 ## Play by Play to achieve our Objectives
 
-::: incremental
+<!-- ::: incremental -->
 -   🕙 5 mins: Intro to ARDs and the ARS
 
 -   🕥 20 mins: Basic summaries using {cards}
@@ -32,12 +24,12 @@ Barb has arrived at RESULTS!
 
 -   🕦 10 mins: Intro to stats with {cardx}
 
-:::
+<!-- ::: -->
 
 
 ## What are ARDs?
 
-::: incremental
+<!-- ::: incremental -->
 
 -   Dataset that stores key metadata and *raw results* from analysis
   
@@ -49,7 +41,7 @@ Barb has arrived at RESULTS!
 
 -   The ARD does *not* describe the layout of the results
 
-:::
+<!-- ::: -->
 
 ## Analysis Results Data (ARD)
 
@@ -59,7 +51,7 @@ Barb has arrived at RESULTS!
 
 ## A few notes about ARDs
 
-:::{.incremental}
+<!-- :::{.incremental} -->
 
 -   ARDs give us the opportunity to *rethink* QC
 
@@ -67,13 +59,11 @@ Barb has arrived at RESULTS!
   
         -   You don’t have to waste time trying to match formatting to match QC
     
-        -   But...QC will be more sensitive to floating point
-    
 -   ARDs can be flexibly saved to different file types
 
     -   For example: a dataset (rds, xpt, etc) or json file
   
-:::
+<!-- ::: -->
 
 ## Zooming Out: The Analysis Results Standard (ARS) 
 

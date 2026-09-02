@@ -1,6 +1,7 @@
 # Introduction
 
 ```{r}
+#| label: setup-libraries
 #| echo: false
 #| cache: false
 library(gtsummary)
@@ -38,7 +39,7 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 Inter
 :::
 
 ::: {.column width="40%"}
-![](images/dan-fire-island-circle.png)
+![](images/dan-circle.png)
 :::
 :::
 
