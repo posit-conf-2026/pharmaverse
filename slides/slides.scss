@@ -935,3 +935,100 @@ $pv-accent: $custom-col; // #E67E3A
   box-shadow: 0 3px 10px rgba(0,0,0,0.12);
   background: #fff;
 }
+
+/* --- "What to expect" pipeline infographic --- */
+.pv-expect-head {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 0.2em 0 0.7em;
+}
+.pv-expect-head .pv-expect-logo { width: 84px; height: auto; flex: 0 0 auto; margin: 0; }
+.pv-expect-head .pv-expect-tag { font-size: 0.9em; color: $pv-navy; }
+
+.pv-expect {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+}
+.pv-expect .pv-expect-row,
+.pv-expect .pv-expect-accent {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  border-radius: 10px;
+  padding: 0.55em 1em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-expect .pv-expect-row {
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+}
+.pv-expect .pv-expect-row:nth-child(2) { border-left-color: $pv-mid; }
+.pv-expect .pv-expect-row:nth-child(3) { border-left-color: $pv-light; }
+.pv-expect .pv-expect-row:nth-child(4) { border-left-color: $pv-navy; }
+.pv-expect .pv-expect-accent {
+  background: $pv-accent;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
+.pv-expect .pv-expect-ico { font-size: 1.9em; flex: 0 0 auto; width: 1.4em; text-align: center; }
+.pv-expect .pv-expect-ico p { margin: 0; }
+.pv-expect .pv-expect-body { flex: 1 1 auto; }
+.pv-expect .pv-expect-stage {
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 1.05em;
+  margin-right: 0.5em;
+}
+.pv-expect .pv-expect-accent .pv-expect-stage { color: #fff; }
+.pv-expect .pv-expect-desc { color: #40566b; font-size: 0.85em; }
+.pv-expect .pv-expect-accent .pv-expect-desc { color: #fff; opacity: 0.95; }
+.pv-expect .pv-expect-pkg {
+  flex: 0 0 auto;
+  background: #fff;
+  color: $pv-blue;
+  border: 1px solid $pv-light;
+  border-radius: 999px;
+  padding: 0.25em 0.8em;
+  font-family: $font-family-monospace;
+  font-weight: 700;
+  font-size: 0.72em;
+  white-space: nowrap;
+}
+.pv-expect .pv-expect-pkg p { margin: 0; }
+.pv-expect .pv-expect-pkg code { background: none; color: inherit; padding: 0; }
+
+/* --- "Good to know" info infographic (conf logistics + social) --- */
+.pv-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7em;
+  margin: 0.5em 0;
+}
+.pv-info .pv-info-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+  border-radius: 10px;
+  padding: 0.6em 0.9em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-info .pv-info-card.pv-info-wide { grid-column: 1 / -1; }
+.pv-info .pv-info-card.pv-info-soft {
+  background: #EEF2F5;
+  border-left-color: #7090A5;
+}
+.pv-info .pv-info-ico { font-size: 1.9em; flex: 0 0 auto; width: 1.3em; text-align: center; }
+.pv-info .pv-info-ico p { margin: 0; }
+.pv-info .pv-info-body { flex: 1 1 auto; }
+.pv-info .pv-info-body p { margin: 0; font-size: 0.85em; color: #40566b; }
+.pv-info .pv-info-title {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.95em;
+  margin-bottom: 0.1em;
+}

@@ -1,15 +1,17 @@
 ---
 title: "Welcome!"
-subtitle: "AI-powered clinical reporting<br>in R with the Pharmaverse"
-author: <code>posit::conf(2026)</code>
+subtitle: "AI-powered clinical reporting in R with the Pharmaverse"
+author: "posit::conf(2026)"
 date: 2026-09-14
-logo: "../../images/pharmaverse-hex.png"
+logo: "images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
   revealjs: 
     theme: ../slides.scss
+    template-partials:
+      - title-slide.html
     transition: fade
     slide-number: true
     chalkboard: true
@@ -17,6 +19,8 @@ execute:
   echo: true
   freeze: false
 cache: false
+resources:
+  - images/pharmaverse-hex.png
 ---
 
 ## AI-powered clinical reporting in R with the Pharmaverse
@@ -29,25 +33,61 @@ cache: false
 
 -   **WiFI**: Posit Conf 2026 \| `conf2026`
 
-## posit::conf(2026) Things to Know
+## posit::conf(2026) — good to know {.smaller}
 
-::: incremental
-*  🚻 **Gender-neutral bathroom**: LL2 next to Chicago A
+::::: {.pv-info}
 
-*  🧘 **Meditation/prayer room**: LL2 Chicago A
-
-*  🤱 **Lactation room**: LL2 Chicago B
-
-*  🎉 **Welcome reception**: Tonight 5-7 pm, LL2 Grand Hall West
-
-*  🐠 **Aquarium Night**: Tomorrow 7-10 pm, Georgia Aquarium
+:::: {.pv-info-card .pv-info-soft .pv-info-wide}
+::: {.pv-info-ico}
+📶
 :::
+::: {.pv-info-body}
+[WiFi]{.pv-info-title}
+Network **Posit Conf 2026** · Password `conf2026`
+:::
+::::
 
-## posit::conf(2026) Social Media
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🧘
+:::
+::: {.pv-info-body}
+[Meditation / Prayer]{.pv-info-title}
+Room **332**
+:::
+::::
 
-* [Red lanyards]{.red .b} available to those who don't wish to be photographed
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🤱
+:::
+::: {.pv-info-body}
+[Mother's Room]{.pv-info-title}
+Room **333**
+:::
+::::
 
-* `#PositConf2026` for all things conf
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🎤
+:::
+::: {.pv-info-body}
+[Speakers Lounge]{.pv-info-title}
+Room **334**
+:::
+::::
+
+:::: {.pv-info-card .pv-info-soft .pv-info-wide}
+::: {.pv-info-ico}
+📣
+:::
+::: {.pv-info-body}
+[Social & photos]{.pv-info-title}
+`#PositConf2026` · **red lanyards** = please don't photograph
+:::
+::::
+
+:::::
 
 ## Instructors
 
@@ -64,23 +104,58 @@ What do you hope to get out of today?
 
 # Workshop outline
 
-## What to expect from this workshop
+## What to expect from this workshop {.smaller}
 
--   Learn about what the Pharmaverse is
+::: {.pv-expect-head}
+<img src="images/pharmaverse-hex.png" alt="pharmaverse" class="pv-expect-logo"/>
+[Explore pharmaverse R packages for **clinical reporting**]{.pv-expect-tag}
+:::
 
--   R packages to support Clinical Reporting in R
+:::::: {.pv-expect}
 
-    -   Create SDTM from raw data (CDASH and non-CDASH formats)
+::::: {.pv-expect-row .fragment}
+::: {.pv-expect-body}
+[Raw data]{.pv-expect-stage} [test data & CDASH / non-CDASH inputs]{.pv-expect-desc}
+:::
+:::: {.pv-expect-pkg}
+`pharmaverseraw`
+::::
+:::::
 
-    -   Create ADaM datasets from SDTM
+::::: {.pv-expect-row .fragment}
+::: {.pv-expect-body}
+[SDTM]{.pv-expect-stage} [standardize raw data into SDTM domains]{.pv-expect-desc}
+:::
+:::: {.pv-expect-pkg}
+`sdtm.oak`
+::::
+:::::
 
-    -   Multiple ways to create tables
+::::: {.pv-expect-row .fragment}
+::: {.pv-expect-body}
+[ADaM]{.pv-expect-stage} [build analysis-ready datasets from SDTM]{.pv-expect-desc}
+:::
+:::: {.pv-expect-pkg}
+`admiral`
+::::
+:::::
 
-    -   Learn about ARDs
+::::: {.pv-expect-row .fragment}
+::: {.pv-expect-body}
+[Tables & ARDs]{.pv-expect-stage} [summaries, TLGs, analysis results datasets]{.pv-expect-desc}
+:::
+:::: {.pv-expect-pkg}
+`gtsummary` · `cards`
+::::
+:::::
 
--   🤖 See how **AI agents & skills** can accelerate each step
+::::: {.pv-expect-accent .fragment}
+::: {.pv-expect-body}
+[AI agents & skills]{.pv-expect-stage} [accelerate every step — hands-on exercises throughout]{.pv-expect-desc}
+:::
+:::::
 
--   Hands-on Exercises & Discussions
+::::::
 
 ## The pipeline, end to end
 
@@ -509,8 +584,6 @@ knowledge — not a copy of it.
 
 -   Everything has been installed and set up for you 
 
--   You can also opt to work in local RStudio
-
 -   Following the course, all content from this workshop will be available on the course website and GitHub 
 
 
@@ -523,22 +596,15 @@ library(countdown)
 countdown(minutes = 5, play_sound = TRUE)
 ```
 
--   If using Posit Cloud:
+1. Open the workshop project in Posit Cloud.
+2. Show the sidebar with the toolbar icon in the top right of the IDE, then click the button to install Posit Assistant in the project.
+3. Click Sign in to try Posit AI for free and authorize in your browser. Create your Posit AI account at posit.ai using the same email you registered for the workshop with — that's how your workshop credits attach.
+4. Optional: turn on inline completions with Tools → Global Options → Assistant and pick Posit AI Next Edit Suggestions from the "Use code assistant" dropdown. These are unlimited and free — they don't draw on credits at all.
 
-    -   Navigate to Posit Cloud link
-
-    -   Click on the Project to make a personal copy
-  
--   If using local RStudio:
-
-    -   Exercises can be found here: https://posit-conf-2026.github.io/pharmaverse/exercises/exercises.html
-
-- Open `exercises/01-intro.R`
-
-- Complete the exercise
+5. Ask your Posit Assistant to list all the instaled pharmaverse packages!
 
 
-## Solution for `00-intro.R`
+## Solution
 
 Using dplyr:
  
