@@ -1,0 +1,1932 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<link href="../../images/pharmaverse-hex.png" rel="icon" type="image/png">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Magdalena Krochmal">
+  <title>AI-Powered Clinical Reporting in R with the Pharmaverse – CDISC SDTM datasets in R</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-4a0fd666d6cf1776aebabc9c0b8137c9.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="../../site_libs/bslib-component-js-0.12.0/components.min.js"></script>
+  <script src="../../site_libs/bslib-component-js-0.12.0/web-components.min.js" type="module"></script>
+  <link href="../../site_libs/bslib-component-css-0.12.0/components.css" rel="stylesheet">
+  <script src="../../site_libs/bslib-tag-require-0.12.0/tag-require.js"></script>
+  <link href="../../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../../site_libs/countdown-0.6.0/countdown.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="center">
+
+<div class="custom-title">
+
+  <div class="title-left">
+
+    <h1 class="title">CDISC SDTM datasets in R</h1>
+
+    <div class="title-rule"></div>
+
+    <p class="subtitle">Pharmaverse Workshop</p>
+
+    <div class="title-author">
+      <img class="title-avatar" src="images/magda-circle.png" alt="Speaker headshot">
+      <div class="title-author-text">
+        <p class="author-name">Magdalena Krochmal</p>
+        <p class="author-affil">posit::conf(2026)</p>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="title-hero">
+    <div class="title-logo-card">
+      <img src="images/sdtmoak-logo.png" alt="sdtm.oak logo">
+    </div>
+  </div>
+
+</div>
+
+</section>
+<section id="objectives" class="slide level2">
+<h2>Objectives</h2>
+<p>By the end of this session you will:</p>
+<p><br></p>
+<div class="pv-cards">
+<div class="pv-card">
+<p><span class="pv-ico">🧩</span> <span class="pv-title">Understand</span> How <code>sdtm.oak</code> and its <strong>reusable algorithms</strong> work</p>
+</div>
+<div class="pv-card">
+<p><span class="pv-ico">⚙️</span> <span class="pv-title">Build</span> SDTM <code>VS</code> and <code>DM</code> domains with live code</p>
+</div>
+<div class="pv-card">
+<p><span class="pv-ico">🤖</span> <span class="pv-title">Accelerate</span> The same mappings with an <strong>AI agent + skill</strong></p>
+</div>
+</div>
+</section>
+<section id="agenda" class="slide level2">
+<h2>Agenda</h2>
+<div class="pv-agenda">
+<div class="pv-agenda-item">
+<p><span class="pv-agenda-ico">📦</span> <span class="pv-agenda-title">Intro to <code>sdtm.oak</code></span> <span class="pv-agenda-time">20 min</span></p>
+</div>
+<div class="pv-agenda-item">
+<p><span class="pv-agenda-ico">🩺</span> <span class="pv-agenda-title"><code>VS</code> domain</span> <span class="pv-agenda-time">20 min</span></p>
+</div>
+<div class="pv-agenda-item">
+<p><span class="pv-agenda-ico">👤</span> <span class="pv-agenda-title"><code>DM</code> domain</span> <span class="pv-agenda-time">10 min</span></p>
+</div>
+<div class="pv-agenda-item">
+<p><span class="pv-agenda-ico">✏️</span> <span class="pv-agenda-title">Exercise</span> <span class="pv-agenda-time">10 min</span></p>
+</div>
+</div>
+<div class="pv-agenda-accent">
+<p><span class="pv-agenda-ico">🤖</span> Same work, accelerated with an <strong>AI agent + skill</strong></p>
+</div>
+</section>
+<section>
+<section id="introduction-to-sdtm.oak" class="title-slide slide level1 center">
+<h1>Introduction to <code>sdtm.oak</code></h1>
+
+</section>
+<section id="sdtm.oak-in-pharmaverse" class="slide level2 smaller">
+<h2><code>sdtm.oak</code> in pharmaverse</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li class="fragment">Sponsored by CDISC COSA, pharmaceutical companies, including Roche, Pfizer, GSK, Vertex, Atorus Research, Pattern Institute, Transition Technologies Science.</li>
+<li class="fragment">Inspired by the Roche’s <code>roak</code> package.</li>
+<li class="fragment">Addresses a critical gap in the pharmaverse suite by enabling study programmers to create SDTM datasets in R, complementing the existing capabilities for ADaM, TLGs, eSubmission, etc.</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<p><img data-src="images/sdtmoak.gif"></p>
+</div></div>
+</section>
+<section id="challenges-in-sdtm-programming" class="slide level2 smaller">
+<h2>Challenges in SDTM Programming</h2>
+<p>SDTM maps from <strong>raw data</strong> — so the challenges come from the source. <code>sdtm.oak</code> (on <strong>CRAN</strong>) is designed to meet each one:</p>
+<div class="pv-solve">
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>🔌 EDC agnostic</p>
+</div>
+<div class="pv-solve-val">
+<p><strong>Raw data structure varies</strong> — different EDC systems use different dataset names, variable names, and structures.</p>
+</div>
+</div>
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>📐 Standards agnostic</p>
+</div>
+<div class="pv-solve-val">
+<p><strong>Collection standards vary</strong> — even with CDASH, sponsors build different eCRFs; proprietary standards are common.</p>
+</div>
+</div>
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>🧩 Modular</p>
+</div>
+<div class="pv-solve-val">
+<p><strong>Mapping is repetitive</strong> — composable algorithms build any domain from the same building blocks.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="the-edc-landscape" class="slide level2 smaller">
+<h2>The EDC landscape</h2>
+<p>Sponsors and CROs collect raw data in <strong>many different systems</strong> — each with its own data model, export format, and naming conventions.</p>
+<div class="pv-badges">
+<p><span class="pv-badge">Medidata Rave</span> <span class="pv-badge">Oracle InForm</span> <span class="pv-badge">Veeva CDMS</span> <span class="pv-badge">IBM Clinical</span> <span class="pv-badge">OpenClinica</span> <span class="pv-badge">REDCap</span> <span class="pv-badge">paper-to-EDC</span> <span class="pv-badge">vendor labs</span></p>
+</div>
+<p>They differ in three ways that matter for mapping:</p>
+<div class="pv-solve">
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>🏷️ Names</p>
+</div>
+<div class="pv-solve-val">
+<p>Different variable &amp; dataset names (<code>SYS_BP</code> vs <code>IT.SYSBP</code>), plus vendor metadata columns.</p>
+</div>
+</div>
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>📐 Shape</p>
+</div>
+<div class="pv-solve-val">
+<p>Wide (one column per test) vs long (one row per test).</p>
+</div>
+</div>
+<div class="pv-solve-row">
+<div class="pv-solve-key">
+<p>🔤 Values</p>
+</div>
+<div class="pv-solve-val">
+<p>Collected terms vary (<code>Sit</code> vs <code>SITTING</code>, <code>mm Hg</code> vs <code>mmHg</code>).</p>
+</div>
+</div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔌</span> <strong><code>sdtm.oak</code> doesn’t care which system</strong> produced the raw data.</p>
+</div>
+</section>
+<section id="same-data-many-raw-shapes-ecrf" class="slide level2 smaller">
+<h2>Same data, many raw shapes — 🏷️ eCRF</h2>
+<p><em>How it’s collected — dedicated fields vs a generic grid.</em></p>
+<div class="pv-compare">
+<div class="pv-panel">
+<p><span class="pv-panel-head"><span class="pv-ico">🗄️</span> Medidata Rave — dedicated fields</span></p>
+<div class="pv-panel-body">
+<div class="pv-ecrf">
+<div class="pv-field">
+<p><span class="pv-label">Systolic BP</span> <span class="pv-input pv-filled">120 mmHg</span></p>
+</div>
+<div class="pv-field">
+<p><span class="pv-label">Position</span> <span class="pv-input pv-filled">SITTING</span></p>
+</div>
+</div>
+<p><span class="pv-note">One field per test, unit fixed on the form</span></p>
+</div>
+</div>
+<div class="pv-panel pv-panel-b">
+<p><span class="pv-panel-head"><span class="pv-ico">🗄️</span> Oracle InForm — generic grid</span></p>
+<div class="pv-panel-body">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Test</th>
+<th>Result</th>
+<th>Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SYSBP</td>
+<td>120</td>
+<td>mmHg</td>
+</tr>
+<tr class="even">
+<td>DIABP</td>
+<td>80</td>
+<td>mmHg</td>
+</tr>
+</tbody>
+</table>
+<p><span class="pv-note">Test name is <em>data</em>, not a column</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="same-data-many-raw-shapes-raw-table" class="slide level2 smaller">
+<h2>Same data, many raw shapes — 📐 Raw table</h2>
+<p><em>What the programmer receives — wide vs long.</em></p>
+<div class="pv-compare">
+<div class="pv-panel">
+<p><span class="pv-panel-head"><span class="pv-ico">🗄️</span> Rave — wide</span></p>
+<div class="pv-panel-body">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>SUBJ</th>
+<th>SYS_BP</th>
+<th>DIA_BP</th>
+<th>POS</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1015</td>
+<td>120</td>
+<td>80</td>
+<td>SIT</td>
+</tr>
+</tbody>
+</table>
+<p><span class="pv-note">Each test is its <strong>own column</strong></span></p>
+</div>
+</div>
+<div class="pv-panel pv-panel-b">
+<p><span class="pv-panel-head"><span class="pv-ico">🗄️</span> InForm — long</span></p>
+<div class="pv-panel-body">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>SUBJ</th>
+<th>VSTESTCD</th>
+<th>VSORRES</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1015</td>
+<td>SYSBP</td>
+<td>120</td>
+</tr>
+<tr class="even">
+<td>1015</td>
+<td>DIABP</td>
+<td>80</td>
+</tr>
+</tbody>
+</table>
+<p><span class="pv-note">Each test is its <strong>own row</strong></span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="same-data-many-raw-shapes-standards" class="slide level2 smaller">
+<h2>Same data, many raw shapes — 🔤 Standards</h2>
+<p><em>What’s stored — CDASH-aligned vs proprietary terms.</em></p>
+<div class="pv-compare">
+<div class="pv-panel">
+<p><span class="pv-panel-head"><span class="pv-ico">✅</span> CDASH-aligned</span></p>
+<div class="pv-panel-body">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>VSPOS</td>
+<td><code>SITTING</code></td>
+</tr>
+<tr class="even">
+<td>VSORRESU</td>
+<td><code>mmHg</code></td>
+</tr>
+</tbody>
+</table>
+<p><span class="pv-note">Terms already close to CDISC CT</span></p>
+</div>
+</div>
+<div class="pv-panel pv-panel-b">
+<p><span class="pv-panel-head"><span class="pv-ico">🏢</span> Proprietary</span></p>
+<div class="pv-panel-body">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Collected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>POSITION</td>
+<td><code>Sit</code></td>
+</tr>
+<tr class="even">
+<td>UNIT</td>
+<td><code>mm Hg</code></td>
+</tr>
+</tbody>
+</table>
+<p><span class="pv-note">Free-text-ish values → need CT mapping</span></p>
+</div>
+</div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔑</span> Same algorithms map all of these — only <code>raw_var</code> / <code>raw_dat</code> change, and <code>assign_ct()</code> + a CT spec reconcile the values (<code>Sit</code>, <code>SITTING</code> → <code>SITTING</code>).</p>
+</div>
+</section>
+<section id="real-raw-data-pharmaverserawvs_raw" class="slide level2 smaller">
+<h2>Real raw data: <code>pharmaverseraw::vs_raw</code></h2>
+<p>The workshop data mimics a real EDC export — note the vendor-specific names:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a aria-label="1"></a><span class="fu">names</span>(pharmaverseraw<span class="sc">::</span>vs_raw)</span>
+<span id="cb1-2"><a aria-label="2"></a><span class="co">#&gt;  [1] "STUDY"  "PATNUM"  "INSTANCE"  "FORM"  "FORML"  "VTLD"</span></span>
+<span id="cb1-3"><a aria-label="3"></a><span class="co">#&gt;  [7] "IT.HEIGHT_VSORRES"  "IT.WEIGHT"  "IT.TEMP"  "IT.TEMP_LOC"</span></span>
+<span id="cb1-4"><a aria-label="4"></a><span class="co">#&gt; [11] "TMPTC"  "SYS_BP"  "DIA_BP"  "PULSE"  "SUBPOS"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-cards">
+<div class="pv-card">
+<p><span class="pv-ico">🏷️</span> <span class="pv-title">Item prefixes</span> <code>IT.</code> prefix, mixed styles: <code>SYS_BP</code> vs <code>IT.TEMP</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-ico">📄</span> <span class="pv-title">Vendor columns</span> <code>INSTANCE</code>, <code>FORM</code>, <code>VTLD</code> — not SDTM, EDC metadata</p>
+</div>
+<div class="pv-card">
+<p><span class="pv-ico">🎯</span> <span class="pv-title">Your job</span> Map these → <code>VS.VSTESTCD</code>, <code>VSORRES</code>, <code>VSORRESU</code>, <code>VSTPT</code>…</p>
+</div>
+</div>
+</section></section>
+<section>
+<section id="sdtm.oak" class="title-slide slide level1 center">
+<h1><code>sdtm.oak</code></h1>
+<style>
+.centered-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+</style>
+</section>
+<section id="the-sdtm-concept" class="slide level2 smaller">
+<h2>The SDTM concept</h2>
+<p>SDTM organizes everything as <strong>observations</strong> about <strong>subjects</strong> — each observation is a <strong>row</strong>, described by <strong>variables</strong>.</p>
+<div class="pv-concept">
+<p><span class="pv-concept-node"><span class="pv-ico">🧍</span> Subject</span> <span class="pv-concept-arrow">→</span> <span class="pv-concept-node"><span class="pv-ico">👀</span> Observation</span> <span class="pv-concept-arrow">→</span> <span class="pv-concept-node"><span class="pv-ico">📊</span> Row of variables</span></p>
+</div>
+<blockquote>
+<p><em>“Subject <strong>101</strong> had <strong>mild nausea</strong> starting on <strong>study day 6</strong>.”</em></p>
+</blockquote>
+<div class="pv-obs">
+<div class="pv-obs-cell pv-role-id">
+<p><span class="pv-obs-role">Identifier</span> <span class="pv-obs-val">101</span></p>
+</div>
+<div class="pv-obs-cell pv-role-topic">
+<p><span class="pv-obs-role">Topic</span> <span class="pv-obs-val">NAUSEA</span></p>
+</div>
+<div class="pv-obs-cell pv-role-timing">
+<p><span class="pv-obs-role">Timing</span> <span class="pv-obs-val">Study day 6</span></p>
+</div>
+<div class="pv-obs-cell pv-role-qual">
+<p><span class="pv-obs-role">Qualifier</span> <span class="pv-obs-val">MILD</span></p>
+</div>
+</div>
+</section>
+<section id="every-variable-has-a-role" class="slide level2 smaller">
+<h2>Every variable has a <strong>role</strong></h2>
+<p>A variable’s <em>role</em> determines what it tells you about the observation.</p>
+<div class="pv-roles">
+<div class="pv-role pv-role-id">
+<p><span class="pv-ico">🆔</span> <span class="pv-role-name">Identifier</span> Study, subject, domain, sequence number</p>
+</div>
+<div class="pv-role pv-role-topic">
+<p><span class="pv-ico">🎯</span> <span class="pv-role-name">Topic</span> The focus of the observation (e.g.&nbsp;the lab test)</p>
+</div>
+<div class="pv-role pv-role-timing">
+<p><span class="pv-ico">🕒</span> <span class="pv-role-name">Timing</span> When it happened (start / end dates)</p>
+</div>
+<div class="pv-role pv-role-qual">
+<p><span class="pv-ico">🏷️</span> <span class="pv-role-name">Qualifier</span> Extra detail: results, units, descriptors</p>
+</div>
+<div class="pv-role pv-role-rule">
+<p><span class="pv-ico">⚙️</span> <span class="pv-role-name">Rule</span> Start / end / branch / loop in Trial Design</p>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Qualifiers</strong> carry most of the detail — they split into 5 kinds:</p>
+<div class="pv-cards">
+<div class="pv-card">
+<p><span class="pv-title">Grouping</span> <code>--CAT</code>, <code>--SCAT</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-title">Result</span> <code>--ORRES</code>, <code>--STRESC</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-title">Synonym</span> <code>--DECOD</code>, <code>--TEST</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-title">Record</span> <code>AGE</code>, <code>SEX</code>, <code>--BLFL</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-title">Variable</span> <code>--ORRESU</code>, <code>--DOSU</code></p>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="pv-ai">
+<p><span class="pv-ico">📦</span> A <strong>domain</strong> = related observations with a common topic, one dataset with a 2-char code prefixing its variables — e.g.&nbsp;<strong>VS</strong> (Vital Signs: <code>VSTESTCD</code>, <code>VSORRES</code>) and <strong>AE</strong> (Adverse Events: <code>AETERM</code>, <code>AESEV</code>).</p>
+</div>
+</div>
+</section>
+<section id="reusable-algorithms-are-the-backbone" class="slide level2 smaller">
+<h2>Reusable algorithms are the <strong>backbone</strong></h2>
+<div class="pv-flow">
+<p><span class="pv-step"><span class="pv-ico">📥</span>Collected source data</span> <span class="pv-step"><span class="pv-ico">🧩</span>Mapping algorithms</span> <span class="pv-step"><span class="pv-ico">📦</span>Target SDTM model</span></p>
+</div>
+<p><strong>Modular building blocks</strong> — reusable across domains, each one an R function you compose to map any domain.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 56%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Algorithm</th>
+<th style="text-align: left;">What it does</th>
+<th style="text-align: left;">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>assign_no_ct()</code></td>
+<td style="text-align: left;">One-to-one map, <strong>no</strong> controlled terminology</td>
+<td style="text-align: left;"><code>AE.AETERM</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>assign_ct()</code></td>
+<td style="text-align: left;">One-to-one map <strong>with</strong> controlled terminology</td>
+<td style="text-align: left;"><code>VS.VSPOS</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>assign_datetime()</code></td>
+<td style="text-align: left;">Map dates/times to ISO 8601 (handles unknowns)</td>
+<td style="text-align: left;"><code>AE.AEENDTC</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>hardcode_ct()</code></td>
+<td style="text-align: left;">Hardcode a value <strong>with</strong> controlled terminology</td>
+<td style="text-align: left;"><code>VS.VSORRESU = 'mmHg'</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>hardcode_no_ct()</code></td>
+<td style="text-align: left;">Hardcode a value, <strong>no</strong> controlled terminology</td>
+<td style="text-align: left;"><code>VS.VSCAT = 'VITAL SIGNS'</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>condition_add()</code></td>
+<td style="text-align: left;">Apply a mapping <strong>only when</strong> a condition holds</td>
+<td style="text-align: left;"><code>VSMETHOD when VSTESTCD = 'TEMP'</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>oak_cal_ref_dates()</code></td>
+<td style="text-align: left;">Derive DM reference dates</td>
+<td style="text-align: left;"><code>DM.RFSTDTC</code></td>
+</tr>
+</tbody>
+</table>
+<div class="pv-ai">
+<p><span class="pv-ico">📎</span> Full descriptions for each algorithm are in the <strong>appendix</strong> at the end.</p>
+</div>
+</section>
+<section id="build-a-mapping-one-algorithm-at-a-time" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Build a mapping, one algorithm at a time</h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2" data-code-line-numbers="3,4,5,6,7,8,9"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb2-1" class="hljs-ln-code"><a aria-label="1"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb2-2" class="hljs-ln-code"><a aria-label="2"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span>
+<span id="cb2-3" class="hljs-ln-code"><a aria-label="3"></a>vs <span class="ot">&lt;-</span></span>
+<span id="cb2-4" class="hljs-ln-code"><a aria-label="4"></a>  <span class="co"># Topic: which test is this row?</span></span>
+<span id="cb2-5" class="hljs-ln-code"><a aria-label="5"></a>  <span class="fu">hardcode_ct</span>(</span>
+<span id="cb2-6" class="hljs-ln-code"><a aria-label="6"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb2-7" class="hljs-ln-code"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
+<span id="cb2-8" class="hljs-ln-code"><a aria-label="8"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span></span>
+<span id="cb2-9" class="hljs-ln-code"><a aria-label="9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-10" class="hljs-ln-code"><a aria-label="10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VSTESTCD))</span>
+<span id="cb2-11" class="hljs-ln-code"><a aria-label="11"></a>vs <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(patient_number, VSTESTCD) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  patient_number VSTESTCD
+  &lt;chr&gt;          &lt;chr&gt;   
+1 701-1015       SYSBP   
+2 701-1015       SYSBP   
+3 701-1015       SYSBP   
+4 701-1015       SYSBP   </code></pre>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🎯</span> Start with the <strong>topic</strong> — <code>hardcode_ct()</code> says “these rows are systolic BP”.</p>
+</div>
+</section>
+<section id="build-a-mapping-one-algorithm-at-a-time-1" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Build a mapping, one algorithm at a time</h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4" data-code-line-numbers="11,12,13,14,15"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb4-1" class="hljs-ln-code"><a aria-label="1"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb4-2" class="hljs-ln-code"><a aria-label="2"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span>
+<span id="cb4-3" class="hljs-ln-code"><a aria-label="3"></a>vs <span class="ot">&lt;-</span></span>
+<span id="cb4-4" class="hljs-ln-code"><a aria-label="4"></a>  <span class="co"># Topic: which test is this row?</span></span>
+<span id="cb4-5" class="hljs-ln-code"><a aria-label="5"></a>  <span class="fu">hardcode_ct</span>(</span>
+<span id="cb4-6" class="hljs-ln-code"><a aria-label="6"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb4-7" class="hljs-ln-code"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
+<span id="cb4-8" class="hljs-ln-code"><a aria-label="8"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span></span>
+<span id="cb4-9" class="hljs-ln-code"><a aria-label="9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb4-10" class="hljs-ln-code"><a aria-label="10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VSTESTCD)) <span class="sc">|&gt;</span></span>
+<span id="cb4-11" class="hljs-ln-code"><a aria-label="11"></a>  <span class="co"># Result qualifier: the collected value</span></span>
+<span id="cb4-12" class="hljs-ln-code"><a aria-label="12"></a>  <span class="fu">assign_no_ct</span>(</span>
+<span id="cb4-13" class="hljs-ln-code"><a aria-label="13"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb4-14" class="hljs-ln-code"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb4-15" class="hljs-ln-code"><a aria-label="15"></a>  )</span>
+<span id="cb4-16" class="hljs-ln-code"><a aria-label="16"></a>vs <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(patient_number, VSTESTCD, VSORRES) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  patient_number VSTESTCD VSORRES
+  &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;  
+1 701-1015       SYSBP    131    
+2 701-1015       SYSBP    129    
+3 701-1015       SYSBP    147    
+4 701-1015       SYSBP    138    </code></pre>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🏷️</span> Add a <strong>qualifier</strong> — <code>assign_no_ct()</code> copies the collected result into <code>VSORRES</code>.</p>
+</div>
+</section>
+<section id="build-a-mapping-one-algorithm-at-a-time-2" class="slide level2" data-auto-animate="true">
+<h2 data-id="quarto-animate-title">Build a mapping, one algorithm at a time</h2>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6" data-code-line-numbers="16,17,18,19,20,21"><pre class="sourceCode numberSource r number-lines code-with-copy" data-id="quarto-animate-code"><code class="sourceCode r hljs"><span id="cb6-1" class="hljs-ln-code"><a aria-label="1"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb6-2" class="hljs-ln-code"><a aria-label="2"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span>
+<span id="cb6-3" class="hljs-ln-code"><a aria-label="3"></a>vs <span class="ot">&lt;-</span></span>
+<span id="cb6-4" class="hljs-ln-code"><a aria-label="4"></a>  <span class="co"># Topic: which test is this row?</span></span>
+<span id="cb6-5" class="hljs-ln-code"><a aria-label="5"></a>  <span class="fu">hardcode_ct</span>(</span>
+<span id="cb6-6" class="hljs-ln-code"><a aria-label="6"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb6-7" class="hljs-ln-code"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
+<span id="cb6-8" class="hljs-ln-code"><a aria-label="8"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span></span>
+<span id="cb6-9" class="hljs-ln-code"><a aria-label="9"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-10" class="hljs-ln-code"><a aria-label="10"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VSTESTCD)) <span class="sc">|&gt;</span></span>
+<span id="cb6-11" class="hljs-ln-code"><a aria-label="11"></a>  <span class="co"># Result qualifier: the collected value</span></span>
+<span id="cb6-12" class="hljs-ln-code"><a aria-label="12"></a>  <span class="fu">assign_no_ct</span>(</span>
+<span id="cb6-13" class="hljs-ln-code"><a aria-label="13"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb6-14" class="hljs-ln-code"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb6-15" class="hljs-ln-code"><a aria-label="15"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-16" class="hljs-ln-code"><a aria-label="16"></a>  <span class="co"># Variable qualifier: the unit</span></span>
+<span id="cb6-17" class="hljs-ln-code"><a aria-label="17"></a>  <span class="fu">hardcode_ct</span>(</span>
+<span id="cb6-18" class="hljs-ln-code"><a aria-label="18"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"SYS_BP"</span>,</span>
+<span id="cb6-19" class="hljs-ln-code"><a aria-label="19"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRESU"</span>, <span class="at">tgt_val =</span> <span class="st">"mmHg"</span>,</span>
+<span id="cb6-20" class="hljs-ln-code"><a aria-label="20"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66770"</span>,</span>
+<span id="cb6-21" class="hljs-ln-code"><a aria-label="21"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb6-22" class="hljs-ln-code"><a aria-label="22"></a>  )</span>
+<span id="cb6-23" class="hljs-ln-code"><a aria-label="23"></a>vs <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(patient_number, VSTESTCD, VSORRES, VSORRESU) <span class="sc">|&gt;</span> <span class="fu">head</span>(<span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 4
+  patient_number VSTESTCD VSORRES VSORRESU
+  &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   
+1 701-1015       SYSBP    131     mmHg    
+2 701-1015       SYSBP    129     mmHg    
+3 701-1015       SYSBP    147     mmHg    
+4 701-1015       SYSBP    138     mmHg    </code></pre>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔁</span> Same <strong>pattern</strong>, one algorithm per variable — chain as many as the domain needs.</p>
+</div>
+</section>
+<section id="algorithms-vs.-plain-dplyr" class="slide level2 smaller">
+<h2>Algorithms vs.&nbsp;plain <code>dplyr</code></h2>
+<p>One <code>sdtm.oak</code> call does what several <code>dplyr</code> steps would.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>🧰 <strong>plain dplyr</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a aria-label="1"></a>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-3"><a aria-label="3"></a>    <span class="at">VSPOS =</span> <span class="fu">case_when</span>(</span>
+<span id="cb8-4"><a aria-label="4"></a>      SUBPOS <span class="sc">==</span> <span class="st">"STANDING"</span> <span class="sc">~</span> <span class="st">"STANDING"</span>,</span>
+<span id="cb8-5"><a aria-label="5"></a>      SUBPOS <span class="sc">==</span> <span class="st">"SITTING"</span>  <span class="sc">~</span> <span class="st">"SITTING"</span>,</span>
+<span id="cb8-6"><a aria-label="6"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="cn">NA_character_</span></span>
+<span id="cb8-7"><a aria-label="7"></a>    )</span>
+<span id="cb8-8"><a aria-label="8"></a>  )</span>
+<span id="cb8-9"><a aria-label="9"></a><span class="co"># + separate join to apply CT</span></span>
+<span id="cb8-10"><a aria-label="10"></a><span class="co"># + manual oak id bookkeeping</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p>🌳 <strong>sdtm.oak</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a aria-label="1"></a>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a aria-label="2"></a>  <span class="fu">assign_ct</span>(</span>
+<span id="cb9-3"><a aria-label="3"></a>    <span class="at">raw_var  =</span> <span class="st">"SUBPOS"</span>,</span>
+<span id="cb9-4"><a aria-label="4"></a>    <span class="at">tgt_var  =</span> <span class="st">"VSPOS"</span>,</span>
+<span id="cb9-5"><a aria-label="5"></a>    <span class="at">ct_spec  =</span> study_ct,</span>
+<span id="cb9-6"><a aria-label="6"></a>    <span class="at">ct_clst  =</span> <span class="st">"C71148"</span>,</span>
+<span id="cb9-7"><a aria-label="7"></a>    <span class="at">id_vars  =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb9-8"><a aria-label="8"></a>  )</span>
+<span id="cb9-9"><a aria-label="9"></a><span class="co"># CT + id linkage handled for you</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">⚡</span> Mapping, controlled terminology, conditions, and oak id linkage collapse into <strong>one call</strong>.</p>
+</div>
+</section>
+<section id="oak-id-vars-the-linkage-key" class="slide level2 smaller">
+<h2>oak id vars — the linkage key</h2>
+<p>Raw data is <strong>long</strong>: each collected item is a column. <code>sdtm.oak</code> needs to know which SDTM record each qualifier belongs to.</p>
+<div class="pv-idmap">
+<div class="pv-idmap-side">
+<p><span class="pv-idmap-head">Raw row</span> <span class="pv-idmap-cell">patient <code>701-1015</code></span> <span class="pv-idmap-cell">row <code>5</code></span> <span class="pv-idmap-cell">source <code>vitals</code></span></p>
+</div>
+<div class="pv-idmap-conn">
+<p><span class="pv-idmap-key">🔑</span></p>
+</div>
+<div class="pv-idmap-side">
+<p><span class="pv-idmap-head">oak id vars</span> <span class="pv-idmap-cell"><code>patient_number</code></span> <span class="pv-idmap-cell"><code>oak_id</code></span> <span class="pv-idmap-cell"><code>raw_source</code></span></p>
+</div>
+<div class="pv-idmap-conn">
+<p><span class="pv-idmap-arrow">→</span></p>
+</div>
+<div class="pv-idmap-side pv-idmap-target">
+<p><span class="pv-idmap-head">SDTM records</span> <span class="pv-idmap-cell">VSTESTCD = SYSBP</span> <span class="pv-idmap-cell">VSORRES = 131</span> <span class="pv-idmap-cell">VSORRESU = mmHg</span></p>
+</div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔗</span> <code>patient_number</code> + <code>oak_id</code> (raw row) + <code>raw_source</code> uniquely tie every qualifier back to its topic — and the SDTM record back to the raw dataset.</p>
+</div>
+</section>
+<section id="programming-steps" class="slide level2 smaller">
+<h2>Programming steps</h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<div class="pv-steps">
+<ul>
+<li><span class="pv-num">1</span> <span class="pv-ico">📥</span> <span class="fragment" data-fragment-index="0">Read <strong>raw</strong> datasets</span></li>
+<li><span class="pv-num">2</span> <span class="pv-ico">🔑</span> <span class="fragment" data-fragment-index="0">Create <strong>oak id</strong> vars</span></li>
+<li><span class="pv-num">3</span> <span class="pv-ico">📖</span> <span class="fragment" data-fragment-index="1">Read study <strong>CT</strong></span></li>
+<li><span class="pv-num">4</span> <span class="pv-ico">🎯</span> <span class="fragment" data-fragment-index="2">Map <strong>topic</strong> variable</span></li>
+<li><span class="pv-num">5</span> <span class="pv-ico">🏷️</span> <span class="fragment" data-fragment-index="2">Map the <strong>rest</strong></span></li>
+<li><span class="pv-num">6</span> <span class="pv-ico">🔁</span> <span class="fragment" data-fragment-index="2">Repeat per topic variable</span></li>
+<li><span class="pv-num">7</span> <span class="pv-ico">🧮</span> <span class="fragment" data-fragment-index="3">Create <strong>derived</strong> vars</span></li>
+<li><span class="pv-num">8</span> <span class="pv-ico">🏁</span> <span class="fragment" data-fragment-index="3">Add <strong>labels &amp; attributes</strong></span></li>
+</ul>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-code-line-numbers="|1-3|4-5|6-11|12-15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a><span class="co"># 1-2  read raw + create oak id vars</span></span>
+<span id="cb10-2"><a aria-label="2"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a aria-label="3"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span>
+<span id="cb10-4"><a aria-label="4"></a><span class="co"># 3  read study controlled terminology</span></span>
+<span id="cb10-5"><a aria-label="5"></a>study_ct <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sdtm_ct.csv"</span>)</span>
+<span id="cb10-6"><a aria-label="6"></a><span class="co"># 4-6  map topic, map rest, repeat per topic var</span></span>
+<span id="cb10-7"><a aria-label="7"></a>vs <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
+<span id="cb10-8"><a aria-label="8"></a>        <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
+<span id="cb10-9"><a aria-label="9"></a>        <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a aria-label="10"></a>  <span class="fu">assign_no_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
+<span id="cb10-11"><a aria-label="11"></a>        <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>())</span>
+<span id="cb10-12"><a aria-label="12"></a><span class="co"># 7-8  derived vars + labels &amp; attributes</span></span>
+<span id="cb10-13"><a aria-label="13"></a>vs <span class="ot">&lt;-</span> vs <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a aria-label="14"></a>  <span class="fu">derive_seq</span>(<span class="at">tgt_var =</span> <span class="st">"VSSEQ"</span>, ...) <span class="sc">|&gt;</span></span>
+<span id="cb10-15"><a aria-label="15"></a>  <span class="fu">derive_study_day</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section></section>
+<section>
+<section id="workshop---create-vs-domain" class="title-slide slide level1 center">
+<h1>Workshop - Create VS domain</h1>
+
+</section>
+<section id="how-we-will-code-today" class="slide level2 smaller">
+<h2>How we will “code” today</h2>
+<ul>
+<li class="fragment"><strong>Hand-code</strong> the first topic variables together — one algorithm per line, discussing each argument.</li>
+<li class="fragment">Then <strong>hand it to an AI agent + skill</strong> to draft the remaining variables.</li>
+<li class="fragment"><strong>Verify</strong> the result against the known VS numbers.</li>
+</ul>
+</section>
+<section id="review-specs" class="slide level2">
+<h2>Review specs</h2>
+<p>Review aCRF</p>
+<ul>
+<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/VitalSigns_aCRF.pdf">VitalSigns_aCRF</a></li>
+</ul>
+</section>
+<section id="start-by-hand-finish-with-ai" class="slide level2 smaller">
+<h2>Start by hand, finish with AI</h2>
+<p>We hand-code <strong>TEMP</strong> and <strong>blood pressure</strong>, then let an <strong>agent + skill</strong> draft the rest.</p>
+<div class="pv-flow pv-flow-accent">
+<p><span class="pv-step"><span class="pv-ico">✍️</span>Hand-code TEMP + BP</span> <span class="pv-step"><span class="pv-ico">🧠</span>skill = sdtm.oak know-how</span> <span class="pv-step"><span class="pv-ico">🤖</span>Agent drafts HEIGHT / WEIGHT / PULSE</span> <span class="pv-step"><span class="pv-ico">✅</span>Verify the result</span></p>
+</div>
+<div class="pv-speed">
+<p><span class="pv-speed-slow">⏱️ Repetitive topic/qualifier blocks by hand</span> <span class="pv-speed-arrow">→</span> <span class="pv-speed-fast">⚡ Agent drafts them in seconds</span></p>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">💡</span> The remaining vitals follow the <strong>same pattern</strong> we just coded — ideal work to delegate to the agent, then review.</p>
+</div>
+</section>
+<section id="the-pre-prepared-skill" class="slide level2 smaller">
+<h2>The pre-prepared skill</h2>
+<p>A checked-in skill teaches the agent <em>our</em> <code>sdtm.oak</code> conventions:</p>
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">🧠</span> .agents/skills/sdtm-oak-mapping/SKILL.md</span></p>
+<div class="pv-skill-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a aria-label="1"></a><span class="fu"># SDTM mapping with sdtm.oak</span></span>
+<span id="cb11-2"><a aria-label="2"></a></span>
+<span id="cb11-3"><a aria-label="3"></a>Use when: creating an SDTM domain from a raw dataset + aCRF.</span>
+<span id="cb11-4"><a aria-label="4"></a></span>
+<span id="cb11-5"><a aria-label="5"></a>For each vitals topic (HEIGHT, WEIGHT, PULSE):</span>
+<span id="cb11-6"><a aria-label="6"></a><span class="ss">  1. </span>hardcode_ct() -&gt; VSTESTCD, VSTEST   (from CT codelists)</span>
+<span id="cb11-7"><a aria-label="7"></a><span class="ss">  2. </span>assign_no_ct() -&gt; VSORRES           (the collected value)</span>
+<span id="cb11-8"><a aria-label="8"></a><span class="ss">  3. </span>hardcode_ct() -&gt; VSORRESU           (the unit)</span>
+<span id="cb11-9"><a aria-label="9"></a>Chain topic then qualifiers with |&gt;, id_vars = oak_id_vars().</span>
+<span id="cb11-10"><a aria-label="10"></a></span>
+<span id="cb11-11"><a aria-label="11"></a>Conventions: raw vars use IT.<span class="dt">&lt;</span><span class="kw">NAME</span><span class="dt">&gt;</span>; CT lives in study_ct.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="the-prompt-acrf" class="slide level2 smaller">
+<h2>The prompt + aCRF</h2>
+<div class="columns">
+<div class="column" style="width:42%;">
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
+<div class="pv-skill-body">
+<blockquote>
+<p>“Using the <strong>sdtm-oak-mapping</strong> skill and the <strong>annotated Vitals aCRF</strong>, map the remaining VS topics — <strong>PULSE</strong> and <strong>DIA_BP</strong> — with their <code>VSORRES</code>, <code>VSORRESU</code> and <code>VSPOS</code> qualifiers.”</p>
+</blockquote>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/vitals-acrf-annotated.png" class="pv-acrf-img"></p>
+<figcaption>Annotated Vitals aCRF — the agent reads these callouts</figcaption>
+</figure>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔎</span> The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right <code>raw_var</code>, unit, and codelist.</p>
+</div>
+</section>
+<section id="agent-drafts-the-remaining-vs-vars" class="slide level2 smaller">
+<h2>Agent drafts the remaining VS vars</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a><span class="co"># Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)</span></span>
+<span id="cb12-2"><a aria-label="2"></a>vs_pulse <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(</span>
+<span id="cb12-3"><a aria-label="3"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
+<span id="cb12-4"><a aria-label="4"></a>    <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"PULSE"</span>,</span>
+<span id="cb12-5"><a aria-label="5"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span></span>
+<span id="cb12-6"><a aria-label="6"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-7"><a aria-label="7"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VSTESTCD)) <span class="sc">|&gt;</span></span>
+<span id="cb12-8"><a aria-label="8"></a>  <span class="fu">assign_no_ct</span>(</span>
+<span id="cb12-9"><a aria-label="9"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
+<span id="cb12-10"><a aria-label="10"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb12-11"><a aria-label="11"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-12"><a aria-label="12"></a>  <span class="fu">hardcode_ct</span>(</span>
+<span id="cb12-13"><a aria-label="13"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
+<span id="cb12-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRESU"</span>, <span class="at">tgt_val =</span> <span class="st">"beats/min"</span>,</span>
+<span id="cb12-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66770"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb12-16"><a aria-label="16"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🧑‍⚖️</span> Same shape as our hand-written blocks — <strong>you stay the reviewer</strong>: check the CT code, run it, confirm the result looks right.</p>
+</div>
+</section>
+<section id="quiz---1" class="slide level2">
+<h2>Quiz - 1</h2>
+<ul>
+<li class="fragment"><p>What function should be used for mapping for CMROUTE. The Route information is collected in a drop down list on the CRF.</p>
+<ul>
+<li class="fragment"><ol type="a">
+<li class="fragment"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_no_ct()</a> </bslib-tooltip></li>
+</ol></li>
+<li class="fragment"><ol start="2" type="a">
+<li class="fragment"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_ct()</a> </bslib-tooltip></li>
+</ol></li>
+</ul></li>
+<li class="fragment"><p>Correct answer:</p>
+<ul>
+<li class="fragment"><ol start="2" type="a">
+<li class="fragment">As CMROUTE has a codelist associated we need to use <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_ct()</a> </bslib-tooltip></li>
+</ol></li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="workshop---create-dm-domain" class="title-slide slide level1 center">
+<h1>Workshop - Create DM domain</h1>
+
+</section>
+<section id="review-specs-1" class="slide level2">
+<h2>Review specs</h2>
+<p>Review aCRF</p>
+<ul>
+<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Demographics_aCRF.pdf">Demographics_aCRF</a></li>
+<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Exposure_as_collected_aCRF.pdf">Exposure_as_collected_aCRF</a></li>
+<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Subject_Disposition_aCRF.pdf">Subject_Disposition_aCRF</a></li>
+</ul>
+</section>
+<section id="start-by-hand-finish-with-ai-1" class="slide level2 smaller">
+<h2>Start by hand, finish with AI</h2>
+<p>DM’s <strong>reference dates</strong> are repetitive config rows — perfect to hand off after one worked example.</p>
+<div class="pv-flow pv-flow-accent">
+<p><span class="pv-step"><span class="pv-ico">✍️</span>Derive RFXSTDTC by hand</span> <span class="pv-step"><span class="pv-ico">🧠</span>skill = sdtm.oak know-how</span> <span class="pv-step"><span class="pv-ico">🤖</span>Agent fills remaining ref dates</span> <span class="pv-step"><span class="pv-ico">✅</span>Verify the result</span></p>
+</div>
+<div class="pv-speed">
+<p><span class="pv-speed-slow">⏱️ Seven near-identical config rows + calls</span> <span class="pv-speed-arrow">→</span> <span class="pv-speed-fast">⚡ Agent drafts them from the aCRFs</span></p>
+</div>
+</section>
+<section id="reference-date-derivation" class="slide level2 smaller">
+<h2>Reference date derivation</h2>
+<ul>
+<li>DM has several <strong>reference dates</strong>: <code>RFSTDTC</code>, <code>RFENDTC</code>, <code>RFXSTDTC</code>, <code>RFXENDTC</code>, <code>RFICDTC</code>, <code>RFPENDTC</code>, <code>DTHDTC</code>.</li>
+<li>Each is a <strong>min/max date</strong> pulled from raw data across <strong>multiple eCRFs</strong>.</li>
+<li><code>oak_cal_ref_dates()</code> derives them from a small <strong>config table</strong> (<code>ref_date_config_df</code>) — no bespoke code per date.</li>
+</ul>
+<div class="pv-ai">
+<p><span class="pv-ico">💡</span> Same idea as VS: <strong>walk through one</strong> reference date by hand, then let an <strong>agent + skill</strong> fill in the rest of the config.</p>
+</div>
+</section>
+<section id="config-file-walk-through-one-row" class="slide level2 smaller">
+<h2>Config file — walk through one row</h2>
+<p>Each row tells <code>sdtm.oak</code> where <strong>one</strong> reference date lives:</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 50%">
+<col style="width: 24%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">column</th>
+<th style="text-align: left;">meaning</th>
+<th style="text-align: left;">example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>raw_dataset_name</code></td>
+<td style="text-align: left;">source raw dataset</td>
+<td style="text-align: left;"><code>ex_raw</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>date_var</code></td>
+<td style="text-align: left;">date variable in that dataset</td>
+<td style="text-align: left;"><code>IT.ECSTDAT</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>time_var</code></td>
+<td style="text-align: left;">time variable (if any)</td>
+<td style="text-align: left;"><code>NA</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>dformat</code></td>
+<td style="text-align: left;">date format collected</td>
+<td style="text-align: left;"><code>dd-mmm-yyyy</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>tformat</code></td>
+<td style="text-align: left;">time format collected</td>
+<td style="text-align: left;"><code>NA</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>sdtm_var_name</code></td>
+<td style="text-align: left;">reference date to derive</td>
+<td style="text-align: left;"><code>RFXSTDTC</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="derive-one-by-hand-rfxstdtc" class="slide level2 smaller">
+<h2>Derive one by hand — RFXSTDTC</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a><span class="co"># 1 config: one row per reference date</span></span>
+<span id="cb13-2"><a aria-label="2"></a>ref_date_conf_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb13-3"><a aria-label="3"></a>  <span class="sc">~</span>raw_dataset_name, <span class="sc">~</span>date_var,   <span class="sc">~</span>time_var,     <span class="sc">~</span>dformat,      <span class="sc">~</span>tformat, <span class="sc">~</span>sdtm_var_name,</span>
+<span id="cb13-4"><a aria-label="4"></a>  <span class="st">"ex_raw"</span>,       <span class="st">"IT.ECSTDAT"</span>, <span class="cn">NA_character_</span>, <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA_character_</span>, <span class="st">"RFXSTDTC"</span></span>
+<span id="cb13-5"><a aria-label="5"></a>)</span>
+<span id="cb13-6"><a aria-label="6"></a></span>
+<span id="cb13-7"><a aria-label="7"></a><span class="co"># 2 derive RFXSTDTC from that config</span></span>
+<span id="cb13-8"><a aria-label="8"></a>dm <span class="ot">&lt;-</span> <span class="fu">oak_cal_ref_dates</span>(</span>
+<span id="cb13-9"><a aria-label="9"></a>  <span class="at">dm_domain          =</span> dm,</span>
+<span id="cb13-10"><a aria-label="10"></a>  <span class="at">der_var            =</span> <span class="st">"RFXSTDTC"</span>,</span>
+<span id="cb13-11"><a aria-label="11"></a>  <span class="at">min_max            =</span> <span class="st">"min"</span>,</span>
+<span id="cb13-12"><a aria-label="12"></a>  <span class="at">ref_date_config_df =</span> ref_date_conf_df,</span>
+<span id="cb13-13"><a aria-label="13"></a>  <span class="at">raw_source         =</span> <span class="fu">list</span>(<span class="at">ex_raw =</span> ex_raw)</span>
+<span id="cb13-14"><a aria-label="14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔑</span> One config row + one call. The <strong>remaining reference dates repeat this pattern</strong> with different sources.</p>
+</div>
+</section>
+<section id="let-ai-populate-the-rest" class="slide level2 smaller">
+<h2>Let AI populate the rest</h2>
+<div class="columns">
+<div class="column" style="width:46%;">
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
+<div class="pv-skill-body">
+<blockquote>
+<p>“Using the <strong>sdtm-oak-mapping</strong> skill and the DM / EX / DS <strong>aCRFs</strong>, add config rows and <code>oak_cal_ref_dates()</code> calls for the remaining reference dates: <strong>RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC</strong>.”</p>
+</blockquote>
+</div>
+</div>
+</div><div class="column" style="width:54%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="co"># Agent extends the config, following the skill:</span></span>
+<span id="cb14-2"><a aria-label="2"></a>ref_date_conf_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb14-3"><a aria-label="3"></a>  <span class="sc">~</span>raw_dataset_name, <span class="sc">~</span>date_var,  <span class="sc">~</span>time_var, <span class="sc">~</span>dformat,     <span class="sc">~</span>tformat, <span class="sc">~</span>sdtm_var_name,</span>
+<span id="cb14-4"><a aria-label="4"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECSTDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFXSTDTC"</span>,</span>
+<span id="cb14-5"><a aria-label="5"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECENDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFXENDTC"</span>,</span>
+<span id="cb14-6"><a aria-label="6"></a>  <span class="st">"ds_raw"</span>, <span class="st">"IT.DSSTDAT"</span>, <span class="cn">NA</span>,      <span class="st">"mm-dd-yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"RFSTDTC"</span>,</span>
+<span id="cb14-7"><a aria-label="7"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECENDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFENDTC"</span>,</span>
+<span id="cb14-8"><a aria-label="8"></a>  <span class="st">"dm_raw"</span>, <span class="st">"IC_DT"</span>,      <span class="cn">NA</span>,      <span class="st">"mm/dd/yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"RFICDTC"</span>,</span>
+<span id="cb14-9"><a aria-label="9"></a>  <span class="st">"ds_raw"</span>, <span class="st">"DSDTCOL"</span>,    <span class="st">"DSTMCOL"</span>,<span class="st">"mm-dd-yyyy"</span>, <span class="st">"H:M"</span>,<span class="st">"RFPENDTC"</span>,</span>
+<span id="cb14-10"><a aria-label="10"></a>  <span class="st">"ds_raw"</span>, <span class="st">"DEATHDT"</span>,    <span class="cn">NA</span>,      <span class="st">"mm/dd/yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"DTHDTC"</span></span>
+<span id="cb14-11"><a aria-label="11"></a>)</span>
+<span id="cb14-12"><a aria-label="12"></a><span class="co"># ...then one oak_cal_ref_dates() call per der_var</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🧑‍⚖️</span> You <strong>review each row</strong> against the aCRFs — correct source, date format, min vs max — then run and check the result.</p>
+</div>
+</section>
+<section id="quiz---2" class="slide level2">
+<h2>Quiz - 2</h2>
+<ul>
+<li class="fragment">When to use hardcode mapping algorithm?
+<ul>
+<li class="fragment"><ol type="a">
+<li class="fragment">To assign a collected value on the eCRF</li>
+</ol></li>
+<li class="fragment"><ol start="2" type="a">
+<li class="fragment">To Hardcode a SDTM variable that has not directly collected on the eCRF.</li>
+</ol></li>
+</ul></li>
+<li class="fragment">Correct answer:
+<ul>
+<li class="fragment"><ol start="2" type="a">
+<li class="fragment">To hardcode a value use hardcode algorithms. To assign a collected value use assign algorithms**</li>
+</ol></li>
+</ul></li>
+</ul>
+</section>
+<section id="check-in-exercise" class="slide level2 smaller">
+<h2>Check-in Exercise</h2>
+<p>Open exercises/02-SDTM.R</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">library</span>(sdtm.oak)</span>
+<span id="cb15-2"><a aria-label="2"></a><span class="fu">library</span>(pharmaverseraw)</span>
+<span id="cb15-3"><a aria-label="3"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb15-4"><a aria-label="4"></a></span>
+<span id="cb15-5"><a aria-label="5"></a><span class="co">#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf</span></span>
+<span id="cb15-6"><a aria-label="6"></a></span>
+<span id="cb15-7"><a aria-label="7"></a><span class="co"># Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM</span></span>
+<span id="cb15-8"><a aria-label="8"></a></span>
+<span id="cb15-9"><a aria-label="9"></a><span class="co"># Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742</span></span>
+<span id="cb15-10"><a aria-label="10"></a></span>
+<span id="cb15-11"><a aria-label="11"></a><span class="co"># Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is </span></span>
+<span id="cb15-12"><a aria-label="12"></a><span class="co">#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Add the “completed” sticky note to your laptop when complete.</p>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_85abb7dc" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="exercise-solution" class="slide level2">
+<h2>Exercise Solution</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>ae <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a aria-label="2"></a>  <span class="co"># Derive topic variable</span></span>
+<span id="cb16-3"><a aria-label="3"></a>  <span class="co"># Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM</span></span>
+<span id="cb16-4"><a aria-label="4"></a>  <span class="fu">assign_no_ct</span>(</span>
+<span id="cb16-5"><a aria-label="5"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
+<span id="cb16-6"><a aria-label="6"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AETERM"</span>,</span>
+<span id="cb16-7"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"AETERM"</span>,</span>
+<span id="cb16-8"><a aria-label="8"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb16-9"><a aria-label="9"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb16-10"><a aria-label="10"></a>  <span class="co"># Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER</span></span>
+<span id="cb16-11"><a aria-label="11"></a>  <span class="fu">assign_ct</span>(</span>
+<span id="cb16-12"><a aria-label="12"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
+<span id="cb16-13"><a aria-label="13"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESER"</span>,</span>
+<span id="cb16-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"AESER"</span>,</span>
+<span id="cb16-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb16-16"><a aria-label="16"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
+<span id="cb16-17"><a aria-label="17"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb16-18"><a aria-label="18"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb16-19"><a aria-label="19"></a>  <span class="co"># Map AESDTH using condition_add &amp; assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH</span></span>
+<span id="cb16-20"><a aria-label="20"></a>  <span class="fu">assign_ct</span>(</span>
+<span id="cb16-21"><a aria-label="21"></a>    <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(ae_raw, IT.AESDTH <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb16-22"><a aria-label="22"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESDTH"</span>,</span>
+<span id="cb16-23"><a aria-label="23"></a>    <span class="at">tgt_var =</span> <span class="st">"AESDTH"</span>,</span>
+<span id="cb16-24"><a aria-label="24"></a>    <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb16-25"><a aria-label="25"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
+<span id="cb16-26"><a aria-label="26"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb16-27"><a aria-label="27"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section></section>
+<section>
+<section id="doing-this-with-ai" class="title-slide slide level1 center" data-background-color="#003559">
+<h1>Doing this with AI</h1>
+
+</section>
+<section id="agent-vs.-skill" class="slide level2 smaller">
+<h2>Agent vs.&nbsp;skill</h2>
+<p>We just used an <strong>agent + skill</strong> to finish the VS domain. What are they?</p>
+<div class="pv-cards">
+<div class="pv-card">
+<p><span class="pv-ico">🤖</span> <span class="pv-title">Agent</span> An AI assistant that can <strong>read your files, run R, and edit code</strong> in your project — not just chat. It plans and executes multi-step tasks.</p>
+</div>
+<div class="pv-card pv-accent">
+<p><span class="pv-ico">🧠</span> <span class="pv-title">Skill</span> A <strong>reusable, checked-in instruction set</strong> that teaches the agent <em>your</em> conventions: how to map SDTM with <code>sdtm.oak</code>, where specs live, house style.</p>
+</div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔑</span> Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next.</p>
+</div>
+</section>
+<section id="human-in-the-loop" class="slide level2 smaller">
+<h2>Human-in-the-loop</h2>
+<p>AI drafts the repetitive parts; <strong>you own correctness</strong>.</p>
+<div class="pv-steps">
+<ul>
+<li><span class="pv-num">1</span> <span class="pv-ico">🧠</span> Skill encodes <em>how</em> your team maps SDTM</li>
+<li><span class="pv-num">2</span> <span class="pv-ico">🤖</span> Agent reads specs → drafts <code>sdtm.oak</code> code</li>
+<li><span class="pv-num">3</span> <span class="pv-ico">👀</span> You review: right algorithm? right CT? edge cases?</li>
+<li><span class="pv-num">4</span> <span class="pv-ico">▶️</span> Run and check the domain</li>
+<li><span class="pv-num">5</span> <span class="pv-ico">♻️</span> Refine the skill so the next domain is even faster</li>
+</ul>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">⚠️</span> Generated code is a <strong>starting point</strong>, not a submission. Validation, CT correctness, and traceability remain your responsibility.</p>
+</div>
+</section>
+<section id="wrap-up-resources" class="slide level2 smaller">
+<h2>Wrap-up &amp; resources</h2>
+<div class="pv-wrap">
+<div class="pv-wrap-row">
+<div class="pv-wrap-ico">
+<p>✅</p>
+</div>
+<div class="pv-wrap-body">
+<p><span class="pv-wrap-title">What you can build</span> Most SDTM domains today. <em>Not yet:</em> Trial Design, SV, SE, RELREC, Associated Persons.</p>
+</div>
+</div>
+<div class="pv-wrap-row pv-wrap-accent">
+<div class="pv-wrap-ico">
+<p>🤝</p>
+</div>
+<div class="pv-wrap-body">
+<p><span class="pv-wrap-title">Get involved</span> <a href="https://oakgarden.slack.com">💬 Slack</a> · <a href="https://github.com/pharmaverse/sdtm.oak">🐙 GitHub</a> · <a href="https://wiki.cdisc.org/display/oakgarden">📖 CDISC Wiki</a></p>
+</div>
+</div>
+<div class="pv-wrap-row">
+<div class="pv-wrap-ico">
+<p>📚</p>
+</div>
+<div class="pv-wrap-body">
+<p><span class="pv-wrap-title">Learn more</span> <a href="https://pharmaverse.github.io/sdtm.oak/">📄 Docs</a> · <a href="https://pharmaverse.github.io/examples/">🧩 Examples</a> · <a href="https://www.youtube.com/watch?v=H0FdhG9_ttU&amp;list=PLMtxz1fUYA5C67SvhSCINluOV2EmyjKql&amp;index=3&amp;ab_channel=RinPharma">▶️ Video</a> · <a href="https://pharmaverse.github.io/blog/posts/2024-10-24_introducing.../introducing_sdtm.oak.html">📝 Blog</a> · <a href="https://phuse.s3.eu-central-1.amazonaws.com/Archive/2025/Connect/US/Orlando/POS_PP31.pdf">📊 Poster</a></p>
+</div>
+</div>
+</div>
+</section>
+<section id="acknowledgements" class="slide level2 smaller">
+<h2>Acknowledgements</h2>
+<div class="ack-hero">
+<p><img src="images/sdtmoak-logo.png" alt="sdtm.oak logo" class="ack-logo"></p>
+</div>
+<p>The <code>sdtm.oak</code> package is the work of many contributors:</p>
+<div class="ack-grid">
+<div class="ack-card ack-lead">
+<p><span class="ack-name">Rammprasad Ganapathy</span> <span class="ack-role">Lead Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Adam Forys</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Edgar Manukyan</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Rosemary Li</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Preetesh Parikh</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Lisa Houterloot</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Yogesh Gupta</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Omar Garcia</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Ramiro Magno</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Kamil Sijko</span> <span class="ack-role">Author</span></p>
+</div>
+<div class="ack-card">
+<p><span class="ack-name">Shiyu Chen</span> <span class="ack-role">Author</span></p>
+</div>
+</div>
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank you</h2>
+</section></section>
+<section>
+<section id="appendix-algorithm-reference" class="title-slide slide level1 center" data-background-color="#003559">
+<h1>Appendix — Algorithm Reference</h1>
+
+</section>
+<section id="assign_no_ct" class="slide level2 smaller">
+<h2>assign_no_ct</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_no_ct()</a> </bslib-tooltip> </td>
+<td>One-to-one mapping between the raw source and a target SDTM variable that has no controlled terminology restrictions. Just a simple assignment statement.</td>
+<td>MH.MHTERM <br><br> AE.AETERM</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="assign_ct" class="slide level2 smaller">
+<h2>assign_ct</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_ct()</a> </bslib-tooltip> </td>
+<td>One-to-one mapping between the raw source and a target SDTM variable that is subject to controlled terminology restrictions. A simple assign statement and applying controlled terminology. This will be used only if the SDTM variable has an associated controlled terminology.</td>
+<td>VS.VSPOS <br><br> VS.VSLAT</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="assign_datetime" class="slide level2 smaller">
+<h2>assign_datetime</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an ISO8601 date-time variable — assign_datetime • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign_datetime.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Derive an ISO8601 date-time variable — assign_datetime • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/assign_datetime.html" class="r-link-call" target="_blank">assign_datetime()</a> </bslib-tooltip> </td>
+<td>One-to-one mapping between the raw source and a target that involves mapping a Date or time or datetime component. This mapping algorithm also takes care of handling unknown dates and converting them into. ISO8601 format.</td>
+<td>MH.MHSTDTC <br><br> AE.AEENDTC</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hardcode_ct" class="slide level2 smaller">
+<h2>hardcode_ct</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable with a hardcoded value — harcode • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/harcode.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Derive an SDTM variable with a hardcoded value — harcode • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/harcode.html" class="r-link-call" target="_blank">hardcode_ct()</a> </bslib-tooltip> </td>
+<td>Mapping a hardcoded value to a target SDTM variable that is subject to terminology restrictions. This will be used only if the SDTM variable has an associated controlled terminology.</td>
+<td>MH.MHPRESP = ‘Y’ <br><br> VS.VSORRESU = ‘mmHg’</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="hardcode_no_ct" class="slide level2 smaller">
+<h2>hardcode_no_ct</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable with a hardcoded value — harcode • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/harcode.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Derive an SDTM variable with a hardcoded value — harcode • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/harcode.html" class="r-link-call" target="_blank">hardcode_no_ct()</a> </bslib-tooltip> </td>
+<td>Mapping a hardcoded value to a target SDTM variable that has no terminology restrictions.</td>
+<td>CM.CMTRT = ‘FLUIDS’ <br><br> VS.VSCAT = ‘VITAL SIGNS’</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="condition_add" class="slide level2 smaller">
+<h2>condition_add</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Add filtering tags to a data set — condition_add • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/condition_add.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Add filtering tags to a data set — condition_add • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/condition_add.html" class="r-link-call" target="_blank">condition_add()</a> </bslib-tooltip> </td>
+<td>Algorithm that is used to filter the source data and/or target domain based on a condition. The mapping will be applied only if the condition is met. This algorithm has to be used in conjunction with other algorithms, that is if the condition is met perform the mapping using algorithms like assign_ct, assign_no_ct, hardcode_ct, hardcode_no_ct, assign_datetime.</td>
+<td>If MDPRIOR == 1 then CM.CMSTRTPT = ‘BEFORE’. <br><br>VS.VSMETHOD when VSTESTCD = ‘TEMP’</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="oak_cal_ref_dates" class="slide level2 smaller">
+<h2>oak_cal_ref_dates</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 29%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Algorithm or Function</th>
+<th>Description of the Algorithm</th>
+<th>Example SDTM mapping</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Calculate Reference dates in ISO8601 character format. — oak_cal_ref_dates • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/oak_cal_ref_dates.html" class="r-link-call" target="_blank"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()">   <template>Calculate Reference dates in ISO8601 character format. — oak_cal_ref_dates • sdtm.oak</template>   </bslib-tooltip></a><a href="https://pharmaverse.github.io/sdtm.oak/reference/oak_cal_ref_dates.html" class="r-link-call" target="_blank">oak_cal_ref_dates()</a> </bslib-tooltip> </td>
+<td>Derivation of Reference dates in the DM domain</td>
+<td>DM.RFSTDTC <br><br> DM.RFPENDTC</td>
+</tr>
+</tbody>
+</table>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="images/sdtmoak-logo.png" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><a href="https://posit-conf-2026.github.io/pharmaverse/">Pharmaverse Workshop (posit-conf-2026.github.io/pharmaverse/)</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp("https:\/\/posit-conf-2026\.github\.io\/pharmaverse\/");
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

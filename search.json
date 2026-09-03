@@ -452,14 +452,14 @@
     "href": "slides/04-ARD/cards.html",
     "title": "ARDs using {cards}",
     "section": "",
-    "text": "Part of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n52K downloads per month 🤯\n\n\n\n\nADSL from pharmaverseadam\n\n\nCode\nadsl &lt;- pharmaverseadam::adsl |&gt;\n  dplyr::filter(SAFFL==\"Y\") |&gt; \n  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, \"Xanomeline\"), \"Xanomeline\", ARM))\n\n\nADAE from pharmaverseadam\n\n\nCode\nadae &lt;- pharmaverseadam::adae |&gt;\n  dplyr::filter(SAFFL==\"Y\") |&gt; \n  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, \"Xanomeline\"), \"Xanomeline\", ARM)) |&gt; \n  dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |&gt; \n  dplyr::group_by(AESOC) |&gt; \n  dplyr::filter(AEDECOD %in% unique(AEDECOD)[1:3]) |&gt; \n  dplyr::ungroup()\n\n\n\n\n\n\n\nincludes n, %, N by default\nAny unobserved levels of the variables will be present in the resulting ARD.\n\n\n\nlibrary(cards)\n\nadsl |&gt; \n  ard_tabulate(\n    variables = AGEGR1\n  ) \n\n# An ARD data frame: 6 × 9\n  variable variable_level context  stat_name stat_label    stat fmt_fun\n  &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;list&gt; &lt;list&gt; \n1 AGEGR1   18-64          tabulate n         n           33     0      \n2 AGEGR1   18-64          tabulate N         N          254     0      \n3 AGEGR1   18-64          tabulate p         %            0.130 &lt;fn&gt;   \n4 AGEGR1   &gt;64            tabulate n         n          221     0      \n5 AGEGR1   &gt;64            tabulate N         N          254     0      \n6 AGEGR1   &gt;64            tabulate p         %            0.870 &lt;fn&gt;   \n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nincludes n, %, N by default\nAny unobserved levels of the variables will be present in the resulting ARD.\n\n\n\nadsl |&gt;\n  ard_tabulate(\n    by = ARM2,\n    variables = AGEGR1\n  )\n\n# An ARD data frame: 12 × 11\n   group1 group1_level variable variable_level context  stat_name    stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;\n 1 ARM2   Placebo      AGEGR1   18-64          tabulate n          14    \n 2 ARM2   Placebo      AGEGR1   18-64          tabulate N          86    \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n          72    \n 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N          86    \n 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837\n 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate n          19    \n 8 ARM2   Xanomeline   AGEGR1   18-64          tabulate N         168    \n 9 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113\n10 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate n         149    \n11 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate N         168    \n12 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\n# create ARD with default summary statistics\nadsl |&gt;\n  ard_summary(\n    variables = AGE\n  )\n\n# An ARD data frame: 8 × 8\n  variable context stat_name stat_label   stat fmt_fun warning error \n* &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt; &lt;list&gt;  &lt;list&gt;\n1 AGE      summary N         N          254          0 &lt;NULL&gt;  &lt;NULL&gt;\n2 AGE      summary mean      Mean        75.1        1 &lt;NULL&gt;  &lt;NULL&gt;\n3 AGE      summary sd        SD           8.25       1 &lt;NULL&gt;  &lt;NULL&gt;\n4 AGE      summary median    Median      77          1 &lt;NULL&gt;  &lt;NULL&gt;\n5 AGE      summary p25       Q1          70          1 &lt;NULL&gt;  &lt;NULL&gt;\n6 AGE      summary p75       Q3          81          1 &lt;NULL&gt;  &lt;NULL&gt;\n7 AGE      summary min       Min         51          1 &lt;NULL&gt;  &lt;NULL&gt;\n8 AGE      summary max       Max         89          1 &lt;NULL&gt;  &lt;NULL&gt;\n\n\n\n\n\n\nby: summary statistics are calculated by all combinations of the by variables, including unobserved factor levels\n\n\nadsl |&gt;\n  ard_summary(\n    variables = AGE,\n    by = ARM2         # stats by treatment arm\n  )\n\n# An ARD data frame: 16 × 10\n   group1 group1_level variable context stat_name stat_label   stat fmt_fun\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n 1 ARM2   Placebo      AGE      summary N         N           86          0\n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1\n 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1\n 4 ARM2   Placebo      AGE      summary median    Median      76          1\n 5 ARM2   Placebo      AGE      summary p25       Q1          69          1\n 6 ARM2   Placebo      AGE      summary p75       Q3          82          1\n 7 ARM2   Placebo      AGE      summary min       Min         52          1\n 8 ARM2   Placebo      AGE      summary max       Max         89          1\n 9 ARM2   Xanomeline   AGE      summary N         N          168          0\n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1\n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1\n12 ARM2   Xanomeline   AGE      summary median    Median      77          1\n13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1\n14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1\n15 ARM2   Xanomeline   AGE      summary min       Min         51          1\n16 ARM2   Xanomeline   AGE      summary max       Max         88          1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nstatistic: specify univariate summary statistics. Accepts any function, base R, from a package, or user-defined.\n\n\ncv &lt;- function(x)  sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE)\n\nadsl |&gt; \n  ard_summary(  \n    variables = AGE,\n    by = ARM2,\n    statistic = ~ list(cv = cv) # customize statistics\n  )\n\n# An ARD data frame: 2 × 10\n  group1 group1_level variable context stat_name stat_label   stat fmt_fun\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n1 ARM2   Placebo      AGE      summary cv        cv          0.114       1\n2 ARM2   Xanomeline   AGE      summary cv        cv          0.108       1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nCustomize the statistics returned for each variable\n\n\nadsl |&gt;\n  dplyr::mutate(AGE2 = AGE) |&gt;\n  ard_summary(\n    variables = c(AGE, AGE2),\n    by = ARM2,\n    statistic = list(AGE = list(cv = cv),\n                     AGE2 = continuous_summary_fns(c(\"mean\",\"median\")))\n  )\n\n# An ARD data frame: 6 × 10\n  group1 group1_level variable context stat_name stat_label   stat fmt_fun\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n1 ARM2   Placebo      AGE      summary cv        cv          0.114       1\n2 ARM2   Placebo      AGE2     summary mean      Mean       75.2         1\n3 ARM2   Placebo      AGE2     summary median    Median     76           1\n4 ARM2   Xanomeline   AGE      summary cv        cv          0.108       1\n5 ARM2   Xanomeline   AGE2     summary mean      Mean       75.0         1\n6 ARM2   Xanomeline   AGE2     summary median    Median     77           1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nOverride the default formatting functions\nCan also update later via update_ard_fmt_fun()\n\n\n\nadsl |&gt;\n  ard_summary(\n    variables = AGE,\n    by = ARM2,\n    fmt_fun = ~list(mean = 0)\n  ) |&gt;\n  apply_fmt_fun() # add a character column of rounded results\n\n# An ARD data frame: 16 × 11\n   group1 group1_level variable context stat_name stat_label   stat stat_fmt\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  \n 1 ARM2   Placebo      AGE      summary N         N           86    86      \n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2  75      \n 3 ARM2   Placebo      AGE      summary sd        SD           8.59 8.6     \n 4 ARM2   Placebo      AGE      summary median    Median      76    76.0    \n 5 ARM2   Placebo      AGE      summary p25       Q1          69    69.0    \n 6 ARM2   Placebo      AGE      summary p75       Q3          82    82.0    \n 7 ARM2   Placebo      AGE      summary min       Min         52    52.0    \n 8 ARM2   Placebo      AGE      summary max       Max         89    89.0    \n 9 ARM2   Xanomeline   AGE      summary N         N          168    168     \n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0  75      \n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09 8.1     \n12 ARM2   Xanomeline   AGE      summary median    Median      77    77.0    \n13 ARM2   Xanomeline   AGE      summary p25       Q1          71    71.0    \n14 ARM2   Xanomeline   AGE      summary p75       Q3          81    81.0    \n15 ARM2   Xanomeline   AGE      summary min       Min         51    51.0    \n16 ARM2   Xanomeline   AGE      summary max       Max         88    88.0    \n# ℹ 3 more variables: fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nard_tabulate_value(): similar to ard_tabulate(), but for dichotomous tabulations\nard_hierarchical(): similar to ard_tabulate(), but built for nested tabulations, e.g. AE terms within SOC\nard_mvsummary(): similar to ard_summary(), for multivariate summaries. The function accepts other arguments like the full and subsetted (within the by groups) data sets.\nard_missing(): tabulates rates of missingness\n\nThe results from all these functions are entirely compatible with one another, and can be stacked into a single data frame. 🥞\n\n\n\nIn addition to exporting functions to prepare summaries, {cards} exports many utilities for wrangling ARDs and creating new ARDs.\nConstructing: bind_ard(), tidy_as_ard(), nest_for_ard(), check_ard_structure(), and many more\nWrangling: get_ard_statistics(), replace_null_statistic(), etc.\n\n\n\n\n\ndata and .by are shared by all ard_* calls\nAdditional Options .overall, .missing, .attributes, and .total_n provide even more results\nBy default, summaries of the .by variable are included\n\n\n\nadsl |&gt;\n  ard_stack(\n    .by = ARM2,\n    ard_summary(variables = AGE, statistic = ~ continuous_summary_fns(c(\"mean\",\"sd\"))), \n    ard_tabulate(variables = AGEGR1, statistic = ~ \"p\")\n  )  \n\n# An ARD data frame: 14 × 11\n   group1 group1_level variable variable_level context  stat_name    stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2  \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59 \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837\n 5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  mean       75.0  \n 6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  sd          8.09 \n 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113\n 8 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887\n 9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate n          86    \n10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate N         254    \n11 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate p           0.339\n12 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate n         168    \n13 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate N         254    \n14 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate p           0.661\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nFirst, we compute the continuous summaries for AGE by ARM2\n\n\n\nard_summary(\n  data = adsl,\n  by = ,\n  variables =\n)\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nFirst, we compute the continuous summaries for AGE by ARM2\n\n\n\nard_summary(\n  data = adsl,\n  by = ARM2,\n  variables = AGE\n)\n\n# An ARD data frame: 16 × 10\n   group1 group1_level variable context stat_name stat_label   stat fmt_fun\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n 1 ARM2   Placebo      AGE      summary N         N           86          0\n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1\n 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1\n 4 ARM2   Placebo      AGE      summary median    Median      76          1\n 5 ARM2   Placebo      AGE      summary p25       Q1          69          1\n 6 ARM2   Placebo      AGE      summary p75       Q3          82          1\n 7 ARM2   Placebo      AGE      summary min       Min         52          1\n 8 ARM2   Placebo      AGE      summary max       Max         89          1\n 9 ARM2   Xanomeline   AGE      summary N         N          168          0\n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1\n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1\n12 ARM2   Xanomeline   AGE      summary median    Median      77          1\n13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1\n14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1\n15 ARM2   Xanomeline   AGE      summary min       Min         51          1\n16 ARM2   Xanomeline   AGE      summary max       Max         88          1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nNext, we compute the categorical summaries for AGEGR1 and SEX by ARM2\n\n\n\nard_tabulate(\n  data = adsl,\n  by = ,\n  variables =\n)\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nNext, we compute the categorical summaries for AGEGR1 and SEX by ARM2\n\n\n\nard_tabulate(\n  data = adsl,\n  by = ARM2,\n  variables = c(AGEGR1, SEX)\n)\n\n# An ARD data frame: 24 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGEGR1   18-64          tabulate n         14    \n 2 ARM2   Placebo      AGEGR1   18-64          tabulate N         86    \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p          0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n         72    \n 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N         86    \n 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p          0.837\n 7 ARM2   Placebo      SEX      F              tabulate n         53    \n 8 ARM2   Placebo      SEX      F              tabulate N         86    \n 9 ARM2   Placebo      SEX      F              tabulate p          0.616\n10 ARM2   Placebo      SEX      M              tabulate n         33    \n# ℹ 14 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2) in a single ard_stack() call, including:\n\nsummaries by ARM2 as performed above\ncontinuous summaries from part A for AGE\ncategorical summaries from part B for AGEGR1 and SEX\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n\n  # add ard_* calls here\n\n)\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2) in a single ard_stack() call, including:\n\nsummaries by ARM2 as performed above\ncontinuous summaries from part A for AGE\ncategorical summaries from part B for AGEGR1 and SEX\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n  ard_summary(variables = AGE),\n  ard_tabulate(variables = c(AGEGR1, SEX))\n)\n\n# An ARD data frame: 46 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59\n 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   \n 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   \n 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   \n 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   \n 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   \n 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   \n10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   \n# ℹ 36 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\nWe can also add:\n\nOverall summaries for all variables\nTotal N\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n  ard_summary(variables = AGE),\n  ard_tabulate(variables = c(AGEGR1, SEX)),\n  .overall = TRUE,\n  .total_n = TRUE\n)\n\n# An ARD data frame: 67 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59\n 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   \n 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   \n 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   \n 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   \n 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   \n 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   \n10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   \n# ℹ 57 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\nFollowing hierarchical summary functions aid in nested tabulations (e.g. AE terms within SOC):\n\nard_stack_hierarchical(): calculating nested subject-level rates\nard_stack_hierarchical_count(): calculating nested event-level counts\n\n\n\n\n\n\nOur go-to function for nested subject-level rates — one call handles the whole hierarchy\nA single call returns rows for both the System Organ Class (group2_level) and the nested AE term (variable_level)\nid checks for duplicate rows and subsets the data along the way; denominator dictates the denominator for the rates\n\n\n\nadae |&gt;\n  ard_stack_hierarchical(\n    variables = c(AESOC, AEDECOD),\n    by = TRT01A,\n    id = USUBJID,\n    denominator = pharmaverseadam::adsl\n  )\n\n\n\n# An ARD data frame: 12 × 13\n   group1 group1_level group2 group2_level               variable variable_level\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;        \n 1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 2 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 3 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 5 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 6 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 7 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n 8 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n 9 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n10 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n11 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n12 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n# ℹ 7 more variables: context &lt;chr&gt;, stat_name &lt;chr&gt;, stat_label &lt;chr&gt;,\n#   stat &lt;list&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nDisplays for hierarchical data report on each level of the hierarchy (by System Organ Class, by Preferred Term)\nProducing that by hand means several calls to the simpler ard_hierarchical() / ard_hierarchical_count() functions, each on a different subset of the data\nard_stack_hierarchical*() runs those calls in the background and stacks the results into one ARD\n\n\n\n\n\n\nBelow is the stacking function for event-level summaries, aligned with ard_hierarchical_count()\n\n\n\nadae |&gt;\n  ard_stack_hierarchical_count(\n    variables = c(AESOC, AEDECOD),\n    by = TRT01A, \n    denominator = pharmaverseadam::adsl\n  )\n\n\n\n# An ARD data frame: 4 × 13\n  group1 group1_level group2 group2_level               variable variable_level \n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;         \n1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTIN…\n2 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA      \n3 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA  \n4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING       \n# ℹ 7 more variables: context &lt;chr&gt;, stat_name &lt;chr&gt;, stat_label &lt;chr&gt;,\n#   stat &lt;list&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nNavigate to Posit Cloud script exercises/04-ARD.R\nCompute the nested AE tabulations as described.\nAdd the “completed” sticky note to your laptop when complete.\n\n\n\n\n\n\n\n\n\n\nExtension of the {cards} package, providing additional functions to create Analysis Results Datasets (ARDs)\nThe {cardx} package exports many ard_*() function for statistical methods.\n\n\n\n\n\n\n\n\n\n\nExports ARD frameworks for statistical analyses from many packages\n\n\n  - {stats}\n  - {car}\n  - {effectsize}\n  - {emmeans}\n  - {geepack}\n  - {lme4}\n  - {parameters}\n  - {smd}\n  - {survey}\n  - {survival}\n\n\nThis list is growing (rather quickly) 🌱\n\n\n\n\n\n\nWe see the results like the mean difference, the confidence interval, and p-value as expected.\nAnd we also see the function’s inputs, which is incredibly useful for re-use, e.g. we know that we did not use equal variances.\n\n\n\nadsl |&gt;\n  cardx::ard_stats_t_test(by = ARM2, variables = AGE)\n\n# An ARD data frame: 14 × 9\n   group1 variable context  stat_name stat_label stat                    fmt_fun\n   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;named list&gt;            &lt;named&gt;\n 1 ARM2   AGE      stats_t… estimate  Mean Diff… 0.1854928               1      \n 2 ARM2   AGE      stats_t… estimate1 Group 1 M… 75.2093                 1      \n 3 ARM2   AGE      stats_t… estimate2 Group 2 M… 75.02381                1      \n 4 ARM2   AGE      stats_t… statistic t Statist… 0.1660687               1      \n 5 ARM2   AGE      stats_t… p.value   p-value    0.8683091               1      \n 6 ARM2   AGE      stats_t… parameter Degrees o… 162.6425                1      \n 7 ARM2   AGE      stats_t… conf.low  CI Lower … -2.020129               1      \n 8 ARM2   AGE      stats_t… conf.high CI Upper … 2.391114                1      \n 9 ARM2   AGE      stats_t… method    method     Welch Two Sample t-test &lt;NULL&gt; \n10 ARM2   AGE      stats_t… alternat… alternati… two.sided               &lt;NULL&gt; \n11 ARM2   AGE      stats_t… mu        H0 Mean    0                       1      \n12 ARM2   AGE      stats_t… paired    Paired t-… FALSE                   &lt;NULL&gt; \n13 ARM2   AGE      stats_t… var.equal Equal Var… FALSE                   &lt;NULL&gt; \n14 ARM2   AGE      stats_t… conf.lev… CI Confid… 0.95                    1      \n# ℹ 2 more variables: warning &lt;named list&gt;, error &lt;named list&gt;\n\n\n\n\n\n\n\nWhat to do if a method you need is not implemented?\nIt’s simple to wrap existing frameworks to customize.\nOne-sample t-test example utilizing cards::ard_summary().\n\n\n\nadsl |&gt;\n  cards::ard_summary(\n    variables = AGE,\n    statistic = everything() ~ list(t_test = \\(x) t.test(x) |&gt; broom::tidy())\n  ) |&gt;\n  dplyr::mutate(context = \"t_test_one_sample\")\n\n# An ARD data frame: 8 × 8\n  variable context stat_name stat_label stat              fmt_fun warning error \n  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;            &lt;list&gt;  &lt;list&gt;  &lt;list&gt;\n1 AGE      t_test… estimate  estimate   75.08661          1       &lt;NULL&gt;  &lt;NULL&gt;\n2 AGE      t_test… statistic statistic  145.1188          1       &lt;NULL&gt;  &lt;NULL&gt;\n3 AGE      t_test… p.value   p.value    1.333805e-245     1       &lt;NULL&gt;  &lt;NULL&gt;\n4 AGE      t_test… parameter parameter  253               1       &lt;NULL&gt;  &lt;NULL&gt;\n5 AGE      t_test… conf.low  conf.low   74.06763          1       &lt;NULL&gt;  &lt;NULL&gt;\n6 AGE      t_test… conf.high conf.high  76.1056           1       &lt;NULL&gt;  &lt;NULL&gt;\n7 AGE      t_test… method    method     One Sample t-test &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;\n8 AGE      t_test… alternat… alternati… two.sided         &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;\n\n\n\n\n\n\n\nHow to modify if we need a two-sample test, or more generally accessing other columns in the data frame.\n\n\n\nadsl |&gt;\n  cards::ard_mvsummary(\n    variables = AGE,\n    statistic = ~ list(t_test = \\(x, data, ...) t.test(x ~ data$ARM2) |&gt; broom::tidy())\n  ) |&gt; \n  dplyr::mutate(group1 = \"ARM2\", context = \"t_test_two_sample\") |&gt; \n  cards::tidy_ard_column_order()\n\n# An ARD data frame: 10 × 9\n   group1 variable context  stat_name stat_label stat                    fmt_fun\n   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;                  &lt;list&gt; \n 1 ARM2   AGE      t_test_… estimate  estimate   0.1854928               1      \n 2 ARM2   AGE      t_test_… estimate1 estimate1  75.2093                 1      \n 3 ARM2   AGE      t_test_… estimate2 estimate2  75.02381                1      \n 4 ARM2   AGE      t_test_… statistic statistic  0.1660687               1      \n 5 ARM2   AGE      t_test_… p.value   p.value    0.8683091               1      \n 6 ARM2   AGE      t_test_… parameter parameter  162.6425                1      \n 7 ARM2   AGE      t_test_… conf.low  conf.low   -2.020129               1      \n 8 ARM2   AGE      t_test_… conf.high conf.high  2.391114                1      \n 9 ARM2   AGE      t_test_… method    method     Welch Two Sample t-test &lt;fn&gt;   \n10 ARM2   AGE      t_test_… alternat… alternati… two.sided               &lt;fn&gt;   \n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nIncludes functionality to summarize nearly every type of regression model in the R ecosystem:\n\n\nbetareg::betareg(), biglm::bigglm(), brms::brm(), cmprsk::crr(), fixest::feglm(), fixest::femlm(), fixest::feNmlm(), fixest::feols(), gam::gam(), geepack::geeglm(), glmmTMB::glmmTMB(), glmtoolbox::glmgee(), lavaan::lavaan(), lfe::felm(), lme4::glmer.nb(), lme4::glmer(), lme4::lmer(), logitr::logitr(), MASS::glm.nb(), MASS::polr(), mgcv::gam(), mice::mira, mmrm::mmrm(), multgee::nomLORgee(), multgee::ordLORgee(), nnet::multinom(), ordinal::clm(), ordinal::clmm(), parsnip::model_fit, plm::plm(), pscl::hurdle(), pscl::zeroinfl(), quantreg::rq(), rstanarm::stan_glm(), stats::aov(), stats::glm(), stats::lm(), stats::nls(), survey::svycoxph(), survey::svyglm(), survey::svyolr(), survival::cch(), survival::clogit(), survival::coxph(), survival::survreg(), svyVGAM::svy_vglm(), tidycmprsk::crr(), VGAM::vgam(), VGAM::vglm() (and more)\n\n\n\n\n\nlibrary(survival)\n\n# build model\nmod &lt;- pharmaverseadam::adtte_onco |&gt; \n  dplyr::filter(PARAM %in% \"Progression Free Survival\") |&gt;\n  coxph(ggsurvfit::Surv_CNSR() ~ ARM, data = _)\n\n# put model in a summary table\ntbl &lt;- gtsummary::tbl_regression(mod, exponentiate = TRUE) |&gt; \n  gtsummary::add_n(location = c('label', 'level')) |&gt; \n  gtsummary::add_nevent(location = c('label', 'level'))\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nEvent N\nHR\n95% CI\np-value\n\n\n\n\nDescription of Planned Arm\n254\n6\n\n\n\n\n\n\n\n\n    Placebo\n86\n3\n—\n—\n\n\n\n\n    Xanomeline High Dose\n84\n2\n3.00\n0.39, 22.9\n0.3\n\n\n    Xanomeline Low Dose\n84\n1\n1.27\n0.11, 14.3\n0.8\n\n\n\nAbbreviations: CI = Confidence Interval, HR = Hazard Ratio\n\n\n\n\n\n\n\n\n\n\n\nThe cardx::ard_regression() does a lot for us in the background.\n\nIdentifies the variable from the regression terms (i.e. groups levels of the same variable)\nIdentifies reference groups from categorical covariates\nFinds variable labels from the source data frames\nKnows the total N of the model, the number of events, and can do the same for each level of categorical variables\nContextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios\nAnd much much more.\n\n\n\n\n\nWhat happens when statistics are un-calculable?\n\n\nard_gone_wrong &lt;-\n  adsl |&gt; \n  ard_summary(\n    by = ARM2,\n    variable = AGEGR1,\n    statistic = ~list(kurtosis = \\(x) e1071::kurtosis(x))\n  ) |&gt; \n  cards::replace_null_statistic()\nard_gone_wrong\n\n# An ARD data frame: 2 × 10\n  group1 group1_level variable context stat_name stat_label stat   warning error\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  &lt;lis&gt;\n1 ARM2   Placebo      AGEGR1   summary kurtosis  kurtosis   NA     argume… non-…\n2 ARM2   Xanomeline   AGEGR1   summary kurtosis  kurtosis   NA     argume… non-…\n# ℹ 1 more variable: fmt_fun &lt;list&gt;\n\n\n\ncards::print_ard_conditions(ard_gone_wrong)\n\n\n\n\nWhere is the statistic? AGEGR1 is character\nEven when there are errors or warnings, we still get the ARD with the expected structure returned.\n\nTHIS IS BIG! There are MANY circumstances, when you are designing TLGs early in a study when you do not have all the data required to calculate every statistic.\nThis allows you to design everything up-front.\n\nWe can also report these warnings and errors back to users. &lt;!CLICK!&gt;\n\n\n\n\n\n\nStarting from raw data, we built ARDs and never touched a layout:\n\nUnivariate summaries with ard_summary() (continuous) and ard_tabulate() (categorical) — custom statistics, by groups, and formatting\nHierarchical summaries with ard_stack_hierarchical() / ard_stack_hierarchical_count() for nested AE tabulations (built on the lower-level ard_hierarchical*() functions)\nStacking everything into a single ARD with ard_stack() — overall rows, total N, and all\nStatistical results with {cardx}: t-tests, regression models, and wrapping your own methods\nA structure that holds together even when a statistic can’t be computed\n\n\n\n\n\n\n\nCompute once, reuse everywhere — one ARD feeds any number of tables and figures\nQC the values — numeric or rounded/formatted…or both!\nComposable by design — every ard_*() result stacks into one tidy data frame 🥞\nThe engine for the ARS — {cards} powers a metadata-driven, reproducible analysis workflow\n\n\n\n\nARDs are the foundation. Next, we turn these results into tables. ➡️\n\n\n\n\n\n\n\n\n\n\n📦 {cards} — build ARDs\n📦 {cardx} — statistical ARDs\n🌐 pharmaverse.org\n📖 CDISC Analysis Results Standard\n\nThank you! Questions? 🙋"
+    "text": "Part of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n54K downloads per month 🤯\n\n\n\n\nADSL from pharmaverseadam\n\n\nCode\nadsl &lt;- pharmaverseadam::adsl |&gt;\n  dplyr::filter(SAFFL==\"Y\") |&gt; \n  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, \"Xanomeline\"), \"Xanomeline\", ARM))\n\n\nADAE from pharmaverseadam\n\n\nCode\nadae &lt;- pharmaverseadam::adae |&gt;\n  dplyr::filter(SAFFL==\"Y\") |&gt; \n  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, \"Xanomeline\"), \"Xanomeline\", ARM)) |&gt; \n  dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |&gt; \n  dplyr::group_by(AESOC) |&gt; \n  dplyr::filter(AEDECOD %in% unique(AEDECOD)[1:3]) |&gt; \n  dplyr::ungroup()\n\n\n\n\n\n\n\nincludes n, %, N by default\nAny unobserved levels of the variables will be present in the resulting ARD.\n\n\n\nlibrary(cards)\n\nadsl |&gt; \n  ard_tabulate(\n    variables = AGEGR1\n  ) \n\n# An ARD data frame: 6 × 9\n  variable variable_level context  stat_name stat_label    stat fmt_fun\n  &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;       &lt;list&gt; &lt;list&gt; \n1 AGEGR1   18-64          tabulate n         n           33     0      \n2 AGEGR1   18-64          tabulate N         N          254     0      \n3 AGEGR1   18-64          tabulate p         %            0.130 &lt;fn&gt;   \n4 AGEGR1   &gt;64            tabulate n         n          221     0      \n5 AGEGR1   &gt;64            tabulate N         N          254     0      \n6 AGEGR1   &gt;64            tabulate p         %            0.870 &lt;fn&gt;   \n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nincludes n, %, N by default\nAny unobserved levels of the variables will be present in the resulting ARD.\n\n\n\nadsl |&gt;\n  ard_tabulate(\n    by = ARM2,\n    variables = AGEGR1\n  )\n\n# An ARD data frame: 12 × 11\n   group1 group1_level variable variable_level context  stat_name    stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;\n 1 ARM2   Placebo      AGEGR1   18-64          tabulate n          14    \n 2 ARM2   Placebo      AGEGR1   18-64          tabulate N          86    \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n          72    \n 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N          86    \n 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837\n 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate n          19    \n 8 ARM2   Xanomeline   AGEGR1   18-64          tabulate N         168    \n 9 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113\n10 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate n         149    \n11 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate N         168    \n12 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\n# create ARD with default summary statistics\nadsl |&gt;\n  ard_summary(\n    variables = AGE\n  )\n\n# An ARD data frame: 8 × 8\n  variable context stat_name stat_label   stat fmt_fun warning error \n* &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt; &lt;list&gt;  &lt;list&gt;\n1 AGE      summary N         N          254          0 &lt;NULL&gt;  &lt;NULL&gt;\n2 AGE      summary mean      Mean        75.1        1 &lt;NULL&gt;  &lt;NULL&gt;\n3 AGE      summary sd        SD           8.25       1 &lt;NULL&gt;  &lt;NULL&gt;\n4 AGE      summary median    Median      77          1 &lt;NULL&gt;  &lt;NULL&gt;\n5 AGE      summary p25       Q1          70          1 &lt;NULL&gt;  &lt;NULL&gt;\n6 AGE      summary p75       Q3          81          1 &lt;NULL&gt;  &lt;NULL&gt;\n7 AGE      summary min       Min         51          1 &lt;NULL&gt;  &lt;NULL&gt;\n8 AGE      summary max       Max         89          1 &lt;NULL&gt;  &lt;NULL&gt;\n\n\n\n\n\n\nby: summary statistics are calculated by all combinations of the by variables, including unobserved factor levels\n\n\nadsl |&gt;\n  ard_summary(\n    variables = AGE,\n    by = ARM2         # stats by treatment arm\n  )\n\n# An ARD data frame: 16 × 10\n   group1 group1_level variable context stat_name stat_label   stat fmt_fun\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n 1 ARM2   Placebo      AGE      summary N         N           86          0\n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1\n 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1\n 4 ARM2   Placebo      AGE      summary median    Median      76          1\n 5 ARM2   Placebo      AGE      summary p25       Q1          69          1\n 6 ARM2   Placebo      AGE      summary p75       Q3          82          1\n 7 ARM2   Placebo      AGE      summary min       Min         52          1\n 8 ARM2   Placebo      AGE      summary max       Max         89          1\n 9 ARM2   Xanomeline   AGE      summary N         N          168          0\n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1\n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1\n12 ARM2   Xanomeline   AGE      summary median    Median      77          1\n13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1\n14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1\n15 ARM2   Xanomeline   AGE      summary min       Min         51          1\n16 ARM2   Xanomeline   AGE      summary max       Max         88          1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nstatistic: specify univariate summary statistics. Accepts any function, base R, from a package, or user-defined.\n\n\ncv &lt;- function(x)  sd(x, na.rm = TRUE)/mean(x, na.rm = TRUE)\n\nadsl |&gt; \n  ard_summary(  \n    variables = AGE,\n    by = ARM2,\n    statistic = ~ list(cv = cv) # customize statistics\n  )\n\n# An ARD data frame: 2 × 10\n  group1 group1_level variable context stat_name stat_label   stat fmt_fun\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n1 ARM2   Placebo      AGE      summary cv        cv          0.114       1\n2 ARM2   Xanomeline   AGE      summary cv        cv          0.108       1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nCustomize the statistics returned for each variable\n\n\nadsl |&gt;\n  dplyr::mutate(AGE2 = AGE) |&gt;\n  ard_summary(\n    variables = c(AGE, AGE2),\n    by = ARM2,\n    statistic = list(AGE = list(cv = cv),\n                     AGE2 = continuous_summary_fns(c(\"mean\",\"median\")))\n  )\n\n# An ARD data frame: 6 × 10\n  group1 group1_level variable context stat_name stat_label   stat fmt_fun\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n1 ARM2   Placebo      AGE      summary cv        cv          0.114       1\n2 ARM2   Placebo      AGE2     summary mean      Mean       75.2         1\n3 ARM2   Placebo      AGE2     summary median    Median     76           1\n4 ARM2   Xanomeline   AGE      summary cv        cv          0.108       1\n5 ARM2   Xanomeline   AGE2     summary mean      Mean       75.0         1\n6 ARM2   Xanomeline   AGE2     summary median    Median     77           1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nOverride the default formatting functions\nCan also update later via update_ard_fmt_fun()\n\n\n\nadsl |&gt;\n  ard_summary(\n    variables = AGE,\n    by = ARM2,\n    fmt_fun = ~list(mean = 0)\n  ) |&gt;\n  apply_fmt_fun() # add a character column of rounded results\n\n# An ARD data frame: 16 × 11\n   group1 group1_level variable context stat_name stat_label   stat stat_fmt\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  \n 1 ARM2   Placebo      AGE      summary N         N           86    86      \n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2  75      \n 3 ARM2   Placebo      AGE      summary sd        SD           8.59 8.6     \n 4 ARM2   Placebo      AGE      summary median    Median      76    76.0    \n 5 ARM2   Placebo      AGE      summary p25       Q1          69    69.0    \n 6 ARM2   Placebo      AGE      summary p75       Q3          82    82.0    \n 7 ARM2   Placebo      AGE      summary min       Min         52    52.0    \n 8 ARM2   Placebo      AGE      summary max       Max         89    89.0    \n 9 ARM2   Xanomeline   AGE      summary N         N          168    168     \n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0  75      \n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09 8.1     \n12 ARM2   Xanomeline   AGE      summary median    Median      77    77.0    \n13 ARM2   Xanomeline   AGE      summary p25       Q1          71    71.0    \n14 ARM2   Xanomeline   AGE      summary p75       Q3          81    81.0    \n15 ARM2   Xanomeline   AGE      summary min       Min         51    51.0    \n16 ARM2   Xanomeline   AGE      summary max       Max         88    88.0    \n# ℹ 3 more variables: fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nard_tabulate_value(): similar to ard_tabulate(), but for dichotomous tabulations\nard_hierarchical(): similar to ard_tabulate(), but built for nested tabulations, e.g. AE terms within SOC\nard_mvsummary(): similar to ard_summary(), for multivariate summaries. The function accepts other arguments like the full and subsetted (within the by groups) data sets.\nard_missing(): tabulates rates of missingness\n\nThe results from all these functions are entirely compatible with one another, and can be stacked into a single data frame. 🥞\n\n\n\nIn addition to exporting functions to prepare summaries, {cards} exports many utilities for wrangling ARDs and creating new ARDs.\nConstructing: bind_ard(), tidy_as_ard(), nest_for_ard(), check_ard_structure(), and many more\nWrangling: get_ard_statistics(), replace_null_statistic(), etc.\n\n\n\n\n\ndata and .by are shared by all ard_* calls\nAdditional Options .overall, .missing, .attributes, and .total_n provide even more results\nBy default, summaries of the .by variable are included\n\n\n\nadsl |&gt;\n  ard_stack(\n    .by = ARM2,\n    ard_summary(variables = AGE, statistic = ~ continuous_summary_fns(c(\"mean\",\"sd\"))), \n    ard_tabulate(variables = AGEGR1, statistic = ~ \"p\")\n  )  \n\n# An ARD data frame: 14 × 11\n   group1 group1_level variable variable_level context  stat_name    stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2  \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59 \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837\n 5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  mean       75.0  \n 6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  sd          8.09 \n 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113\n 8 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887\n 9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate n          86    \n10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate N         254    \n11 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate p           0.339\n12 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate n         168    \n13 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate N         254    \n14 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate p           0.661\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nFirst, we compute the continuous summaries for AGE by ARM2\n\n\n\nard_summary(\n  data = adsl,\n  by = ,\n  variables =\n)\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nFirst, we compute the continuous summaries for AGE by ARM2\n\n\n\nard_summary(\n  data = adsl,\n  by = ARM2,\n  variables = AGE\n)\n\n# An ARD data frame: 16 × 10\n   group1 group1_level variable context stat_name stat_label   stat fmt_fun\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;\n 1 ARM2   Placebo      AGE      summary N         N           86          0\n 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1\n 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1\n 4 ARM2   Placebo      AGE      summary median    Median      76          1\n 5 ARM2   Placebo      AGE      summary p25       Q1          69          1\n 6 ARM2   Placebo      AGE      summary p75       Q3          82          1\n 7 ARM2   Placebo      AGE      summary min       Min         52          1\n 8 ARM2   Placebo      AGE      summary max       Max         89          1\n 9 ARM2   Xanomeline   AGE      summary N         N          168          0\n10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1\n11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1\n12 ARM2   Xanomeline   AGE      summary median    Median      77          1\n13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1\n14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1\n15 ARM2   Xanomeline   AGE      summary min       Min         51          1\n16 ARM2   Xanomeline   AGE      summary max       Max         88          1\n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nNext, we compute the categorical summaries for AGEGR1 and SEX by ARM2\n\n\n\nard_tabulate(\n  data = adsl,\n  by = ,\n  variables =\n)\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2)\nNext, we compute the categorical summaries for AGEGR1 and SEX by ARM2\n\n\n\nard_tabulate(\n  data = adsl,\n  by = ARM2,\n  variables = c(AGEGR1, SEX)\n)\n\n# An ARD data frame: 24 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGEGR1   18-64          tabulate n         14    \n 2 ARM2   Placebo      AGEGR1   18-64          tabulate N         86    \n 3 ARM2   Placebo      AGEGR1   18-64          tabulate p          0.163\n 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n         72    \n 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N         86    \n 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p          0.837\n 7 ARM2   Placebo      SEX      F              tabulate n         53    \n 8 ARM2   Placebo      SEX      F              tabulate N         86    \n 9 ARM2   Placebo      SEX      F              tabulate p          0.616\n10 ARM2   Placebo      SEX      M              tabulate n         33    \n# ℹ 14 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2) in a single ard_stack() call, including:\n\nsummaries by ARM2 as performed above\ncontinuous summaries from part A for AGE\ncategorical summaries from part B for AGEGR1 and SEX\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n\n  # add ard_* calls here\n\n)\n\n\n\n\n\nLet’s compute summaries for a demography table that includes age (AGE), age group (AGEGR1), and sex (SEX) by treatment (ARM2) in a single ard_stack() call, including:\n\nsummaries by ARM2 as performed above\ncontinuous summaries from part A for AGE\ncategorical summaries from part B for AGEGR1 and SEX\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n  ard_summary(variables = AGE),\n  ard_tabulate(variables = c(AGEGR1, SEX))\n)\n\n# An ARD data frame: 46 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59\n 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   \n 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   \n 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   \n 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   \n 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   \n 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   \n10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   \n# ℹ 36 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\n\nWe can also add:\n\nOverall summaries for all variables\nTotal N\n\n\n\nard_stack(\n  data = adsl,\n  .by = ARM2,\n  ard_summary(variables = AGE),\n  ard_tabulate(variables = c(AGEGR1, SEX)),\n  .overall = TRUE,\n  .total_n = TRUE\n)\n\n# An ARD data frame: 67 × 11\n   group1 group1_level variable variable_level context  stat_name   stat\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;\n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59\n 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   \n 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   \n 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   \n 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   \n 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   \n 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   \n10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   \n# ℹ 57 more rows\n# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,\n#   error &lt;list&gt;\n\n\n\n\n\nFollowing hierarchical summary functions aid in nested tabulations (e.g. AE terms within SOC):\n\nard_stack_hierarchical(): calculating nested subject-level rates\nard_stack_hierarchical_count(): calculating nested event-level counts\n\n\n\n\n\n\nOur go-to function for nested subject-level rates — one call handles the whole hierarchy\nA single call returns rows for both the System Organ Class (group2_level) and the nested AE term (variable_level)\nid checks for duplicate rows and subsets the data along the way; denominator dictates the denominator for the rates\n\n\n\nadae |&gt;\n  ard_stack_hierarchical(\n    variables = c(AESOC, AEDECOD),\n    by = TRT01A,\n    id = USUBJID,\n    denominator = pharmaverseadam::adsl\n  )\n\n\n\n# An ARD data frame: 12 × 13\n   group1 group1_level group2 group2_level               variable variable_level\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;        \n 1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 2 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 3 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…\n 4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 5 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 6 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     \n 7 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n 8 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n 9 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA \n10 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n11 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n12 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      \n# ℹ 7 more variables: context &lt;chr&gt;, stat_name &lt;chr&gt;, stat_label &lt;chr&gt;,\n#   stat &lt;list&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nDisplays for hierarchical data report on each level of the hierarchy (by System Organ Class, by Preferred Term)\nProducing that by hand means several calls to the simpler ard_hierarchical() / ard_hierarchical_count() functions, each on a different subset of the data\nard_stack_hierarchical*() runs those calls in the background and stacks the results into one ARD\n\n\n\n\n\n\nBelow is the stacking function for event-level summaries, aligned with ard_hierarchical_count()\n\n\n\nadae |&gt;\n  ard_stack_hierarchical_count(\n    variables = c(AESOC, AEDECOD),\n    by = TRT01A, \n    denominator = pharmaverseadam::adsl\n  )\n\n\n\n# An ARD data frame: 4 × 13\n  group1 group1_level group2 group2_level               variable variable_level \n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;         \n1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTIN…\n2 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA      \n3 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA  \n4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING       \n# ℹ 7 more variables: context &lt;chr&gt;, stat_name &lt;chr&gt;, stat_label &lt;chr&gt;,\n#   stat &lt;list&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nNavigate to Posit Cloud script exercises/04-ARD.R\nCompute the nested AE tabulations as described.\nAdd the “completed” sticky note to your laptop when complete.\n\n\n\n\n\n\n\n\n\n\nExtension of the {cards} package, providing additional functions to create Analysis Results Datasets (ARDs)\nThe {cardx} package exports many ard_*() function for statistical methods.\n\n\n\n\n\n\n\n\n\n\nExports ARD frameworks for statistical analyses from many packages\n\n\n  - {stats}\n  - {car}\n  - {effectsize}\n  - {emmeans}\n  - {geepack}\n  - {lme4}\n  - {parameters}\n  - {smd}\n  - {survey}\n  - {survival}\n\n\nThis list is growing (rather quickly) 🌱\n\n\n\n\n\n\nWe see the results like the mean difference, the confidence interval, and p-value as expected.\nAnd we also see the function’s inputs, which is incredibly useful for re-use, e.g. we know that we did not use equal variances.\n\n\n\nadsl |&gt;\n  cardx::ard_stats_t_test(by = ARM2, variables = AGE)\n\n# An ARD data frame: 14 × 9\n   group1 variable context  stat_name stat_label stat                    fmt_fun\n   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;named list&gt;            &lt;named&gt;\n 1 ARM2   AGE      stats_t… estimate  Mean Diff… 0.1854928               1      \n 2 ARM2   AGE      stats_t… estimate1 Group 1 M… 75.2093                 1      \n 3 ARM2   AGE      stats_t… estimate2 Group 2 M… 75.02381                1      \n 4 ARM2   AGE      stats_t… statistic t Statist… 0.1660687               1      \n 5 ARM2   AGE      stats_t… p.value   p-value    0.8683091               1      \n 6 ARM2   AGE      stats_t… parameter Degrees o… 162.6425                1      \n 7 ARM2   AGE      stats_t… conf.low  CI Lower … -2.020129               1      \n 8 ARM2   AGE      stats_t… conf.high CI Upper … 2.391114                1      \n 9 ARM2   AGE      stats_t… method    method     Welch Two Sample t-test &lt;NULL&gt; \n10 ARM2   AGE      stats_t… alternat… alternati… two.sided               &lt;NULL&gt; \n11 ARM2   AGE      stats_t… mu        H0 Mean    0                       1      \n12 ARM2   AGE      stats_t… paired    Paired t-… FALSE                   &lt;NULL&gt; \n13 ARM2   AGE      stats_t… var.equal Equal Var… FALSE                   &lt;NULL&gt; \n14 ARM2   AGE      stats_t… conf.lev… CI Confid… 0.95                    1      \n# ℹ 2 more variables: warning &lt;named list&gt;, error &lt;named list&gt;\n\n\n\n\n\n\n\nWhat to do if a method you need is not implemented?\nIt’s simple to wrap existing frameworks to customize.\nOne-sample t-test example utilizing cards::ard_summary().\n\n\n\nadsl |&gt;\n  cards::ard_summary(\n    variables = AGE,\n    statistic = everything() ~ list(t_test = \\(x) t.test(x) |&gt; broom::tidy())\n  ) |&gt;\n  dplyr::mutate(context = \"t_test_one_sample\")\n\n# An ARD data frame: 8 × 8\n  variable context stat_name stat_label stat              fmt_fun warning error \n  &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;            &lt;list&gt;  &lt;list&gt;  &lt;list&gt;\n1 AGE      t_test… estimate  estimate   75.08661          1       &lt;NULL&gt;  &lt;NULL&gt;\n2 AGE      t_test… statistic statistic  145.1188          1       &lt;NULL&gt;  &lt;NULL&gt;\n3 AGE      t_test… p.value   p.value    1.333805e-245     1       &lt;NULL&gt;  &lt;NULL&gt;\n4 AGE      t_test… parameter parameter  253               1       &lt;NULL&gt;  &lt;NULL&gt;\n5 AGE      t_test… conf.low  conf.low   74.06763          1       &lt;NULL&gt;  &lt;NULL&gt;\n6 AGE      t_test… conf.high conf.high  76.1056           1       &lt;NULL&gt;  &lt;NULL&gt;\n7 AGE      t_test… method    method     One Sample t-test &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;\n8 AGE      t_test… alternat… alternati… two.sided         &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt;\n\n\n\n\n\n\n\nHow to modify if we need a two-sample test, or more generally accessing other columns in the data frame.\n\n\n\nadsl |&gt;\n  cards::ard_mvsummary(\n    variables = AGE,\n    statistic = ~ list(t_test = \\(x, data, ...) t.test(x ~ data$ARM2) |&gt; broom::tidy())\n  ) |&gt; \n  dplyr::mutate(group1 = \"ARM2\", context = \"t_test_two_sample\") |&gt; \n  cards::tidy_ard_column_order()\n\n# An ARD data frame: 10 × 9\n   group1 variable context  stat_name stat_label stat                    fmt_fun\n   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;                  &lt;list&gt; \n 1 ARM2   AGE      t_test_… estimate  estimate   0.1854928               1      \n 2 ARM2   AGE      t_test_… estimate1 estimate1  75.2093                 1      \n 3 ARM2   AGE      t_test_… estimate2 estimate2  75.02381                1      \n 4 ARM2   AGE      t_test_… statistic statistic  0.1660687               1      \n 5 ARM2   AGE      t_test_… p.value   p.value    0.8683091               1      \n 6 ARM2   AGE      t_test_… parameter parameter  162.6425                1      \n 7 ARM2   AGE      t_test_… conf.low  conf.low   -2.020129               1      \n 8 ARM2   AGE      t_test_… conf.high conf.high  2.391114                1      \n 9 ARM2   AGE      t_test_… method    method     Welch Two Sample t-test &lt;fn&gt;   \n10 ARM2   AGE      t_test_… alternat… alternati… two.sided               &lt;fn&gt;   \n# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;\n\n\n\n\n\n\nIncludes functionality to summarize nearly every type of regression model in the R ecosystem:\n\n\nbetareg::betareg(), biglm::bigglm(), brms::brm(), cmprsk::crr(), fixest::feglm(), fixest::femlm(), fixest::feNmlm(), fixest::feols(), gam::gam(), geepack::geeglm(), glmmTMB::glmmTMB(), glmtoolbox::glmgee(), lavaan::lavaan(), lfe::felm(), lme4::glmer.nb(), lme4::glmer(), lme4::lmer(), logitr::logitr(), MASS::glm.nb(), MASS::polr(), mgcv::gam(), mice::mira, mmrm::mmrm(), multgee::nomLORgee(), multgee::ordLORgee(), nnet::multinom(), ordinal::clm(), ordinal::clmm(), parsnip::model_fit, plm::plm(), pscl::hurdle(), pscl::zeroinfl(), quantreg::rq(), rstanarm::stan_glm(), stats::aov(), stats::glm(), stats::lm(), stats::nls(), survey::svycoxph(), survey::svyglm(), survey::svyolr(), survival::cch(), survival::clogit(), survival::coxph(), survival::survreg(), svyVGAM::svy_vglm(), tidycmprsk::crr(), VGAM::vgam(), VGAM::vglm() (and more)\n\n\n\n\n\nlibrary(survival)\n\n# build model\nmod &lt;- pharmaverseadam::adtte_onco |&gt; \n  dplyr::filter(PARAM %in% \"Progression Free Survival\") |&gt;\n  coxph(ggsurvfit::Surv_CNSR() ~ ARM, data = _)\n\n# put model in a summary table\ntbl &lt;- gtsummary::tbl_regression(mod, exponentiate = TRUE) |&gt; \n  gtsummary::add_n(location = c('label', 'level')) |&gt; \n  gtsummary::add_nevent(location = c('label', 'level'))\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nEvent N\nHR\n95% CI\np-value\n\n\n\n\nDescription of Planned Arm\n254\n6\n\n\n\n\n\n\n\n\n    Placebo\n86\n3\n—\n—\n\n\n\n\n    Xanomeline High Dose\n84\n2\n3.00\n0.39, 22.9\n0.3\n\n\n    Xanomeline Low Dose\n84\n1\n1.27\n0.11, 14.3\n0.8\n\n\n\nAbbreviations: CI = Confidence Interval, HR = Hazard Ratio\n\n\n\n\n\n\n\n\n\n\n\nThe cardx::ard_regression() does a lot for us in the background.\n\nIdentifies the variable from the regression terms (i.e. groups levels of the same variable)\nIdentifies reference groups from categorical covariates\nFinds variable labels from the source data frames\nKnows the total N of the model, the number of events, and can do the same for each level of categorical variables\nContextually aware of slopes, odds ratios, hazard ratios, and incidence rate ratios\nAnd much much more.\n\n\n\n\n\nWhat happens when statistics are un-calculable?\n\n\nard_gone_wrong &lt;-\n  adsl |&gt; \n  ard_summary(\n    by = ARM2,\n    variable = AGEGR1,\n    statistic = ~list(kurtosis = \\(x) e1071::kurtosis(x))\n  ) |&gt; \n  cards::replace_null_statistic()\nard_gone_wrong\n\n# An ARD data frame: 2 × 10\n  group1 group1_level variable context stat_name stat_label stat   warning error\n  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  &lt;lis&gt;\n1 ARM2   Placebo      AGEGR1   summary kurtosis  kurtosis   NA     argume… non-…\n2 ARM2   Xanomeline   AGEGR1   summary kurtosis  kurtosis   NA     argume… non-…\n# ℹ 1 more variable: fmt_fun &lt;list&gt;\n\n\n\ncards::print_ard_conditions(ard_gone_wrong)\n\n\n\n\nWhere is the statistic? AGEGR1 is character\nEven when there are errors or warnings, we still get the ARD with the expected structure returned.\n\nTHIS IS BIG! There are MANY circumstances, when you are designing TLGs early in a study when you do not have all the data required to calculate every statistic.\nThis allows you to design everything up-front.\n\nWe can also report these warnings and errors back to users. &lt;!CLICK!&gt;\n\n\n\n\n\n\nStarting from raw data, we built ARDs and never touched a layout:\n\nUnivariate summaries with ard_summary() (continuous) and ard_tabulate() (categorical) — custom statistics, by groups, and formatting\nHierarchical summaries with ard_stack_hierarchical() / ard_stack_hierarchical_count() for nested AE tabulations (built on the lower-level ard_hierarchical*() functions)\nStacking everything into a single ARD with ard_stack() — overall rows, total N, and all\nStatistical results with {cardx}: t-tests, regression models, and wrapping your own methods\nA structure that holds together even when a statistic can’t be computed\n\n\n\n\n\n\n\nCompute once, reuse everywhere — one ARD feeds any number of tables and figures\nQC the values — numeric or rounded/formatted…or both!\nComposable by design — every ard_*() result stacks into one tidy data frame 🥞\nThe engine for the ARS — {cards} powers a metadata-driven, reproducible analysis workflow\n\n\n\n\nARDs are the foundation. Next, we turn these results into tables. ➡️\n\n\n\n\n\n\n\n\n\n\n📦 {cards} — build ARDs\n📦 {cardx} — statistical ARDs\n🌐 pharmaverse.org\n📖 CDISC Analysis Results Standard\n\nThank you! Questions? 🙋"
   },
   {
     "objectID": "slides/04-ARD/cards.html#cards-introduction",
     "href": "slides/04-ARD/cards.html#cards-introduction",
     "title": "ARDs using {cards}",
     "section": "",
-    "text": "Part of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n52K downloads per month 🤯"
+    "text": "Part of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n54K downloads per month 🤯"
   },
   {
     "objectID": "slides/04-ARD/cards.html#data-used-in-examples",
@@ -1054,7 +1054,7 @@
     "href": "slides/03-ADaM/admiral.html#packages-and-session-information",
     "title": "Set the Stage",
     "section": "Packages and Session Information",
-    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.1    renv_1.2.4       \n [5] tidyselect_1.2.1  xml2_1.6.0        stringr_1.6.0     tidyr_1.3.2      \n [9] yaml_2.3.12       fastmap_1.2.0     R6_2.6.1          generics_0.1.4   \n[13] admiraldev_1.5.0  knitr_1.51        htmlwidgets_1.6.4 pillar_1.11.1    \n[17] rlang_1.3.0       utf8_1.2.6        stringi_1.8.9     roxygen2_8.1.0   \n[21] xfun_0.60         otel_0.2.0        timechange_0.4.0  cli_3.6.6        \n[25] withr_3.0.3       magrittr_2.0.5    digest_0.6.39     hms_1.1.4        \n[29] lifecycle_1.0.5   vctrs_0.7.3       evaluate_1.0.5    rmarkdown_2.31   \n[33] purrr_1.2.2       tools_4.6.1       pkgconfig_2.0.3   htmltools_0.5.9"
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0    dplyr_1.2.1       compiler_4.6.1    renv_1.2.4       \n [5] tidyselect_1.2.1  xml2_1.6.0        stringr_1.5.1     tidyr_1.3.2      \n [9] yaml_2.3.12       fastmap_1.2.0     R6_2.6.1          generics_0.1.4   \n[13] admiraldev_1.5.0  knitr_1.51        htmlwidgets_1.6.4 pillar_1.11.1    \n[17] rlang_1.3.0       utf8_1.2.6        stringi_1.8.9     roxygen2_8.1.0   \n[21] xfun_0.60         otel_0.2.0        timechange_0.4.0  cli_3.6.6        \n[25] withr_3.0.3       magrittr_2.0.5    digest_0.6.39     hms_1.1.4        \n[29] lifecycle_1.0.5   vctrs_0.7.3       evaluate_1.0.5    rmarkdown_2.31   \n[33] purrr_1.2.2       tools_4.6.1       pkgconfig_2.0.3   htmltools_0.5.9"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#footnotes",
@@ -1064,13 +1064,265 @@
     "text": "Footnotes\n\n\nLines: 20-25 ↩︎\nLines: 53↩︎\nLines: 57-69, 132-136, 198-204↩︎\nLines: 187-194↩︎\nLines: 72-84, and more!!↩︎\nLines: 122-126↩︎\nLines: 276-282↩︎\nLines: 72-80↩︎\nLines: 100-111↩︎\nLines: 144-153↩︎\nLines: 196-210↩︎\nLines: 210-217↩︎\nLines: 262-268↩︎\nLines: 305-310↩︎\nLines: 313-319↩︎"
   },
   {
-    "objectID": "license.html",
-    "href": "license.html",
-    "title": "License",
+    "objectID": "slides/01-intro/index.html#ai-powered-clinical-reporting-in-r-with-the-pharmaverse",
+    "href": "slides/01-intro/index.html#ai-powered-clinical-reporting-in-r-with-the-pharmaverse",
+    "title": "Welcome!",
+    "section": "AI-powered clinical reporting in R with the Pharmaverse",
+    "text": "AI-powered clinical reporting in R with the Pharmaverse\n\nFind a seat where you can see the screen!\nJoin the Posit Cloud workspace: link\nJoin the Slack from pharmaverse.slack.com/\nWiFI: Posit Conf 2026 | conf2026"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#positconf2026-good-to-know",
+    "href": "slides/01-intro/index.html#positconf2026-good-to-know",
+    "title": "Welcome!",
+    "section": "posit::conf(2026) — good to know",
+    "text": "posit::conf(2026) — good to know\n\n\n\n📶\n\n\nWiFi Network Posit Conf 2026 · Password conf2026\n\n\n\n\n🧘\n\n\nMeditation / Prayer Room 332\n\n\n\n\n🤱\n\n\nMother’s Room Room 333\n\n\n\n\n🎤\n\n\nSpeakers Lounge Room 334\n\n\n\n\n📣\n\n\nSocial & photos #PositConf2026 · red lanyards = please don’t photograph"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#instructors",
+    "href": "slides/01-intro/index.html#instructors",
+    "title": "Welcome!",
+    "section": "Instructors",
+    "text": "Instructors"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#your-turn",
+    "href": "slides/01-intro/index.html#your-turn",
+    "title": "Welcome!",
+    "section": "Your turn!",
+    "text": "Your turn!\n\n\n🙋 Who are you?\n\n\n💼 What do you do?\n\n\n🎯 What do you hope to get out of today?"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
+    "href": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
+    "title": "Welcome!",
+    "section": "What to expect from this workshop",
+    "text": "What to expect from this workshop\n\n Explore pharmaverse R packages for clinical reporting\n\n\n\n\nRaw data test data & CDASH / non-CDASH inputs\n\n\npharmaverseraw\n\n\n\n\nSDTM standardize raw data into SDTM domains\n\n\nsdtm.oak\n\n\n\n\nADaM build analysis-ready datasets from SDTM\n\n\nadmiral\n\n\n\n\nTables & ARDs summaries, TLGs, analysis results datasets\n\n\ngtsummary · cards\n\n\n\n\nAI agents & skills accelerate every step — hands-on exercises throughout"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#workshop-expectations",
+    "href": "slides/01-intro/index.html#workshop-expectations",
+    "title": "Welcome!",
+    "section": "Workshop Expectations",
+    "text": "Workshop Expectations\n\n\n\nAsk questions!\nBe respectful to each other and yourself"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#your-background",
+    "href": "slides/01-intro/index.html#your-background",
+    "title": "Welcome!",
+    "section": "Your Background",
+    "text": "Your Background\n\nBasic knowledge of R and packages in the tidyverse\nBasic knowledge of CDISC Standards (ADaM and SDTM Domains)\n\nCheck out the ADaM IG and other documents for CDISC\nCheck out admiral and admiraldiscovery for CDISC implementation\n\n🦺 However, CDISC knowledge not required, and you will learn! 🦺"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#welcome-to-the-pharmaverse",
+    "href": "slides/01-intro/index.html#welcome-to-the-pharmaverse",
+    "title": "Welcome!",
+    "section": "Welcome to the pharmaverse!",
+    "text": "Welcome to the pharmaverse!\n\n\n\nhttps://pharmaverse.org/\nGoals\n\nAlign pharma industry on a set of open source packages based in R to deliver the clinical data pipeline\nDesign, collaborate, and deliver new solutions where suitable tools do not exist"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#end-to-end-clinical-reporting-packages",
+    "href": "slides/01-intro/index.html#end-to-end-clinical-reporting-packages",
+    "title": "Welcome!",
+    "section": "End-to-End: Clinical Reporting Packages",
+    "text": "End-to-End: Clinical Reporting Packages\nhttps://pharmaverse.org/e2eclinical/"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#end-to-end-the-data",
+    "href": "slides/01-intro/index.html#end-to-end-the-data",
+    "title": "Welcome!",
+    "section": "End-to-End: The Data",
+    "text": "End-to-End: The Data"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#not-that-kind-of--verse",
+    "href": "slides/01-intro/index.html#not-that-kind-of--verse",
+    "title": "Welcome!",
+    "section": "Not that kind of -verse",
+    "text": "Not that kind of -verse\n\nlibrary(pharmaverse)\n\nError in `library()`:\n! there is no package called 'pharmaverse'\n\n\n\nThe pharmaverse is a collection of open-source tools\nBut we would not want to attempt to load all of them at once."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#industry-working-on-a-similar-goal",
+    "href": "slides/01-intro/index.html#industry-working-on-a-similar-goal",
+    "title": "Welcome!",
+    "section": "Industry working on a similar goal",
+    "text": "Industry working on a similar goal\n\nStandards (ie CDISC) means standard tools can be created and shared\nCollaboration in the “post competitive” space means everyone has access to free solutions\nTeam and Regulators seeing consistent packages being used across multiple teams speeds up development and review"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#pharmaverse-true-or-false",
+    "href": "slides/01-intro/index.html#pharmaverse-true-or-false",
+    "title": "Welcome!",
+    "section": "pharmaverse: TRUE or FALSE?",
+    "text": "pharmaverse: TRUE or FALSE?\n\n\npharmaverse makes decisions on how R should be used in the pharma space ✘ FALSE\n\n\npharmaverse is a source of information on R packages for the clinical data workflow ✔ TRUE\n\n\npharmaverse lets commercial interests from collaborators drive decisions ✘ FALSE\n\n\npharmaverse’s scope starts at SDTM and ends at TLF creation ✘ FALSE\n\n\nyou don’t need to be part of pharmaverse to use the tools coming from it ✔ TRUE\n\n\npharmaverse packages need to be reviewed by your own GxP process ✔ TRUE"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#ways-to-use-llms",
+    "href": "slides/01-intro/index.html#ways-to-use-llms",
+    "title": "Welcome!",
+    "section": "Ways to use LLMs",
+    "text": "Ways to use LLMs\nThe main difference is how much the AI does for you — from answering questions to taking action in your project:\n\n\n\n💬 Chat Ask questions, get explanations & code — you copy and paste ChatGPT, Claude, Gemini\n\n\n⌨️ Assistant / Ask In-IDE help with your file context — you accept the edits Copilot, Cursor, Posit Assistant\n\n\n🤖 Agent Reads files, runs code, edits the project — multi-step, you review same tools, agent mode\n\n\n\n🎯 More autonomy → less typing, more reviewing. Today we focus on the agent end of the spectrum — and Posit Assistant gives us both Ask and Agent modes."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#posit-assistant",
+    "href": "slides/01-intro/index.html#posit-assistant",
+    "title": "Welcome!",
+    "section": "Posit Assistant",
+    "text": "Posit Assistant\nIn Posit Cloud, we will be using Posit Assistant — an AI assistant built right into the IDE."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#posit-assistant-modes",
+    "href": "slides/01-intro/index.html#posit-assistant-modes",
+    "title": "Welcome!",
+    "section": "Posit Assistant — modes",
+    "text": "Posit Assistant — modes\nPosit Assistant offers a few modes depending on how much you want it to do:\n\n\n\n💬 Ask Answer questions and explain code — no changes made\n\n\n🤖 Agent Plan and carry out multi-step edits across your project"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#why-ai-fits-clinical-reporting",
+    "href": "slides/01-intro/index.html#why-ai-fits-clinical-reporting",
+    "title": "Welcome!",
+    "section": "Why AI fits clinical reporting",
+    "text": "Why AI fits clinical reporting\nClinical programming is full of standardized, repetitive patterns — exactly what AI is good at drafting (and you are good at reviewing).\n\n\n\n📐 Standards CDISC gives predictable structure the AI can learn\n\n\n🔁 Repetition The same mapping patterns recur across variables & domains\n\n\n🧑‍⚖️ Review culture We already double-check everything — human-in-the-loop by design"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#agent-vs.-skill",
+    "href": "slides/01-intro/index.html#agent-vs.-skill",
+    "title": "Welcome!",
+    "section": "Agent vs. skill",
+    "text": "Agent vs. skill\n\n\n🤖 Agent An AI assistant that can read your project, run R, and edit code — not just chat. It plans and carries out multi-step tasks.\n\n\n🧠 Skill A reusable, checked-in instruction set that teaches the agent your conventions — the pharmaverse way of doing a task.\n\n\n\n🧠Skill = knowledge 🤖Agent = executor 👀You = reviewer"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#one-agent-many-skills",
+    "href": "slides/01-intro/index.html#one-agent-many-skills",
+    "title": "Welcome!",
+    "section": "One agent, many skills",
+    "text": "One agent, many skills\nWhat the agent does in practice — a loop, not a single answer:\n\n\n📖Readfiles & specs 🧭Planthe steps ⌨️WriteR code ▶️Run& check 👀Youreview\n\n\nThe same agent, pointed at a different skill, helps at every stage:\n\n\n📦SDTMskill 🧬ADaMskill 📊ARDskill 📑TLGskill\n\n\n\n💡 We’ll see a concrete SDTM mapping skill in the next session — turning an aCRF into sdtm.oak code that you review and run."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#what-a-skill-looks-like-in-practice",
+    "href": "slides/01-intro/index.html#what-a-skill-looks-like-in-practice",
+    "title": "Welcome!",
+    "section": "What a skill looks like in practice",
+    "text": "What a skill looks like in practice\nSkills live in an .agents/ folder in the repo. A skill can be one file — or a folder with supporting material.\n\n\nSingle document\n\n📁 .agents/skills/ └─ 📄 sdtm-mapping.md\n\nGood for a focused, self-contained task. Everything the agent needs in one place.\n\nFolder with resources\n\n📁 .agents/skills/sdtm-oak-mapping/ ├─ 📄 SKILL.md ← entry point ├─ 📁 examples/ │  ├─ 📄 vs_domain.R │  └─ 📄 dm_domain.R └─ 📁 reference/    ├─ 📄 ct_spec.csv    └─ 📄 algorithms.md\n\nScales to reusable patterns: worked code, specs, house style.\n\n\n🔑 Skills are kept in the .agents/ folder. The agent reads SKILL.md first, then opens the extra files only when the task needs them — not all at once."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#agents.md-in-practice",
+    "href": "slides/01-intro/index.html#agents.md-in-practice",
+    "title": "Welcome!",
+    "section": "AGENTS.md in practice",
+    "text": "AGENTS.md in practice\nProject-wide house rules the agent reads for every task — checked into the repo root.\n\n🤖 AGENTS.md\n\n# Project: Study ABC-123 clinical reporting\n\n## Conventions\n- Use the pharmaverse (sdtm.oak, admiral, gtsummary).\n- Style: tidyverse; pipe with |&gt;; snake_case objects.\n\n\n\n💡 AGENTS.md = who we are & how we work — global context, always on."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#skill.md-in-practice",
+    "href": "slides/01-intro/index.html#skill.md-in-practice",
+    "title": "Welcome!",
+    "section": "SKILL.md in practice",
+    "text": "SKILL.md in practice\nA task-specific recipe — loaded only when that task comes up.\n\n🧠 .agents/skills/sdtm-oak-mapping/SKILL.md\n\n---\nname: sdtm-oak-mapping\ndescription: Map a raw dataset to an SDTM domain from raw + aCRF.\n---\n\n# Map a raw dataset to an SDTM domain\n\nUse when: creating an SDTM domain from raw + aCRF.\n\nSteps\n1. List target variables and their CT from the spec.\n2. Pick the algorithm per variable.\n3. Chain topic then qualifiers; run and preview.\n\nSee examples/vs_domain.R for a full worked case.\n\n\n\n🔑 A SKILL.md must start with YAML frontmatter with two required fields — name and description. AGENTS.md is always loaded; a skill is pulled in on demand, keeping each prompt lean."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#good-skills-short-to-the-point",
+    "href": "slides/01-intro/index.html#good-skills-short-to-the-point",
+    "title": "Welcome!",
+    "section": "Good skills: short & to the point",
+    "text": "Good skills: short & to the point\nA skill is loaded into the prompt — longer skill = more tokens = higher cost & slower, and the signal gets diluted.\n\n\n✅ To the point\n\nWhen to use, then clear steps\nPoints to examples instead of pasting them\nOne responsibility per skill\n\n\ntokens / cost\n\n\n\n\n\n\n\n\n❌ Too long\n\nWhole standards pasted inline\nRepeats what the model already knows\nTen tasks crammed into one file\n\n\ntokens / cost\n\n\n\n\n\n\n\n\n\n💡 Aim for instructions, not encyclopedias. Teach the how and where to look — let the model bring the general knowledge."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#urls-big-references",
+    "href": "slides/01-intro/index.html#urls-big-references",
+    "title": "Welcome!",
+    "section": "URLs & big references",
+    "text": "URLs & big references\nCan a skill point to external resources? Yes — and it should, for anything large.\n\n\n1 🔗 URLs are allowed — the agent can fetch a page on demand\n2 📚 Big files are read in chunks / searched, not all at once\n3 🎯 Link the specific section, not the whole spec\n\n\n\n\n❌ Don’t\n\nPaste the full CDISC SDTMIG (400+ pages) into the skill\nBlows the context window, adds cost, buries the point\n\n\n\n✅ Do\n\nSummarise the rules you actually apply\nLink the exact codelist / IG section as a URL\nKeep a small ct_spec.csv the agent can query\n\n\n\n\n⚖️ Rule of thumb: retrieve, don’t embed. A skill is a map to the knowledge — not a copy of it."
+  },
+  {
+    "objectID": "slides/01-intro/index.html#working-environment",
+    "href": "slides/01-intro/index.html#working-environment",
+    "title": "Welcome!",
+    "section": "Working environment",
+    "text": "Working environment\n\nFor consistency, we will be working in Posit Cloud\nEverything has been installed and set up for you\nFollowing the course, all content from this workshop will be available on the course website and GitHub"
+  },
+  {
+    "objectID": "slides/01-intro/index.html#quick-warm-up",
+    "href": "slides/01-intro/index.html#quick-warm-up",
+    "title": "Welcome!",
+    "section": "Quick warm-up",
+    "text": "Quick warm-up\n\n\n\n\n\n\nOpen the workshop project in Posit Cloud.\nShow the sidebar with the toolbar icon in the top right of the IDE, then click the button to install Posit Assistant in the project.\nClick Sign in to try Posit AI for free and authorize in your browser. Create your Posit AI account at posit.ai using the same email you registered with — that’s how your workshop credits attach.\nOptional: turn on inline completions with Tools → Global Options → Assistant and pick Posit AI Next Edit Suggestions. These are unlimited and free.\n➡️ Ask your Posit Assistant to list all the installed pharmaverse packages!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "",
-    "text": "This work is licensed under a Creative Commons Attribution 4.0 International License.",
+    "text": "🗓️ September 14, 2026 · 09:00 – 17:00 CDT 🏨 Hilton Americas-Houston · 1600 Lamar Street, Houston, TX 📝 Workshop Registration",
     "crumbs": [
-      "License"
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#description",
+    "href": "index.html#description",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
+    "section": "Description",
+    "text": "Description\nModern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You’ll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You’ll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#schedule",
+    "href": "index.html#schedule",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
+    "section": "Schedule",
+    "text": "Schedule\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 – 09:30\nIntroduction to Pharmaverse and AI Agents\n\n\n09:30 – 10:30\nSDTM\n\n\n10:30 – 11:00\nCoffee Break\n\n\n11:00 – 12:30\nADaMs with {admiral} and friends\n\n\n12:30 – 13:30\nLunch\n\n\n13:30 – 14:15\nAnalysis Results Datasets\n\n\n14:15 – 15:00\nCreate Tables with {gtsummary}\n\n\n15:00 – 15:30\nCoffee Break\n\n\n15:30 – 16:15\nCreate Tables with {tfrmt}\n\n\n16:15 – 17:00\nOther Topics Overview + Wrap-up",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#pre-work",
+    "href": "index.html#pre-work",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
+    "section": "Pre-work",
+    "text": "Pre-work\n\nBookmark this site. You’ll reference it throughout the workshop. pos.it/pharmaverse-conf26\nSign up for a free Posit Cloud account.\nBring your laptop and charger to the workshop.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "index.html#instructors",
+    "href": "index.html#instructors",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\nDaniel D. Sjoberg\nExecutive Director of Data Sciences & Clinical Data Analytics, Kardigan (he/him)\nDaniel leads the Data Science and Clinical Analytics groups at Kardigan. Previously was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and an academic biostatistician at Memorial Sloan Kettering Cancer Center for 13 years. He enjoys R package development, creating many packages on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR and of the R Medicine Conference, and a recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the ASA Innovation in Programming Award.\n\n   \n\n\n\n\nBecca Krouse\nData Scientist, GSK Data Science Innovation & Engineering\nBecca focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n\n\n\nBen Straub\nPrincipal Programmer, GSK Immunology Therapeutic Area\nAt GSK since 2018, Ben has led and helped with many initiatives around R adoption within Clinical Programming. He actively helps develop and maintain an end-to-end R package pipeline, pharmaverse, that addresses the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\n\n\nMagdalena Krochmal (Magda)\nSenior Real-Time Visual Analytics Specialist, Roche\nMagda has over a decade of experience bridging advanced data engineering and user-centered application design. With a strong focus on clinical submission innovations, she is actively involved in the development and implementation of the SDTM automation project, {roak}. Magda leverages her expertise in R, Shiny, and AI-driven workflows to engineer intuitive medical data review tools, translating complex clinical data into high-impact, interactive visual analytics.",
+    "crumbs": [
+      "Home"
+    ]
+  },
+  {
+    "objectID": "communications.html",
+    "href": "communications.html",
+    "title": "Pre-Conference Communications",
+    "section": "",
+    "text": "Hello everyone! We are excited to spend the day with you for the AI-powered clinical reporting in R with the Pharmaverse workshop at posit::conf on Monday, September 14!\nIn this workshop, we’ll give a high level overview of the scope and tools available within the Pharmaverse for the clinical pipeline, focusing on SDTM through outputs. Our hope is that you will walk away with an understanding of how to use R for every stage of the submission process.. A basic understanding of R and tidyverse is expected for this workshop. More information about the workshop can be found here: https://posit-conf-2026.github.io/pharmaverse/ (will be updated up to the workshop).\nFor the day to run smoothly, please be sure to bring your own laptop and charger so you can follow along and do the exercises. We will be using Posit Cloud, so you don’t need to worry about getting anything installed on your computer. Just make sure you have a free Posit Cloud account before the workshop starts.\nDuring the workshop, we will be using Slack as our main communication method. Steps to join us there:\n\nFirst, join the Pharmaverse Slack here: https://pharmaverse.slack.com/\nFind our dedicated Slack channel: https://pharmaverse.slack.com/archives/C09AFHP4JUT. If you have any questions before the workshop, please feel free to drop them in the Slack channel. See you in Atlanta!\n\nYour instructors,\nBecca, Ben, Daniel, and Ram",
+    "crumbs": [
+      "Communications"
+    ]
+  },
+  {
+    "objectID": "communications.html#september-10-2026",
+    "href": "communications.html#september-10-2026",
+    "title": "Pre-Conference Communications",
+    "section": "",
+    "text": "Hello everyone! We are excited to spend the day with you for the AI-powered clinical reporting in R with the Pharmaverse workshop at posit::conf on Monday, September 14!\nIn this workshop, we’ll give a high level overview of the scope and tools available within the Pharmaverse for the clinical pipeline, focusing on SDTM through outputs. Our hope is that you will walk away with an understanding of how to use R for every stage of the submission process.. A basic understanding of R and tidyverse is expected for this workshop. More information about the workshop can be found here: https://posit-conf-2026.github.io/pharmaverse/ (will be updated up to the workshop).\nFor the day to run smoothly, please be sure to bring your own laptop and charger so you can follow along and do the exercises. We will be using Posit Cloud, so you don’t need to worry about getting anything installed on your computer. Just make sure you have a free Posit Cloud account before the workshop starts.\nDuring the workshop, we will be using Slack as our main communication method. Steps to join us there:\n\nFirst, join the Pharmaverse Slack here: https://pharmaverse.slack.com/\nFind our dedicated Slack channel: https://pharmaverse.slack.com/archives/C09AFHP4JUT. If you have any questions before the workshop, please feel free to drop them in the Slack channel. See you in Atlanta!\n\nYour instructors,\nBecca, Ben, Daniel, and Ram",
+    "crumbs": [
+      "Communications"
+    ]
+  },
+  {
+    "objectID": "communications.html#september-13-2026",
+    "href": "communications.html#september-13-2026",
+    "title": "Pre-Conference Communications",
+    "section": "September 13, 2026",
+    "text": "September 13, 2026\nHi everyone,\nIn case you had trouble joining the Slack – Please be on the lookout for an invitation to your email to join the workshop Slack channel directly.\nThanks!\nBecca",
+    "crumbs": [
+      "Communications"
     ]
   },
   {
@@ -1204,231 +1456,336 @@
     ]
   },
   {
-    "objectID": "communications.html",
-    "href": "communications.html",
-    "title": "Pre-Conference Communications",
+    "objectID": "license.html",
+    "href": "license.html",
+    "title": "License",
     "section": "",
-    "text": "Hello everyone! We are excited to spend the day with you for the End-to-End Submissions in R with the Pharmaverse workshop at posit::conf on Tuesday, September 16!\nIn this workshop, we’ll give a high level overview of the scope and tools available within the Pharmaverse for the clinical pipeline, focusing on SDTM through outputs. Our hope is that you will walk away with an understanding of how to use R for every stage of the submission process.. A basic understanding of R and tidyverse is expected for this workshop. More information about the workshop can be found here: https://posit-conf-2025.github.io/pharmaverse/ (will be updated up to the workshop).\nFor the day to run smoothly, please be sure to bring your own laptop and charger so you can follow along and do the exercises. We will be using Posit Cloud, so you don’t need to worry about getting anything installed on your computer. Just make sure you have a free Posit Cloud account before the workshop starts.\nDuring the workshop, we will be using Slack as our main communication method. Steps to join us there:\n\nFirst, join the Pharmaverse Slack here: https://pharmaverse.slack.com/\nFind our dedicated Slack channel: https://pharmaverse.slack.com/archives/C09AFHP4JUT. If you have any questions before the workshop, please feel free to drop them in the Slack channel. See you in Atlanta!\n\nYour instructors,\nBecca, Ben, Daniel, and Ram",
+    "text": "This work is licensed under a Creative Commons Attribution 4.0 International License.",
     "crumbs": [
-      "Communications"
+      "License"
     ]
   },
   {
-    "objectID": "communications.html#september-12-2025",
-    "href": "communications.html#september-12-2025",
-    "title": "Pre-Conference Communications",
-    "section": "",
-    "text": "Hello everyone! We are excited to spend the day with you for the End-to-End Submissions in R with the Pharmaverse workshop at posit::conf on Tuesday, September 16!\nIn this workshop, we’ll give a high level overview of the scope and tools available within the Pharmaverse for the clinical pipeline, focusing on SDTM through outputs. Our hope is that you will walk away with an understanding of how to use R for every stage of the submission process.. A basic understanding of R and tidyverse is expected for this workshop. More information about the workshop can be found here: https://posit-conf-2025.github.io/pharmaverse/ (will be updated up to the workshop).\nFor the day to run smoothly, please be sure to bring your own laptop and charger so you can follow along and do the exercises. We will be using Posit Cloud, so you don’t need to worry about getting anything installed on your computer. Just make sure you have a free Posit Cloud account before the workshop starts.\nDuring the workshop, we will be using Slack as our main communication method. Steps to join us there:\n\nFirst, join the Pharmaverse Slack here: https://pharmaverse.slack.com/\nFind our dedicated Slack channel: https://pharmaverse.slack.com/archives/C09AFHP4JUT. If you have any questions before the workshop, please feel free to drop them in the Slack channel. See you in Atlanta!\n\nYour instructors,\nBecca, Ben, Daniel, and Ram",
-    "crumbs": [
-      "Communications"
-    ]
+    "objectID": "slides/02-SDTM/index.html#objectives",
+    "href": "slides/02-SDTM/index.html#objectives",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Objectives",
+    "text": "Objectives\nBy the end of this session you will:\n\n\n\n🧩 Understand How sdtm.oak and its reusable algorithms work\n\n\n⚙️ Build SDTM VS and DM domains with live code\n\n\n🤖 Accelerate The same mappings with an AI agent + skill"
   },
   {
-    "objectID": "communications.html#september-15-2025",
-    "href": "communications.html#september-15-2025",
-    "title": "Pre-Conference Communications",
-    "section": "September 15, 2025",
-    "text": "September 15, 2025\nHi everyone,\nIn case you had trouble joining the Slack – Please be on the lookout for an invitation to your email to join the workshop Slack channel directly.\nThanks!\nBecca",
-    "crumbs": [
-      "Communications"
-    ]
+    "objectID": "slides/02-SDTM/index.html#agenda",
+    "href": "slides/02-SDTM/index.html#agenda",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Agenda",
+    "text": "Agenda\n\n\n📦 Intro to sdtm.oak 20 min\n\n\n🩺 VS domain 20 min\n\n\n👤 DM domain 10 min\n\n\n✏️ Exercise 10 min\n\n\n\n🤖 Same work, accelerated with an AI agent + skill"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "",
-    "text": "🗓️ September 14, 2026 · 09:00 – 17:00 CDT 🏨 Hilton Americas-Houston · 1600 Lamar Street, Houston, TX 📝 Workshop Registration",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "slides/02-SDTM/index.html#sdtm.oak-in-pharmaverse",
+    "href": "slides/02-SDTM/index.html#sdtm.oak-in-pharmaverse",
+    "title": "CDISC SDTM datasets in R",
+    "section": "sdtm.oak in pharmaverse",
+    "text": "sdtm.oak in pharmaverse\n\n\n\nSponsored by CDISC COSA, pharmaceutical companies, including Roche, Pfizer, GSK, Vertex, Atorus Research, Pattern Institute, Transition Technologies Science.\nInspired by the Roche’s roak package.\nAddresses a critical gap in the pharmaverse suite by enabling study programmers to create SDTM datasets in R, complementing the existing capabilities for ADaM, TLGs, eSubmission, etc."
   },
   {
-    "objectID": "index.html#description",
-    "href": "index.html#description",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "Description",
-    "text": "Description\nModern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You’ll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You’ll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "slides/02-SDTM/index.html#challenges-in-sdtm-programming",
+    "href": "slides/02-SDTM/index.html#challenges-in-sdtm-programming",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Challenges in SDTM Programming",
+    "text": "Challenges in SDTM Programming\nSDTM maps from raw data — so the challenges come from the source. sdtm.oak (on CRAN) is designed to meet each one:\n\n\n\n🔌 EDC agnostic\n\n\nRaw data structure varies — different EDC systems use different dataset names, variable names, and structures.\n\n\n\n\n📐 Standards agnostic\n\n\nCollection standards vary — even with CDASH, sponsors build different eCRFs; proprietary standards are common.\n\n\n\n\n🧩 Modular\n\n\nMapping is repetitive — composable algorithms build any domain from the same building blocks."
   },
   {
-    "objectID": "index.html#schedule",
-    "href": "index.html#schedule",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "Schedule",
-    "text": "Schedule\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 – 09:30\nIntroduction + Overview\n\n\n09:30 – 10:30\nSDTM\n\n\n10:30 – 11:00\nCoffee Break\n\n\n11:00 – 12:30\nADaMs with {admiral} and friends\n\n\n12:30 – 13:30\nLunch\n\n\n13:30 – 14:15\nAnalysis Results Datasets\n\n\n14:15 – 15:00\nCreate Tables with {gtsummary}\n\n\n15:00 – 15:30\nCoffee Break\n\n\n15:30 – 16:15\nCreate Tables with {tfrmt}\n\n\n16:15 – 17:00\nOther Topics Overview + Wrap-up",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "slides/02-SDTM/index.html#the-edc-landscape",
+    "href": "slides/02-SDTM/index.html#the-edc-landscape",
+    "title": "CDISC SDTM datasets in R",
+    "section": "The EDC landscape",
+    "text": "The EDC landscape\nSponsors and CROs collect raw data in many different systems — each with its own data model, export format, and naming conventions.\n\nMedidata Rave Oracle InForm Veeva CDMS IBM Clinical OpenClinica REDCap paper-to-EDC vendor labs\n\nThey differ in three ways that matter for mapping:\n\n\n\n🏷️ Names\n\n\nDifferent variable & dataset names (SYS_BP vs IT.SYSBP), plus vendor metadata columns.\n\n\n\n\n📐 Shape\n\n\nWide (one column per test) vs long (one row per test).\n\n\n\n\n🔤 Values\n\n\nCollected terms vary (Sit vs SITTING, mm Hg vs mmHg).\n\n\n\n\n🔌 sdtm.oak doesn’t care which system produced the raw data."
   },
   {
-    "objectID": "index.html#pre-work",
-    "href": "index.html#pre-work",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "Pre-work",
-    "text": "Pre-work\n\nBookmark this site. You’ll reference it throughout the workshop. pos.it/pharmaverse-conf26\nSign up for a free Posit Cloud account.\nBring your laptop and charger to the workshop.",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "slides/02-SDTM/index.html#same-data-many-raw-shapes-ecrf",
+    "href": "slides/02-SDTM/index.html#same-data-many-raw-shapes-ecrf",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Same data, many raw shapes — 🏷️ eCRF",
+    "text": "Same data, many raw shapes — 🏷️ eCRF\nHow it’s collected — dedicated fields vs a generic grid.\n\n\n🗄️ Medidata Rave — dedicated fields\n\n\n\nSystolic BP 120 mmHg\n\n\nPosition SITTING\n\n\nOne field per test, unit fixed on the form\n\n\n\n🗄️ Oracle InForm — generic grid\n\n\n\n\nTest\nResult\nUnit\n\n\n\n\nSYSBP\n120\nmmHg\n\n\nDIABP\n80\nmmHg\n\n\n\nTest name is data, not a column"
   },
   {
-    "objectID": "index.html#instructors",
-    "href": "index.html#instructors",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "Instructors",
-    "text": "Instructors\n\n\n\nDaniel D. Sjoberg\nExecutive Director of Data Sciences & Clinical Data Analytics, Kardigan (he/him)\nDaniel leads the Data Science and Clinical Analytics groups at Kardigan. Previously was a Senior Principal Innovation Data Scientist and Real-time Analytics Group Lead at Genentech, a Lead Data Science Manager at the Prostate Cancer Clinical Trials Consortium, and an academic biostatistician at Memorial Sloan Kettering Cancer Center for 13 years. He enjoys R package development, creating many packages on CRAN, R-Universe, and GitHub. He’s a co-organizer of rainbowR and of the R Medicine Conference, and a recipient of the Brian Bole Award for Excellence from Open Source in Pharma and the ASA Innovation in Programming Award.\n\n   \n\n\n\n\nBecca Krouse\nData Scientist, GSK Data Science Innovation & Engineering\nBecca focuses on enabling users across Biostatistics. A biostatistician by training, she has experience spanning 15 years in the field of clinical research and specializes in developing R-based tools.\n\n\n\nBen Straub\nPrincipal Programmer, GSK Immunology Therapeutic Area\nAt GSK since 2018, Ben has led and helped with many initiatives around R adoption within Clinical Programming. He actively helps develop and maintain an end-to-end R package pipeline, pharmaverse, that addresses the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.\n\n\n\nRammprasad Ganapathy\nPrincipal Data Scientist, Roche/Genentech\nRam has over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.",
-    "crumbs": [
-      "Home"
-    ]
+    "objectID": "slides/02-SDTM/index.html#same-data-many-raw-shapes-raw-table",
+    "href": "slides/02-SDTM/index.html#same-data-many-raw-shapes-raw-table",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Same data, many raw shapes — 📐 Raw table",
+    "text": "Same data, many raw shapes — 📐 Raw table\nWhat the programmer receives — wide vs long.\n\n\n🗄️ Rave — wide\n\n\n\n\nSUBJ\nSYS_BP\nDIA_BP\nPOS\n\n\n\n\n1015\n120\n80\nSIT\n\n\n\nEach test is its own column\n\n\n\n🗄️ InForm — long\n\n\n\n\nSUBJ\nVSTESTCD\nVSORRES\n\n\n\n\n1015\nSYSBP\n120\n\n\n1015\nDIABP\n80\n\n\n\nEach test is its own row"
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-submissions-in-r-with-the-pharmaverse",
-    "href": "slides/01-intro/index.html#end-to-end-submissions-in-r-with-the-pharmaverse",
-    "title": "Welcome!",
-    "section": "End-to-End Submissions in R with the Pharmaverse",
-    "text": "End-to-End Submissions in R with the Pharmaverse\n\nFind a seat where you can see the screen!\nJoin the Posit Cloud workspace: link\nJoin the Slack from pharmaverse.slack.com/\nWiFI: Posit Conf 2025 | conf2025"
+    "objectID": "slides/02-SDTM/index.html#same-data-many-raw-shapes-standards",
+    "href": "slides/02-SDTM/index.html#same-data-many-raw-shapes-standards",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Same data, many raw shapes — 🔤 Standards",
+    "text": "Same data, many raw shapes — 🔤 Standards\nWhat’s stored — CDASH-aligned vs proprietary terms.\n\n\n✅ CDASH-aligned\n\n\n\n\nVariable\nCollected\n\n\n\n\nVSPOS\nSITTING\n\n\nVSORRESU\nmmHg\n\n\n\nTerms already close to CDISC CT\n\n\n\n🏢 Proprietary\n\n\n\n\nVariable\nCollected\n\n\n\n\nPOSITION\nSit\n\n\nUNIT\nmm Hg\n\n\n\nFree-text-ish values → need CT mapping\n\n\n\n\n🔑 Same algorithms map all of these — only raw_var / raw_dat change, and assign_ct() + a CT spec reconcile the values (Sit, SITTING → SITTING)."
   },
   {
-    "objectID": "slides/01-intro/index.html#positconf2025-things-to-know",
-    "href": "slides/01-intro/index.html#positconf2025-things-to-know",
-    "title": "Welcome!",
-    "section": "posit::conf(2025) Things to Know",
-    "text": "posit::conf(2025) Things to Know\n\n🚻 Gender-neutral bathroom: LL2 next to Chicago A\n🧘 Meditation/prayer room: LL2 Chicago A\n🤱 Lactation room: LL2 Chicago B\n🎉 Welcome reception: Tonight 5-7 pm, LL2 Grand Hall West\n🐠 Aquarium Night: Tomorrow 7-10 pm, Georgia Aquarium"
+    "objectID": "slides/02-SDTM/index.html#real-raw-data-pharmaverserawvs_raw",
+    "href": "slides/02-SDTM/index.html#real-raw-data-pharmaverserawvs_raw",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Real raw data: pharmaverseraw::vs_raw",
+    "text": "Real raw data: pharmaverseraw::vs_raw\nThe workshop data mimics a real EDC export — note the vendor-specific names:\n\nnames(pharmaverseraw::vs_raw)\n#&gt;  [1] \"STUDY\"  \"PATNUM\"  \"INSTANCE\"  \"FORM\"  \"FORML\"  \"VTLD\"\n#&gt;  [7] \"IT.HEIGHT_VSORRES\"  \"IT.WEIGHT\"  \"IT.TEMP\"  \"IT.TEMP_LOC\"\n#&gt; [11] \"TMPTC\"  \"SYS_BP\"  \"DIA_BP\"  \"PULSE\"  \"SUBPOS\"\n\n\n\n🏷️ Item prefixes IT. prefix, mixed styles: SYS_BP vs IT.TEMP\n\n\n📄 Vendor columns INSTANCE, FORM, VTLD — not SDTM, EDC metadata\n\n\n🎯 Your job Map these → VS.VSTESTCD, VSORRES, VSORRESU, VSTPT…"
   },
   {
-    "objectID": "slides/01-intro/index.html#positconf2025-social-media",
-    "href": "slides/01-intro/index.html#positconf2025-social-media",
-    "title": "Welcome!",
-    "section": "posit::conf(2025) Social Media",
-    "text": "posit::conf(2025) Social Media\n\nRed lanyards available to those who don’t wish to be photographed\n#PositConf2025 for all things conf"
+    "objectID": "slides/02-SDTM/index.html#the-sdtm-concept",
+    "href": "slides/02-SDTM/index.html#the-sdtm-concept",
+    "title": "CDISC SDTM datasets in R",
+    "section": "The SDTM concept",
+    "text": "The SDTM concept\nSDTM organizes everything as observations about subjects — each observation is a row, described by variables.\n\n🧍 Subject → 👀 Observation → 📊 Row of variables\n\n\n“Subject 101 had mild nausea starting on study day 6.”\n\n\n\nIdentifier 101\n\n\nTopic NAUSEA\n\n\nTiming Study day 6\n\n\nQualifier MILD"
   },
   {
-    "objectID": "slides/01-intro/index.html#instructors",
-    "href": "slides/01-intro/index.html#instructors",
-    "title": "Welcome!",
-    "section": "Instructors",
-    "text": "Instructors\n\n\n\n\nDaniel Sjoberg\nBecca Krouse\n\nRam Ganapathy\nBen X. Straub"
+    "objectID": "slides/02-SDTM/index.html#every-variable-has-a-role",
+    "href": "slides/02-SDTM/index.html#every-variable-has-a-role",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Every variable has a role",
+    "text": "Every variable has a role\nA variable’s role determines what it tells you about the observation.\n\n\n🆔 Identifier Study, subject, domain, sequence number\n\n\n🎯 Topic The focus of the observation (e.g. the lab test)\n\n\n🕒 Timing When it happened (start / end dates)\n\n\n🏷️ Qualifier Extra detail: results, units, descriptors\n\n\n⚙️ Rule Start / end / branch / loop in Trial Design\n\n\n\nQualifiers carry most of the detail — they split into 5 kinds:\n\n\nGrouping --CAT, --SCAT\n\n\nResult --ORRES, --STRESC\n\n\nSynonym --DECOD, --TEST\n\n\nRecord AGE, SEX, --BLFL\n\n\nVariable --ORRESU, --DOSU\n\n\n\n\n\n📦 A domain = related observations with a common topic, one dataset with a 2-char code prefixing its variables — e.g. VS (Vital Signs: VSTESTCD, VSORRES) and AE (Adverse Events: AETERM, AESEV)."
   },
   {
-    "objectID": "slides/01-intro/index.html#your-turn",
-    "href": "slides/01-intro/index.html#your-turn",
-    "title": "Welcome!",
-    "section": "Your turn!",
-    "text": "Your turn!\nWho are you?\nWhat do you do?\nWhat do you hope to get out of today?"
+    "objectID": "slides/02-SDTM/index.html#reusable-algorithms-are-the-backbone",
+    "href": "slides/02-SDTM/index.html#reusable-algorithms-are-the-backbone",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Reusable algorithms are the backbone",
+    "text": "Reusable algorithms are the backbone\n\n📥Collected source data 🧩Mapping algorithms 📦Target SDTM model\n\nModular building blocks — reusable across domains, each one an R function you compose to map any domain.\n\n\n\n\n\n\n\n\nAlgorithm\nWhat it does\nExample\n\n\n\n\nassign_no_ct()\nOne-to-one map, no controlled terminology\nAE.AETERM\n\n\nassign_ct()\nOne-to-one map with controlled terminology\nVS.VSPOS\n\n\nassign_datetime()\nMap dates/times to ISO 8601 (handles unknowns)\nAE.AEENDTC\n\n\nhardcode_ct()\nHardcode a value with controlled terminology\nVS.VSORRESU = 'mmHg'\n\n\nhardcode_no_ct()\nHardcode a value, no controlled terminology\nVS.VSCAT = 'VITAL SIGNS'\n\n\ncondition_add()\nApply a mapping only when a condition holds\nVSMETHOD when VSTESTCD = 'TEMP'\n\n\noak_cal_ref_dates()\nDerive DM reference dates\nDM.RFSTDTC\n\n\n\n\n📎 Full descriptions for each algorithm are in the appendix at the end."
   },
   {
-    "objectID": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
-    "href": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
-    "title": "Welcome!",
-    "section": "What to expect from this workshop",
-    "text": "What to expect from this workshop\n\nLearn about what the Pharmaverse is\nR packages to support Clinical Reporting in R\n\nCreate SDTM from raw data (CDASH and non-CDASH formats)\nCreate ADaM datasets from SDTM\nMultiple ways to create tables\nLearn about ARDs\n\nHands-on Exercises & Discussions"
+    "objectID": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time",
+    "href": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Build a mapping, one algorithm at a time",
+    "text": "Build a mapping, one algorithm at a time\n\n\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\nvs &lt;-\n  # Topic: which test is this row?\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n    ct_spec = study_ct, ct_clst = \"C66741\"\n  ) |&gt;\n  dplyr::filter(!is.na(VSTESTCD))\nvs |&gt; dplyr::select(patient_number, VSTESTCD) |&gt; head(4)\n\n\n# A tibble: 4 × 2\n  patient_number VSTESTCD\n  &lt;chr&gt;          &lt;chr&gt;   \n1 701-1015       SYSBP   \n2 701-1015       SYSBP   \n3 701-1015       SYSBP   \n4 701-1015       SYSBP   \n\n\n\n🎯 Start with the topic — hardcode_ct() says “these rows are systolic BP”."
   },
   {
-    "objectID": "slides/01-intro/index.html#workshop-expectations",
-    "href": "slides/01-intro/index.html#workshop-expectations",
-    "title": "Welcome!",
-    "section": "Workshop Expectations",
-    "text": "Workshop Expectations\n\n\n\n\nAsk questions!\nBe respectful to each other and yourself"
+    "objectID": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time-1",
+    "href": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time-1",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Build a mapping, one algorithm at a time",
+    "text": "Build a mapping, one algorithm at a time\n\n\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\nvs &lt;-\n  # Topic: which test is this row?\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n    ct_spec = study_ct, ct_clst = \"C66741\"\n  ) |&gt;\n  dplyr::filter(!is.na(VSTESTCD)) |&gt;\n  # Result qualifier: the collected value\n  assign_no_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSORRES\", id_vars = oak_id_vars()\n  )\nvs |&gt; dplyr::select(patient_number, VSTESTCD, VSORRES) |&gt; head(4)\n\n\n# A tibble: 4 × 3\n  patient_number VSTESTCD VSORRES\n  &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;  \n1 701-1015       SYSBP    131    \n2 701-1015       SYSBP    129    \n3 701-1015       SYSBP    147    \n4 701-1015       SYSBP    138    \n\n\n\n🏷️ Add a qualifier — assign_no_ct() copies the collected result into VSORRES."
   },
   {
-    "objectID": "slides/01-intro/index.html#your-background",
-    "href": "slides/01-intro/index.html#your-background",
-    "title": "Welcome!",
-    "section": "Your Background",
-    "text": "Your Background\n\nBasic knowledge of R and packages in the tidyverse\nBasic knowledge of CDISC Standards (ADaM and SDTM Domains)\n\nCheck out the ADaM IG and other documents for CDISC\nCheck out admiral and admiraldiscovery for CDISC implementation\n\n🦺 However, CDISC knowledge not required, and you will learn! 🦺"
+    "objectID": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time-2",
+    "href": "slides/02-SDTM/index.html#build-a-mapping-one-algorithm-at-a-time-2",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Build a mapping, one algorithm at a time",
+    "text": "Build a mapping, one algorithm at a time\n\n\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\nvs &lt;-\n  # Topic: which test is this row?\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n    ct_spec = study_ct, ct_clst = \"C66741\"\n  ) |&gt;\n  dplyr::filter(!is.na(VSTESTCD)) |&gt;\n  # Result qualifier: the collected value\n  assign_no_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSORRES\", id_vars = oak_id_vars()\n  ) |&gt;\n  # Variable qualifier: the unit\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"SYS_BP\",\n    tgt_var = \"VSORRESU\", tgt_val = \"mmHg\",\n    ct_spec = study_ct, ct_clst = \"C66770\",\n    id_vars = oak_id_vars()\n  )\nvs |&gt; dplyr::select(patient_number, VSTESTCD, VSORRES, VSORRESU) |&gt; head(4)\n\n\n# A tibble: 4 × 4\n  patient_number VSTESTCD VSORRES VSORRESU\n  &lt;chr&gt;          &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   \n1 701-1015       SYSBP    131     mmHg    \n2 701-1015       SYSBP    129     mmHg    \n3 701-1015       SYSBP    147     mmHg    \n4 701-1015       SYSBP    138     mmHg    \n\n\n\n🔁 Same pattern, one algorithm per variable — chain as many as the domain needs."
   },
   {
-    "objectID": "slides/01-intro/index.html#welcome-to-the-pharmaverse",
-    "href": "slides/01-intro/index.html#welcome-to-the-pharmaverse",
-    "title": "Welcome!",
-    "section": "Welcome to the pharmaverse!",
-    "text": "Welcome to the pharmaverse!\n\n\n\n\nhttps://pharmaverse.org/\nGoals\n\nAlign pharma industry on a set of open source packages based in R to deliver the clinical data pipeline\nDesign, collaborate, and deliver new solutions where suitable tools do not exist"
+    "objectID": "slides/02-SDTM/index.html#algorithms-vs.-plain-dplyr",
+    "href": "slides/02-SDTM/index.html#algorithms-vs.-plain-dplyr",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Algorithms vs. plain dplyr",
+    "text": "Algorithms vs. plain dplyr\nOne sdtm.oak call does what several dplyr steps would.\n\n\n🧰 plain dplyr\nvs_raw |&gt;\n  mutate(\n    VSPOS = case_when(\n      SUBPOS == \"STANDING\" ~ \"STANDING\",\n      SUBPOS == \"SITTING\"  ~ \"SITTING\",\n      TRUE ~ NA_character_\n    )\n  )\n# + separate join to apply CT\n# + manual oak id bookkeeping\n\n🌳 sdtm.oak\nvs_raw |&gt;\n  assign_ct(\n    raw_var  = \"SUBPOS\",\n    tgt_var  = \"VSPOS\",\n    ct_spec  = study_ct,\n    ct_clst  = \"C71148\",\n    id_vars  = oak_id_vars()\n  )\n# CT + id linkage handled for you\n\n\n⚡ Mapping, controlled terminology, conditions, and oak id linkage collapse into one call."
   },
   {
-    "objectID": "slides/01-intro/index.html#e2e-clinical-reporting-packages",
-    "href": "slides/01-intro/index.html#e2e-clinical-reporting-packages",
-    "title": "Welcome!",
-    "section": "E2E Clinical Reporting Packages",
-    "text": "E2E Clinical Reporting Packages\nhttps://pharmaverse.org/e2eclinical/"
+    "objectID": "slides/02-SDTM/index.html#oak-id-vars-the-linkage-key",
+    "href": "slides/02-SDTM/index.html#oak-id-vars-the-linkage-key",
+    "title": "CDISC SDTM datasets in R",
+    "section": "oak id vars — the linkage key",
+    "text": "oak id vars — the linkage key\nRaw data is long: each collected item is a column. sdtm.oak needs to know which SDTM record each qualifier belongs to.\n\n\nRaw row patient 701-1015 row 5 source vitals\n\n\n🔑\n\n\noak id vars patient_number oak_id raw_source\n\n\n→\n\n\nSDTM records VSTESTCD = SYSBP VSORRES = 131 VSORRESU = mmHg\n\n\n\n🔗 patient_number + oak_id (raw row) + raw_source uniquely tie every qualifier back to its topic — and the SDTM record back to the raw dataset."
   },
   {
-    "objectID": "slides/01-intro/index.html#not-that-kind-of--verse",
-    "href": "slides/01-intro/index.html#not-that-kind-of--verse",
-    "title": "Welcome!",
-    "section": "Not that kind of -verse",
-    "text": "Not that kind of -verse\n\nlibrary(pharmaverse)\n\nError in `library()`:\n! there is no package called 'pharmaverse'\n\n\n\nThe pharmaverse is a collection of open-source tools\nBut we would not want to attempt to load all of them at once."
+    "objectID": "slides/02-SDTM/index.html#programming-steps",
+    "href": "slides/02-SDTM/index.html#programming-steps",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Programming steps",
+    "text": "Programming steps\n\n\n\n\n1 📥 Read raw datasets\n2 🔑 Create oak id vars\n3 📖 Read study CT\n4 🎯 Map topic variable\n5 🏷️ Map the rest\n6 🔁 Repeat per topic variable\n7 🧮 Create derived vars\n8 🏁 Add labels & attributes\n\n\n\n# 1-2  read raw + create oak id vars\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\n# 3  read study controlled terminology\nstudy_ct &lt;- read.csv(\"sdtm_ct.csv\")\n# 4-6  map topic, map rest, repeat per topic var\nvs &lt;- hardcode_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n        ct_spec = study_ct, ct_clst = \"C66741\") |&gt;\n  assign_no_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSORRES\", id_vars = oak_id_vars())\n# 7-8  derived vars + labels & attributes\nvs &lt;- vs |&gt;\n  derive_seq(tgt_var = \"VSSEQ\", ...) |&gt;\n  derive_study_day(...)"
   },
   {
-    "objectID": "slides/01-intro/index.html#industry-working-on-a-similar-goal",
-    "href": "slides/01-intro/index.html#industry-working-on-a-similar-goal",
-    "title": "Welcome!",
-    "section": "Industry working on a similar goal",
-    "text": "Industry working on a similar goal\n\nStandards (ie CDISC) means standard tools can be created and shared\nCollaboration in the “post competitive” space means everyone has access to free solutions\nTeam and Regulators seeing consistent packages being used across multiple teams speeds up development and review"
+    "objectID": "slides/02-SDTM/index.html#how-we-will-code-today",
+    "href": "slides/02-SDTM/index.html#how-we-will-code-today",
+    "title": "CDISC SDTM datasets in R",
+    "section": "How we will “code” today",
+    "text": "How we will “code” today\n\nHand-code the first topic variables together — one algorithm per line, discussing each argument.\nThen hand it to an AI agent + skill to draft the remaining variables.\nVerify the result against the known VS numbers."
   },
   {
-    "objectID": "slides/01-intro/index.html#pharmaverse-true-or-false",
-    "href": "slides/01-intro/index.html#pharmaverse-true-or-false",
-    "title": "Welcome!",
-    "section": "pharmaverse: TRUE or FALSE?",
-    "text": "pharmaverse: TRUE or FALSE?"
+    "objectID": "slides/02-SDTM/index.html#review-specs",
+    "href": "slides/02-SDTM/index.html#review-specs",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Review specs",
+    "text": "Review specs\nReview aCRF\n\nVitalSigns_aCRF"
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-with-barb",
-    "href": "slides/01-intro/index.html#end-to-end-with-barb",
-    "title": "Welcome!",
-    "section": "End-to-End with Barb!",
-    "text": "End-to-End with Barb!\n\n\n\n\n\n\n\nYes, she is a cat!\nYes, she is cute!\nYes, she is enrolled in the clinical trial we will be walking through today.\nNamed after Ben’s mother-in-law? Perhaps!"
+    "objectID": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai",
+    "href": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Start by hand, finish with AI",
+    "text": "Start by hand, finish with AI\nWe hand-code TEMP and blood pressure, then let an agent + skill draft the rest.\n\n✍️Hand-code TEMP + BP 🧠skill = sdtm.oak know-how 🤖Agent drafts HEIGHT / WEIGHT / PULSE ✅Verify the result\n\n\n⏱️ Repetitive topic/qualifier blocks by hand → ⚡ Agent drafts them in seconds\n\n\n💡 The remaining vitals follow the same pattern we just coded — ideal work to delegate to the agent, then review."
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-with-barb-1",
-    "href": "slides/01-intro/index.html#end-to-end-with-barb-1",
-    "title": "Welcome!",
-    "section": "End-to-End with Barb!",
-    "text": "End-to-End with Barb!\nBarb is on a journey from raw data to the TFLs. At various points we will be finding Barb in our data as we transform from Raw to TFL."
+    "objectID": "slides/02-SDTM/index.html#the-pre-prepared-skill",
+    "href": "slides/02-SDTM/index.html#the-pre-prepared-skill",
+    "title": "CDISC SDTM datasets in R",
+    "section": "The pre-prepared skill",
+    "text": "The pre-prepared skill\nA checked-in skill teaches the agent our sdtm.oak conventions:\n\n🧠 .agents/skills/sdtm-oak-mapping/SKILL.md\n\n# SDTM mapping with sdtm.oak\n\nUse when: creating an SDTM domain from a raw dataset + aCRF.\n\nFor each vitals topic (HEIGHT, WEIGHT, PULSE):\n  1. hardcode_ct() -&gt; VSTESTCD, VSTEST   (from CT codelists)\n  2. assign_no_ct() -&gt; VSORRES           (the collected value)\n  3. hardcode_ct() -&gt; VSORRESU           (the unit)\nChain topic then qualifiers with |&gt;, id_vars = oak_id_vars().\n\nConventions: raw vars use IT.&lt;NAME&gt;; CT lives in study_ct."
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-with-barb-2",
-    "href": "slides/01-intro/index.html#end-to-end-with-barb-2",
-    "title": "Welcome!",
-    "section": "End-to-End with Barb!",
-    "text": "End-to-End with Barb!\nBarb is on a journey from raw data to the TFLs. At various points we will be finding Barb in our data as we transform from Raw to TFL."
+    "objectID": "slides/02-SDTM/index.html#the-prompt-acrf",
+    "href": "slides/02-SDTM/index.html#the-prompt-acrf",
+    "title": "CDISC SDTM datasets in R",
+    "section": "The prompt + aCRF",
+    "text": "The prompt + aCRF\n\n\n\n💬 Your prompt\n\n\n“Using the sdtm-oak-mapping skill and the annotated Vitals aCRF, map the remaining VS topics — PULSE and DIA_BP — with their VSORRES, VSORRESU and VSPOS qualifiers.”\n\n\n\n\n\n\n\nAnnotated Vitals aCRF — the agent reads these callouts\n\n\n\n\n🔎 The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right raw_var, unit, and codelist."
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-with-barb-3",
-    "href": "slides/01-intro/index.html#end-to-end-with-barb-3",
-    "title": "Welcome!",
-    "section": "End-to-End with Barb!",
-    "text": "End-to-End with Barb!\nBarb is on a journey from raw data to the TFLs. At various points we will be finding Barb in our data as we transform from Raw to TFL."
+    "objectID": "slides/02-SDTM/index.html#agent-drafts-the-remaining-vs-vars",
+    "href": "slides/02-SDTM/index.html#agent-drafts-the-remaining-vs-vars",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Agent drafts the remaining VS vars",
+    "text": "Agent drafts the remaining VS vars\n\n# Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)\nvs_pulse &lt;- hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSTESTCD\", tgt_val = \"PULSE\",\n    ct_spec = study_ct, ct_clst = \"C66741\"\n  ) |&gt;\n  dplyr::filter(!is.na(VSTESTCD)) |&gt;\n  assign_no_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSORRES\", id_vars = oak_id_vars()\n  ) |&gt;\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSORRESU\", tgt_val = \"beats/min\",\n    ct_spec = study_ct, ct_clst = \"C66770\", id_vars = oak_id_vars()\n  )\n\n\n🧑‍⚖️ Same shape as our hand-written blocks — you stay the reviewer: check the CT code, run it, confirm the result looks right."
   },
   {
-    "objectID": "slides/01-intro/index.html#end-to-end-the-data",
-    "href": "slides/01-intro/index.html#end-to-end-the-data",
-    "title": "Welcome!",
-    "section": "End-to-End: The Data",
-    "text": "End-to-End: The Data"
+    "objectID": "slides/02-SDTM/index.html#quiz---1",
+    "href": "slides/02-SDTM/index.html#quiz---1",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Quiz - 1",
+    "text": "Quiz - 1\n\nWhat function should be used for mapping for CMROUTE. The Route information is collected in a drop down list on the CRF.\n\n\n  assign_no_ct() \n\n\n  assign_ct() \n\n\nCorrect answer:\n\n\nAs CMROUTE has a codelist associated we need to use   assign_ct()"
   },
   {
-    "objectID": "slides/01-intro/index.html#working-environment",
-    "href": "slides/01-intro/index.html#working-environment",
-    "title": "Welcome!",
-    "section": "Working environment",
-    "text": "Working environment\n\nFor consistency, we will be working in Posit Cloud\nEverything has been installed and set up for you\nYou can also opt to work in local RStudio\nFollowing the course, all content from this workshop will be available on the course website and GitHub"
+    "objectID": "slides/02-SDTM/index.html#review-specs-1",
+    "href": "slides/02-SDTM/index.html#review-specs-1",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Review specs",
+    "text": "Review specs\nReview aCRF\n\nDemographics_aCRF\nExposure_as_collected_aCRF\nSubject_Disposition_aCRF"
   },
   {
-    "objectID": "slides/01-intro/index.html#quick-warm-up",
-    "href": "slides/01-intro/index.html#quick-warm-up",
-    "title": "Welcome!",
-    "section": "Quick warm-up",
-    "text": "Quick warm-up\n\n\n\n\n\n\nIf using Posit Cloud:\n\nNavigate to Posit Cloud link\nClick on the Project to make a personal copy\n\nIf using local RStudio:\n\nExercises can be found here: https://posit-conf-2025.github.io/pharmaverse/exercises/exercises.html\n\nOpen exercises/01-intro.R\nComplete the exercise"
+    "objectID": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai-1",
+    "href": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai-1",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Start by hand, finish with AI",
+    "text": "Start by hand, finish with AI\nDM’s reference dates are repetitive config rows — perfect to hand off after one worked example.\n\n✍️Derive RFXSTDTC by hand 🧠skill = sdtm.oak know-how 🤖Agent fills remaining ref dates ✅Verify the result\n\n\n⏱️ Seven near-identical config rows + calls → ⚡ Agent drafts them from the aCRFs"
   },
   {
-    "objectID": "slides/01-intro/index.html#solution-for-00-intro.r",
-    "href": "slides/01-intro/index.html#solution-for-00-intro.r",
-    "title": "Welcome!",
-    "section": "Solution for 00-intro.R",
-    "text": "Solution for 00-intro.R\nUsing dplyr:\n\nFrom the ADSL dataset:\nSubset to the safety population (SAFFL == “Y”)\ncalculate the number of unique subjects in each treatment group (TRT01A)\n\n\nlibrary(dplyr)\n\npharmaverseadam::adsl |&gt; \n  filter(SAFFL == \"Y\") |&gt; \n  count(TRT01A)\n\n# A tibble: 3 × 2\n  TRT01A                   n\n  &lt;chr&gt;                &lt;int&gt;\n1 Placebo                 86\n2 Xanomeline High Dose    72\n3 Xanomeline Low Dose     96"
+    "objectID": "slides/02-SDTM/index.html#reference-date-derivation",
+    "href": "slides/02-SDTM/index.html#reference-date-derivation",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Reference date derivation",
+    "text": "Reference date derivation\n\nDM has several reference dates: RFSTDTC, RFENDTC, RFXSTDTC, RFXENDTC, RFICDTC, RFPENDTC, DTHDTC.\nEach is a min/max date pulled from raw data across multiple eCRFs.\noak_cal_ref_dates() derives them from a small config table (ref_date_config_df) — no bespoke code per date.\n\n\n💡 Same idea as VS: walk through one reference date by hand, then let an agent + skill fill in the rest of the config."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#config-file-walk-through-one-row",
+    "href": "slides/02-SDTM/index.html#config-file-walk-through-one-row",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Config file — walk through one row",
+    "text": "Config file — walk through one row\nEach row tells sdtm.oak where one reference date lives:\n\n\n\n\n\n\n\n\ncolumn\nmeaning\nexample\n\n\n\n\nraw_dataset_name\nsource raw dataset\nex_raw\n\n\ndate_var\ndate variable in that dataset\nIT.ECSTDAT\n\n\ntime_var\ntime variable (if any)\nNA\n\n\ndformat\ndate format collected\ndd-mmm-yyyy\n\n\ntformat\ntime format collected\nNA\n\n\nsdtm_var_name\nreference date to derive\nRFXSTDTC"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#derive-one-by-hand-rfxstdtc",
+    "href": "slides/02-SDTM/index.html#derive-one-by-hand-rfxstdtc",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Derive one by hand — RFXSTDTC",
+    "text": "Derive one by hand — RFXSTDTC\n\n# 1 config: one row per reference date\nref_date_conf_df &lt;- tibble::tribble(\n  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat, ~sdtm_var_name,\n  \"ex_raw\",       \"IT.ECSTDAT\", NA_character_, \"dd-mmm-yyyy\", NA_character_, \"RFXSTDTC\"\n)\n\n# 2 derive RFXSTDTC from that config\ndm &lt;- oak_cal_ref_dates(\n  dm_domain          = dm,\n  der_var            = \"RFXSTDTC\",\n  min_max            = \"min\",\n  ref_date_config_df = ref_date_conf_df,\n  raw_source         = list(ex_raw = ex_raw)\n)\n\n\n🔑 One config row + one call. The remaining reference dates repeat this pattern with different sources."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#let-ai-populate-the-rest",
+    "href": "slides/02-SDTM/index.html#let-ai-populate-the-rest",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Let AI populate the rest",
+    "text": "Let AI populate the rest\n\n\n\n💬 Your prompt\n\n\n“Using the sdtm-oak-mapping skill and the DM / EX / DS aCRFs, add config rows and oak_cal_ref_dates() calls for the remaining reference dates: RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC.”\n\n\n\n\n\n# Agent extends the config, following the skill:\nref_date_conf_df &lt;- tibble::tribble(\n  ~raw_dataset_name, ~date_var,  ~time_var, ~dformat,     ~tformat, ~sdtm_var_name,\n  \"ex_raw\", \"IT.ECSTDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFXSTDTC\",\n  \"ex_raw\", \"IT.ECENDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFXENDTC\",\n  \"ds_raw\", \"IT.DSSTDAT\", NA,      \"mm-dd-yyyy\",  NA,   \"RFSTDTC\",\n  \"ex_raw\", \"IT.ECENDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFENDTC\",\n  \"dm_raw\", \"IC_DT\",      NA,      \"mm/dd/yyyy\",  NA,   \"RFICDTC\",\n  \"ds_raw\", \"DSDTCOL\",    \"DSTMCOL\",\"mm-dd-yyyy\", \"H:M\",\"RFPENDTC\",\n  \"ds_raw\", \"DEATHDT\",    NA,      \"mm/dd/yyyy\",  NA,   \"DTHDTC\"\n)\n# ...then one oak_cal_ref_dates() call per der_var\n\n\n\n🧑‍⚖️ You review each row against the aCRFs — correct source, date format, min vs max — then run and check the result."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#quiz---2",
+    "href": "slides/02-SDTM/index.html#quiz---2",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Quiz - 2",
+    "text": "Quiz - 2\n\nWhen to use hardcode mapping algorithm?\n\n\nTo assign a collected value on the eCRF\n\n\nTo Hardcode a SDTM variable that has not directly collected on the eCRF.\n\n\nCorrect answer:\n\n\nTo hardcode a value use hardcode algorithms. To assign a collected value use assign algorithms**"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#check-in-exercise",
+    "href": "slides/02-SDTM/index.html#check-in-exercise",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\nOpen exercises/02-SDTM.R\n\nlibrary(sdtm.oak)\nlibrary(pharmaverseraw)\nlibrary(dplyr)\n\n#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf\n\n# Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM\n\n# Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742\n\n# Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is \n#    If \"Yes\" then AESDTH = \"Y\" else Not Submitted. Codelist code for AESDTH is C66742\n\nAdd the “completed” sticky note to your laptop when complete."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#exercise-solution",
+    "href": "slides/02-SDTM/index.html#exercise-solution",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Exercise Solution",
+    "text": "Exercise Solution\n\nae &lt;-\n  # Derive topic variable\n  # Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM\n  assign_no_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AETERM\",\n    tgt_var = \"AETERM\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER\n  assign_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AESER\",\n    tgt_var = \"AESER\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESDTH using condition_add & assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH\n  assign_ct(\n    raw_dat = condition_add(ae_raw, IT.AESDTH == \"Yes\"),\n    raw_var = \"IT.AESDTH\",\n    tgt_var = \"AESDTH\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  )"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#agent-vs.-skill",
+    "href": "slides/02-SDTM/index.html#agent-vs.-skill",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Agent vs. skill",
+    "text": "Agent vs. skill\nWe just used an agent + skill to finish the VS domain. What are they?\n\n\n🤖 Agent An AI assistant that can read your files, run R, and edit code in your project — not just chat. It plans and executes multi-step tasks.\n\n\n🧠 Skill A reusable, checked-in instruction set that teaches the agent your conventions: how to map SDTM with sdtm.oak, where specs live, house style.\n\n\n\n🔑 Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#human-in-the-loop",
+    "href": "slides/02-SDTM/index.html#human-in-the-loop",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Human-in-the-loop",
+    "text": "Human-in-the-loop\nAI drafts the repetitive parts; you own correctness.\n\n\n1 🧠 Skill encodes how your team maps SDTM\n2 🤖 Agent reads specs → drafts sdtm.oak code\n3 👀 You review: right algorithm? right CT? edge cases?\n4 ▶️ Run and check the domain\n5 ♻️ Refine the skill so the next domain is even faster\n\n\n\n⚠️ Generated code is a starting point, not a submission. Validation, CT correctness, and traceability remain your responsibility."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#wrap-up-resources",
+    "href": "slides/02-SDTM/index.html#wrap-up-resources",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Wrap-up & resources",
+    "text": "Wrap-up & resources\n\n\n\n✅\n\n\nWhat you can build Most SDTM domains today. Not yet: Trial Design, SV, SE, RELREC, Associated Persons.\n\n\n\n\n🤝\n\n\nGet involved 💬 Slack · 🐙 GitHub · 📖 CDISC Wiki\n\n\n\n\n📚\n\n\nLearn more 📄 Docs · 🧩 Examples · ▶️ Video · 📝 Blog · 📊 Poster"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#acknowledgements",
+    "href": "slides/02-SDTM/index.html#acknowledgements",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\n\n\nThe sdtm.oak package is the work of many contributors:\n\n\nRammprasad Ganapathy Lead Author\n\n\nAdam Forys Author\n\n\nEdgar Manukyan Author\n\n\nRosemary Li Author\n\n\nPreetesh Parikh Author\n\n\nLisa Houterloot Author\n\n\nYogesh Gupta Author\n\n\nOmar Garcia Author\n\n\nRamiro Magno Author\n\n\nKamil Sijko Author\n\n\nShiyu Chen Author"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#thank-you",
+    "href": "slides/02-SDTM/index.html#thank-you",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Thank you",
+    "text": "Thank you"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_no_ct",
+    "href": "slides/02-SDTM/index.html#assign_no_ct",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_no_ct",
+    "text": "assign_no_ct\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        assign_no_ct()  \nOne-to-one mapping between the raw source and a target SDTM variable that has no controlled terminology restrictions. Just a simple assignment statement.\nMH.MHTERM  AE.AETERM"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_ct",
+    "href": "slides/02-SDTM/index.html#assign_ct",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_ct",
+    "text": "assign_ct\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        assign_ct()  \nOne-to-one mapping between the raw source and a target SDTM variable that is subject to controlled terminology restrictions. A simple assign statement and applying controlled terminology. This will be used only if the SDTM variable has an associated controlled terminology.\nVS.VSPOS  VS.VSLAT"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_datetime",
+    "href": "slides/02-SDTM/index.html#assign_datetime",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_datetime",
+    "text": "assign_datetime\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        assign_datetime()  \nOne-to-one mapping between the raw source and a target that involves mapping a Date or time or datetime component. This mapping algorithm also takes care of handling unknown dates and converting them into. ISO8601 format.\nMH.MHSTDTC  AE.AEENDTC"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#hardcode_ct",
+    "href": "slides/02-SDTM/index.html#hardcode_ct",
+    "title": "CDISC SDTM datasets in R",
+    "section": "hardcode_ct",
+    "text": "hardcode_ct\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        hardcode_ct()  \nMapping a hardcoded value to a target SDTM variable that is subject to terminology restrictions. This will be used only if the SDTM variable has an associated controlled terminology.\nMH.MHPRESP = ‘Y’  VS.VSORRESU = ‘mmHg’"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#hardcode_no_ct",
+    "href": "slides/02-SDTM/index.html#hardcode_no_ct",
+    "title": "CDISC SDTM datasets in R",
+    "section": "hardcode_no_ct",
+    "text": "hardcode_no_ct\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        hardcode_no_ct()  \nMapping a hardcoded value to a target SDTM variable that has no terminology restrictions.\nCM.CMTRT = ‘FLUIDS’  VS.VSCAT = ‘VITAL SIGNS’"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#condition_add",
+    "href": "slides/02-SDTM/index.html#condition_add",
+    "title": "CDISC SDTM datasets in R",
+    "section": "condition_add",
+    "text": "condition_add\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        condition_add()  \nAlgorithm that is used to filter the source data and/or target domain based on a condition. The mapping will be applied only if the condition is met. This algorithm has to be used in conjunction with other algorithms, that is if the condition is met perform the mapping using algorithms like assign_ct, assign_no_ct, hardcode_ct, hardcode_no_ct, assign_datetime.\nIf MDPRIOR == 1 then CM.CMSTRTPT = ‘BEFORE’. VS.VSMETHOD when VSTESTCD = ‘TEMP’"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#oak_cal_ref_dates",
+    "href": "slides/02-SDTM/index.html#oak_cal_ref_dates",
+    "title": "CDISC SDTM datasets in R",
+    "section": "oak_cal_ref_dates",
+    "text": "oak_cal_ref_dates\n\n\n\n\n\n\n\n\nAlgorithm or Function\nDescription of the Algorithm\nExample SDTM mapping\n\n\n\n\n        oak_cal_ref_dates()  \nDerivation of Reference dates in the DM domain\nDM.RFSTDTC  DM.RFPENDTC"
   },
   {
     "objectID": "slides/03-ADaM/index.html#objectives",
@@ -1771,7 +2128,7 @@
     "href": "slides/03-ADaM/index.html#packages-and-session-information",
     "title": "ADaMs with {admiral} and friends",
     "section": "Packages and Session Information",
-    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0   dplyr_1.2.1      compiler_4.6.1   renv_1.2.4      \n [5] tidyselect_1.2.1 xml2_1.6.0       stringr_1.6.0    tidyr_1.3.2     \n [9] yaml_2.3.12      fastmap_1.2.0    R6_2.6.1         generics_0.1.4  \n[13] admiraldev_1.5.0 knitr_1.51       pillar_1.11.1    rlang_1.3.0     \n[17] utf8_1.2.6       stringi_1.8.9    roxygen2_8.1.0   xfun_0.60       \n[21] otel_0.2.0       timechange_0.4.0 cli_3.6.6        withr_3.0.3     \n[25] magrittr_2.0.5   digest_0.6.39    hms_1.1.4        lifecycle_1.0.5 \n[29] vctrs_0.7.3      evaluate_1.0.5   rmarkdown_2.31   purrr_1.2.2     \n[33] tools_4.6.1      pkgconfig_2.0.3  htmltools_0.5.9"
+    "text": "Packages and Session Information\n\nsessionInfo()\n\nR version 4.6.1 (2026-06-24)\nPlatform: x86_64-pc-linux-gnu\nRunning under: Ubuntu 24.04.4 LTS\n\nMatrix products: default\nBLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 \nLAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0\n\nlocale:\n [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       \n [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   \n [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          \n[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   \n\ntime zone: UTC\ntzcode source: system (glibc)\n\nattached base packages:\n[1] stats     graphics  grDevices datasets  utils     methods   base     \n\nother attached packages:\n[1] lubridate_1.9.5 admiral_1.5.0   tibble_3.3.1    countdown_0.6.0\n[5] glue_1.8.1     \n\nloaded via a namespace (and not attached):\n [1] jsonlite_2.0.0   dplyr_1.2.1      compiler_4.6.1   renv_1.2.4      \n [5] tidyselect_1.2.1 xml2_1.6.0       stringr_1.5.1    tidyr_1.3.2     \n [9] yaml_2.3.12      fastmap_1.2.0    R6_2.6.1         generics_0.1.4  \n[13] admiraldev_1.5.0 knitr_1.51       pillar_1.11.1    rlang_1.3.0     \n[17] utf8_1.2.6       stringi_1.8.9    roxygen2_8.1.0   xfun_0.60       \n[21] otel_0.2.0       timechange_0.4.0 cli_3.6.6        withr_3.0.3     \n[25] magrittr_2.0.5   digest_0.6.39    hms_1.1.4        lifecycle_1.0.5 \n[29] vctrs_0.7.3      evaluate_1.0.5   rmarkdown_2.31   purrr_1.2.2     \n[33] tools_4.6.1      pkgconfig_2.0.3  htmltools_0.5.9"
   },
   {
     "objectID": "slides/04-ARD/index.html#ards-tables-a-dynamic-duo",
@@ -1841,7 +2198,7 @@
     "href": "slides/04-ARD/index.html#cards-introduction",
     "title": "ARDs (Analysis Results Datasets) in R",
     "section": "{cards}: Introduction",
-    "text": "{cards}: Introduction\n\nPart of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n52K downloads per month 🤯"
+    "text": "{cards}: Introduction\n\nPart of the Pharmaverse\nCollaboration between Roche, GSK, Novartis, Eli Lilly, Pfizer\nContains a variety of utilities for making ARDs\nCan be used within the ARS workflow and separately\n54K downloads per month 🤯"
   },
   {
     "objectID": "slides/04-ARD/index.html#data-used-in-examples",
@@ -2541,7 +2898,7 @@
     "href": "slides/05-tables-gtsummary/index.html#a-gtsummary-skill",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "A gtsummary Skill",
-    "text": "A gtsummary Skill\nA Skill is a folder with a SKILL.md. The YAML description is the trigger — write it as when to use it — and the body holds the procedure, loaded on demand.\n\nLives at .claude/skills/gtsummary-tables/SKILL.md. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across Claude Code, claude.ai, and the API.\n\n---\nname: gtsummary-tables\ndescription: Build clinical summary tables in R with crane, gtsummary,\n  and cards. Use whenever the user asks for a summary / demographics /\n  AE / lab table or a \"Table 1\".\n---\n\n# Clinical summary tables\n\nSetup: load tidyverse, crane, gtsummary, cards; then\ncrane::theme_gtsummary_roche().\n\n## Decision order\n1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits\n2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())\n3. complex/custom -&gt; ARD-first: cards::ard_stack() / cardx::ard_*()\n   -&gt; tbl_ard_*()\n4. last resort -&gt; build the ARD, then as_gtsummary()\n\nAlways gather_ard() the result for QC."
+    "text": "A gtsummary Skill\nA Skill is a folder with a SKILL.md. The YAML description is the trigger — write it as when to use it — and the body holds the procedure, loaded on demand.\n\nLives at .agents/skills/gtsummary-tables/SKILL.md. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across agents that read the .agents/ convention.\n\n---\nname: gtsummary-tables\ndescription: Build clinical summary tables in R with crane, gtsummary,\n  and cards. Use whenever the user asks for a summary / demographics /\n  AE / lab table or a \"Table 1\".\n---\n\n# Clinical summary tables\n\nSetup: load tidyverse, crane, gtsummary, cards; then\ncrane::theme_gtsummary_roche().\n\n## Decision order\n1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits\n2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())\n3. complex/custom -&gt; ARD-first: cards::ard_stack() / cardx::ard_*()\n   -&gt; tbl_ard_*()\n4. last resort -&gt; build the ARD, then as_gtsummary()\n\nAlways gather_ard() the result for QC."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#three-ideas-to-take-home",
