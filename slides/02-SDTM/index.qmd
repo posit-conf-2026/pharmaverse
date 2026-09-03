@@ -717,7 +717,7 @@ A checked-in skill teaches the agent *our* `sdtm.oak` conventions:
 
 ::::: {.pv-skill}
 
-[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
+[[🧠]{.pv-ico} .agents/skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
 
 :::: {.pv-skill-body}
 ```markdown
