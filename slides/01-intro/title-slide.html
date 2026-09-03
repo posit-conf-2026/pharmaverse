@@ -1,0 +1,34 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+
+<div class="custom-title">
+
+  <div class="title-left">
+
+    <h1 class="title">$title$</h1>
+
+    <div class="title-rule"></div>
+
+$if(subtitle)$
+    <p class="subtitle">$subtitle$</p>
+$endif$
+
+    <div class="title-author">
+      <div class="title-author-text">
+        <p class="author-name">$for(author)$$author$$sep$, $endfor$</p>
+$if(date)$
+        <p class="author-affil">$date$</p>
+$endif$
+      </div>
+    </div>
+
+  </div>
+
+  <div class="title-hero">
+    <div class="title-logo-card">
+      <img src="images/pharmaverse-hex.png" alt="pharmaverse logo">
+    </div>
+  </div>
+
+</div>
+
+</section>

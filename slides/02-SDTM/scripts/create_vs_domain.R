@@ -20,7 +20,7 @@ study_ct <- read.csv("slides/02-SDTM/metadata/sdtm_ct.csv")
 
 # Read in raw data & create oak_id_vars ----
 
-vs_raw <- pharmaverseraw::vs_raw %>%
+vs_raw <- pharmaverseraw::vs_raw |>
   generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "vitals"
@@ -40,8 +40,8 @@ vs_temp <-
     tgt_val = "TEMP",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  ) |>
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -51,14 +51,14 @@ vs_temp <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "IT.TEMP",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -68,7 +68,7 @@ vs_temp <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSLOC from TEMPLOC using assign_ct
   assign_ct(
     raw_dat = condition_add(vs_raw, !is.na(IT.TEMP)),
@@ -77,9 +77,9 @@ vs_temp <-
     ct_spec = study_ct,
     ct_clst = "C74456",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Create VSSTRESC by converting VSORRES from F to C
-  mutate(VSSTRESC = as.character(sprintf("%.2f", (as.numeric(VSORRES) - 32) * 5/9))) %>%
+  mutate(VSSTRESC = as.character(sprintf("%.2f", (as.numeric(VSORRES) - 32) * 5/9))) |>
   # Map VSSTRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -100,10 +100,10 @@ vs_sysbp <-
     tgt_val = "SYSBP",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
+  ) |>
   # Filter for records where VSTESTCD is not empty.
   # Only these records need qualifier mappings.
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -113,14 +113,14 @@ vs_sysbp <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "SYS_BP",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -130,7 +130,7 @@ vs_sysbp <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSPOS using assign_ct algorithm
   assign_ct(
     raw_dat = vs_raw,
@@ -150,8 +150,8 @@ vs_diabp <-
     tgt_val = "DIABP",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  ) |>
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -161,14 +161,14 @@ vs_diabp <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "DIA_BP",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -178,7 +178,7 @@ vs_diabp <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSPOS using assign_ct algorithm
   assign_ct(
     raw_dat = vs_raw,
@@ -198,8 +198,8 @@ vs_pulse <-
     tgt_val = "PULSE",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  ) |>
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -209,14 +209,14 @@ vs_pulse <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "PULSE",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -226,7 +226,7 @@ vs_pulse <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSPOS using assign_ct algorithm
   assign_ct(
     raw_dat = vs_raw,
@@ -246,8 +246,8 @@ vs_height <-
     tgt_val = "HEIGHT",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  ) |>
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -257,14 +257,14 @@ vs_height <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "IT.HEIGHT_VSORRES",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -274,9 +274,9 @@ vs_height <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Create VSSRESC by converting VSORRES from in to cm
-  mutate(VSSTRESC = as.character(sprintf("%.2f", as.numeric(VSORRES) * 2.54))) %>%
+  mutate(VSSTRESC = as.character(sprintf("%.2f", as.numeric(VSORRES) * 2.54))) |>
   # Map VSSTRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -297,8 +297,8 @@ vs_weight <-
     tgt_val = "WEIGHT",
     ct_spec = study_ct,
     ct_clst = "C66741"
-  ) %>%
-  dplyr::filter(!is.na(.data$VSTESTCD)) %>%
+  ) |>
+  dplyr::filter(!is.na(.data$VSTESTCD)) |>
   # Map VSTEST using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -308,14 +308,14 @@ vs_weight <-
     ct_spec = study_ct,
     ct_clst = "C67153",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRES using assign_no_ct algorithm
   assign_no_ct(
     raw_dat = vs_raw,
     raw_var = "IT.WEIGHT",
     tgt_var = "VSORRES",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSORRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -325,9 +325,9 @@ vs_weight <-
     ct_spec = study_ct,
     ct_clst = "C66770",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Create VSSTRESC by converting VSORRES from LB to KG
-  mutate(VSSTRESC = as.character(sprintf("%.2f", as.numeric(VSORRES) / 2.20462))) %>%
+  mutate(VSSTRESC = as.character(sprintf("%.2f", as.numeric(VSORRES) / 2.20462))) |>
   # Map VSSTRESU using hardcode_ct algorithm
   hardcode_ct(
     raw_dat = vs_raw,
@@ -347,14 +347,14 @@ vs_combined <- dplyr::bind_rows(
 
 # Map qualifiers common to all topic variables  ----
 
-vs <- vs_combined %>%
+vs <- vs_combined |>
   # Map VSDTC using assign_ct algorithm
   assign_datetime(
     raw_dat = vs_raw,
     raw_var = c("VTLD"),
     tgt_var = "VSDTC",
     raw_fmt = c(list(c("d-m-y", "dd-mmm-yyyy")))
-  ) %>%
+  ) |>
   # Map VSTPT from TMPTC using assign_ct
   assign_ct(
     raw_dat = vs_raw,
@@ -363,7 +363,7 @@ vs <- vs_combined %>%
     ct_spec = study_ct,
     ct_clst = "TPT",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VSTPTNUM from TMPTC using assign_ct
   assign_ct(
     raw_dat = vs_raw,
@@ -372,7 +372,7 @@ vs <- vs_combined %>%
     ct_spec = study_ct,
     ct_clst = "TPTNUM",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VISIT from INSTANCE using assign_ct
   assign_ct(
     raw_dat = vs_raw,
@@ -381,7 +381,7 @@ vs <- vs_combined %>%
     ct_spec = study_ct,
     ct_clst = "VISIT",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   # Map VISITNUM from INSTANCE using assign_ct
   assign_ct(
     raw_dat = vs_raw,
@@ -390,7 +390,7 @@ vs <- vs_combined %>%
     ct_spec = study_ct,
     ct_clst = "VISITNUM",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
   dplyr::mutate(
     STUDYID = "CDISCPILOT01",
     DOMAIN = "VS",
@@ -402,12 +402,11 @@ vs <- vs_combined %>%
     VSELTM = ifelse(is.na(VSTPT), NA, paste0("PT", readr::parse_number(VSTPT), "M")),
     VSTPTREF = ifelse(is.na(VSPOS), NA, paste("PATIENT", VSPOS)),
     VSSTAT = NA_character_
-  ) %>%
-  arrange(USUBJID, VSTESTCD, as.numeric(VISITNUM), as.numeric(VSTPTNUM)) %>%
+  ) |>
+  arrange(USUBJID, VSTESTCD, as.numeric(VISITNUM), as.numeric(VSTPTNUM)) |>
   derive_seq(tgt_var = "VSSEQ",
-             rec_vars= c("USUBJID", "VSTESTCD")) %>%
+             rec_vars= c("USUBJID", "VSTESTCD")) |>
   derive_study_day(
-    sdtm_in = .,
     dm_domain = dm,
     tgdt = "VSDTC",
     refdt = "RFXSTDTC",
@@ -415,15 +414,14 @@ vs <- vs_combined %>%
   )
 
 # Derive Baseline flag
-vs <-  vs %>%
-  dplyr::mutate(VSDTC = as.character(VSDTC)) %>%
+vs <-  vs |>
+  dplyr::mutate(VSDTC = as.character(VSDTC)) |>
   derive_blfl(
-    sdtm_in = .,
     dm_domain = dm,
     tgt_var = "VSBLFL",
     ref_var = "RFSTDTC",
     baseline_visits = "BASELINE",
     baseline_timepoints = c("AFTER LYING DOWN FOR 5 MINUTES", "AFTER STANDING FOR 1 MINUTE", "AFTER STANDING FOR 3 MINUTES", NA)
-  ) %>%
+  ) |>
   dplyr::select("STUDYID", "DOMAIN", "USUBJID", "VSSEQ", "VSTESTCD", "VSTEST", "VSPOS", "VSORRES", "VSORRESU", "VSSTRESC", "VSSTRESN", "VSSTRESU", "VSLOC", "VISITNUM", "VISIT", "VSDTC", "VSDY", "VSTPT", "VSTPTNUM", "VSELTM", "VSTPTREF")
 

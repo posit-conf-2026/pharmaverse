@@ -4,7 +4,6 @@ project:
   render:
     - "*.qmd"
     - "!slides/**/[0-9]*.qmd"
-    - "!slides/02-SDTM/*.qmd"
 
 website:
   page-navigation: true

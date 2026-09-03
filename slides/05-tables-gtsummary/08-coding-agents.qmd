@@ -95,7 +95,7 @@ See the "gtsummary-tables" skill for the full workflow.
 A Skill is a folder with a `SKILL.md`. The YAML `description` is the [trigger]{.emphasis} — write it as *when to use it* — and the body holds the procedure, loaded [on demand]{.emphasis}.
 
 ::: {.small}
-Lives at `.claude/skills/gtsummary-tables/SKILL.md`. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across Claude Code, claude.ai, and the API.
+Lives at `.agents/skills/gtsummary-tables/SKILL.md`. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across agents that read the `.agents/` convention.
 :::
 
 ``` md

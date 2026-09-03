@@ -22,7 +22,7 @@ Modern clinical reporting workflows are evolving fast, and this workshop helps y
 ::: {.schedule-table}
 | Time          | Activity                                                             |
 |---------------|---------------------------------------------------------------------|
-| 09:00 – 09:30 | [Introduction + Overview](slides/01-intro/index.html)               |
+| 09:00 – 09:30 | [Introduction to Pharmaverse and AI Agents](slides/01-intro/index.html)               |
 | 09:30 – 10:30 | [SDTM](slides/02-SDTM/index.html)                                    |
 | 10:30 – 11:00 | *Coffee Break*                                                      |
 | 11:00 – 12:30 | [ADaMs with {admiral} and friends](slides/03-ADaM/index.html)       |
@@ -85,13 +85,17 @@ At GSK since 2018, Ben has led and helped with many initiatives around R adoptio
 :::
 
 ::: {.instructor-card}
-![](images/ram-circle.png){fig-alt="Headshot of Rammprasad Ganapathy"}
+![](images/magda-circle.png){fig-alt="Headshot of Magdalena Krochmal"}
 
-[**Rammprasad Ganapathy**]{.instructor-name}
+[**Magdalena Krochmal** (Magda)]{.instructor-name}
 
-[Principal Data Scientist, Roche/Genentech]{.instructor-role}
+[Senior Real-Time Visual Analytics Specialist, Roche]{.instructor-role}
 
-Ram has over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.
+Magda has over a decade of experience bridging advanced data engineering and user-centered application design. With a strong focus on clinical submission innovations, she is actively involved in the development and implementation of the SDTM automation project, {roak}. Magda leverages her expertise in R, Shiny, and AI-driven workflows to engineer intuitive medical data review tools, translating complex clinical data into high-impact, interactive visual analytics.
+
+::: {.instructor-social}
+[`r fontawesome::fa("linkedin", fill = "#7090A5")`](https://www.linkedin.com/in/magdalena-krochmal/)
+:::
 :::
 
 :::

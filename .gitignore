@@ -9,11 +9,17 @@
 docs
 site_libs
 
+# Quarto per-document render artifacts
+**/*_files/
+
 **/*.quarto_ipynb
 
 README.qmd
 languages.qmd
 project.Rproj
 data/
+
+# renv package cache (persisted across rebuilds)
+.renv-cache/
 
 .DS_Store
