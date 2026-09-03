@@ -944,7 +944,14 @@ $pv-accent: $custom-col; // #E67E3A
   margin: 0.2em 0 0.7em;
 }
 .pv-expect-head .pv-expect-logo { width: 84px; height: auto; flex: 0 0 auto; margin: 0; }
-.pv-expect-head .pv-expect-tag { font-size: 0.9em; color: $pv-navy; }
+.pv-expect-head .pv-expect-tag {
+  font-size: 1.35em;
+  font-weight: 600;
+  line-height: 1.2;
+  color: $pv-navy;
+  display: flex;
+  align-items: center;
+}
 
 .pv-expect {
   display: flex;
@@ -1031,4 +1038,142 @@ $pv-accent: $custom-col; // #E67E3A
   color: $pv-navy;
   font-size: 0.95em;
   margin-bottom: 0.1em;
+}
+
+/* --- TRUE / FALSE quiz --- */
+.pv-tf {
+  max-width: 900px;
+  margin: 0.6em auto 0;
+}
+.pv-tf .pv-tf-q {
+  background: $pv-navy;
+  color: #fff;
+  border-radius: 12px;
+  padding: 0.9em 1.2em;
+  font-size: 1.15em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.pv-tf .pv-tf-q p { margin: 0; }
+.pv-tf .pv-tf-opts {
+  display: flex;
+  gap: 1.4em;
+  justify-content: center;
+  margin-top: 1.1em;
+}
+.pv-tf .pv-tf-badge {
+  flex: 1 1 0;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 12px;
+  padding: 0.8em 1em;
+  font-size: 1.3em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+.pv-tf .pv-tf-badge p { margin: 0; }
+.pv-tf .pv-tf-true {
+  background: #E6F4EA;
+  color: #1E7E34;
+  border: 2px solid #34A853;
+}
+.pv-tf .pv-tf-false {
+  background: #FDECEA;
+  color: #C0392B;
+  border: 2px solid #E74C3C;
+}
+.pv-tf .pv-tf-ico { font-size: 1.2em; }
+
+/* --- TRUE / FALSE quiz: multi-statement list --- */
+.pv-tf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  max-width: 1000px;
+  margin: 0.4em auto 0;
+}
+.pv-tf-list .pv-tf-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  background: #EEF2F5;
+  border-left: 5px solid $pv-mid;
+  border-radius: 10px;
+  padding: 0.55em 0.9em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.pv-tf-list .pv-tf-stmt {
+  flex: 1 1 auto;
+  font-size: 0.82em;
+  color: $pv-navy;
+  line-height: 1.25;
+}
+.pv-tf-list .pv-tf-stmt p { margin: 0; }
+.pv-tf-list .pv-tf-ans {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  border-radius: 8px;
+  padding: 0.3em 0.7em;
+  font-size: 0.9em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  min-width: 5.2em;
+  justify-content: center;
+}
+.pv-tf-list .pv-tf-ans.pv-tf-true {
+  background: #E6F4EA; color: #1E7E34; border: 2px solid #34A853;
+}
+.pv-tf-list .pv-tf-ans.pv-tf-false {
+  background: #FDECEA; color: #C0392B; border: 2px solid #E74C3C;
+}
+
+/* --- Working environment: Posit Cloud logo --- */
+.pv-env-logo {
+  display: block;
+  margin: 1em auto 0;
+  max-width: 260px;
+  height: auto;
+}
+
+/* --- "Your turn!" prompts --- */
+.pv-yourturn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  max-width: 820px;
+  margin: 1em auto 0;
+}
+.pv-yourturn .pv-yt-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  background: #EEF2F5;
+  border-left: 5px solid $pv-mid;
+  border-radius: 10px;
+  padding: 0.7em 1em;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: $pv-navy;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-yourturn .pv-yt-item p { margin: 0; }
+.pv-yourturn .pv-yt-ico { font-size: 1.3em; flex: 0 0 auto; }
+
+/* --- Highlighted call-to-action (e.g. warm-up step) --- */
+.pv-highlight {
+  display: inline-block;
+  background: #FDF1E8;
+  color: $pv-navy;
+  border-left: 5px solid $pv-accent;
+  border-radius: 6px;
+  padding: 0.35em 0.7em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }

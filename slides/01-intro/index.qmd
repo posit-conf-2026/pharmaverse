@@ -96,11 +96,17 @@ Room **334**
 
 ## Your turn!
 
-Who are you?
-
-What do you do?
-
-What do you hope to get out of today?
+::: {.pv-yourturn}
+::: {.pv-yt-item .fragment}
+[🙋]{.pv-yt-ico} Who are you?
+:::
+::: {.pv-yt-item .fragment}
+[💼]{.pv-yt-ico} What do you do?
+:::
+::: {.pv-yt-item .fragment}
+[🎯]{.pv-yt-ico} What do you hope to get out of today?
+:::
+:::
 
 # Workshop outline
 
@@ -157,32 +163,15 @@ What do you hope to get out of today?
 
 ::::::
 
-## The pipeline, end to end
-
-::: {.pv-flow .pv-flow-accent}
-[[📥]{.pv-ico}Raw]{.pv-step}
-[[📦]{.pv-ico}SDTM]{.pv-step}
-[[🧬]{.pv-ico}ADaM]{.pv-step}
-[[📊]{.pv-ico}ARD]{.pv-step}
-[[📑]{.pv-ico}TLG]{.pv-step}
-:::
-
-<br>
-
-::: {.pv-ai}
-[🤖]{.pv-ico} At each stage the pattern repeats — a great fit for an **AI agent**
-guided by a **skill** that knows the pharmaverse way.
-:::
-
-## Workshop Expectations
+## Workshop Expectations {.smaller}
 
 :::::: columns
 :::: {.column width="70%"}
-::: larger
+
 -   Ask questions!
 
 -   Be respectful to each other and yourself
-:::
+
 ::::
 
 ::: {.column width="30%"}
@@ -190,7 +179,7 @@ guided by a **skill** that knows the pharmaverse way.
 :::
 ::::::
 
-## Your Background
+## Your Background {.smaller}
 
 -   Basic knowledge of R and packages in the tidyverse
 
@@ -203,11 +192,11 @@ guided by a **skill** that knows the pharmaverse way.
 -   🦺 However, CDISC knowledge _not_ required, and you will learn! 🦺
 
 
-## Welcome to the pharmaverse!
+## Welcome to the pharmaverse! {.smaller}
 
 :::::: columns
 :::: {.column width="70%"}
-::: large
+
 -   <https://pharmaverse.org/>
 
 -   Goals
@@ -215,21 +204,27 @@ guided by a **skill** that knows the pharmaverse way.
     -   Align pharma industry on a set of open source packages based in R to deliver the clinical data pipeline
 
     -   Design, collaborate, and deliver new solutions where suitable tools do not exist
-:::
+
 ::::
 
 ::: {.column width="30%"}
-![](../../images/pharmaverse-hex.png)
+<img src="images/pharmaverse-hex.png" alt="pharmaverse" style="width: 100%;"/>
 :::
 ::::::
 
-## E2E Clinical Reporting Packages
+## End-to-End: Clinical Reporting Packages {.smaller}
 
 <https://pharmaverse.org/e2eclinical/>
 
 <img src="images/pharmaverse-pkgs.png" style="width: 200px;"/>
 
-## Not that kind of -verse
+## End-to-End: The Data {.smaller}
+
+<img src="images/pharmaverseraw.png" width="30%">
+<img src="images/pharmaversesdtm.png" width="30%">
+<img src="images/pharmaverseadam.png" width="30%">
+
+## Not that kind of -verse {.smaller}
 
 ```{r}
 #| error: true
@@ -240,7 +235,7 @@ library(pharmaverse)
 
 -   But we would not want to attempt to load **all of them** at once.
 
-## Industry working on a similar goal
+## Industry working on a similar goal {.smaller}
 
 -   Standards (ie CDISC) means standard tools can be created and shared
 
@@ -248,7 +243,105 @@ library(pharmaverse)
 
 -   Team and Regulators seeing consistent packages being used across multiple teams speeds up development and review
 
+## pharmaverse: TRUE or FALSE? {.smaller}
+
+::: {.pv-tf-list}
+
+::: {.pv-tf-row}
+[pharmaverse makes decisions on how R **should** be used in the pharma space]{.pv-tf-stmt}
+[[✘]{.pv-tf-ico} FALSE]{.pv-tf-ans .pv-tf-false .fragment}
+:::
+
+::: {.pv-tf-row}
+[pharmaverse is a **source of information** on R packages for the clinical data workflow]{.pv-tf-stmt}
+[[✔]{.pv-tf-ico} TRUE]{.pv-tf-ans .pv-tf-true .fragment}
+:::
+
+::: {.pv-tf-row}
+[pharmaverse lets **commercial interests** from collaborators drive decisions]{.pv-tf-stmt}
+[[✘]{.pv-tf-ico} FALSE]{.pv-tf-ans .pv-tf-false .fragment}
+:::
+
+::: {.pv-tf-row}
+[pharmaverse's scope **starts at SDTM and ends at TLF** creation]{.pv-tf-stmt}
+[[✘]{.pv-tf-ico} FALSE]{.pv-tf-ans .pv-tf-false .fragment}
+:::
+
+::: {.pv-tf-row}
+[you **don't need to be part of** pharmaverse to use the tools coming from it]{.pv-tf-stmt}
+[[✔]{.pv-tf-ico} TRUE]{.pv-tf-ans .pv-tf-true .fragment}
+:::
+
+::: {.pv-tf-row}
+[pharmaverse packages need to be reviewed by **your own GxP process**]{.pv-tf-stmt}
+[[✔]{.pv-tf-ico} TRUE]{.pv-tf-ans .pv-tf-true .fragment}
+:::
+
+:::
+
 # Agents & skills {background-color="#003559"}
+
+## Ways to use LLMs {.smaller}
+
+The main difference is **how much the AI does for you** — from answering
+questions to taking action in your project:
+
+<br>
+
+:::: {.pv-cards}
+::: {.pv-card}
+[💬]{.pv-ico}
+[Chat]{.pv-title}
+Ask questions, get explanations & code — **you copy and paste**
+<br>*ChatGPT, Claude, Gemini*
+:::
+::: {.pv-card}
+[⌨️]{.pv-ico}
+[Assistant / Ask]{.pv-title}
+In-IDE help with your file context — **you accept the edits**
+<br>*Copilot, Cursor, Posit Assistant*
+:::
+::: {.pv-card .pv-accent}
+[🤖]{.pv-ico}
+[Agent]{.pv-title}
+Reads files, runs code, edits the project — **multi-step, you review**
+<br>*same tools, agent mode*
+:::
+::::
+
+::: {.pv-ai}
+[🎯]{.pv-ico} More autonomy → less typing, more reviewing. Today we focus on the
+**agent** end of the spectrum — and Posit Assistant gives us both **Ask** and
+**Agent** modes.
+:::
+
+## Posit Assistant {.smaller}
+
+In **Posit Cloud**, we will be using **Posit Assistant** — an AI assistant
+built right into the IDE.
+
+<img src="images/posit_assistant.png" style="width: 70%;"/>
+
+## Posit Assistant — modes {.smaller}
+
+Posit Assistant offers a few modes depending on how much you want it to do:
+
+<br>
+
+:::: {.pv-cards}
+::: {.pv-card}
+[💬]{.pv-ico}
+[Ask]{.pv-title}
+Answer questions and explain code — **no changes made**
+:::
+::: {.pv-card .pv-accent}
+[🤖]{.pv-ico}
+[Agent]{.pv-title}
+Plan and carry out **multi-step edits** across your project
+:::
+::::
+
+<div style="text-align: center;"><img src="images/posit_assistant_modes.png" style="width: 50%;"/></div>
 
 ## Why AI fits clinical reporting {.smaller}
 
@@ -335,7 +428,8 @@ turning an aCRF into `sdtm.oak` code that you review and run.
 
 ## What a skill looks like in practice {.smaller}
 
-A skill can be **one file** — or a **folder** with supporting material.
+Skills live in an **`.agents/`** folder in the repo. A skill can be **one
+file** — or a **folder** with supporting material.
 
 ::::::: columns
 
@@ -343,7 +437,8 @@ A skill can be **one file** — or a **folder** with supporting material.
 [**Single document**]{.pv-title}
 
 ::::: {.pv-tree}
-[📄 sdtm-mapping.md]{.pv-main}
+[📁 .agents/skills/]{.pv-dir}<br>
+└─ [📄 sdtm-mapping.md]{.pv-main}
 :::::
 
 Good for a focused, self-contained task. Everything the agent needs in
@@ -354,7 +449,7 @@ one place.
 [**Folder with resources**]{.pv-title}
 
 ::::: {.pv-tree}
-[📁 sdtm-oak-mapping/]{.pv-dir}<br>
+[📁 .agents/skills/sdtm-oak-mapping/]{.pv-dir}<br>
 ├─ [📄 SKILL.md]{.pv-main} [← entry point]{.pv-cmt}<br>
 ├─ 📁 examples/<br>
 │&nbsp;&nbsp;├─ 📄 vs_domain.R<br>
@@ -370,8 +465,9 @@ Scales to reusable patterns: worked code, specs, house style.
 :::::::
 
 ::: {.pv-ai}
-[🔑]{.pv-ico} The agent reads `SKILL.md` first, then opens the extra files **only
-when the task needs them** — not all at once.
+[🔑]{.pv-ico} Skills are kept in the **`.agents/`** folder. The agent reads
+`SKILL.md` first, then opens the extra files **only when the task needs
+them** — not all at once.
 :::
 
 ## `AGENTS.md` in practice {.smaller}
@@ -389,21 +485,12 @@ Project-wide **house rules** the agent reads for *every* task — checked into t
 ## Conventions
 - Use the pharmaverse (sdtm.oak, admiral, gtsummary).
 - Style: tidyverse; pipe with |>; snake_case objects.
-- Never edit files under derived/ by hand.
-
-## Workflow
-- Restore packages with renv::restore() before running.
-- Put SDTM code in sdtm/, ADaM in adam/.
-
-## Review
-- Explain each derivation in a comment.
-- Show a data preview before saving a dataset.
 ```
 ::::
 :::::
 
 ::: {.pv-ai}
-[💡]{.pv-ico} `AGENTS.md` = *who we are & how we work*. It's global context, always on.
+[💡]{.pv-ico} `AGENTS.md` = *who we are & how we work* — global context, always on.
 :::
 
 ## `SKILL.md` in practice {.smaller}
@@ -412,22 +499,23 @@ A **task-specific** recipe — loaded only when that task comes up.
 
 ::::: {.pv-skill}
 
-[[🧠]{.pv-ico} skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
+[[🧠]{.pv-ico} .agents/skills/sdtm-oak-mapping/SKILL.md]{.pv-skill-head}
 
 :::: {.pv-skill-body}
 ```markdown
+---
+name: sdtm-oak-mapping
+description: Map a raw dataset to an SDTM domain from raw + aCRF.
+---
+
 # Map a raw dataset to an SDTM domain
 
 Use when: creating an SDTM domain from raw + aCRF.
 
 Steps
 1. List target variables and their CT from the spec.
-2. Pick the algorithm per variable:
-   - collected, no CT ... assign_no_ct()
-   - collected, with CT . assign_ct(ct_spec, ct_clst)
-   - conditional ........ condition_add()
-3. Chain topic then qualifiers; id_vars = oak_id_vars().
-4. Add labels; run the domain and preview it.
+2. Pick the algorithm per variable.
+3. Chain topic then qualifiers; run and preview.
 
 See examples/vs_domain.R for a full worked case.
 ```
@@ -435,8 +523,9 @@ See examples/vs_domain.R for a full worked case.
 :::::
 
 ::: {.pv-ai}
-[🔑]{.pv-ico} `AGENTS.md` is *always* loaded; a `SKILL.md` is pulled in *on demand* —
-keeping each prompt lean.
+[🔑]{.pv-ico} A `SKILL.md` **must start with YAML frontmatter** with two required
+fields — `name` and `description`. `AGENTS.md` is *always* loaded; a skill is
+pulled in *on demand*, keeping each prompt lean.
 :::
 
 ## Good skills: short & to the point {.smaller}
@@ -522,27 +611,18 @@ anything large.
 knowledge — not a copy of it.
 :::
 
-## pharmaverse: TRUE or FALSE?
+## Working environment {.smaller}
 
-<img src="images/TRUEandFALSE.png" style="width: 200px;"/>
+-   For consistency, we will be working in **Posit Cloud**
 
-## End-to-End: The Data
+-   Everything has been installed and set up for you
 
-<img src="images/pharmaverseraw.png" width="30%">
-<img src="images/pharmaversesdtm.png" width="30%">
-<img src="images/pharmaverseadam.png" width="30%">
+-   Following the course, all content from this workshop will be available on the course website and GitHub
 
-
-## Working environment
-
--   For consistency, we will be working in Posit Cloud  
-
--   Everything has been installed and set up for you 
-
--   Following the course, all content from this workshop will be available on the course website and GitHub 
+<img src="images/posit-cloud-logo.jpg" class="pv-env-logo" alt="Posit Cloud"/>
 
 
-## Quick warm-up
+## Quick warm-up {.smaller}
 
 ```{r}
 #| echo: false
@@ -551,29 +631,12 @@ library(countdown)
 countdown(minutes = 5, play_sound = TRUE)
 ```
 
-1. Open the workshop project in Posit Cloud.
-2. Show the sidebar with the toolbar icon in the top right of the IDE, then click the button to install Posit Assistant in the project.
-3. Click Sign in to try Posit AI for free and authorize in your browser. Create your Posit AI account at posit.ai using the same email you registered for the workshop with — that's how your workshop credits attach.
-4. Optional: turn on inline completions with Tools → Global Options → Assistant and pick Posit AI Next Edit Suggestions from the "Use code assistant" dropdown. These are unlimited and free — they don't draw on credits at all.
+1. Open the workshop project in **Posit Cloud**.
+2. Show the sidebar with the toolbar icon in the top right of the IDE, then click the button to **install Posit Assistant** in the project.
+3. Click **Sign in to try Posit AI for free** and authorize in your browser. Create your Posit AI account at **posit.ai** using the **same email you registered with** — that's how your workshop credits attach.
+4. *Optional:* turn on inline completions with **Tools → Global Options → Assistant** and pick **Posit AI Next Edit Suggestions**. These are unlimited and free.
+5. [**➡️ Ask your Posit Assistant to list all the installed pharmaverse packages!**]{.pv-highlight}
 
-5. Ask your Posit Assistant to list all the instaled pharmaverse packages!
-
-
-## Solution
-
-Using dplyr:
- 
-- From the ADSL dataset:
-- Subset to the safety population (SAFFL == "Y")
-- calculate the number of unique subjects in each treatment group (TRT01A)  
-
-```{r}
-library(dplyr)
-
-pharmaverseadam::adsl |> 
-  filter(SAFFL == "Y") |> 
-  count(TRT01A)
-```
-
+<img src="images/prompt1.png" style="width: 48%;"/>
 
 
