@@ -15,7 +15,7 @@ gtsummary_downloads <-
   cranlogs::cran_downloads(
     packages = "gtsummary",
     from = "2019-01-01",
-    to = Sys.Date() - 1
+    to = Sys.Date()
   ) |>
   dplyr::pull(count) |>
   sum() |>

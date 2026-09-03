@@ -31,8 +31,8 @@ At various points we found Barb in our data as we transformed from Raw to TFL
 
 - ARDs with {cards} and {cardx}
 
-- ARD-first tables with {tfrmt}
-
 - ARD-friendly tables with {gtsummary}
+
+- ARD-first tables with {tfrmt}
 
 :::
