@@ -85,16 +85,6 @@ At GSK since 2018, Ben has led and helped with many initiatives around R adoptio
 :::
 
 ::: {.instructor-card}
-![](images/ram-circle.png){fig-alt="Headshot of Rammprasad Ganapathy"}
-
-[**Rammprasad Ganapathy**]{.instructor-name}
-
-[Principal Data Scientist, Roche/Genentech]{.instructor-role}
-
-Ram has over 15 years of experience in EDC clinical programming and statistical programming. He leads the OAK team and is the author of the R packages {roak} and its open-source counterpart, {sdtm.oak}. Ram and his team developed the R-based SDTM automation solution, OAK, taking it from a proof of concept to full-scale implementation.
-:::
-
-::: {.instructor-card}
 ![](images/magda-circle.png){fig-alt="Headshot of Magdalena Krochmal"}
 
 [**Magdalena Krochmal** (Magda)]{.instructor-name}

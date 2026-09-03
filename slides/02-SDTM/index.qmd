@@ -683,7 +683,7 @@ vs <- vs |>
 ::: incremental
 -   **Hand-code** the first topic variables together — one algorithm per line, discussing each argument.
 -   Then **hand it to an AI agent + skill** to draft the remaining variables.
--   **Verify** the result against Barb's known VS numbers.
+-   **Verify** the result against the known VS numbers.
 :::
 
 ## Review specs
@@ -700,7 +700,7 @@ We hand-code **TEMP** and **blood pressure**, then let an **agent + skill** draf
 [[✍️]{.pv-ico}Hand-code TEMP + BP]{.pv-step}
 [[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
 [[🤖]{.pv-ico}Agent drafts HEIGHT / WEIGHT / PULSE]{.pv-step}
-[[✅]{.pv-ico}Verify with Barb]{.pv-step}
+[[✅]{.pv-ico}Verify the result]{.pv-step}
 :::
 
 ::: {.pv-speed}
@@ -786,41 +786,8 @@ vs_pulse <- hardcode_ct(
 ```
 
 ::: {.pv-ai}
-[🧑‍⚖️]{.pv-ico} Same shape as our hand-written blocks — **you stay the reviewer**: check the CT code, run it, confirm Barb looks right.
+[🧑‍⚖️]{.pv-ico} Same shape as our hand-written blocks — **you stay the reviewer**: check the CT code, run it, confirm the result looks right.
 :::
-
-## Check in on Barb — Vitals raw → VS {.smaller}
-
-:::: {.columns}
-
-::: {.column width="20%"}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
-:::
-
-::: {.column width="40%"}
-**Vitals raw**
-
-* PATNUM:  701-1034
-* OAK_ID:  213
-* INSTANCE: WEEK2
-* VTLD: 15-Jul-2014
-* TMPTC: after Lying Down for 5 Minutes
-* SYS_BP:   183.0
-* DIA_BP:   81.0
-:::
-
-::: {.column width="40%"}
-**VS domain**
-
-* USUBJID:  01-701-1034
-* VSTESTCD: SYSBP and DIABP
-* VISIT: WEEK2
-* VSDTC: 2014-07-15
-* VSTPT: AFTER LYING DOWN FOR 5 MINUTES
-* VSORRES:   183.0 and 81.0
-:::
-
-::::
 
 ## Quiz - 1
 
@@ -852,7 +819,7 @@ DM's **reference dates** are repetitive config rows — perfect to hand off afte
 [[✍️]{.pv-ico}Derive RFXSTDTC by hand]{.pv-step}
 [[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
 [[🤖]{.pv-ico}Agent fills remaining ref dates]{.pv-step}
-[[✅]{.pv-ico}Verify with Barb]{.pv-step}
+[[✅]{.pv-ico}Verify the result]{.pv-step}
 :::
 
 ::: {.pv-speed}
@@ -943,35 +910,8 @@ ref_date_conf_df <- tibble::tribble(
 :::::::
 
 ::: {.pv-ai}
-[🧑‍⚖️]{.pv-ico} You **review each row** against the aCRFs — correct source, date format, min vs max — then run and check Barb.
+[🧑‍⚖️]{.pv-ico} You **review each row** against the aCRFs — correct source, date format, min vs max — then run and check the result.
 :::
-
-## Check in on Barb — DM raw → DM {.smaller}
-
-:::: {.columns}
-
-::: {.column width="20%"}
-<div style="text-align: left;"> <img src="images/barb-transparent.png" alt="Barb!" style="width: 160px;"/> </div>
-:::
-
-::: {.column width="40%"}
-**DM raw**
-
-* PATNUM:  701-1034
-* OAK_ID:  5
-* IT.AGE: 77
-* IT.SEX: Female
-:::
-
-::: {.column width="40%"}
-**DM domain**
-
-* USUBJID:  01-701-1034
-* AGE:  77
-* SEX: FEMALE
-:::
-
-::::
 
 ## Quiz - 2
 
@@ -1082,7 +1022,7 @@ AI drafts the repetitive parts; **you own correctness**.
 - [1]{.pv-num} [🧠]{.pv-ico} Skill encodes *how* your team maps SDTM
 - [2]{.pv-num} [🤖]{.pv-ico} Agent reads specs → drafts `sdtm.oak` code
 - [3]{.pv-num} [👀]{.pv-ico} You review: right algorithm? right CT? edge cases?
-- [4]{.pv-num} [▶️]{.pv-ico} Run and check the domain (find Barb!)
+- [4]{.pv-num} [▶️]{.pv-ico} Run and check the domain
 - [5]{.pv-num} [♻️]{.pv-ico} Refine the skill so the next domain is even faster
 :::
 

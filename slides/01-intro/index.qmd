@@ -91,7 +91,7 @@ Room **334**
 
 ## Instructors
 
-![](instructors-2026.png)
+![](images/instructors-2026.png)
 
 
 ## Your turn!
@@ -186,7 +186,7 @@ guided by a **skill** that knows the pharmaverse way.
 ::::
 
 ::: {.column width="30%"}
-![](student-ask-questions.png)
+![](images/student-ask-questions.png)
 :::
 ::::::
 
@@ -227,7 +227,7 @@ guided by a **skill** that knows the pharmaverse way.
 
 <https://pharmaverse.org/e2eclinical/>
 
-<img src="pharmaverse-pkgs.png" style="width: 200px;"/>
+<img src="images/pharmaverse-pkgs.png" style="width: 200px;"/>
 
 ## Not that kind of -verse
 
@@ -524,58 +524,13 @@ knowledge — not a copy of it.
 
 ## pharmaverse: TRUE or FALSE?
 
-<img src="TRUEandFALSE.png" style="width: 200px;"/>
-
-## End-to-End with Barb!
-
-::: columns
-
-::: column
-::: {style="text-align: center;"}
-<img src="barb-transparent.png" alt="Barb!" style="width: 200px;"/>
-:::
-:::
-
-::: column
-- Yes, she is a cat!
-
-- Yes, she is cute!
-
-- Yes, she is enrolled in the clinical trial we will be walking through today.
-
-- Named after Ben's mother-in-law? Perhaps! 
-:::
-::::
-
-## End-to-End with Barb! {.smaller}
-
-**Data Collection** — find Barb on the eCRF (raw data).
-
-::: {style="text-align: center;"}
-<img src="barb-sdtm.png" alt="Data Collection" style="max-width: 78%; max-height: 58vh; width: auto; height: auto;"/>
-:::
-
-## End-to-End with Barb! {.smaller}
-
-**Data Aggregation** — Barb flows from SDTM into analysis-ready ADaM.
-
-::: {style="text-align: center;"}
-<img src="barb-adam.png" alt="Data Aggregation" style="max-width: 90%; max-height: 58vh; width: auto; height: auto;"/>
-:::
-
-## End-to-End with Barb! {.smaller}
-
-**Results** — Barb is counted in the final tables (TLGs).
-
-::: {style="text-align: center;"}
-<img src="barb-tlg.png" alt="Results" style="max-width: 86%; max-height: 62vh; height: auto;"/>
-:::
+<img src="images/TRUEandFALSE.png" style="width: 200px;"/>
 
 ## End-to-End: The Data
 
-<img src="pharmaverseraw.png" width="30%">
-<img src="pharmaversesdtm.png" width="30%">
-<img src="pharmaverseadam.png" width="30%">
+<img src="images/pharmaverseraw.png" width="30%">
+<img src="images/pharmaversesdtm.png" width="30%">
+<img src="images/pharmaverseadam.png" width="30%">
 
 
 ## Working environment
