@@ -102,7 +102,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-4a0fd666d6cf1776aebabc9c0b8137c9.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-945cf56e4944e8a5eb3da90d958b667d.css">
   <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -247,7 +247,7 @@
 <p><span class="pv-ico">🧩</span> <span class="pv-title">Understand</span> How <code>sdtm.oak</code> and its <strong>reusable algorithms</strong> work</p>
 </div>
 <div class="pv-card">
-<p><span class="pv-ico">⚙️</span> <span class="pv-title">Build</span> SDTM <code>VS</code> and <code>DM</code> domains with live code</p>
+<p><span class="pv-ico">⚙️</span> <span class="pv-title">Build</span> The SDTM <code>CM</code> domain with live code</p>
 </div>
 <div class="pv-card">
 <p><span class="pv-ico">🤖</span> <span class="pv-title">Accelerate</span> The same mappings with an <strong>AI agent + skill</strong></p>
@@ -261,17 +261,11 @@
 <p><span class="pv-agenda-ico">📦</span> <span class="pv-agenda-title">Intro to <code>sdtm.oak</code></span> <span class="pv-agenda-time">20 min</span></p>
 </div>
 <div class="pv-agenda-item">
-<p><span class="pv-agenda-ico">🩺</span> <span class="pv-agenda-title"><code>VS</code> domain</span> <span class="pv-agenda-time">20 min</span></p>
+<p><span class="pv-agenda-ico">💊</span> <span class="pv-agenda-title"><code>CM</code> domain 🤖</span> <span class="pv-agenda-time">15 min</span></p>
 </div>
 <div class="pv-agenda-item">
-<p><span class="pv-agenda-ico">👤</span> <span class="pv-agenda-title"><code>DM</code> domain</span> <span class="pv-agenda-time">10 min</span></p>
+<p><span class="pv-agenda-ico">✏️</span> <span class="pv-agenda-title">Exercise 🤖</span> <span class="pv-agenda-time">10 min</span></p>
 </div>
-<div class="pv-agenda-item">
-<p><span class="pv-agenda-ico">✏️</span> <span class="pv-agenda-title">Exercise</span> <span class="pv-agenda-time">10 min</span></p>
-</div>
-</div>
-<div class="pv-agenda-accent">
-<p><span class="pv-agenda-ico">🤖</span> Same work, accelerated with an <strong>AI agent + skill</strong></p>
 </div>
 </section>
 <section>
@@ -850,392 +844,28 @@
 </section>
 <section id="programming-steps" class="slide level2 smaller">
 <h2>Programming steps</h2>
-<div class="columns">
-<div class="column" style="width:42%;">
-<div class="pv-steps">
-<ul>
-<li><span class="pv-num">1</span> <span class="pv-ico">📥</span> <span class="fragment" data-fragment-index="0">Read <strong>raw</strong> datasets</span></li>
-<li><span class="pv-num">2</span> <span class="pv-ico">🔑</span> <span class="fragment" data-fragment-index="0">Create <strong>oak id</strong> vars</span></li>
-<li><span class="pv-num">3</span> <span class="pv-ico">📖</span> <span class="fragment" data-fragment-index="1">Read study <strong>CT</strong></span></li>
-<li><span class="pv-num">4</span> <span class="pv-ico">🎯</span> <span class="fragment" data-fragment-index="2">Map <strong>topic</strong> variable</span></li>
-<li><span class="pv-num">5</span> <span class="pv-ico">🏷️</span> <span class="fragment" data-fragment-index="2">Map the <strong>rest</strong></span></li>
-<li><span class="pv-num">6</span> <span class="pv-ico">🔁</span> <span class="fragment" data-fragment-index="2">Repeat per topic variable</span></li>
-<li><span class="pv-num">7</span> <span class="pv-ico">🧮</span> <span class="fragment" data-fragment-index="3">Create <strong>derived</strong> vars</span></li>
-<li><span class="pv-num">8</span> <span class="pv-ico">🏁</span> <span class="fragment" data-fragment-index="3">Add <strong>labels &amp; attributes</strong></span></li>
-</ul>
+<div class="pv-progstep fragment">
+<p><span class="pv-num">1–2</span> <span class="pv-ico">📥</span> Read <strong>raw</strong> datasets &amp; create <strong>oak id</strong> vars</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a aria-label="2"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div><div class="column" style="width:58%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-code-line-numbers="|1-3|4-5|6-11|12-15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a aria-label="1"></a><span class="co"># 1-2  read raw + create oak id vars</span></span>
-<span id="cb10-2"><a aria-label="2"></a>vs_raw <span class="ot">&lt;-</span> pharmaverseraw<span class="sc">::</span>vs_raw <span class="sc">|&gt;</span></span>
-<span id="cb10-3"><a aria-label="3"></a>  <span class="fu">generate_oak_id_vars</span>(<span class="at">pat_var =</span> <span class="st">"PATNUM"</span>, <span class="at">raw_src =</span> <span class="st">"vitals"</span>)</span>
-<span id="cb10-4"><a aria-label="4"></a><span class="co"># 3  read study controlled terminology</span></span>
-<span id="cb10-5"><a aria-label="5"></a>study_ct <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sdtm_ct.csv"</span>)</span>
-<span id="cb10-6"><a aria-label="6"></a><span class="co"># 4-6  map topic, map rest, repeat per topic var</span></span>
-<span id="cb10-7"><a aria-label="7"></a>vs <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
-<span id="cb10-8"><a aria-label="8"></a>        <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
-<span id="cb10-9"><a aria-label="9"></a>        <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-10"><a aria-label="10"></a>  <span class="fu">assign_no_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
-<span id="cb10-11"><a aria-label="11"></a>        <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>())</span>
-<span id="cb10-12"><a aria-label="12"></a><span class="co"># 7-8  derived vars + labels &amp; attributes</span></span>
-<span id="cb10-13"><a aria-label="13"></a>vs <span class="ot">&lt;-</span> vs <span class="sc">|&gt;</span></span>
-<span id="cb10-14"><a aria-label="14"></a>  <span class="fu">derive_seq</span>(<span class="at">tgt_var =</span> <span class="st">"VSSEQ"</span>, ...) <span class="sc">|&gt;</span></span>
-<span id="cb10-15"><a aria-label="15"></a>  <span class="fu">derive_study_day</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-</section></section>
-<section>
-<section id="workshop---create-vs-domain" class="title-slide slide level1 center">
-<h1>Workshop - Create VS domain</h1>
-
-</section>
-<section id="how-we-will-code-today" class="slide level2 smaller">
-<h2>How we will “code” today</h2>
-<ul>
-<li class="fragment"><strong>Hand-code</strong> the first topic variables together — one algorithm per line, discussing each argument.</li>
-<li class="fragment">Then <strong>hand it to an AI agent + skill</strong> to draft the remaining variables.</li>
-<li class="fragment"><strong>Verify</strong> the result against the known VS numbers.</li>
-</ul>
-</section>
-<section id="review-specs" class="slide level2">
-<h2>Review specs</h2>
-<p>Review aCRF</p>
-<ul>
-<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/VitalSigns_aCRF.pdf">VitalSigns_aCRF</a></li>
-</ul>
-</section>
-<section id="start-by-hand-finish-with-ai" class="slide level2 smaller">
-<h2>Start by hand, finish with AI</h2>
-<p>We hand-code <strong>TEMP</strong> and <strong>blood pressure</strong>, then let an <strong>agent + skill</strong> draft the rest.</p>
-<div class="pv-flow pv-flow-accent">
-<p><span class="pv-step"><span class="pv-ico">✍️</span>Hand-code TEMP + BP</span> <span class="pv-step"><span class="pv-ico">🧠</span>skill = sdtm.oak know-how</span> <span class="pv-step"><span class="pv-ico">🤖</span>Agent drafts HEIGHT / WEIGHT / PULSE</span> <span class="pv-step"><span class="pv-ico">✅</span>Verify the result</span></p>
+<div class="pv-progstep fragment">
+<p><span class="pv-num">3</span> <span class="pv-ico">📖</span> Read study <strong>controlled terminology</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a aria-label="1"></a>study_ct <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"sdtm_ct.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="pv-speed">
-<p><span class="pv-speed-slow">⏱️ Repetitive topic/qualifier blocks by hand</span> <span class="pv-speed-arrow">→</span> <span class="pv-speed-fast">⚡ Agent drafts them in seconds</span></p>
+<div class="pv-progstep fragment">
+<p><span class="pv-num">4–6</span> <span class="pv-ico">🎯</span> Map <strong>topic</strong>, map the <strong>rest</strong>, repeat per topic var</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a>vs <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
+<span id="cb12-2"><a aria-label="2"></a>        <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"SYSBP"</span>,</span>
+<span id="cb12-3"><a aria-label="3"></a>        <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a aria-label="4"></a>  <span class="fu">assign_no_ct</span>(vs_raw, <span class="st">"SYS_BP"</span>,</span>
+<span id="cb12-5"><a aria-label="5"></a>        <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="pv-ai">
-<p><span class="pv-ico">💡</span> The remaining vitals follow the <strong>same pattern</strong> we just coded — ideal work to delegate to the agent, then review.</p>
-</div>
-</section>
-<section id="the-pre-prepared-skill" class="slide level2 smaller">
-<h2>The pre-prepared skill</h2>
-<p>A checked-in skill teaches the agent <em>our</em> <code>sdtm.oak</code> conventions:</p>
-<div class="pv-skill">
-<p><span class="pv-skill-head"><span class="pv-ico">🧠</span> .agents/skills/sdtm-oak-mapping/SKILL.md</span></p>
-<div class="pv-skill-body">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a aria-label="1"></a><span class="fu"># SDTM mapping with sdtm.oak</span></span>
-<span id="cb11-2"><a aria-label="2"></a></span>
-<span id="cb11-3"><a aria-label="3"></a>Use when: creating an SDTM domain from a raw dataset + aCRF.</span>
-<span id="cb11-4"><a aria-label="4"></a></span>
-<span id="cb11-5"><a aria-label="5"></a>For each vitals topic (HEIGHT, WEIGHT, PULSE):</span>
-<span id="cb11-6"><a aria-label="6"></a><span class="ss">  1. </span>hardcode_ct() -&gt; VSTESTCD, VSTEST   (from CT codelists)</span>
-<span id="cb11-7"><a aria-label="7"></a><span class="ss">  2. </span>assign_no_ct() -&gt; VSORRES           (the collected value)</span>
-<span id="cb11-8"><a aria-label="8"></a><span class="ss">  3. </span>hardcode_ct() -&gt; VSORRESU           (the unit)</span>
-<span id="cb11-9"><a aria-label="9"></a>Chain topic then qualifiers with |&gt;, id_vars = oak_id_vars().</span>
-<span id="cb11-10"><a aria-label="10"></a></span>
-<span id="cb11-11"><a aria-label="11"></a>Conventions: raw vars use IT.<span class="dt">&lt;</span><span class="kw">NAME</span><span class="dt">&gt;</span>; CT lives in study_ct.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-</section>
-<section id="the-prompt-acrf" class="slide level2 smaller">
-<h2>The prompt + aCRF</h2>
-<div class="columns">
-<div class="column" style="width:42%;">
-<div class="pv-skill">
-<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
-<div class="pv-skill-body">
-<blockquote>
-<p>“Using the <strong>sdtm-oak-mapping</strong> skill and the <strong>annotated Vitals aCRF</strong>, map the remaining VS topics — <strong>PULSE</strong> and <strong>DIA_BP</strong> — with their <code>VSORRES</code>, <code>VSORRESU</code> and <code>VSPOS</code> qualifiers.”</p>
-</blockquote>
-</div>
-</div>
-</div><div class="column" style="width:58%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/vitals-acrf-annotated.png" class="pv-acrf-img"></p>
-<figcaption>Annotated Vitals aCRF — the agent reads these callouts</figcaption>
-</figure>
-</div>
-</div></div>
-<div class="pv-ai">
-<p><span class="pv-ico">🔎</span> The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right <code>raw_var</code>, unit, and codelist.</p>
-</div>
-</section>
-<section id="agent-drafts-the-remaining-vs-vars" class="slide level2 smaller">
-<h2>Agent drafts the remaining VS vars</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a aria-label="1"></a><span class="co"># Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)</span></span>
-<span id="cb12-2"><a aria-label="2"></a>vs_pulse <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(</span>
-<span id="cb12-3"><a aria-label="3"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
-<span id="cb12-4"><a aria-label="4"></a>    <span class="at">tgt_var =</span> <span class="st">"VSTESTCD"</span>, <span class="at">tgt_val =</span> <span class="st">"PULSE"</span>,</span>
-<span id="cb12-5"><a aria-label="5"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66741"</span></span>
-<span id="cb12-6"><a aria-label="6"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb12-7"><a aria-label="7"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(VSTESTCD)) <span class="sc">|&gt;</span></span>
-<span id="cb12-8"><a aria-label="8"></a>  <span class="fu">assign_no_ct</span>(</span>
-<span id="cb12-9"><a aria-label="9"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
-<span id="cb12-10"><a aria-label="10"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRES"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb12-11"><a aria-label="11"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb12-12"><a aria-label="12"></a>  <span class="fu">hardcode_ct</span>(</span>
-<span id="cb12-13"><a aria-label="13"></a>    <span class="at">raw_dat =</span> vs_raw, <span class="at">raw_var =</span> <span class="st">"PULSE"</span>,</span>
-<span id="cb12-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"VSORRESU"</span>, <span class="at">tgt_val =</span> <span class="st">"beats/min"</span>,</span>
-<span id="cb12-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct, <span class="at">ct_clst =</span> <span class="st">"C66770"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb12-16"><a aria-label="16"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="pv-ai">
-<p><span class="pv-ico">🧑‍⚖️</span> Same shape as our hand-written blocks — <strong>you stay the reviewer</strong>: check the CT code, run it, confirm the result looks right.</p>
-</div>
-</section>
-<section id="quiz---1" class="slide level2">
-<h2>Quiz - 1</h2>
-<ul>
-<li class="fragment"><p>What function should be used for mapping for CMROUTE. The Route information is collected in a drop down list on the CRF.</p>
-<ul>
-<li class="fragment"><ol type="a">
-<li class="fragment"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_no_ct()</a> </bslib-tooltip></li>
-</ol></li>
-<li class="fragment"><ol start="2" type="a">
-<li class="fragment"><bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_ct()</a> </bslib-tooltip></li>
-</ol></li>
-</ul></li>
-<li class="fragment"><p>Correct answer:</p>
-<ul>
-<li class="fragment"><ol start="2" type="a">
-<li class="fragment">As CMROUTE has a codelist associated we need to use <bslib-tooltip placement="auto" bsoptions="[]" data-require-bs-version="5" data-require-bs-caller="tooltip()"> <template>Derive an SDTM variable — assign_no_ct • sdtm.oak</template> <a href="https://pharmaverse.github.io/sdtm.oak/reference/assign.html" class="r-link-call" target="_blank">assign_ct()</a> </bslib-tooltip></li>
-</ol></li>
-</ul></li>
-</ul>
-</section></section>
-<section>
-<section id="workshop---create-dm-domain" class="title-slide slide level1 center">
-<h1>Workshop - Create DM domain</h1>
-
-</section>
-<section id="review-specs-1" class="slide level2">
-<h2>Review specs</h2>
-<p>Review aCRF</p>
-<ul>
-<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Demographics_aCRF.pdf">Demographics_aCRF</a></li>
-<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Exposure_as_collected_aCRF.pdf">Exposure_as_collected_aCRF</a></li>
-<li><a href="https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Subject_Disposition_aCRF.pdf">Subject_Disposition_aCRF</a></li>
-</ul>
-</section>
-<section id="start-by-hand-finish-with-ai-1" class="slide level2 smaller">
-<h2>Start by hand, finish with AI</h2>
-<p>DM’s <strong>reference dates</strong> are repetitive config rows — perfect to hand off after one worked example.</p>
-<div class="pv-flow pv-flow-accent">
-<p><span class="pv-step"><span class="pv-ico">✍️</span>Derive RFXSTDTC by hand</span> <span class="pv-step"><span class="pv-ico">🧠</span>skill = sdtm.oak know-how</span> <span class="pv-step"><span class="pv-ico">🤖</span>Agent fills remaining ref dates</span> <span class="pv-step"><span class="pv-ico">✅</span>Verify the result</span></p>
-</div>
-<div class="pv-speed">
-<p><span class="pv-speed-slow">⏱️ Seven near-identical config rows + calls</span> <span class="pv-speed-arrow">→</span> <span class="pv-speed-fast">⚡ Agent drafts them from the aCRFs</span></p>
-</div>
-</section>
-<section id="reference-date-derivation" class="slide level2 smaller">
-<h2>Reference date derivation</h2>
-<ul>
-<li>DM has several <strong>reference dates</strong>: <code>RFSTDTC</code>, <code>RFENDTC</code>, <code>RFXSTDTC</code>, <code>RFXENDTC</code>, <code>RFICDTC</code>, <code>RFPENDTC</code>, <code>DTHDTC</code>.</li>
-<li>Each is a <strong>min/max date</strong> pulled from raw data across <strong>multiple eCRFs</strong>.</li>
-<li><code>oak_cal_ref_dates()</code> derives them from a small <strong>config table</strong> (<code>ref_date_config_df</code>) — no bespoke code per date.</li>
-</ul>
-<div class="pv-ai">
-<p><span class="pv-ico">💡</span> Same idea as VS: <strong>walk through one</strong> reference date by hand, then let an <strong>agent + skill</strong> fill in the rest of the config.</p>
-</div>
-</section>
-<section id="config-file-walk-through-one-row" class="slide level2 smaller">
-<h2>Config file — walk through one row</h2>
-<p>Each row tells <code>sdtm.oak</code> where <strong>one</strong> reference date lives:</p>
-<table class="caption-top">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 50%">
-<col style="width: 24%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;">column</th>
-<th style="text-align: left;">meaning</th>
-<th style="text-align: left;">example</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>raw_dataset_name</code></td>
-<td style="text-align: left;">source raw dataset</td>
-<td style="text-align: left;"><code>ex_raw</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>date_var</code></td>
-<td style="text-align: left;">date variable in that dataset</td>
-<td style="text-align: left;"><code>IT.ECSTDAT</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>time_var</code></td>
-<td style="text-align: left;">time variable (if any)</td>
-<td style="text-align: left;"><code>NA</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>dformat</code></td>
-<td style="text-align: left;">date format collected</td>
-<td style="text-align: left;"><code>dd-mmm-yyyy</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>tformat</code></td>
-<td style="text-align: left;">time format collected</td>
-<td style="text-align: left;"><code>NA</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>sdtm_var_name</code></td>
-<td style="text-align: left;">reference date to derive</td>
-<td style="text-align: left;"><code>RFXSTDTC</code></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="derive-one-by-hand-rfxstdtc" class="slide level2 smaller">
-<h2>Derive one by hand — RFXSTDTC</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a><span class="co"># 1 config: one row per reference date</span></span>
-<span id="cb13-2"><a aria-label="2"></a>ref_date_conf_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb13-3"><a aria-label="3"></a>  <span class="sc">~</span>raw_dataset_name, <span class="sc">~</span>date_var,   <span class="sc">~</span>time_var,     <span class="sc">~</span>dformat,      <span class="sc">~</span>tformat, <span class="sc">~</span>sdtm_var_name,</span>
-<span id="cb13-4"><a aria-label="4"></a>  <span class="st">"ex_raw"</span>,       <span class="st">"IT.ECSTDAT"</span>, <span class="cn">NA_character_</span>, <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA_character_</span>, <span class="st">"RFXSTDTC"</span></span>
-<span id="cb13-5"><a aria-label="5"></a>)</span>
-<span id="cb13-6"><a aria-label="6"></a></span>
-<span id="cb13-7"><a aria-label="7"></a><span class="co"># 2 derive RFXSTDTC from that config</span></span>
-<span id="cb13-8"><a aria-label="8"></a>dm <span class="ot">&lt;-</span> <span class="fu">oak_cal_ref_dates</span>(</span>
-<span id="cb13-9"><a aria-label="9"></a>  <span class="at">dm_domain          =</span> dm,</span>
-<span id="cb13-10"><a aria-label="10"></a>  <span class="at">der_var            =</span> <span class="st">"RFXSTDTC"</span>,</span>
-<span id="cb13-11"><a aria-label="11"></a>  <span class="at">min_max            =</span> <span class="st">"min"</span>,</span>
-<span id="cb13-12"><a aria-label="12"></a>  <span class="at">ref_date_config_df =</span> ref_date_conf_df,</span>
-<span id="cb13-13"><a aria-label="13"></a>  <span class="at">raw_source         =</span> <span class="fu">list</span>(<span class="at">ex_raw =</span> ex_raw)</span>
-<span id="cb13-14"><a aria-label="14"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="pv-ai">
-<p><span class="pv-ico">🔑</span> One config row + one call. The <strong>remaining reference dates repeat this pattern</strong> with different sources.</p>
-</div>
-</section>
-<section id="let-ai-populate-the-rest" class="slide level2 smaller">
-<h2>Let AI populate the rest</h2>
-<div class="columns">
-<div class="column" style="width:46%;">
-<div class="pv-skill">
-<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
-<div class="pv-skill-body">
-<blockquote>
-<p>“Using the <strong>sdtm-oak-mapping</strong> skill and the DM / EX / DS <strong>aCRFs</strong>, add config rows and <code>oak_cal_ref_dates()</code> calls for the remaining reference dates: <strong>RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC</strong>.”</p>
-</blockquote>
-</div>
-</div>
-</div><div class="column" style="width:54%;">
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a><span class="co"># Agent extends the config, following the skill:</span></span>
-<span id="cb14-2"><a aria-label="2"></a>ref_date_conf_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
-<span id="cb14-3"><a aria-label="3"></a>  <span class="sc">~</span>raw_dataset_name, <span class="sc">~</span>date_var,  <span class="sc">~</span>time_var, <span class="sc">~</span>dformat,     <span class="sc">~</span>tformat, <span class="sc">~</span>sdtm_var_name,</span>
-<span id="cb14-4"><a aria-label="4"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECSTDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFXSTDTC"</span>,</span>
-<span id="cb14-5"><a aria-label="5"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECENDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFXENDTC"</span>,</span>
-<span id="cb14-6"><a aria-label="6"></a>  <span class="st">"ds_raw"</span>, <span class="st">"IT.DSSTDAT"</span>, <span class="cn">NA</span>,      <span class="st">"mm-dd-yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"RFSTDTC"</span>,</span>
-<span id="cb14-7"><a aria-label="7"></a>  <span class="st">"ex_raw"</span>, <span class="st">"IT.ECENDAT"</span>, <span class="cn">NA</span>,      <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA</span>,   <span class="st">"RFENDTC"</span>,</span>
-<span id="cb14-8"><a aria-label="8"></a>  <span class="st">"dm_raw"</span>, <span class="st">"IC_DT"</span>,      <span class="cn">NA</span>,      <span class="st">"mm/dd/yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"RFICDTC"</span>,</span>
-<span id="cb14-9"><a aria-label="9"></a>  <span class="st">"ds_raw"</span>, <span class="st">"DSDTCOL"</span>,    <span class="st">"DSTMCOL"</span>,<span class="st">"mm-dd-yyyy"</span>, <span class="st">"H:M"</span>,<span class="st">"RFPENDTC"</span>,</span>
-<span id="cb14-10"><a aria-label="10"></a>  <span class="st">"ds_raw"</span>, <span class="st">"DEATHDT"</span>,    <span class="cn">NA</span>,      <span class="st">"mm/dd/yyyy"</span>,  <span class="cn">NA</span>,   <span class="st">"DTHDTC"</span></span>
-<span id="cb14-11"><a aria-label="11"></a>)</span>
-<span id="cb14-12"><a aria-label="12"></a><span class="co"># ...then one oak_cal_ref_dates() call per der_var</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div></div>
-<div class="pv-ai">
-<p><span class="pv-ico">🧑‍⚖️</span> You <strong>review each row</strong> against the aCRFs — correct source, date format, min vs max — then run and check the result.</p>
-</div>
-</section>
-<section id="quiz---2" class="slide level2">
-<h2>Quiz - 2</h2>
-<ul>
-<li class="fragment">When to use hardcode mapping algorithm?
-<ul>
-<li class="fragment"><ol type="a">
-<li class="fragment">To assign a collected value on the eCRF</li>
-</ol></li>
-<li class="fragment"><ol start="2" type="a">
-<li class="fragment">To Hardcode a SDTM variable that has not directly collected on the eCRF.</li>
-</ol></li>
-</ul></li>
-<li class="fragment">Correct answer:
-<ul>
-<li class="fragment"><ol start="2" type="a">
-<li class="fragment">To hardcode a value use hardcode algorithms. To assign a collected value use assign algorithms**</li>
-</ol></li>
-</ul></li>
-</ul>
-</section>
-<section id="check-in-exercise" class="slide level2 smaller">
-<h2>Check-in Exercise</h2>
-<p>Open exercises/02-SDTM.R</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a><span class="fu">library</span>(sdtm.oak)</span>
-<span id="cb15-2"><a aria-label="2"></a><span class="fu">library</span>(pharmaverseraw)</span>
-<span id="cb15-3"><a aria-label="3"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb15-4"><a aria-label="4"></a></span>
-<span id="cb15-5"><a aria-label="5"></a><span class="co">#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf</span></span>
-<span id="cb15-6"><a aria-label="6"></a></span>
-<span id="cb15-7"><a aria-label="7"></a><span class="co"># Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM</span></span>
-<span id="cb15-8"><a aria-label="8"></a></span>
-<span id="cb15-9"><a aria-label="9"></a><span class="co"># Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742</span></span>
-<span id="cb15-10"><a aria-label="10"></a></span>
-<span id="cb15-11"><a aria-label="11"></a><span class="co"># Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is </span></span>
-<span id="cb15-12"><a aria-label="12"></a><span class="co">#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Add the “completed” sticky note to your laptop when complete.</p>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_85abb7dc" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
-</div>
-</div>
-</section>
-<section id="exercise-solution" class="slide level2">
-<h2>Exercise Solution</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>ae <span class="ot">&lt;-</span></span>
-<span id="cb16-2"><a aria-label="2"></a>  <span class="co"># Derive topic variable</span></span>
-<span id="cb16-3"><a aria-label="3"></a>  <span class="co"># Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM</span></span>
-<span id="cb16-4"><a aria-label="4"></a>  <span class="fu">assign_no_ct</span>(</span>
-<span id="cb16-5"><a aria-label="5"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
-<span id="cb16-6"><a aria-label="6"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AETERM"</span>,</span>
-<span id="cb16-7"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"AETERM"</span>,</span>
-<span id="cb16-8"><a aria-label="8"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb16-9"><a aria-label="9"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb16-10"><a aria-label="10"></a>  <span class="co"># Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER</span></span>
-<span id="cb16-11"><a aria-label="11"></a>  <span class="fu">assign_ct</span>(</span>
-<span id="cb16-12"><a aria-label="12"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
-<span id="cb16-13"><a aria-label="13"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESER"</span>,</span>
-<span id="cb16-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"AESER"</span>,</span>
-<span id="cb16-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct,</span>
-<span id="cb16-16"><a aria-label="16"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
-<span id="cb16-17"><a aria-label="17"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb16-18"><a aria-label="18"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb16-19"><a aria-label="19"></a>  <span class="co"># Map AESDTH using condition_add &amp; assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH</span></span>
-<span id="cb16-20"><a aria-label="20"></a>  <span class="fu">assign_ct</span>(</span>
-<span id="cb16-21"><a aria-label="21"></a>    <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(ae_raw, IT.AESDTH <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
-<span id="cb16-22"><a aria-label="22"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESDTH"</span>,</span>
-<span id="cb16-23"><a aria-label="23"></a>    <span class="at">tgt_var =</span> <span class="st">"AESDTH"</span>,</span>
-<span id="cb16-24"><a aria-label="24"></a>    <span class="at">ct_spec =</span> study_ct,</span>
-<span id="cb16-25"><a aria-label="25"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
-<span id="cb16-26"><a aria-label="26"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb16-27"><a aria-label="27"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section></section>
-<section>
-<section id="doing-this-with-ai" class="title-slide slide level1 center" data-background-color="#003559">
-<h1>Doing this with AI</h1>
-
-</section>
-<section id="agent-vs.-skill" class="slide level2 smaller">
-<h2>Agent vs.&nbsp;skill</h2>
-<p>We just used an <strong>agent + skill</strong> to finish the VS domain. What are they?</p>
-<div class="pv-cards">
-<div class="pv-card">
-<p><span class="pv-ico">🤖</span> <span class="pv-title">Agent</span> An AI assistant that can <strong>read your files, run R, and edit code</strong> in your project — not just chat. It plans and executes multi-step tasks.</p>
-</div>
-<div class="pv-card pv-accent">
-<p><span class="pv-ico">🧠</span> <span class="pv-title">Skill</span> A <strong>reusable, checked-in instruction set</strong> that teaches the agent <em>your</em> conventions: how to map SDTM with <code>sdtm.oak</code>, where specs live, house style.</p>
-</div>
-</div>
-<div class="pv-ai">
-<p><span class="pv-ico">🔑</span> Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next.</p>
+<div class="pv-progstep fragment">
+<p><span class="pv-num">7–8</span> <span class="pv-ico">🏁</span> Create <strong>derived</strong> vars, add <strong>labels &amp; attributes</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a aria-label="1"></a>vs <span class="ot">&lt;-</span> vs <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a aria-label="2"></a>  <span class="fu">derive_seq</span>(<span class="at">tgt_var =</span> <span class="st">"VSSEQ"</span>, ...) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a aria-label="3"></a>  <span class="fu">derive_study_day</span>(...)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="human-in-the-loop" class="slide level2 smaller">
@@ -1252,6 +882,276 @@
 </div>
 <div class="pv-ai">
 <p><span class="pv-ico">⚠️</span> Generated code is a <strong>starting point</strong>, not a submission. Validation, CT correctness, and traceability remain your responsibility.</p>
+</div>
+</section></section>
+<section>
+<section id="workshop---create-cm-domain" class="title-slide slide level1 center">
+<h1>Workshop - Create CM domain</h1>
+
+</section>
+<section id="how-we-will-code-today" class="slide level2 smaller">
+<h2>How we will “code” today</h2>
+<ul>
+<li class="fragment"><strong>Hand-code</strong> a few CM variables together — one algorithm per line, discussing each argument and reading it straight off the aCRF.</li>
+<li class="fragment">See the <strong>four core algorithms</strong> on real fields: <code>assign_no_ct</code>, <code>assign_ct</code>, <code>hardcode_ct</code> + <code>condition_add</code>, <code>assign_datetime</code>.</li>
+<li class="fragment">Then <strong>hand the rest to an AI agent + skill</strong> and stay the reviewer.</li>
+</ul>
+</section>
+<section id="review-specs" class="slide level2 smaller">
+<h2>Review specs</h2>
+<p>We map the <strong>CM (Concomitant Medications)</strong> domain from CDASH raw data.</p>
+<ul>
+<li>aCRF: <a href="https://github.com/pharmaverse/sdtm.oak-workshop/blob/main/specs/cm_cdash/CM_cdash_acrf.pdf">CM_cdash_acrf.pdf</a></li>
+<li>Raw data: <code>cm_raw_data_cdash.csv</code> (item-level <code>IT.&lt;NAME&gt;</code> columns)</li>
+<li>Controlled terminology: <code>study_ct</code> (from <code>metadata/sdtm_ct.csv</code>)</li>
+</ul>
+
+<img data-src="images/cm-acrf-full.png" class="pv-acrf-img r-stretch quarto-figure-center" style="width:70.0%"><p class="caption">Annotated CM aCRF — each field’s annotation names the target SDTM variable (and CT codelist)</p></section>
+<section id="four-algorithms-one-per-field" class="slide level2 smaller">
+<h2>Four algorithms, one per field</h2>
+<p>Each collected field maps with the algorithm that fits <strong>how it was captured</strong> — the aCRF annotation tells you which one:</p>
+<div class="pv-flow-vert">
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>✍️</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">assign_no_ct</span> <span class="pv-vdesc">Collected <strong>free text</strong> passes straight through — e.g.&nbsp;the medication name.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>🏷️</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">assign_ct</span> <span class="pv-vdesc">A <strong>coded</strong> field (dropdown) mapped to a CT codelist — e.g.&nbsp;route of administration.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>⚙️</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">hardcode_ct + condition_add</span> <span class="pv-vdesc">Write a <strong>constant</strong> CT value, but only for rows meeting a condition — e.g.&nbsp;flag “Ongoing”.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>📅</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">assign_datetime</span> <span class="pv-vdesc">Parse a <strong>collected date/time</strong> into ISO 8601 — e.g.&nbsp;the start date.</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="assign_no_ct-collected-free-text" class="slide level2 smaller">
+<h2><code>assign_no_ct</code> — collected free text</h2>
+<p><strong>CMTRT</strong> — the medication name, typed by the site. No controlled terminology.</p>
+
+<img data-src="images/cm-acrf-cmtrt.png" class="pv-acrf-img r-stretch" style="width:80.0%"><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a aria-label="1"></a>cm_trt <span class="ot">&lt;-</span> <span class="fu">assign_no_ct</span>(</span>
+<span id="cb14-2"><a aria-label="2"></a>  <span class="at">raw_dat =</span> cm_raw,</span>
+<span id="cb14-3"><a aria-label="3"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMTRT"</span>,</span>
+<span id="cb14-4"><a aria-label="4"></a>  <span class="at">tgt_var =</span> <span class="st">"CMTRT"</span></span>
+<span id="cb14-5"><a aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">💡</span> Free-text values pass straight through — use <code>assign_no_ct</code>. The <strong>first</strong> algorithm in a topic pipe seeds the frame, so it takes no <code>id_vars</code>.</p>
+</div>
+</section>
+<section id="assign_ct-collected-controlled-terminology" class="slide level2 smaller">
+<h2><code>assign_ct</code> — collected + controlled terminology</h2>
+<p><strong>CMROUTE</strong> — route of administration, a <strong>dropdown</strong>. Apply CT codelist <code>C66729</code>.</p>
+
+<img data-src="images/cm-acrf-route.png" class="pv-acrf-img r-stretch" style="width:80.0%"><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a aria-label="1"></a>cm_route <span class="ot">&lt;-</span> <span class="fu">assign_ct</span>(</span>
+<span id="cb15-2"><a aria-label="2"></a>  <span class="at">raw_dat =</span> cm_raw,</span>
+<span id="cb15-3"><a aria-label="3"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMROUTE"</span>,</span>
+<span id="cb15-4"><a aria-label="4"></a>  <span class="at">tgt_var =</span> <span class="st">"CMROUTE"</span>,</span>
+<span id="cb15-5"><a aria-label="5"></a>  <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb15-6"><a aria-label="6"></a>  <span class="at">ct_clst =</span> <span class="st">"C66729"</span>,</span>
+<span id="cb15-7"><a aria-label="7"></a>  <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb15-8"><a aria-label="8"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🏷️</span> A coded/dropdown field needs <code>assign_ct</code> — it maps the collected value to the CT term for codelist <code>ct_clst</code>.</p>
+</div>
+</section>
+<section id="hardcode_ct-condition_add-conditional-constant" class="slide level2 smaller">
+<h2><code>hardcode_ct</code> + <code>condition_add</code> — conditional constant</h2>
+<p>Use <code>hardcode_ct</code> when the SDTM value <strong>isn’t collected as-is</strong> — you <em>assign a fixed constant</em> that is subject to controlled terminology. Unlike <code>assign_ct</code> (which maps whatever the site entered), <code>hardcode_ct</code> writes the <strong>same <code>tgt_val</code></strong> to every targeted row and validates it against the codelist.</p>
+<p><strong>CMENRTPT</strong> — set to the constant <code>"Ongoing"</code> <strong>only when</strong> “Is medication ongoing?” is <code>Yes</code>.</p>
+
+<img data-src="images/cm-acrf-ongoing.png" class="pv-acrf-img r-stretch" style="width:70.0%"><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a aria-label="1"></a>cm_enrtpt <span class="ot">&lt;-</span> <span class="fu">hardcode_ct</span>(</span>
+<span id="cb16-2"><a aria-label="2"></a>  <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(cm_raw, IT.CMONGO <span class="sc">==</span> <span class="st">"Yes"</span>),  <span class="co"># filter: only ongoing rows</span></span>
+<span id="cb16-3"><a aria-label="3"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMONGO"</span>,</span>
+<span id="cb16-4"><a aria-label="4"></a>  <span class="at">tgt_var =</span> <span class="st">"CMENRTPT"</span>,</span>
+<span id="cb16-5"><a aria-label="5"></a>  <span class="at">tgt_val =</span> <span class="st">"Ongoing"</span>,     <span class="co"># the constant written to every filtered row</span></span>
+<span id="cb16-6"><a aria-label="6"></a>  <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb16-7"><a aria-label="7"></a>  <span class="at">ct_clst =</span> <span class="st">"C66728"</span>,      <span class="co"># codelist that "Ongoing" must belong to</span></span>
+<span id="cb16-8"><a aria-label="8"></a>  <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb16-9"><a aria-label="9"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">⚙️</span> <code>condition_add()</code> filters the raw rows first; <code>hardcode_ct</code> then writes the <strong>constant</strong> <code>tgt_val</code> to those rows and checks it against <code>ct_clst</code>. Drop <code>condition_add()</code> to hardcode for <em>all</em> rows (e.g.&nbsp;<code>CMCAT = "GENERAL"</code>).</p>
+</div>
+</section>
+<section id="assign_datetime-a-collected-date" class="slide level2 smaller">
+<h2><code>assign_datetime</code> — a collected date</h2>
+<p><strong>CMSTDTC</strong> — start date, collected as <code>d-mmm-yy</code>. Convert to ISO 8601.</p>
+
+<img data-src="images/cm-acrf-startdate.png" class="pv-acrf-img r-stretch" style="width:80.0%"><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a aria-label="1"></a>cm_stdtc <span class="ot">&lt;-</span> <span class="fu">assign_datetime</span>(</span>
+<span id="cb17-2"><a aria-label="2"></a>  <span class="at">raw_dat =</span> cm_raw,</span>
+<span id="cb17-3"><a aria-label="3"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMSTDAT"</span>,</span>
+<span id="cb17-4"><a aria-label="4"></a>  <span class="at">tgt_var =</span> <span class="st">"CMSTDTC"</span>,</span>
+<span id="cb17-5"><a aria-label="5"></a>  <span class="at">raw_fmt =</span> <span class="fu">c</span>(<span class="st">"d-m-y"</span>),</span>
+<span id="cb17-6"><a aria-label="6"></a>  <span class="at">raw_unk =</span> <span class="fu">c</span>(<span class="st">"UN"</span>, <span class="st">"UNK"</span>)</span>
+<span id="cb17-7"><a aria-label="7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">📅</span> <code>assign_datetime</code> parses the collected format (<code>raw_fmt</code>) and handles unknown tokens (<code>raw_unk</code>), producing an ISO 8601 date like <code>2020-09-17</code>.</p>
+</div>
+</section>
+<section id="the-pre-prepared-skill" class="slide level2 smaller">
+<h2>The pre-prepared skill</h2>
+<p>A checked-in skill teaches the agent <em>our</em> <code>sdtm.oak</code> conventions:</p>
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">🧠</span> .agents/skills/sdtm-oak-mapping/SKILL.md</span></p>
+<div class="pv-skill-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a aria-label="1"></a><span class="fu"># SDTM mapping with sdtm.oak</span></span>
+<span id="cb18-2"><a aria-label="2"></a></span>
+<span id="cb18-3"><a aria-label="3"></a>Use when: creating an SDTM domain from a raw dataset + aCRF.</span>
+<span id="cb18-4"><a aria-label="4"></a></span>
+<span id="cb18-5"><a aria-label="5"></a>Pick the algorithm per variable, reading the aCRF annotation:</span>
+<span id="cb18-6"><a aria-label="6"></a><span class="ss">  - </span>collected free text ....... assign_no_ct()</span>
+<span id="cb18-7"><a aria-label="7"></a><span class="ss">  - </span>collected + CT codelist ... assign_ct(ct_spec, ct_clst)</span>
+<span id="cb18-8"><a aria-label="8"></a><span class="ss">  - </span>conditional constant ...... hardcode_ct() wrapped in condition_add()</span>
+<span id="cb18-9"><a aria-label="9"></a><span class="ss">  - </span>a collected date .......... assign_datetime(raw_fmt)</span>
+<span id="cb18-10"><a aria-label="10"></a>Chain topic then qualifiers with |&gt;, id_vars = oak_id_vars().</span>
+<span id="cb18-11"><a aria-label="11"></a></span>
+<span id="cb18-12"><a aria-label="12"></a>Conventions: raw vars use IT.<span class="dt">&lt;</span><span class="kw">NAME</span><span class="dt">&gt;</span>; CT lives in study_ct.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="let-ai-draft-the-rest" class="slide level2 smaller">
+<h2>Let AI draft the rest</h2>
+<p>We coded four fields by hand. The <strong>remaining CM variables</strong> follow the same patterns — delegate them.</p>
+<div class="columns">
+<div class="column" style="width:46%;">
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
+<div class="pv-skill-body">
+<blockquote>
+<p>“Using the <strong>sdtm-oak-mapping</strong> skill and the <strong>annotated CM aCRF</strong>, map the remaining CM variables — <strong>CMINDC, CMDOS, CMDOSTXT, CMDOSU, CMDOSFRM, CMDOSFRQ, CMENTPT, CMENDTC</strong> — choosing the right algorithm per field and applying CT where the aCRF shows a codelist.”</p>
+</blockquote>
+</div>
+</div>
+</div><div class="column" style="width:54%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a aria-label="1"></a><span class="co"># Agent output, following the skill:</span></span>
+<span id="cb19-2"><a aria-label="2"></a><span class="co"># CMDOSU is a coded unit -&gt; assign_ct with codelist C71620</span></span>
+<span id="cb19-3"><a aria-label="3"></a>cm_dosu <span class="ot">&lt;-</span> <span class="fu">assign_ct</span>(</span>
+<span id="cb19-4"><a aria-label="4"></a>  <span class="at">raw_dat =</span> cm_raw, <span class="at">raw_var =</span> <span class="st">"IT.CMDOSU"</span>,</span>
+<span id="cb19-5"><a aria-label="5"></a>  <span class="at">tgt_var =</span> <span class="st">"CMDOSU"</span>, <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb19-6"><a aria-label="6"></a>  <span class="at">ct_clst =</span> <span class="st">"C71620"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb19-7"><a aria-label="7"></a>)</span>
+<span id="cb19-8"><a aria-label="8"></a><span class="co"># CMDOS is the numeric dose -&gt; assign_no_ct, only when numeric</span></span>
+<span id="cb19-9"><a aria-label="9"></a>cm_dos <span class="ot">&lt;-</span> <span class="fu">assign_no_ct</span>(</span>
+<span id="cb19-10"><a aria-label="10"></a>  <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(</span>
+<span id="cb19-11"><a aria-label="11"></a>    cm_raw,</span>
+<span id="cb19-12"><a aria-label="12"></a>    <span class="fu">grepl</span>(<span class="st">"^-?</span><span class="sc">\\</span><span class="st">d*(</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+)?$"</span>, cm_raw<span class="sc">$</span>IT.CMDSTXT)),</span>
+<span id="cb19-13"><a aria-label="13"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMDSTXT"</span>, <span class="at">tgt_var =</span> <span class="st">"CMDOS"</span>,</span>
+<span id="cb19-14"><a aria-label="14"></a>  <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb19-15"><a aria-label="15"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+<div class="pv-ai">
+<p><span class="pv-ico">🧑‍⚖️</span> You <strong>review each mapping</strong> against the aCRF — right algorithm, right CT codelist, right condition — then run and check the result.</p>
+</div>
+</section>
+<section id="bonus-reference-dates-with-oak_cal_ref_dates" class="slide level2 smaller">
+<h2>Bonus: reference dates with <code>oak_cal_ref_dates</code></h2>
+<p>Some variables aren’t a single collected field — they’re a <strong>min/max date across eCRFs</strong>. <code>oak_cal_ref_dates()</code> (used for DM’s <code>RFXSTDTC</code>, and study-day derivation here) reads a small <strong>config table</strong>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a aria-label="1"></a><span class="co"># One config row per reference date; then one call derives it</span></span>
+<span id="cb20-2"><a aria-label="2"></a>ref_date_conf_df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tribble</span>(</span>
+<span id="cb20-3"><a aria-label="3"></a>  <span class="sc">~</span>raw_dataset_name, <span class="sc">~</span>date_var,   <span class="sc">~</span>time_var,     <span class="sc">~</span>dformat,      <span class="sc">~</span>tformat,      <span class="sc">~</span>sdtm_var_name,</span>
+<span id="cb20-4"><a aria-label="4"></a>  <span class="st">"ex_raw"</span>,          <span class="st">"IT.ECSTDAT"</span>, <span class="cn">NA_character_</span>, <span class="st">"dd-mmm-yyyy"</span>, <span class="cn">NA_character_</span>, <span class="st">"RFXSTDTC"</span></span>
+<span id="cb20-5"><a aria-label="5"></a>)</span>
+<span id="cb20-6"><a aria-label="6"></a></span>
+<span id="cb20-7"><a aria-label="7"></a>dm <span class="ot">&lt;-</span> <span class="fu">oak_cal_ref_dates</span>(</span>
+<span id="cb20-8"><a aria-label="8"></a>  <span class="at">dm_domain          =</span> dm,</span>
+<span id="cb20-9"><a aria-label="9"></a>  <span class="at">der_var            =</span> <span class="st">"RFXSTDTC"</span>,</span>
+<span id="cb20-10"><a aria-label="10"></a>  <span class="at">min_max            =</span> <span class="st">"min"</span>,</span>
+<span id="cb20-11"><a aria-label="11"></a>  <span class="at">ref_date_config_df =</span> ref_date_conf_df,</span>
+<span id="cb20-12"><a aria-label="12"></a>  <span class="at">raw_source         =</span> <span class="fu">list</span>(<span class="at">ex_raw =</span> ex_raw)</span>
+<span id="cb20-13"><a aria-label="13"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔑</span> One config row + one call per reference date. Add rows and let the <strong>agent</strong> extend the config — you verify source, format, and min vs max.</p>
+</div>
+</section>
+<section id="check-in-exercise" class="slide level2 smaller">
+<h2>Check-in Exercise</h2>
+<p>Open exercises/02-SDTM.R — map the <strong>AE</strong> domain. Two ways to tackle it:</p>
+<ul>
+<li><span class="pv-ico">✍️</span> <strong>Code it yourself</strong> — write each <code>sdtm.oak</code> call by hand, as we did for CM.</li>
+<li><span class="pv-ico">🤖</span> <strong>Use the AI agent + skill</strong> — prompt it to draft the script from the AE aCRF, then review and run.</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a><span class="fu">library</span>(sdtm.oak)</span>
+<span id="cb21-2"><a aria-label="2"></a><span class="fu">library</span>(pharmaverseraw)</span>
+<span id="cb21-3"><a aria-label="3"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb21-4"><a aria-label="4"></a></span>
+<span id="cb21-5"><a aria-label="5"></a><span class="co">#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf</span></span>
+<span id="cb21-6"><a aria-label="6"></a></span>
+<span id="cb21-7"><a aria-label="7"></a><span class="co"># Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM</span></span>
+<span id="cb21-8"><a aria-label="8"></a></span>
+<span id="cb21-9"><a aria-label="9"></a><span class="co"># Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742</span></span>
+<span id="cb21-10"><a aria-label="10"></a></span>
+<span id="cb21-11"><a aria-label="11"></a><span class="co"># Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is </span></span>
+<span id="cb21-12"><a aria-label="12"></a><span class="co">#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Add the “completed” sticky note to your laptop when complete.</p>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_cbd4c951" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+</div>
+</div>
+</section>
+<section id="exercise-solution" class="slide level2">
+<h2>Exercise Solution</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>ae <span class="ot">&lt;-</span></span>
+<span id="cb22-2"><a aria-label="2"></a>  <span class="co"># Derive topic variable</span></span>
+<span id="cb22-3"><a aria-label="3"></a>  <span class="co"># Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM</span></span>
+<span id="cb22-4"><a aria-label="4"></a>  <span class="fu">assign_no_ct</span>(</span>
+<span id="cb22-5"><a aria-label="5"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
+<span id="cb22-6"><a aria-label="6"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AETERM"</span>,</span>
+<span id="cb22-7"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"AETERM"</span>,</span>
+<span id="cb22-8"><a aria-label="8"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb22-9"><a aria-label="9"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-10"><a aria-label="10"></a>  <span class="co"># Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER</span></span>
+<span id="cb22-11"><a aria-label="11"></a>  <span class="fu">assign_ct</span>(</span>
+<span id="cb22-12"><a aria-label="12"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
+<span id="cb22-13"><a aria-label="13"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESER"</span>,</span>
+<span id="cb22-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"AESER"</span>,</span>
+<span id="cb22-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb22-16"><a aria-label="16"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
+<span id="cb22-17"><a aria-label="17"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb22-18"><a aria-label="18"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb22-19"><a aria-label="19"></a>  <span class="co"># Map AESDTH using condition_add &amp; assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH</span></span>
+<span id="cb22-20"><a aria-label="20"></a>  <span class="fu">assign_ct</span>(</span>
+<span id="cb22-21"><a aria-label="21"></a>    <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(ae_raw, IT.AESDTH <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
+<span id="cb22-22"><a aria-label="22"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESDTH"</span>,</span>
+<span id="cb22-23"><a aria-label="23"></a>    <span class="at">tgt_var =</span> <span class="st">"AESDTH"</span>,</span>
+<span id="cb22-24"><a aria-label="24"></a>    <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb22-25"><a aria-label="25"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
+<span id="cb22-26"><a aria-label="26"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb22-27"><a aria-label="27"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="wrap-up-resources" class="slide level2 smaller">

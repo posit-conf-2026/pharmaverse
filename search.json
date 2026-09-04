@@ -1089,7 +1089,7 @@
     "href": "slides/01-intro/index.html#your-turn",
     "title": "Welcome!",
     "section": "Your turn!",
-    "text": "Your turn!\n\n\n🙋 Who are you?\n\n\n💼 What do you do?\n\n\n🎯 What do you hope to get out of today?"
+    "text": "Your turn!\n\n\n\n🙋\n\n\nWho are you?\n\n\n\n\n💼\n\n\nWhat do you do?\n\n\n\n\n🤖\n\n\nWhat AI tools are you using in your daily work?\n\n\n\n\n🎯\n\n\nWhat do you hope to get out of today?"
   },
   {
     "objectID": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
@@ -1270,7 +1270,7 @@
     "href": "index.html#schedule",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Schedule",
-    "text": "Schedule\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 – 09:30\nIntroduction to Pharmaverse and AI Agents\n\n\n09:30 – 10:30\nSDTM\n\n\n10:30 – 11:00\nCoffee Break\n\n\n11:00 – 12:30\nADaMs with {admiral} and friends\n\n\n12:30 – 13:30\nLunch\n\n\n13:30 – 14:15\nAnalysis Results Datasets\n\n\n14:15 – 15:00\nCreate Tables with {gtsummary}\n\n\n15:00 – 15:30\nCoffee Break\n\n\n15:30 – 16:15\nCreate Tables with {tfrmt}\n\n\n16:15 – 17:00\nOther Topics Overview + Wrap-up",
+    "text": "Schedule\n\n\n\n\nTime\nActivity\n\n\n\n\n09:00 – 09:45\nIntroduction to Pharmaverse and AI Agents\n\n\n09:45 – 10:30\nSDTM with sdtm.oak\n\n\n10:30 – 11:00\nCoffee Break\n\n\n11:00 – 12:30\nADaMs with {admiral} and friends\n\n\n12:30 – 13:30\nLunch\n\n\n13:30 – 14:15\nAnalysis Results Datasets\n\n\n14:15 – 15:00\nCreate Tables with {gtsummary}\n\n\n15:00 – 15:30\nCoffee Break\n\n\n15:30 – 16:15\nCreate Tables with {tfrmt}\n\n\n16:15 – 17:00\nOther Topics Overview + Wrap-up",
     "crumbs": [
       "Home"
     ]
@@ -1470,14 +1470,14 @@
     "href": "slides/02-SDTM/index.html#objectives",
     "title": "CDISC SDTM datasets in R",
     "section": "Objectives",
-    "text": "Objectives\nBy the end of this session you will:\n\n\n\n🧩 Understand How sdtm.oak and its reusable algorithms work\n\n\n⚙️ Build SDTM VS and DM domains with live code\n\n\n🤖 Accelerate The same mappings with an AI agent + skill"
+    "text": "Objectives\nBy the end of this session you will:\n\n\n\n🧩 Understand How sdtm.oak and its reusable algorithms work\n\n\n⚙️ Build The SDTM CM domain with live code\n\n\n🤖 Accelerate The same mappings with an AI agent + skill"
   },
   {
     "objectID": "slides/02-SDTM/index.html#agenda",
     "href": "slides/02-SDTM/index.html#agenda",
     "title": "CDISC SDTM datasets in R",
     "section": "Agenda",
-    "text": "Agenda\n\n\n📦 Intro to sdtm.oak 20 min\n\n\n🩺 VS domain 20 min\n\n\n👤 DM domain 10 min\n\n\n✏️ Exercise 10 min\n\n\n\n🤖 Same work, accelerated with an AI agent + skill"
+    "text": "Agenda\n\n\n📦 Intro to sdtm.oak 20 min\n\n\n💊 CM domain 🤖 15 min\n\n\n✏️ Exercise 🤖 10 min"
   },
   {
     "objectID": "slides/02-SDTM/index.html#sdtm.oak-in-pharmaverse",
@@ -1589,126 +1589,7 @@
     "href": "slides/02-SDTM/index.html#programming-steps",
     "title": "CDISC SDTM datasets in R",
     "section": "Programming steps",
-    "text": "Programming steps\n\n\n\n\n1 📥 Read raw datasets\n2 🔑 Create oak id vars\n3 📖 Read study CT\n4 🎯 Map topic variable\n5 🏷️ Map the rest\n6 🔁 Repeat per topic variable\n7 🧮 Create derived vars\n8 🏁 Add labels & attributes\n\n\n\n# 1-2  read raw + create oak id vars\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\n# 3  read study controlled terminology\nstudy_ct &lt;- read.csv(\"sdtm_ct.csv\")\n# 4-6  map topic, map rest, repeat per topic var\nvs &lt;- hardcode_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n        ct_spec = study_ct, ct_clst = \"C66741\") |&gt;\n  assign_no_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSORRES\", id_vars = oak_id_vars())\n# 7-8  derived vars + labels & attributes\nvs &lt;- vs |&gt;\n  derive_seq(tgt_var = \"VSSEQ\", ...) |&gt;\n  derive_study_day(...)"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#how-we-will-code-today",
-    "href": "slides/02-SDTM/index.html#how-we-will-code-today",
-    "title": "CDISC SDTM datasets in R",
-    "section": "How we will “code” today",
-    "text": "How we will “code” today\n\nHand-code the first topic variables together — one algorithm per line, discussing each argument.\nThen hand it to an AI agent + skill to draft the remaining variables.\nVerify the result against the known VS numbers."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#review-specs",
-    "href": "slides/02-SDTM/index.html#review-specs",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Review specs",
-    "text": "Review specs\nReview aCRF\n\nVitalSigns_aCRF"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai",
-    "href": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Start by hand, finish with AI",
-    "text": "Start by hand, finish with AI\nWe hand-code TEMP and blood pressure, then let an agent + skill draft the rest.\n\n✍️Hand-code TEMP + BP 🧠skill = sdtm.oak know-how 🤖Agent drafts HEIGHT / WEIGHT / PULSE ✅Verify the result\n\n\n⏱️ Repetitive topic/qualifier blocks by hand → ⚡ Agent drafts them in seconds\n\n\n💡 The remaining vitals follow the same pattern we just coded — ideal work to delegate to the agent, then review."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#the-pre-prepared-skill",
-    "href": "slides/02-SDTM/index.html#the-pre-prepared-skill",
-    "title": "CDISC SDTM datasets in R",
-    "section": "The pre-prepared skill",
-    "text": "The pre-prepared skill\nA checked-in skill teaches the agent our sdtm.oak conventions:\n\n🧠 .agents/skills/sdtm-oak-mapping/SKILL.md\n\n# SDTM mapping with sdtm.oak\n\nUse when: creating an SDTM domain from a raw dataset + aCRF.\n\nFor each vitals topic (HEIGHT, WEIGHT, PULSE):\n  1. hardcode_ct() -&gt; VSTESTCD, VSTEST   (from CT codelists)\n  2. assign_no_ct() -&gt; VSORRES           (the collected value)\n  3. hardcode_ct() -&gt; VSORRESU           (the unit)\nChain topic then qualifiers with |&gt;, id_vars = oak_id_vars().\n\nConventions: raw vars use IT.&lt;NAME&gt;; CT lives in study_ct."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#the-prompt-acrf",
-    "href": "slides/02-SDTM/index.html#the-prompt-acrf",
-    "title": "CDISC SDTM datasets in R",
-    "section": "The prompt + aCRF",
-    "text": "The prompt + aCRF\n\n\n\n💬 Your prompt\n\n\n“Using the sdtm-oak-mapping skill and the annotated Vitals aCRF, map the remaining VS topics — PULSE and DIA_BP — with their VSORRES, VSORRESU and VSPOS qualifiers.”\n\n\n\n\n\n\n\nAnnotated Vitals aCRF — the agent reads these callouts\n\n\n\n\n🔎 The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right raw_var, unit, and codelist."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#agent-drafts-the-remaining-vs-vars",
-    "href": "slides/02-SDTM/index.html#agent-drafts-the-remaining-vs-vars",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Agent drafts the remaining VS vars",
-    "text": "Agent drafts the remaining VS vars\n\n# Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)\nvs_pulse &lt;- hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSTESTCD\", tgt_val = \"PULSE\",\n    ct_spec = study_ct, ct_clst = \"C66741\"\n  ) |&gt;\n  dplyr::filter(!is.na(VSTESTCD)) |&gt;\n  assign_no_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSORRES\", id_vars = oak_id_vars()\n  ) |&gt;\n  hardcode_ct(\n    raw_dat = vs_raw, raw_var = \"PULSE\",\n    tgt_var = \"VSORRESU\", tgt_val = \"beats/min\",\n    ct_spec = study_ct, ct_clst = \"C66770\", id_vars = oak_id_vars()\n  )\n\n\n🧑‍⚖️ Same shape as our hand-written blocks — you stay the reviewer: check the CT code, run it, confirm the result looks right."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#quiz---1",
-    "href": "slides/02-SDTM/index.html#quiz---1",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Quiz - 1",
-    "text": "Quiz - 1\n\nWhat function should be used for mapping for CMROUTE. The Route information is collected in a drop down list on the CRF.\n\n\n  assign_no_ct() \n\n\n  assign_ct() \n\n\nCorrect answer:\n\n\nAs CMROUTE has a codelist associated we need to use   assign_ct()"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#review-specs-1",
-    "href": "slides/02-SDTM/index.html#review-specs-1",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Review specs",
-    "text": "Review specs\nReview aCRF\n\nDemographics_aCRF\nExposure_as_collected_aCRF\nSubject_Disposition_aCRF"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai-1",
-    "href": "slides/02-SDTM/index.html#start-by-hand-finish-with-ai-1",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Start by hand, finish with AI",
-    "text": "Start by hand, finish with AI\nDM’s reference dates are repetitive config rows — perfect to hand off after one worked example.\n\n✍️Derive RFXSTDTC by hand 🧠skill = sdtm.oak know-how 🤖Agent fills remaining ref dates ✅Verify the result\n\n\n⏱️ Seven near-identical config rows + calls → ⚡ Agent drafts them from the aCRFs"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#reference-date-derivation",
-    "href": "slides/02-SDTM/index.html#reference-date-derivation",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Reference date derivation",
-    "text": "Reference date derivation\n\nDM has several reference dates: RFSTDTC, RFENDTC, RFXSTDTC, RFXENDTC, RFICDTC, RFPENDTC, DTHDTC.\nEach is a min/max date pulled from raw data across multiple eCRFs.\noak_cal_ref_dates() derives them from a small config table (ref_date_config_df) — no bespoke code per date.\n\n\n💡 Same idea as VS: walk through one reference date by hand, then let an agent + skill fill in the rest of the config."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#config-file-walk-through-one-row",
-    "href": "slides/02-SDTM/index.html#config-file-walk-through-one-row",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Config file — walk through one row",
-    "text": "Config file — walk through one row\nEach row tells sdtm.oak where one reference date lives:\n\n\n\n\n\n\n\n\ncolumn\nmeaning\nexample\n\n\n\n\nraw_dataset_name\nsource raw dataset\nex_raw\n\n\ndate_var\ndate variable in that dataset\nIT.ECSTDAT\n\n\ntime_var\ntime variable (if any)\nNA\n\n\ndformat\ndate format collected\ndd-mmm-yyyy\n\n\ntformat\ntime format collected\nNA\n\n\nsdtm_var_name\nreference date to derive\nRFXSTDTC"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#derive-one-by-hand-rfxstdtc",
-    "href": "slides/02-SDTM/index.html#derive-one-by-hand-rfxstdtc",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Derive one by hand — RFXSTDTC",
-    "text": "Derive one by hand — RFXSTDTC\n\n# 1 config: one row per reference date\nref_date_conf_df &lt;- tibble::tribble(\n  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat, ~sdtm_var_name,\n  \"ex_raw\",       \"IT.ECSTDAT\", NA_character_, \"dd-mmm-yyyy\", NA_character_, \"RFXSTDTC\"\n)\n\n# 2 derive RFXSTDTC from that config\ndm &lt;- oak_cal_ref_dates(\n  dm_domain          = dm,\n  der_var            = \"RFXSTDTC\",\n  min_max            = \"min\",\n  ref_date_config_df = ref_date_conf_df,\n  raw_source         = list(ex_raw = ex_raw)\n)\n\n\n🔑 One config row + one call. The remaining reference dates repeat this pattern with different sources."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#let-ai-populate-the-rest",
-    "href": "slides/02-SDTM/index.html#let-ai-populate-the-rest",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Let AI populate the rest",
-    "text": "Let AI populate the rest\n\n\n\n💬 Your prompt\n\n\n“Using the sdtm-oak-mapping skill and the DM / EX / DS aCRFs, add config rows and oak_cal_ref_dates() calls for the remaining reference dates: RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC.”\n\n\n\n\n\n# Agent extends the config, following the skill:\nref_date_conf_df &lt;- tibble::tribble(\n  ~raw_dataset_name, ~date_var,  ~time_var, ~dformat,     ~tformat, ~sdtm_var_name,\n  \"ex_raw\", \"IT.ECSTDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFXSTDTC\",\n  \"ex_raw\", \"IT.ECENDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFXENDTC\",\n  \"ds_raw\", \"IT.DSSTDAT\", NA,      \"mm-dd-yyyy\",  NA,   \"RFSTDTC\",\n  \"ex_raw\", \"IT.ECENDAT\", NA,      \"dd-mmm-yyyy\", NA,   \"RFENDTC\",\n  \"dm_raw\", \"IC_DT\",      NA,      \"mm/dd/yyyy\",  NA,   \"RFICDTC\",\n  \"ds_raw\", \"DSDTCOL\",    \"DSTMCOL\",\"mm-dd-yyyy\", \"H:M\",\"RFPENDTC\",\n  \"ds_raw\", \"DEATHDT\",    NA,      \"mm/dd/yyyy\",  NA,   \"DTHDTC\"\n)\n# ...then one oak_cal_ref_dates() call per der_var\n\n\n\n🧑‍⚖️ You review each row against the aCRFs — correct source, date format, min vs max — then run and check the result."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#quiz---2",
-    "href": "slides/02-SDTM/index.html#quiz---2",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Quiz - 2",
-    "text": "Quiz - 2\n\nWhen to use hardcode mapping algorithm?\n\n\nTo assign a collected value on the eCRF\n\n\nTo Hardcode a SDTM variable that has not directly collected on the eCRF.\n\n\nCorrect answer:\n\n\nTo hardcode a value use hardcode algorithms. To assign a collected value use assign algorithms**"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#check-in-exercise",
-    "href": "slides/02-SDTM/index.html#check-in-exercise",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Check-in Exercise",
-    "text": "Check-in Exercise\nOpen exercises/02-SDTM.R\n\nlibrary(sdtm.oak)\nlibrary(pharmaverseraw)\nlibrary(dplyr)\n\n#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf\n\n# Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM\n\n# Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742\n\n# Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is \n#    If \"Yes\" then AESDTH = \"Y\" else Not Submitted. Codelist code for AESDTH is C66742\n\nAdd the “completed” sticky note to your laptop when complete."
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#exercise-solution",
-    "href": "slides/02-SDTM/index.html#exercise-solution",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Exercise Solution",
-    "text": "Exercise Solution\n\nae &lt;-\n  # Derive topic variable\n  # Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM\n  assign_no_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AETERM\",\n    tgt_var = \"AETERM\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER\n  assign_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AESER\",\n    tgt_var = \"AESER\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESDTH using condition_add & assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH\n  assign_ct(\n    raw_dat = condition_add(ae_raw, IT.AESDTH == \"Yes\"),\n    raw_var = \"IT.AESDTH\",\n    tgt_var = \"AESDTH\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  )"
-  },
-  {
-    "objectID": "slides/02-SDTM/index.html#agent-vs.-skill",
-    "href": "slides/02-SDTM/index.html#agent-vs.-skill",
-    "title": "CDISC SDTM datasets in R",
-    "section": "Agent vs. skill",
-    "text": "Agent vs. skill\nWe just used an agent + skill to finish the VS domain. What are they?\n\n\n🤖 Agent An AI assistant that can read your files, run R, and edit code in your project — not just chat. It plans and executes multi-step tasks.\n\n\n🧠 Skill A reusable, checked-in instruction set that teaches the agent your conventions: how to map SDTM with sdtm.oak, where specs live, house style.\n\n\n\n🔑 Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next."
+    "text": "Programming steps\n\n1–2 📥 Read raw datasets & create oak id vars\nvs_raw &lt;- pharmaverseraw::vs_raw |&gt;\n  generate_oak_id_vars(pat_var = \"PATNUM\", raw_src = \"vitals\")\n\n\n3 📖 Read study controlled terminology\nstudy_ct &lt;- read.csv(\"sdtm_ct.csv\")\n\n\n4–6 🎯 Map topic, map the rest, repeat per topic var\nvs &lt;- hardcode_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSTESTCD\", tgt_val = \"SYSBP\",\n        ct_spec = study_ct, ct_clst = \"C66741\") |&gt;\n  assign_no_ct(vs_raw, \"SYS_BP\",\n        tgt_var = \"VSORRES\", id_vars = oak_id_vars())\n\n\n7–8 🏁 Create derived vars, add labels & attributes\nvs &lt;- vs |&gt;\n  derive_seq(tgt_var = \"VSSEQ\", ...) |&gt;\n  derive_study_day(...)"
   },
   {
     "objectID": "slides/02-SDTM/index.html#human-in-the-loop",
@@ -1716,6 +1597,90 @@
     "title": "CDISC SDTM datasets in R",
     "section": "Human-in-the-loop",
     "text": "Human-in-the-loop\nAI drafts the repetitive parts; you own correctness.\n\n\n1 🧠 Skill encodes how your team maps SDTM\n2 🤖 Agent reads specs → drafts sdtm.oak code\n3 👀 You review: right algorithm? right CT? edge cases?\n4 ▶️ Run and check the domain\n5 ♻️ Refine the skill so the next domain is even faster\n\n\n\n⚠️ Generated code is a starting point, not a submission. Validation, CT correctness, and traceability remain your responsibility."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#how-we-will-code-today",
+    "href": "slides/02-SDTM/index.html#how-we-will-code-today",
+    "title": "CDISC SDTM datasets in R",
+    "section": "How we will “code” today",
+    "text": "How we will “code” today\n\nHand-code a few CM variables together — one algorithm per line, discussing each argument and reading it straight off the aCRF.\nSee the four core algorithms on real fields: assign_no_ct, assign_ct, hardcode_ct + condition_add, assign_datetime.\nThen hand the rest to an AI agent + skill and stay the reviewer."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#review-specs",
+    "href": "slides/02-SDTM/index.html#review-specs",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Review specs",
+    "text": "Review specs\nWe map the CM (Concomitant Medications) domain from CDASH raw data.\n\naCRF: CM_cdash_acrf.pdf\nRaw data: cm_raw_data_cdash.csv (item-level IT.&lt;NAME&gt; columns)\nControlled terminology: study_ct (from metadata/sdtm_ct.csv)\n\n\nAnnotated CM aCRF — each field’s annotation names the target SDTM variable (and CT codelist)"
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#four-algorithms-one-per-field",
+    "href": "slides/02-SDTM/index.html#four-algorithms-one-per-field",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Four algorithms, one per field",
+    "text": "Four algorithms, one per field\nEach collected field maps with the algorithm that fits how it was captured — the aCRF annotation tells you which one:\n\n\n\n✍️\n\n\nassign_no_ct Collected free text passes straight through — e.g. the medication name.\n\n\n\n\n🏷️\n\n\nassign_ct A coded field (dropdown) mapped to a CT codelist — e.g. route of administration.\n\n\n\n\n⚙️\n\n\nhardcode_ct + condition_add Write a constant CT value, but only for rows meeting a condition — e.g. flag “Ongoing”.\n\n\n\n\n📅\n\n\nassign_datetime Parse a collected date/time into ISO 8601 — e.g. the start date."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_no_ct-collected-free-text",
+    "href": "slides/02-SDTM/index.html#assign_no_ct-collected-free-text",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_no_ct — collected free text",
+    "text": "assign_no_ct — collected free text\nCMTRT — the medication name, typed by the site. No controlled terminology.\n\n\ncm_trt &lt;- assign_no_ct(\n  raw_dat = cm_raw,\n  raw_var = \"IT.CMTRT\",\n  tgt_var = \"CMTRT\"\n)\n\n\n💡 Free-text values pass straight through — use assign_no_ct. The first algorithm in a topic pipe seeds the frame, so it takes no id_vars."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_ct-collected-controlled-terminology",
+    "href": "slides/02-SDTM/index.html#assign_ct-collected-controlled-terminology",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_ct — collected + controlled terminology",
+    "text": "assign_ct — collected + controlled terminology\nCMROUTE — route of administration, a dropdown. Apply CT codelist C66729.\n\n\ncm_route &lt;- assign_ct(\n  raw_dat = cm_raw,\n  raw_var = \"IT.CMROUTE\",\n  tgt_var = \"CMROUTE\",\n  ct_spec = study_ct,\n  ct_clst = \"C66729\",\n  id_vars = oak_id_vars()\n)\n\n\n🏷️ A coded/dropdown field needs assign_ct — it maps the collected value to the CT term for codelist ct_clst."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#hardcode_ct-condition_add-conditional-constant",
+    "href": "slides/02-SDTM/index.html#hardcode_ct-condition_add-conditional-constant",
+    "title": "CDISC SDTM datasets in R",
+    "section": "hardcode_ct + condition_add — conditional constant",
+    "text": "hardcode_ct + condition_add — conditional constant\nUse hardcode_ct when the SDTM value isn’t collected as-is — you assign a fixed constant that is subject to controlled terminology. Unlike assign_ct (which maps whatever the site entered), hardcode_ct writes the same tgt_val to every targeted row and validates it against the codelist.\nCMENRTPT — set to the constant \"Ongoing\" only when “Is medication ongoing?” is Yes.\n\n\ncm_enrtpt &lt;- hardcode_ct(\n  raw_dat = condition_add(cm_raw, IT.CMONGO == \"Yes\"),  # filter: only ongoing rows\n  raw_var = \"IT.CMONGO\",\n  tgt_var = \"CMENRTPT\",\n  tgt_val = \"Ongoing\",     # the constant written to every filtered row\n  ct_spec = study_ct,\n  ct_clst = \"C66728\",      # codelist that \"Ongoing\" must belong to\n  id_vars = oak_id_vars()\n)\n\n\n⚙️ condition_add() filters the raw rows first; hardcode_ct then writes the constant tgt_val to those rows and checks it against ct_clst. Drop condition_add() to hardcode for all rows (e.g. CMCAT = \"GENERAL\")."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#assign_datetime-a-collected-date",
+    "href": "slides/02-SDTM/index.html#assign_datetime-a-collected-date",
+    "title": "CDISC SDTM datasets in R",
+    "section": "assign_datetime — a collected date",
+    "text": "assign_datetime — a collected date\nCMSTDTC — start date, collected as d-mmm-yy. Convert to ISO 8601.\n\n\ncm_stdtc &lt;- assign_datetime(\n  raw_dat = cm_raw,\n  raw_var = \"IT.CMSTDAT\",\n  tgt_var = \"CMSTDTC\",\n  raw_fmt = c(\"d-m-y\"),\n  raw_unk = c(\"UN\", \"UNK\")\n)\n\n\n📅 assign_datetime parses the collected format (raw_fmt) and handles unknown tokens (raw_unk), producing an ISO 8601 date like 2020-09-17."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#the-pre-prepared-skill",
+    "href": "slides/02-SDTM/index.html#the-pre-prepared-skill",
+    "title": "CDISC SDTM datasets in R",
+    "section": "The pre-prepared skill",
+    "text": "The pre-prepared skill\nA checked-in skill teaches the agent our sdtm.oak conventions:\n\n🧠 .agents/skills/sdtm-oak-mapping/SKILL.md\n\n# SDTM mapping with sdtm.oak\n\nUse when: creating an SDTM domain from a raw dataset + aCRF.\n\nPick the algorithm per variable, reading the aCRF annotation:\n  - collected free text ....... assign_no_ct()\n  - collected + CT codelist ... assign_ct(ct_spec, ct_clst)\n  - conditional constant ...... hardcode_ct() wrapped in condition_add()\n  - a collected date .......... assign_datetime(raw_fmt)\nChain topic then qualifiers with |&gt;, id_vars = oak_id_vars().\n\nConventions: raw vars use IT.&lt;NAME&gt;; CT lives in study_ct."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#let-ai-draft-the-rest",
+    "href": "slides/02-SDTM/index.html#let-ai-draft-the-rest",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Let AI draft the rest",
+    "text": "Let AI draft the rest\nWe coded four fields by hand. The remaining CM variables follow the same patterns — delegate them.\n\n\n\n💬 Your prompt\n\n\n“Using the sdtm-oak-mapping skill and the annotated CM aCRF, map the remaining CM variables — CMINDC, CMDOS, CMDOSTXT, CMDOSU, CMDOSFRM, CMDOSFRQ, CMENTPT, CMENDTC — choosing the right algorithm per field and applying CT where the aCRF shows a codelist.”\n\n\n\n\n\n# Agent output, following the skill:\n# CMDOSU is a coded unit -&gt; assign_ct with codelist C71620\ncm_dosu &lt;- assign_ct(\n  raw_dat = cm_raw, raw_var = \"IT.CMDOSU\",\n  tgt_var = \"CMDOSU\", ct_spec = study_ct,\n  ct_clst = \"C71620\", id_vars = oak_id_vars()\n)\n# CMDOS is the numeric dose -&gt; assign_no_ct, only when numeric\ncm_dos &lt;- assign_no_ct(\n  raw_dat = condition_add(\n    cm_raw,\n    grepl(\"^-?\\\\d*(\\\\.\\\\d+)?$\", cm_raw$IT.CMDSTXT)),\n  raw_var = \"IT.CMDSTXT\", tgt_var = \"CMDOS\",\n  id_vars = oak_id_vars()\n)\n\n\n\n🧑‍⚖️ You review each mapping against the aCRF — right algorithm, right CT codelist, right condition — then run and check the result."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#bonus-reference-dates-with-oak_cal_ref_dates",
+    "href": "slides/02-SDTM/index.html#bonus-reference-dates-with-oak_cal_ref_dates",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Bonus: reference dates with oak_cal_ref_dates",
+    "text": "Bonus: reference dates with oak_cal_ref_dates\nSome variables aren’t a single collected field — they’re a min/max date across eCRFs. oak_cal_ref_dates() (used for DM’s RFXSTDTC, and study-day derivation here) reads a small config table:\n\n# One config row per reference date; then one call derives it\nref_date_conf_df &lt;- tibble::tribble(\n  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat,      ~sdtm_var_name,\n  \"ex_raw\",          \"IT.ECSTDAT\", NA_character_, \"dd-mmm-yyyy\", NA_character_, \"RFXSTDTC\"\n)\n\ndm &lt;- oak_cal_ref_dates(\n  dm_domain          = dm,\n  der_var            = \"RFXSTDTC\",\n  min_max            = \"min\",\n  ref_date_config_df = ref_date_conf_df,\n  raw_source         = list(ex_raw = ex_raw)\n)\n\n\n🔑 One config row + one call per reference date. Add rows and let the agent extend the config — you verify source, format, and min vs max."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#check-in-exercise",
+    "href": "slides/02-SDTM/index.html#check-in-exercise",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Check-in Exercise",
+    "text": "Check-in Exercise\nOpen exercises/02-SDTM.R — map the AE domain. Two ways to tackle it:\n\n✍️ Code it yourself — write each sdtm.oak call by hand, as we did for CM.\n🤖 Use the AI agent + skill — prompt it to draft the script from the AE aCRF, then review and run.\n\n\nlibrary(sdtm.oak)\nlibrary(pharmaverseraw)\nlibrary(dplyr)\n\n#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf\n\n# Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM\n\n# Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742\n\n# Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is \n#    If \"Yes\" then AESDTH = \"Y\" else Not Submitted. Codelist code for AESDTH is C66742\n\nAdd the “completed” sticky note to your laptop when complete."
+  },
+  {
+    "objectID": "slides/02-SDTM/index.html#exercise-solution",
+    "href": "slides/02-SDTM/index.html#exercise-solution",
+    "title": "CDISC SDTM datasets in R",
+    "section": "Exercise Solution",
+    "text": "Exercise Solution\n\nae &lt;-\n  # Derive topic variable\n  # Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM\n  assign_no_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AETERM\",\n    tgt_var = \"AETERM\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER\n  assign_ct(\n    raw_dat = ae_raw,\n    raw_var = \"IT.AESER\",\n    tgt_var = \"AESER\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  ) %&gt;%\n  # Map AESDTH using condition_add & assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH\n  assign_ct(\n    raw_dat = condition_add(ae_raw, IT.AESDTH == \"Yes\"),\n    raw_var = \"IT.AESDTH\",\n    tgt_var = \"AESDTH\",\n    ct_spec = study_ct,\n    ct_clst = \"C66742\",\n    id_vars = oak_id_vars()\n  )"
   },
   {
     "objectID": "slides/02-SDTM/index.html#wrap-up-resources",
