@@ -32,6 +32,12 @@ library(dplyr)
 # Study controlled terminology used by the live mapping examples
 study_ct <- read.csv("metadata/sdtm_ct.csv")
 
+# CM raw data (CDASH) used by the workshop mapping examples
+cm_raw <- read.csv("datasets/cm_raw_data_cdash.csv", stringsAsFactors = FALSE)
+cm_raw <- admiral::convert_blanks_to_na(cm_raw)
+cm_raw <- cm_raw |>
+  generate_oak_id_vars(pat_var = "PATNUM", raw_src = "cm_raw")
+
 link::auto(keep_pkg_prefix = FALSE,
            keep_braces = FALSE)
 
@@ -61,7 +67,7 @@ How `sdtm.oak` and its **reusable algorithms** work
 :::: {.pv-card}
 [⚙️]{.pv-ico}
 [Build]{.pv-title}
-SDTM `VS` and `DM` domains with live code
+The SDTM `CM` domain with live code
 ::::
 :::: {.pv-card}
 [🤖]{.pv-ico}
@@ -79,24 +85,15 @@ The same mappings with an **AI agent + skill**
 [20 min]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
-[🩺]{.pv-agenda-ico}
-[`VS` domain]{.pv-agenda-title}
-[20 min]{.pv-agenda-time}
-:::
-::: {.pv-agenda-item}
-[👤]{.pv-agenda-ico}
-[`DM` domain]{.pv-agenda-title}
-[10 min]{.pv-agenda-time}
+[💊]{.pv-agenda-ico}
+[`CM` domain 🤖]{.pv-agenda-title}
+[15 min]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
-[Exercise]{.pv-agenda-title}
+[Exercise 🤖]{.pv-agenda-title}
 [10 min]{.pv-agenda-time}
 :::
-:::
-
-::: {.pv-agenda-accent}
-[🤖]{.pv-agenda-ico} Same work, accelerated with an **AI agent + skill**
 :::
 
 # Introduction to `sdtm.oak`
@@ -639,76 +636,202 @@ qualifier back to its topic — and the SDTM record back to the raw dataset.
 
 ## Programming steps {.smaller}
 
-::::::: columns
-
-:::::: {.column width="42%"}
-::: {.pv-steps}
-- [1]{.pv-num} [📥]{.pv-ico} [Read **raw** datasets]{.fragment fragment-index=0}
-- [2]{.pv-num} [🔑]{.pv-ico} [Create **oak id** vars]{.fragment fragment-index=0}
-- [3]{.pv-num} [📖]{.pv-ico} [Read study **CT**]{.fragment fragment-index=1}
-- [4]{.pv-num} [🎯]{.pv-ico} [Map **topic** variable]{.fragment fragment-index=2}
-- [5]{.pv-num} [🏷️]{.pv-ico} [Map the **rest**]{.fragment fragment-index=2}
-- [6]{.pv-num} [🔁]{.pv-ico} [Repeat per topic variable]{.fragment fragment-index=2}
-- [7]{.pv-num} [🧮]{.pv-ico} [Create **derived** vars]{.fragment fragment-index=3}
-- [8]{.pv-num} [🏁]{.pv-ico} [Add **labels & attributes**]{.fragment fragment-index=3}
-:::
-::::::
-
-:::::: {.column width="58%"}
-```{.r code-line-numbers="|1-3|4-5|6-11|12-15"}
-# 1-2  read raw + create oak id vars
+:::: {.pv-progstep .fragment}
+[1–2]{.pv-num} [📥]{.pv-ico} Read **raw** datasets & create **oak id** vars
+```r
 vs_raw <- pharmaverseraw::vs_raw |>
   generate_oak_id_vars(pat_var = "PATNUM", raw_src = "vitals")
-# 3  read study controlled terminology
+```
+::::
+
+:::: {.pv-progstep .fragment}
+[3]{.pv-num} [📖]{.pv-ico} Read study **controlled terminology**
+```r
 study_ct <- read.csv("sdtm_ct.csv")
-# 4-6  map topic, map rest, repeat per topic var
+```
+::::
+
+:::: {.pv-progstep .fragment}
+[4–6]{.pv-num} [🎯]{.pv-ico} Map **topic**, map the **rest**, repeat per topic var
+```r
 vs <- hardcode_ct(vs_raw, "SYS_BP",
         tgt_var = "VSTESTCD", tgt_val = "SYSBP",
         ct_spec = study_ct, ct_clst = "C66741") |>
   assign_no_ct(vs_raw, "SYS_BP",
         tgt_var = "VSORRES", id_vars = oak_id_vars())
-# 7-8  derived vars + labels & attributes
+```
+::::
+
+:::: {.pv-progstep .fragment}
+[7–8]{.pv-num} [🏁]{.pv-ico} Create **derived** vars, add **labels & attributes**
+```r
 vs <- vs |>
   derive_seq(tgt_var = "VSSEQ", ...) |>
   derive_study_day(...)
 ```
-::::::
+::::
 
-:::::::
+## Human-in-the-loop {.smaller}
 
-# Workshop - Create VS domain
+AI drafts the repetitive parts; **you own correctness**.
+
+::: {.pv-steps}
+- [1]{.pv-num} [🧠]{.pv-ico} Skill encodes *how* your team maps SDTM
+- [2]{.pv-num} [🤖]{.pv-ico} Agent reads specs → drafts `sdtm.oak` code
+- [3]{.pv-num} [👀]{.pv-ico} You review: right algorithm? right CT? edge cases?
+- [4]{.pv-num} [▶️]{.pv-ico} Run and check the domain
+- [5]{.pv-num} [♻️]{.pv-ico} Refine the skill so the next domain is even faster
+:::
+
+::: {.pv-ai}
+[⚠️]{.pv-ico} Generated code is a **starting point**, not a submission. Validation,
+CT correctness, and traceability remain your responsibility.
+:::
+
+# Workshop - Create CM domain
 
 ## How we will "code" today {.smaller}
 
 ::: incremental
--   **Hand-code** the first topic variables together — one algorithm per line, discussing each argument.
--   Then **hand it to an AI agent + skill** to draft the remaining variables.
--   **Verify** the result against the known VS numbers.
+-   **Hand-code** a few CM variables together — one algorithm per line, discussing each argument and reading it straight off the aCRF.
+-   See the **four core algorithms** on real fields: `assign_no_ct`, `assign_ct`, `hardcode_ct` + `condition_add`, `assign_datetime`.
+-   Then **hand the rest to an AI agent + skill** and stay the reviewer.
 :::
 
-## Review specs
+## Review specs {.smaller}
 
-Review aCRF
+We map the **CM (Concomitant Medications)** domain from CDASH raw data.
 
--  [VitalSigns_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/VitalSigns_aCRF.pdf)
+-  aCRF: [CM_cdash_acrf.pdf](https://github.com/pharmaverse/sdtm.oak-workshop/blob/main/specs/cm_cdash/CM_cdash_acrf.pdf)
+-  Raw data: `cm_raw_data_cdash.csv` (item-level `IT.<NAME>` columns)
+-  Controlled terminology: `study_ct` (from `metadata/sdtm_ct.csv`)
 
-## Start by hand, finish with AI {.smaller}
+![Annotated CM aCRF — each field's annotation names the target SDTM variable (and CT codelist)](images/cm-acrf-full.png){.pv-acrf-img width="70%"}
 
-We hand-code **TEMP** and **blood pressure**, then let an **agent + skill** draft the rest.
+## Four algorithms, one per field {.smaller}
 
-::: {.pv-flow .pv-flow-accent}
-[[✍️]{.pv-ico}Hand-code TEMP + BP]{.pv-step}
-[[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
-[[🤖]{.pv-ico}Agent drafts HEIGHT / WEIGHT / PULSE]{.pv-step}
-[[✅]{.pv-ico}Verify the result]{.pv-step}
+Each collected field maps with the algorithm that fits **how it was captured** — the aCRF annotation tells you which one:
+
+::::: {.pv-flow-vert}
+:::: {.pv-vstep}
+::: {.pv-vico}
+✍️
 :::
-
-::: {.pv-speed}
-[⏱️ Repetitive topic/qualifier blocks by hand]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Agent drafts them in seconds]{.pv-speed-fast}
+::: {.pv-vbody}
+[assign_no_ct]{.pv-vname}
+[Collected **free text** passes straight through — e.g. the medication name.]{.pv-vdesc}
 :::
+::::
+:::: {.pv-vstep}
+::: {.pv-vico}
+🏷️
+:::
+::: {.pv-vbody}
+[assign_ct]{.pv-vname}
+[A **coded** field (dropdown) mapped to a CT codelist — e.g. route of administration.]{.pv-vdesc}
+:::
+::::
+:::: {.pv-vstep}
+::: {.pv-vico}
+⚙️
+:::
+::: {.pv-vbody}
+[hardcode_ct + condition_add]{.pv-vname}
+[Write a **constant** CT value, but only for rows meeting a condition — e.g. flag "Ongoing".]{.pv-vdesc}
+:::
+::::
+:::: {.pv-vstep}
+::: {.pv-vico}
+📅
+:::
+::: {.pv-vbody}
+[assign_datetime]{.pv-vname}
+[Parse a **collected date/time** into ISO 8601 — e.g. the start date.]{.pv-vdesc}
+:::
+::::
+:::::
+
+## `assign_no_ct` — collected free text {.smaller}
+
+**CMTRT** — the medication name, typed by the site. No controlled terminology.
+
+![](images/cm-acrf-cmtrt.png){.pv-acrf-img width="80%"}
+
+```{r}
+cm_trt <- assign_no_ct(
+  raw_dat = cm_raw,
+  raw_var = "IT.CMTRT",
+  tgt_var = "CMTRT"
+)
+```
 
 ::: {.pv-ai}
-[💡]{.pv-ico} The remaining vitals follow the **same pattern** we just coded — ideal work to delegate to the agent, then review.
+[💡]{.pv-ico} Free-text values pass straight through — use `assign_no_ct`. The **first** algorithm in a topic pipe seeds the frame, so it takes no `id_vars`.
+:::
+
+## `assign_ct` — collected + controlled terminology {.smaller}
+
+**CMROUTE** — route of administration, a **dropdown**. Apply CT codelist `C66729`.
+
+![](images/cm-acrf-route.png){.pv-acrf-img width="80%"}
+
+```{r}
+cm_route <- assign_ct(
+  raw_dat = cm_raw,
+  raw_var = "IT.CMROUTE",
+  tgt_var = "CMROUTE",
+  ct_spec = study_ct,
+  ct_clst = "C66729",
+  id_vars = oak_id_vars()
+)
+```
+
+::: {.pv-ai}
+[🏷️]{.pv-ico} A coded/dropdown field needs `assign_ct` — it maps the collected value to the CT term for codelist `ct_clst`.
+:::
+
+## `hardcode_ct` + `condition_add` — conditional constant {.smaller}
+
+Use `hardcode_ct` when the SDTM value **isn't collected as-is** — you *assign a fixed constant* that is subject to controlled terminology. Unlike `assign_ct` (which maps whatever the site entered), `hardcode_ct` writes the **same `tgt_val`** to every targeted row and validates it against the codelist.
+
+**CMENRTPT** — set to the constant `"Ongoing"` **only when** "Is medication ongoing?" is `Yes`.
+
+![](images/cm-acrf-ongoing.png){.pv-acrf-img width="70%"}
+
+```{r}
+cm_enrtpt <- hardcode_ct(
+  raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),  # filter: only ongoing rows
+  raw_var = "IT.CMONGO",
+  tgt_var = "CMENRTPT",
+  tgt_val = "Ongoing",     # the constant written to every filtered row
+  ct_spec = study_ct,
+  ct_clst = "C66728",      # codelist that "Ongoing" must belong to
+  id_vars = oak_id_vars()
+)
+```
+
+::: {.pv-ai}
+[⚙️]{.pv-ico} `condition_add()` filters the raw rows first; `hardcode_ct` then writes the **constant** `tgt_val` to those rows and checks it against `ct_clst`. Drop `condition_add()` to hardcode for *all* rows (e.g. `CMCAT = "GENERAL"`).
+:::
+
+## `assign_datetime` — a collected date {.smaller}
+
+**CMSTDTC** — start date, collected as `d-mmm-yy`. Convert to ISO 8601.
+
+![](images/cm-acrf-startdate.png){.pv-acrf-img width="80%"}
+
+```{r}
+cm_stdtc <- assign_datetime(
+  raw_dat = cm_raw,
+  raw_var = "IT.CMSTDAT",
+  tgt_var = "CMSTDTC",
+  raw_fmt = c("d-m-y"),
+  raw_unk = c("UN", "UNK")
+)
+```
+
+::: {.pv-ai}
+[📅]{.pv-ico} `assign_datetime` parses the collected format (`raw_fmt`) and handles unknown tokens (`raw_unk`), producing an ISO 8601 date like `2020-09-17`.
 :::
 
 ## The pre-prepared skill {.smaller}
@@ -725,10 +848,11 @@ A checked-in skill teaches the agent *our* `sdtm.oak` conventions:
 
 Use when: creating an SDTM domain from a raw dataset + aCRF.
 
-For each vitals topic (HEIGHT, WEIGHT, PULSE):
-  1. hardcode_ct() -> VSTESTCD, VSTEST   (from CT codelists)
-  2. assign_no_ct() -> VSORRES           (the collected value)
-  3. hardcode_ct() -> VSORRESU           (the unit)
+Pick the algorithm per variable, reading the aCRF annotation:
+  - collected free text ....... assign_no_ct()
+  - collected + CT codelist ... assign_ct(ct_spec, ct_clst)
+  - conditional constant ...... hardcode_ct() wrapped in condition_add()
+  - a collected date .......... assign_datetime(raw_fmt)
 Chain topic then qualifiers with |>, id_vars = oak_id_vars().
 
 Conventions: raw vars use IT.<NAME>; CT lives in study_ct.
@@ -736,129 +860,65 @@ Conventions: raw vars use IT.<NAME>; CT lives in study_ct.
 ::::
 :::::
 
-## The prompt + aCRF {.smaller}
+## Let AI draft the rest {.smaller}
+
+We coded four fields by hand. The **remaining CM variables** follow the same patterns — delegate them.
 
 ::::::: columns
 
-:::::: {.column width="42%"}
+:::::: {.column width="46%"}
 ::::: {.pv-skill}
 
 [[💬]{.pv-ico} Your prompt]{.pv-skill-head}
 
 :::: {.pv-skill-body}
-> "Using the **sdtm-oak-mapping** skill and the **annotated Vitals aCRF**,
-> map the remaining VS topics — **PULSE** and **DIA_BP** —
-> with their `VSORRES`, `VSORRESU` and `VSPOS` qualifiers."
+> "Using the **sdtm-oak-mapping** skill and the **annotated CM aCRF**,
+> map the remaining CM variables — **CMINDC, CMDOS, CMDOSTXT, CMDOSU,
+> CMDOSFRM, CMDOSFRQ, CMENTPT, CMENDTC** — choosing the right algorithm
+> per field and applying CT where the aCRF shows a codelist."
 ::::
 
 :::::
 ::::::
 
-:::::: {.column width="58%"}
-![Annotated Vitals aCRF — the agent reads these callouts](images/vitals-acrf-annotated.png){.pv-acrf-img}
+:::::: {.column width="54%"}
+```{r, eval = FALSE}
+# Agent output, following the skill:
+# CMDOSU is a coded unit -> assign_ct with codelist C71620
+cm_dosu <- assign_ct(
+  raw_dat = cm_raw, raw_var = "IT.CMDOSU",
+  tgt_var = "CMDOSU", ct_spec = study_ct,
+  ct_clst = "C71620", id_vars = oak_id_vars()
+)
+# CMDOS is the numeric dose -> assign_no_ct, only when numeric
+cm_dos <- assign_no_ct(
+  raw_dat = condition_add(
+    cm_raw,
+    grepl("^-?\\d*(\\.\\d+)?$", cm_raw$IT.CMDSTXT)),
+  raw_var = "IT.CMDSTXT", tgt_var = "CMDOS",
+  id_vars = oak_id_vars()
+)
+```
 ::::::
 
 :::::::
 
 ::: {.pv-ai}
-[🔎]{.pv-ico} The agent reads the aCRF annotations (raw var → SDTM var + CT) to pick the right `raw_var`, unit, and codelist.
+[🧑‍⚖️]{.pv-ico} You **review each mapping** against the aCRF — right algorithm, right CT codelist, right condition — then run and check the result.
 :::
 
-## Agent drafts the remaining VS vars {.smaller}
+## Bonus: reference dates with `oak_cal_ref_dates` {.smaller}
+
+Some variables aren't a single collected field — they're a **min/max date across eCRFs**.
+`oak_cal_ref_dates()` (used for DM's `RFXSTDTC`, and study-day derivation here) reads a small **config table**:
 
 ```{r, eval = FALSE}
-# Agent output, following the skill (PULSE shown; WEIGHT/HEIGHT analogous)
-vs_pulse <- hardcode_ct(
-    raw_dat = vs_raw, raw_var = "PULSE",
-    tgt_var = "VSTESTCD", tgt_val = "PULSE",
-    ct_spec = study_ct, ct_clst = "C66741"
-  ) |>
-  dplyr::filter(!is.na(VSTESTCD)) |>
-  assign_no_ct(
-    raw_dat = vs_raw, raw_var = "PULSE",
-    tgt_var = "VSORRES", id_vars = oak_id_vars()
-  ) |>
-  hardcode_ct(
-    raw_dat = vs_raw, raw_var = "PULSE",
-    tgt_var = "VSORRESU", tgt_val = "beats/min",
-    ct_spec = study_ct, ct_clst = "C66770", id_vars = oak_id_vars()
-  )
-```
-
-::: {.pv-ai}
-[🧑‍⚖️]{.pv-ico} Same shape as our hand-written blocks — **you stay the reviewer**: check the CT code, run it, confirm the result looks right.
-:::
-
-## Quiz - 1
-
-::: incremental
-* What function should be used for mapping for CMROUTE. The Route information is collected in a drop down list on the CRF.
-  
-  * a)  sdtm.oak::assign_no_ct()
-  * b)  sdtm.oak::assign_ct()
-
-* Correct answer:
-  * b) As CMROUTE has a codelist associated we need to use sdtm.oak::assign_ct()
-:::
-
-# Workshop - Create DM domain
-
-## Review specs
-
-Review aCRF
-
--  [Demographics_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Demographics_aCRF.pdf)
--  [Exposure_as_collected_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Exposure_as_collected_aCRF.pdf)
--  [Subject_Disposition_aCRF](https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/Subject_Disposition_aCRF.pdf)
-
-## Start by hand, finish with AI {.smaller}
-
-DM's **reference dates** are repetitive config rows — perfect to hand off after one worked example.
-
-::: {.pv-flow .pv-flow-accent}
-[[✍️]{.pv-ico}Derive RFXSTDTC by hand]{.pv-step}
-[[🧠]{.pv-ico}skill = sdtm.oak know-how]{.pv-step}
-[[🤖]{.pv-ico}Agent fills remaining ref dates]{.pv-step}
-[[✅]{.pv-ico}Verify the result]{.pv-step}
-:::
-
-::: {.pv-speed}
-[⏱️ Seven near-identical config rows + calls]{.pv-speed-slow} [→]{.pv-speed-arrow} [⚡ Agent drafts them from the aCRFs]{.pv-speed-fast}
-:::
-
-## Reference date derivation {.smaller}
-
--   DM has several **reference dates**: `RFSTDTC`, `RFENDTC`, `RFXSTDTC`, `RFXENDTC`, `RFICDTC`, `RFPENDTC`, `DTHDTC`.
--   Each is a **min/max date** pulled from raw data across **multiple eCRFs**.
--   `oak_cal_ref_dates()` derives them from a small **config table** (`ref_date_config_df`) — no bespoke code per date.
-
-::: {.pv-ai}
-[💡]{.pv-ico} Same idea as VS: **walk through one** reference date by hand, then let an **agent + skill** fill in the rest of the config.
-:::
-
-## Config file — walk through one row {.smaller}
-
-Each row tells `sdtm.oak` where **one** reference date lives:
-
-| column | meaning | example |
-|:-----------------|:----------------------------------|:----------------|
-| `raw_dataset_name` | source raw dataset | `ex_raw` |
-| `date_var` | date variable in that dataset | `IT.ECSTDAT` |
-| `time_var` | time variable (if any) | `NA` |
-| `dformat` | date format collected | `dd-mmm-yyyy` |
-| `tformat` | time format collected | `NA` |
-| `sdtm_var_name` | reference date to derive | `RFXSTDTC` |
-
-## Derive one by hand — RFXSTDTC {.smaller}
-
-```{r, eval = FALSE}
-# 1 config: one row per reference date
+# One config row per reference date; then one call derives it
 ref_date_conf_df <- tibble::tribble(
-  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat, ~sdtm_var_name,
-  "ex_raw",       "IT.ECSTDAT", NA_character_, "dd-mmm-yyyy", NA_character_, "RFXSTDTC"
+  ~raw_dataset_name, ~date_var,   ~time_var,     ~dformat,      ~tformat,      ~sdtm_var_name,
+  "ex_raw",          "IT.ECSTDAT", NA_character_, "dd-mmm-yyyy", NA_character_, "RFXSTDTC"
 )
 
-# 2 derive RFXSTDTC from that config
 dm <- oak_cal_ref_dates(
   dm_domain          = dm,
   der_var            = "RFXSTDTC",
@@ -869,67 +929,15 @@ dm <- oak_cal_ref_dates(
 ```
 
 ::: {.pv-ai}
-[🔑]{.pv-ico} One config row + one call. The **remaining reference dates repeat this pattern** with different sources.
+[🔑]{.pv-ico} One config row + one call per reference date. Add rows and let the **agent** extend the config — you verify source, format, and min vs max.
 :::
-
-## Let AI populate the rest {.smaller}
-
-::::::: columns
-
-:::::: {.column width="46%"}
-::::: {.pv-skill}
-
-[[💬]{.pv-ico} Your prompt]{.pv-skill-head}
-
-:::: {.pv-skill-body}
-> "Using the **sdtm-oak-mapping** skill and the DM / EX / DS **aCRFs**,
-> add config rows and `oak_cal_ref_dates()` calls for the remaining
-> reference dates: **RFXENDTC, RFSTDTC, RFENDTC, RFICDTC, RFPENDTC, DTHDTC**."
-::::
-
-:::::
-::::::
-
-:::::: {.column width="54%"}
-```{r, eval = FALSE}
-# Agent extends the config, following the skill:
-ref_date_conf_df <- tibble::tribble(
-  ~raw_dataset_name, ~date_var,  ~time_var, ~dformat,     ~tformat, ~sdtm_var_name,
-  "ex_raw", "IT.ECSTDAT", NA,      "dd-mmm-yyyy", NA,   "RFXSTDTC",
-  "ex_raw", "IT.ECENDAT", NA,      "dd-mmm-yyyy", NA,   "RFXENDTC",
-  "ds_raw", "IT.DSSTDAT", NA,      "mm-dd-yyyy",  NA,   "RFSTDTC",
-  "ex_raw", "IT.ECENDAT", NA,      "dd-mmm-yyyy", NA,   "RFENDTC",
-  "dm_raw", "IC_DT",      NA,      "mm/dd/yyyy",  NA,   "RFICDTC",
-  "ds_raw", "DSDTCOL",    "DSTMCOL","mm-dd-yyyy", "H:M","RFPENDTC",
-  "ds_raw", "DEATHDT",    NA,      "mm/dd/yyyy",  NA,   "DTHDTC"
-)
-# ...then one oak_cal_ref_dates() call per der_var
-```
-::::::
-
-:::::::
-
-::: {.pv-ai}
-[🧑‍⚖️]{.pv-ico} You **review each row** against the aCRFs — correct source, date format, min vs max — then run and check the result.
-:::
-
-## Quiz - 2
-
-::: incremental
-
-* When to use hardcode mapping algorithm?
-    * a)  To assign a collected value on the eCRF
-    * b)  To Hardcode a SDTM variable that has not directly collected on the eCRF.
-
-* Correct answer:
-    * b) To hardcode a value use hardcode algorithms. To assign a
-    collected value use assign algorithms**
-    
-::: 
 
 ## Check-in Exercise {.smaller}
 
-Open exercises/02-SDTM.R
+Open exercises/02-SDTM.R — map the **AE** domain. Two ways to tackle it:
+
+- [✍️]{.pv-ico} **Code it yourself** — write each `sdtm.oak` call by hand, as we did for CM.
+- [🤖]{.pv-ico} **Use the AI agent + skill** — prompt it to draft the script from the AE aCRF, then review and run.
 
 ```{r, eval = FALSE}
 library(sdtm.oak)
@@ -987,49 +995,6 @@ ae <-
     id_vars = oak_id_vars()
   )
 ```
-
-
-# Doing this with AI {background-color="#003559"}
-
-## Agent vs. skill {.smaller}
-
-We just used an **agent + skill** to finish the VS domain. What are they?
-
-::::: {.pv-cards}
-:::: {.pv-card}
-[🤖]{.pv-ico}
-[Agent]{.pv-title}
-An AI assistant that can **read your files, run R, and edit code** in your
-project — not just chat. It plans and executes multi-step tasks.
-::::
-:::: {.pv-card .pv-accent}
-[🧠]{.pv-ico}
-[Skill]{.pv-title}
-A **reusable, checked-in instruction set** that teaches the agent *your*
-conventions: how to map SDTM with `sdtm.oak`, where specs live, house style.
-::::
-:::::
-
-::: {.pv-ai}
-[🔑]{.pv-ico} Same agent + different skills = SDTM today, ADaM tomorrow, TLGs next.
-:::
-
-## Human-in-the-loop {.smaller}
-
-AI drafts the repetitive parts; **you own correctness**.
-
-::: {.pv-steps}
-- [1]{.pv-num} [🧠]{.pv-ico} Skill encodes *how* your team maps SDTM
-- [2]{.pv-num} [🤖]{.pv-ico} Agent reads specs → drafts `sdtm.oak` code
-- [3]{.pv-num} [👀]{.pv-ico} You review: right algorithm? right CT? edge cases?
-- [4]{.pv-num} [▶️]{.pv-ico} Run and check the domain
-- [5]{.pv-num} [♻️]{.pv-ico} Refine the skill so the next domain is even faster
-:::
-
-::: {.pv-ai}
-[⚠️]{.pv-ico} Generated code is a **starting point**, not a submission. Validation,
-CT correctness, and traceability remain your responsibility.
-:::
 
 ## Wrap-up & resources {.smaller}
 
