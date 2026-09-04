@@ -245,6 +245,48 @@ $pv-accent: $custom-col; // #E67E3A
   padding: 0.45em 0.9em 0.45em 1.1em;
   white-space: nowrap;
 }
+/* vertical flow: stack algorithm rows and spread them to fill the slide */
+.pv-flow-vert {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5em;
+  margin: 0.6em 0;
+  min-height: 62vh;
+}
+.pv-flow-vert .pv-vstep {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  background: #eef4fa;
+  border-left: 6px solid $pv-mid;
+  border-radius: 8px;
+  padding: 0.7em 1em;
+  box-shadow: 0 2px 6px rgba(0,53,89,0.08);
+}
+.pv-flow-vert .pv-vstep:nth-child(1) { border-left-color: $pv-light; }
+.pv-flow-vert .pv-vstep:nth-child(2) { border-left-color: $pv-mid; }
+.pv-flow-vert .pv-vstep:nth-child(3) { border-left-color: $pv-blue; }
+.pv-flow-vert .pv-vstep:nth-child(4) { border-left-color: $pv-accent; }
+.pv-flow-vert .pv-vstep .pv-vico {
+  font-size: 1.6em;
+  line-height: 1;
+  flex: 0 0 auto;
+  width: 1.4em;
+  text-align: center;
+}
+.pv-flow-vert .pv-vstep .pv-vbody { display: flex; flex-direction: column; }
+.pv-flow-vert .pv-vstep .pv-vname {
+  font-family: $font-family-monospace;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.95em;
+}
+.pv-flow-vert .pv-vstep .pv-vdesc {
+  color: #33475b;
+  font-size: 0.8em;
+}
+
 /* highlight the current stage in a flow (e.g. SDTM in the Barb journey) */
 .pv-flow .pv-step.pv-current {
   background: $pv-accent;
