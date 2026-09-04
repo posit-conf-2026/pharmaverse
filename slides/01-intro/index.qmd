@@ -96,17 +96,45 @@ Room **334**
 
 ## Your turn!
 
-::: {.pv-yourturn}
-::: {.pv-yt-item .fragment}
-[🙋]{.pv-yt-ico} Who are you?
+::::: {.pv-info}
+
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🙋
 :::
-::: {.pv-yt-item .fragment}
-[💼]{.pv-yt-ico} What do you do?
+::: {.pv-info-body}
+[Who are you?]{.pv-info-title}
 :::
-::: {.pv-yt-item .fragment}
-[🎯]{.pv-yt-ico} What do you hope to get out of today?
+::::
+
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+💼
 :::
+::: {.pv-info-body}
+[What do you do?]{.pv-info-title}
 :::
+::::
+
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🤖
+:::
+::: {.pv-info-body}
+[What AI tools are you using in your daily work?]{.pv-info-title}
+:::
+::::
+
+:::: {.pv-info-card}
+::: {.pv-info-ico}
+🎯
+:::
+::: {.pv-info-body}
+[What do you hope to get out of today?]{.pv-info-title}
+:::
+::::
+
+:::::
 
 # Workshop outline
 
