@@ -1,8 +1,7 @@
 # Table Exercise: AE summary table using {tfrmt}
 
-# For this exercise, we will use an AE ARD (from the {cards} section) to
+# For this exercise, we will use the AE ARD from the last section to
 # create a {tfrmt} table
-
 
 # Setup: run this first! --------------------------------------------------
 
@@ -13,86 +12,58 @@ library(tidyr)
 library(tfrmt)
 
 ## Import & subset data
-adsl <- pharmaverseadam::adsl |> 
-  dplyr::filter(SAFFL=="Y") 
+adsl <- pharmaverseadam::adsl |>
+  dplyr::filter(SAFFL == "Y") |>
+  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, "Xanomeline"), "Xanomeline", ARM))
 
-adae <- pharmaverseadam::adae |> 
-  dplyr::filter(SAFFL=="Y") |> 
-  dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |> 
-  dplyr::group_by(AESOC) |> 
-  dplyr::filter(AEDECOD %in% unique(AEDECOD)[1:3]) |> 
+adae <- pharmaverseadam::adae |>
+  dplyr::filter(SAFFL == "Y") |>
+  dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |>
+  dplyr::group_by(AESOC) |>
+  dplyr::filter(AEDECOD %in% unique(AEDECOD)[1:3]) |>
   dplyr::ungroup()
 
 ## Create AE Summary using cards
 ard_ae <- ard_stack_hierarchical(
   data = adae,
   variables = c(AESOC, AEDECOD),
-  by = ARM, 
+  by = ARM,
   id = USUBJID,
   denominator = adsl,
   over_variables = TRUE,
   statistic = ~ c("n", "p")
-) 
+)
+
+# Exercise: AE summary table --------------------------------------------
+
+# Run the below prompts and paste the resulting code into your R script
+
+# A. 
+
+# Create and print a mock AE table using the {tfrmt} package. The shell should have the following specs:
+# - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) in the rows.
+# - 3 treatment arms in the columns (ARM)
+# - Big N (Group-level population counts in the column headers
+# - n (number of subjects with the AE) and p (proportion of subjects with the AE) in the body of the table as "n (%)"
 
 
-# Exercise ----------------------------------------------------------------
 
-# A. Convert `cards` object into a tidy data frame ready for {tfrmt}. 
-#    Nothing to do besides run each step & explore the output!
+# B.
 
-ard_ae_tidy <- ard_ae |> 
-  shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
-  prep_big_n(vars = "ARM") |> 
-  prep_hierarchical_fill(vars = c("AESOC","AEDECOD"),
-                       fill_from_left = TRUE)|> 
-  dplyr::select(-c(context, stat_label, stat_variable)) 
+# Convert the `cards` object `ard_ae` into a tidy` data frame ready for {tfrmt}. 
+# Keep only the required columns for the table. Ensure the names align to the spec above.
 
 
-# B. Create a basic tfrmt, filling in the missing variable names
 
-ae_tfrmt <- tfrmt(
-  group = AESOC,
-  label = AEDECOD,
-  param = , # fill
-  value = , # fill
-  column = , # fill
-  body_plan = body_plan(
-    frmt_structure(group_val = ".default", label_val = ".default", 
-                   frmt_combine(
-                     "{n} ({p}%)",
-                     n = frmt("xx"),
-                     p = frmt("xx", transform = ~ . *100)
-                   )
-    )
-  ),
-  big_n = big_n_structure(param_val = "bigN") 
-) 
+# C. 
 
-print_to_gt(ae_tfrmt,
-            ard_ae_tidy)
+# Print a final AE table with real values by supplying the tfrmt-ready data.
+# Add a title, subtitle, and footnote to the table. 
 
 
-# C. Switch the order of the columns so Placebo is last
-
-ae_tfrmt <- ae_tfrmt |> 
-  tfrmt(
-    col_plan = col_plan(
-      "Placebo",
-      starts_with("Xanomeline")
-    )
-  )  
-
-print_to_gt(ae_tfrmt, ard_ae_tidy)
 
 
-# D. Add a title and source note for the table
 
-ae_tfrmt <- ae_tfrmt |> 
-  tfrmt(
-    title = "", # fill
-    footnote_plan = footnote_plan(
-      footnote_structure("") # fill with footnote text
-    ) 
-  )
+# D.
 
-print_to_gt(ae_tfrmt, ard_ae_tidy)
+# Output the final table to PDF (HTML flavor) using {docorator}.
