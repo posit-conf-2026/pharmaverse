@@ -892,8 +892,10 @@ $pv-accent: $custom-col; // #E67E3A
 
 /* --- Agenda spread across the full slide --- */
 .pv-agenda {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
   gap: 1.2em;
   margin: 1.4em 0;
 }
@@ -909,6 +911,7 @@ $pv-accent: $custom-col; // #E67E3A
   padding: 1.4em 0.8em;
   box-shadow: 0 3px 8px rgba(0,0,0,0.10);
   min-height: 200px;
+  flex: 0 1 220px;
 }
 .pv-agenda .pv-agenda-item:nth-child(2) { border-top-color: $pv-mid; }
 .pv-agenda .pv-agenda-item:nth-child(3) { border-top-color: $pv-light; }
