@@ -50,13 +50,19 @@ $custom-col: #7570B3;
 }
 
 /* ---------------------------------------------------------------------------
-   "Copy" button injected into every .codewindow prompt box by
-   copy-button.html, placed in the window's title-bar row.
+   "Copy" icon button injected into every .codewindow prompt box by
+   copy-button.html. Positioned in the box's own top-right corner rather
+   than a codewindow .header row, since these plain-text prompt blocks never
+   get a .header from the codewindow extension (see copy-button.html).
 --------------------------------------------------------------------------- */
-.codewindow .header .copy-btn {
-  margin-left: auto;
-  margin-right: 12px;
-  align-self: center;
+.codewindow {
+  position: relative;
+}
+.codewindow .copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,14 +74,21 @@ $custom-col: #7570B3;
   background: #ffffff;
   color: #334155;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
-.codewindow .header .copy-btn:hover {
+.codewindow .copy-btn:hover {
   background: #f1f5f9;
 }
-.codewindow .header .copy-btn.copied {
+.codewindow .copy-btn.copied {
   color: #16a34a;
   border-color: #86efac;
   background: #f0fdf4;
+}
+
+/* Highlight the "you are here" step in the Where We're Headed Today flow */
+.pv-step.pv-step-current {
+  background: $custom-col !important;
+  color: #ffffff !important;
 }
 
 /* ---------------------------------------------------------------------------

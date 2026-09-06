@@ -59,6 +59,19 @@ img_right_size <- 150
 img_center_size <- 300
 ```
 
+## Why I Lean on AI to Learn Code {.smaller}
+
+<div style="text-align: center;">
+`r fontawesome::fa("python", fill = "#3776AB", height = "120px")`
+</div>
+
+::: incremental
+-   Starting a new job recently, I inherited a Python codebase - and I'm a Python newbie.
+-   I could have handed an agent a `/plan` and let it do everything. Instead, I fed a chat AI individual functions, code, and docs and asked it to walk me through what things did and why.
+-   That back-and-forth - not just running code, but *understanding* it - was one of the best learning experiences I've had picking up an unfamiliar codebase.
+-   Some of how we're learning `admiral` together today - explain, adapt, troubleshoot, with an AI pair-programmer - is inspired by that.
+:::
+
 ## Objectives
 
 By the end of this ADaM section you will have:
@@ -92,12 +105,12 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 ::: {.pv-agenda-item}
 [🎬]{.pv-agenda-ico}
 [Set the Stage]{.pv-agenda-title}
-[11:00 - 11:10]{.pv-agenda-time}
+[11:00 - 11:13]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [🧬]{.pv-agenda-ico}
 [`ADSL`]{.pv-agenda-title}
-[11:10 - 11:30]{.pv-agenda-time}
+[11:13 - 11:30]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
@@ -123,17 +136,13 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 
 ## Where We're Headed Today
 
-```{mermaid}
-%%| echo: FALSE
-flowchart LR
-  A[Raw] --> B[SDTM]
-  B[SDTM] --> C[ADaM]
-  C[ADaM] --> D[ARD]
-  D[ARD] --> E[TFL]
-
-class C highlight;
-classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
-```
+::: {.pv-flow}
+[[📥]{.pv-ico} Raw]{.pv-step}
+[[📋]{.pv-ico} SDTM]{.pv-step}
+[[🎯]{.pv-ico} ADaM]{.pv-step .pv-step-current}
+[[📊]{.pv-ico} ARD]{.pv-step}
+[[📈]{.pv-ico} TFL]{.pv-step}
+:::
 
 ::: incremental
 -   **Raw:** Where every study starts.
@@ -146,7 +155,7 @@ classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
 
 # Set the Stage
 
-🕥11:00 - 11:10
+🕥11:00 - 11:13
 
 <div style="text-align: center;"> <img src="./images/office.jpg" alt="office" style="width: 600px;"/> </div>
 
@@ -167,24 +176,20 @@ classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
 :::: {.columns}
 
 ::: {.column width="50%"}
-<div style="text-align: center;"> <img src="./images/adsl.png" alt="adsl" style="width: 100%; max-width: 550px;"/> </div>
+<div style="text-align: center;"> <img src="./images/adsl.png" alt="adsl" style="width: 100%; max-width: 380px;"/> </div>
 
 * `ADSL` - one record per subject (306 obs, 48 vars). Focus: **adding variables**.
-* Built from `{pharmaversesdtm}` (`dm`, `suppdm`, `ex`, `ae`, `vs`, etc.) using the `ADSL` section of our spec.
-* Final version lives in [pharmaverseadam](https://pharmaverse.github.io/pharmaverseadam/), written out as an xpt file for regulatory send-off.
+* Built from `{pharmaversesdtm}`, `ADSL` section of our spec. Final version in [pharmaverseadam](https://pharmaverse.github.io/pharmaverseadam/).
 :::
 
 ::: {.column width="50%"}
-<div style="text-align: center;"> <img src="./images/advs.png" alt="advs" style="width: 100%; max-width: 550px;"/> </div>
+<div style="text-align: center;"> <img src="./images/advs.png" alt="advs" style="width: 100%; max-width: 380px;"/> </div>
 
-* `ADVS` - a Basic Data Structure (BDS) with **multiple records** per subject (~62K records, 68 vars).
-* Built from `{pharmaversesdtm}` `vs` + some `ADSL` variables, using the `ADVS` section of our spec.
-* Final version lives in [pharmaverseadam](https://pharmaverse.github.io/pharmaverseadam/); many functions repeat from the `ADSL` script.
+* `ADVS` - a Basic Data Structure (BDS), **multiple records** per subject (~62K records, 68 vars).
+* Built from `{pharmaversesdtm}` `vs` + `ADSL`, `ADVS` section of spec. Many functions repeat from `ADSL`.
 :::
 
 ::::
-
-## Open the Scripts
 
 * No digging through folders - open both scripts straight from the R console:
 
@@ -192,8 +197,6 @@ classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
 file.edit("scripts/adsl.R")
 file.edit("scripts/advs.R")
 ```
-
-* Each opens in a new tab in your editor's Source pane.
 
 ## How We'll Dig Into the Scripts
 
@@ -204,8 +207,6 @@ file.edit("scripts/advs.R")
 :::
 
 # Specs
-
-<div style="text-align: center;"> <img src="./images/specs.png" alt="sunny" style="width: 600px;"/> </div>
 
 ## Spec-details
 
@@ -290,7 +291,7 @@ reactable(
 
 # `ADSL`
 
-🕥 11:10 - 11:30
+🕥 11:13 - 11:30
 
 ::: {.callout-note title="Follow Along"}
 Lines in each script are referenced with a footnote like `^[Lines: 20-25]` - flip to that spot in `adsl.R` as we go.
@@ -497,32 +498,6 @@ adsl16 %>%
 ```
 
 * Numeric Variables like the above are helpful for sorting options in Tables.
-
-## Try It: Ask Your AI for Assistance on Codelists {.smaller}
-
-::: {.codewindow style="font-size: 1.05em;"}
-```
-Create a small example dataset with a character SEX variable using
-values "M" and "F", and a separate codelist data frame with code and
-decode columns mapping those values to numeric codes.
-
-Then write a metatools call to add a new numeric SEXN variable
-derived from the codelist. I'm not sure whether my SEX values match
-the "code" side or the "decode" side of the codelist - pick the
-argument that controls that direction, tell me which way you assumed
-it goes, and explain what the output would look like if that
-assumption were backwards.
-```
-:::
-
-::: {.callout-tip title="Goal"}
-Practice a case where getting a single argument's direction wrong would silently produce the wrong numbers - a good habit to build before you're doing this on real data.
-:::
-
-```{r}
-#| echo: false
-countdown::countdown(minutes = 3)
-```
 
 # Check in / Exercise 
 
@@ -936,6 +911,27 @@ choices and what happens for the subject with a missing date.
 
 ::: {.callout-tip title="Goal"}
 Practice describing a rounding/truncation preference in plain terms and letting the AI translate it into the right combination of arguments.
+:::
+
+## Try It: Ask Your AI for Assistance on Codelists {.smaller}
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Create a small example dataset with a character SEX variable using
+values "M" and "F", and a separate codelist data frame with code and
+decode columns mapping those values to numeric codes.
+
+Then write a metatools call to add a new numeric SEXN variable
+derived from the codelist. I'm not sure whether my SEX values match
+the "code" side or the "decode" side of the codelist - pick the
+argument that controls that direction, tell me which way you assumed
+it goes, and explain what the output would look like if that
+assumption were backwards.
+```
+:::
+
+::: {.callout-tip title="Goal"}
+Practice a case where getting a single argument's direction wrong would silently produce the wrong numbers - a good habit to build before you're doing this on real data.
 :::
 
 ## Try It: Ask Your AI for Assistance on Lookup Tables {.smaller}

@@ -29,14 +29,16 @@ left for the AI (or participant) to reason out. Each is a single round except
 the dates exercise, which has a Round 2 extension. The sections below record
 a reference worked example for each, all verified to actually run.
 
-Given the section only has ~90 minutes total, only 6 Try Its run live in the
-main flow (Dates, Dates Round 2, Merging, Codelists, Restricting a
-Derivation, Computed Parameters). The other 7 (Reading a Spec, Supplemental
-Qualifiers, Durations, Lookup Tables, Summary Records, Sequence Numbers,
-Preparing an XPT File) were moved to a "# Explore on Your Own" appendix
-section at the very end of the deck (after "Closing Thoughts", before
-"Packages and Session Information") as optional self-study material -
+Given the section only has ~90 minutes total, only 5 Try Its run live in the
+main flow (Dates, Dates Round 2, Merging, Restricting a Derivation,
+Computed Parameters). The other 8 (Reading a Spec, Supplemental
+Qualifiers, Durations, Codelists, Lookup Tables, Summary Records, Sequence
+Numbers, Preparing an XPT File) were moved to a "# Explore on Your Own"
+appendix section at the very end of the deck (after "Closing Thoughts",
+before "Packages and Session Information") as optional self-study material -
 they're unchanged in content, just relocated out of the live time budget.
+Codelists was demoted from the live flow specifically to relieve a timing
+crunch in the ADSL block (see the timing notes below).
 The six pure function-signature/"there's more!!" reference slides (which
 just enumerated full argument lists already covered by the Key Functions
 Cheat Sheet's doc links) were removed entirely rather than relocated.
@@ -369,10 +371,11 @@ periods up) and `trunc_out = TRUE` (truncate rather than round the output) -
 together they produce "age as of last birthday" rather than "age rounded to
 nearest year."
 
-### "Try It: Ask Your AI for Assistance on Codelists"
+### "Try It: Ask Your AI for Assistance on Codelists" (Explore on Your Own)
 
-In the `ADSL` section, right after "Let's apply Control Terms / Code Lists"
-(one of the 6 Try Its kept in the live flow). Asks for a character `SEX`
+In the "Explore on Your Own" appendix (originally right after "Let's apply
+Control Terms / Code Lists" in the live flow, moved to relieve a timing
+crunch in the ADSL block). Asks for a character `SEX`
 variable and a code/decode codelist, then a `create_var_from_codelist()`
 call producing a numeric `SEXN`, reasoning about `decode_to_code`'s
 direction.
