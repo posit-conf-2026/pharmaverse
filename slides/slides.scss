@@ -2,8 +2,10 @@
 
 // fonts
 @import 'https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&display=swap');
 
 $font-family-sans-serif: "Atkinson Hyperlegible", sans-serif;
+$font-family-display: "Fraunces", Georgia, serif;
 $presentation-heading-color: #7090A5;
 $presentation-title-slide-text-align: "left";
 $presentation-font-size-root: 33px;
@@ -129,4 +131,1131 @@ details>summary {
   justify-content: center;
   align-items: center;
   height: 90%;
+}
+
+/* ---------------------------------------------------------------------------
+   Visual helpers for refreshed slides (wheel, workflow, cards, puzzle, AI)
+   --------------------------------------------------------------------------- */
+
+// Palette derived from the pharmaverse hex / theme
+$pv-navy:   #003559;
+$pv-blue:   #0b5394;
+$pv-mid:    #3d85c6;
+$pv-light:  #8DB6DB;
+$pv-accent: $custom-col; // #E67E3A
+
+/* --- R-package wheel (EDC / Data Standards / Modular) --- */
+.pv-wheel {
+  position: relative;
+  width: 460px;
+  height: 460px;
+  margin: 0.5em auto;
+  border-radius: 50%;
+  background:
+    conic-gradient(
+      #1c4587 0deg 120deg,      /* EDC Agnostic (top)   */
+      #073763 120deg 240deg,    /* Data Standards (left) */
+      #3d85c6 240deg 360deg     /* Modular (right)       */
+    );
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+.pv-wheel::after {                 /* white ring between segments */
+  content: "";
+  position: absolute;
+  inset: 46%;
+  border-radius: 50%;
+  background: #fff;
+  transform: scale(0.06);
+  box-shadow: 0 0 0 12px #fff;
+}
+.pv-wheel .pv-hub {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 150px; height: 150px;
+  margin: -75px 0 0 -75px;
+  border-radius: 50%;
+  background: $pv-mid;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9em;
+  line-height: 1.1;
+  box-shadow: inset 0 0 0 6px #fff;
+  z-index: 2;
+}
+.pv-wheel .pv-seg {
+  position: absolute;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.7em;
+  text-align: center;
+  width: 150px;
+  z-index: 1;
+}
+.pv-wheel .pv-seg .pv-ico { display:block; font-size: 1.4em; margin-bottom: 0.15em; }
+.pv-wheel .pv-top  { top: 8%;  left: 50%; transform: translateX(-50%); }
+.pv-wheel .pv-left { bottom: 20%; left: 4%;  transform: rotate(-60deg); }
+.pv-wheel .pv-right{ bottom: 20%; right: 4%; transform: rotate(60deg); }
+
+/* --- Horizontal workflow / stepper --- */
+.pv-flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin: 0.6em 0;
+  flex-wrap: wrap;
+}
+/* pandoc wraps the step spans in a <p>; make that a flex row too */
+.pv-flow > p {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0;
+  width: 100%;
+}
+.pv-flow .pv-step {
+  position: relative;
+  background: $pv-light;
+  color: $pv-navy;
+  padding: 0.5em 1.1em 0.5em 1.4em;
+  font-weight: 600;
+  font-size: 0.8em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%);
+  margin-right: -8px;
+}
+.pv-flow .pv-step:first-child { clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%); }
+.pv-flow .pv-step:nth-child(odd)  { background: #cfe0ef; }
+.pv-flow .pv-step:nth-child(even) { background: $pv-light; }
+.pv-flow .pv-step .pv-ico { font-size: 1.1em; }
+.pv-flow.pv-flow-accent .pv-step:last-child { background: $pv-accent; color:#fff; }
+/* keep a flow on a single line (scales steps down instead of wrapping) */
+.pv-flow.pv-flow-tight,
+.pv-flow.pv-flow-tight > p { flex-wrap: nowrap; }
+.pv-flow.pv-flow-tight .pv-step {
+  font-size: 0.62em;
+  padding: 0.45em 0.9em 0.45em 1.1em;
+  white-space: nowrap;
+}
+/* vertical flow: stack algorithm rows and spread them to fill the slide */
+.pv-flow-vert {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 0.6em;
+  margin: 0.6em 0;
+  min-height: 56vh;
+}
+.pv-flow-vert .pv-vstep {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  background: #eef4fa;
+  border-left: 6px solid $pv-mid;
+  border-radius: 8px;
+  padding: 0.8em 1.1em;
+  box-shadow: 0 2px 6px rgba(0,53,89,0.08);
+}
+.pv-flow-vert .pv-vstep:nth-child(1) { border-left-color: $pv-light; }
+.pv-flow-vert .pv-vstep:nth-child(2) { border-left-color: $pv-mid; }
+.pv-flow-vert .pv-vstep:nth-child(3) { border-left-color: $pv-blue; }
+.pv-flow-vert .pv-vstep:nth-child(4) { border-left-color: $pv-accent; }
+.pv-flow-vert .pv-vstep .pv-vico {
+  font-size: 2em;
+  line-height: 1;
+  flex: 0 0 auto;
+  width: 1.6em;
+  text-align: center;
+}
+/* pandoc wraps span content in <p>; strip its default margins */
+.pv-flow-vert .pv-vstep .pv-vico > p,
+.pv-flow-vert .pv-vstep .pv-vbody > p { margin: 0; }
+.pv-flow-vert .pv-vstep .pv-vbody { flex: 1 1 auto; }
+.pv-flow-vert .pv-vstep .pv-vname {
+  display: block;
+  font-family: $font-family-monospace;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 1em;
+  margin-bottom: 0.15em;
+}
+.pv-flow-vert .pv-vstep .pv-vdesc {
+  display: block;
+  color: #33475b;
+  font-size: 0.82em;
+  line-height: 1.3;
+}
+
+/* programming steps: each step reveals with its code as one paired fragment */
+.pv-progstep {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  align-items: center;
+  gap: 0.6em 1em;
+  margin: 0.35em 0;
+  padding: 0.35em 0.6em;
+  border-left: 5px solid $pv-mid;
+  border-radius: 8px;
+  background: #f3f8fc;
+}
+.pv-progstep .pv-num {
+  display: inline-block;
+  background: $pv-blue;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 0.05em 0.5em;
+  margin-right: 0.4em;
+  font-size: 0.85em;
+}
+.pv-progstep .pv-ico { color: $pv-blue; margin-right: 0.3em; }
+.pv-progstep > pre,
+.pv-progstep .sourceCode {
+  margin: 0 !important;
+  font-size: 0.72em;
+}
+.pv-progstep pre code { padding: 0.4em 0.6em; }
+
+/* highlight the current stage in a flow (e.g. SDTM in the Barb journey) */
+.pv-flow .pv-step.pv-current {
+  background: $pv-accent;
+  color: #fff;
+  font-size: 0.92em;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.45);
+  z-index: 3;
+}
+
+/* --- speed / "faster" indicator (slow -> fast) --- */
+.pv-speed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin: 0.6em 0;
+  font-weight: 700;
+}
+.pv-speed > p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  margin: 0;
+  width: 100%;
+}
+.pv-speed .pv-speed-slow {
+  background: #e9edf1;
+  color: #6b7b8b;
+  padding: 0.35em 0.9em;
+  border-radius: 999px;
+  font-size: 0.8em;
+}
+.pv-speed .pv-speed-arrow { color: $pv-accent; font-size: 1.3em; }
+.pv-speed .pv-speed-fast {
+  background: $pv-accent;
+  color: #fff;
+  padding: 0.4em 1.1em;
+  border-radius: 999px;
+  font-size: 0.9em;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
+
+/* --- Vertical numbered workflow --- */
+.pv-steps { list-style: none; margin: 0.3em 0; padding: 0; }
+.pv-steps li {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 0.28em 0;
+  font-size: 0.82em;
+}
+.pv-steps li .pv-num {
+  flex: 0 0 auto;
+  width: 1.7em; height: 1.7em;
+  border-radius: 50%;
+  background: $pv-blue;
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  font-size: 0.85em;
+}
+.pv-steps li .pv-ico { color: $pv-blue; width: 1.2em; text-align:center; }
+
+/* --- Feature / concept cards with icons --- */
+.pv-cards {
+  display: flex;
+  gap: 0.8em;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0.5em 0;
+}
+.pv-card {
+  flex: 1 1 0;
+  min-width: 180px;
+  max-width: 320px;
+  background: #EBF7FF;
+  border-top: 4px solid $pv-blue;
+  border-radius: 8px;
+  padding: 0.7em 0.8em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.8em;
+}
+.pv-card .pv-ico { font-size: 1.6em; color: $pv-blue; display:block; margin-bottom: 0.2em; }
+.pv-card .pv-title { font-weight: 700; color: $pv-navy; display:block; margin-bottom: 0.2em; }
+.pv-card.pv-accent { border-top-color: $pv-accent; background: #FDF1E8; }
+.pv-card.pv-accent .pv-ico { color: $pv-accent; }
+
+/* --- Puzzle pieces (modular programming) --- */
+.pv-puzzle { display:flex; gap: 0.5em; justify-content:center; flex-wrap:wrap; margin: 0.5em 0; }
+.pv-piece {
+  position: relative;
+  background: $pv-mid;
+  color:#fff;
+  font-weight:700;
+  font-size:0.75em;
+  padding: 0.9em 1.1em;
+  border-radius: 8px;
+  min-width: 120px;
+  text-align:center;
+}
+.pv-piece::after {           /* knob */
+  content:"";
+  position:absolute;
+  top:50%; right:-10px;
+  width:20px; height:20px;
+  background: inherit;
+  border-radius:50%;
+  transform: translateY(-50%);
+}
+.pv-piece:last-child::after { display:none; }
+.pv-piece:nth-child(2) { background: $pv-blue; }
+.pv-piece:nth-child(3) { background: $pv-navy; }
+.pv-piece:nth-child(4) { background: $pv-accent; }
+
+/* --- AI / agent-skill callout --- */
+.pv-ai {
+  border-left: 4px solid $pv-accent;
+  background: linear-gradient(90deg, #FDF1E8 0%, #ffffff 100%);
+  padding: 0.5em 0.8em;
+  border-radius: 6px;
+  margin: 0.4em 0;
+  font-size: 0.82em;
+}
+.pv-ai .pv-ico { color: $pv-accent; margin-right: 0.35em; }
+
+.pv-skill {
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 0.4em 0;
+  font-size: 0.72em;
+}
+.pv-skill .pv-skill-head {
+  background: $pv-navy;
+  color: #fff;
+  padding: 0.35em 0.7em;
+  font-weight: 700;
+  display:flex; align-items:center; gap:0.4em;
+}
+.pv-skill .pv-skill-body { padding: 0.5em 0.7em; background: #F3F7FB; }
+.pv-skill .pv-skill-body code { font-size: 0.95em; }
+
+/* --- Side-by-side comparison panels (EDC A vs EDC B, CDASH vs proprietary) --- */
+.pv-compare { display:flex; gap: 0.8em; align-items: stretch; flex-wrap: wrap; margin: 0.4em 0; }
+.pv-panel {
+  flex: 1 1 0;
+  min-width: 240px;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.62em;
+}
+.pv-panel .pv-panel-head {
+  background: $pv-blue;
+  color:#fff;
+  font-weight:700;
+  padding: 0.4em 0.7em;
+  display:flex; align-items:center; gap:0.4em;
+}
+.pv-panel.pv-panel-b .pv-panel-head { background: $pv-accent; }
+.pv-panel .pv-panel-body { padding: 0.5em 0.7em; }
+.pv-panel table { width:100%; border-collapse: collapse; margin: 0; }
+.pv-panel th, .pv-panel td {
+  border: 1px solid #d9e2ec;
+  padding: 0.18em 0.4em;
+  text-align: left;
+  font-size: 0.95em;
+}
+.pv-panel th { background: #EBF7FF; }
+.pv-panel.pv-panel-b th { background: #FDF1E8; }
+.pv-panel .pv-note { color:#666; font-style: italic; margin-top: 0.3em; display:block; }
+
+/* Mock eCRF form field */
+.pv-ecrf { border:1px solid #cfd9e3; border-radius:6px; padding:0.5em 0.6em; background:#fafcff; }
+.pv-ecrf .pv-field { display:flex; align-items:center; gap:0.5em; margin:0.25em 0; }
+.pv-ecrf .pv-label { flex: 0 0 42%; font-weight:600; color:$pv-navy; }
+.pv-ecrf .pv-input {
+  flex:1; border:1px solid #b9c6d4; border-radius:4px;
+  padding:0.12em 0.4em; background:#fff; color:#333;
+}
+.pv-ecrf .pv-input.pv-filled { background:#fffbe6; }
+
+/* Screenshot placeholder – drop a real EDC screenshot here later */
+.pv-shot {
+  border: 2px dashed $pv-light;
+  border-radius: 8px;
+  background: #F3F7FB;
+  color: #7090A5;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding: 1.2em 0.8em;
+  font-size: 0.62em;
+  min-height: 140px;
+}
+.pv-shot .pv-ico { font-size: 1.8em; margin-bottom:0.25em; }
+.pv-shot code { font-size: 0.9em; }
+
+/* Arrow that maps raw -> SDTM */
+.pv-maps-to { display:flex; align-items:center; justify-content:center; font-size:1.4em; color:$pv-accent; padding:0 0.2em; }
+
+/* --- File tree (skill as a folder) --- */
+.pv-tree {
+  font-family: $font-family-monospace;
+  font-size: 0.62em;
+  background: #F3F7FB;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.6em 0.9em;
+  line-height: 1.7;
+  color: $pv-navy;
+  white-space: nowrap;
+}
+.pv-tree .pv-dir  { color: $pv-blue; font-weight: 700; }
+.pv-tree .pv-main { color: $pv-accent; font-weight: 700; }
+.pv-tree .pv-cmt  { color: #7090A5; }
+
+/* --- Good vs. bad comparison --- */
+.pv-gb { display:flex; gap: 0.8em; flex-wrap: wrap; margin: 0.4em 0; }
+.pv-good, .pv-bad {
+  flex: 1 1 0;
+  min-width: 240px;
+  border-radius: 8px;
+  padding: 0.6em 0.8em;
+  font-size: 0.72em;
+}
+.pv-good { background: #E9F7EF; border-left: 4px solid #2e8b57; }
+.pv-bad  { background: #FDECEA; border-left: 4px solid #c0392b; }
+.pv-good .pv-gb-head, .pv-bad .pv-gb-head {
+  font-weight: 700; display:flex; align-items:center; gap:0.4em; margin-bottom:0.3em;
+}
+.pv-good .pv-gb-head { color:#2e8b57; }
+.pv-bad .pv-gb-head  { color:#c0392b; }
+.pv-good ul, .pv-bad ul { margin: 0; padding-left: 1.1em; }
+
+/* --- Cost / length meter --- */
+.pv-meter { margin: 0.35em 0; font-size: 0.72em; }
+.pv-meter .pv-bar {
+  height: 14px; border-radius: 7px; background: #e3ebf2; overflow: hidden; margin-top: 0.15em;
+}
+.pv-meter .pv-fill { height: 100%; border-radius: 7px; }
+.pv-meter .pv-fill-lo { width: 30%;  background: #2e8b57; }
+.pv-meter .pv-fill-hi { width: 100%; background: #c0392b; }
+
+/* ---------------------------------------------------------------------------
+   Custom title slide (shared with the gtsummary deck):
+   display-font title, accent rule, headshot + affiliation author block, and a
+   logo hero card. Scoped to a title slide that uses the .custom-title partial,
+   so decks without the partial keep the default Quarto title slide.
+--------------------------------------------------------------------------- */
+#title-slide:has(.custom-title) {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f5f8 100%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: -60px;
+    bottom: -80px;
+    width: 360px;
+    height: 360px;
+    background-image: url('images/pharmaverse-hex.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.06;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .custom-title {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4%;
+    height: 100%;
+    text-align: left;
+  }
+
+  .title-left { flex: 1 1 58%; min-width: 0; }
+
+  h1.title {
+    font-family: $font-family-display;
+    font-weight: 600;
+    font-size: 2.5em;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    color: $pv-navy;
+    margin: 0;
+  }
+
+  .title-rule {
+    width: 120px;
+    height: 6px;
+    border-radius: 3px;
+    background: $custom-col;
+    margin: 0.5em 0 0.55em;
+  }
+
+  .subtitle {
+    font-family: $font-family-sans-serif;
+    font-size: 0.72em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7090A5;
+    margin: 0 0 1.4em;
+  }
+
+  .title-author { display: flex; align-items: center; gap: 0.7em; }
+
+  .title-avatar {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: #26394d 0px 6px 16px -6px;
+    margin: 0;
+  }
+
+  .title-author-text { line-height: 1.2; }
+
+  .author-name {
+    font-family: $font-family-sans-serif;
+    font-weight: 700;
+    font-size: 0.72em;
+    color: $pv-navy;
+    margin: 0;
+  }
+
+  .author-affil {
+    font-family: $font-family-sans-serif;
+    font-size: 0.55em;
+    color: #7090A5;
+    margin: 0.1em 0 0;
+  }
+
+  .title-hero { flex: 0 0 34%; display: flex; justify-content: center; }
+
+  .title-logo-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 28px 32px;
+    box-shadow: #26394d 0px 20px 30px -10px;
+
+    img { display: block; width: 100%; max-width: 300px; margin: 0; }
+  }
+
+  @media (max-width: 800px) {
+    .custom-title {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 1em;
+    }
+    .title-hero { flex-basis: auto; }
+    h1.title { font-size: 2em; }
+  }
+}
+
+/* hide the shared corner logo on the custom title slide (the hero card replaces
+   it); it returns on all content slides. */
+.reveal:has(section#title-slide.present .custom-title) .slide-logo {
+  display: none !important;
+}
+
+/* --- Acknowledgements slide (sdtm.oak contributors) --- */
+.ack-hero { text-align: center; margin: 0 0 0.4em; }
+.ack-hero .ack-logo { height: 70px; width: auto; margin: 0 auto; }
+
+.ack-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em 0.7em;
+  margin-top: 0.6em;
+}
+.ack-card {
+  background: #f5f8fb;
+  border: 1px solid #dbe5ee;
+  border-left: 4px solid $pv-light;
+  border-radius: 6px;
+  padding: 0.45em 0.7em;
+  line-height: 1.15;
+}
+.ack-card .ack-name {
+  display: block;
+  font-weight: 700;
+  font-size: 0.62em;
+  color: $pv-navy;
+}
+.ack-card .ack-role {
+  display: block;
+  font-size: 0.5em;
+  color: #7090A5;
+  margin-top: 0.1em;
+}
+/* highlight the lead author */
+.ack-card.ack-lead {
+  grid-column: span 2;
+  background: rgba(230, 126, 58, 0.12);
+  border: 1px solid $custom-col;
+  border-left: 4px solid $custom-col;
+}
+.ack-card.ack-lead .ack-name { font-size: 0.72em; }
+.ack-card.ack-lead .ack-role { color: $custom-col; font-weight: 700; }
+
+@media (max-width: 800px) {
+  .ack-grid { grid-template-columns: repeat(2, 1fr); }
+  .ack-card.ack-lead { grid-column: span 2; }
+}
+
+/* --- Challenge -> solution rows (sdtm.oak property : challenge it solves) --- */
+.pv-solve { display: flex; flex-direction: column; gap: 0.7em; margin-top: 0.8em; }
+.pv-solve-row {
+  display: grid;
+  grid-template-columns: 0.9fr 2fr;
+  align-items: center;
+  gap: 1em;
+}
+.pv-solve-key {
+  background: $pv-navy;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 0.6em 0.8em;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 53, 89, 0.2);
+}
+.pv-solve-key p { margin: 0; }
+.pv-solve-val {
+  border-left: 4px solid $custom-col;
+  padding: 0.3em 0 0.3em 0.8em;
+  color: #1a1a1a;
+}
+.pv-solve-val p { margin: 0; }
+@media (max-width: 800px) {
+  .pv-solve-row { grid-template-columns: 1fr; gap: 0.3em; }
+}
+
+/* --- EDC system badges --- */
+.pv-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 0.5em;
+  margin: 0.6em 0 0.9em;
+}
+.pv-badge {
+  display: inline-block;
+  background: #eef4fb;
+  color: $pv-navy;
+  border: 1px solid $pv-light;
+  border-radius: 999px;
+  padding: 0.25em 0.8em;
+  font-size: 0.62em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* --- SDTM concept: subject -> observation -> row --- */
+.pv-concept {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-concept .pv-concept-node {
+  background: #EBF7FF;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.4em 0.8em;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.8em;
+}
+.pv-concept .pv-concept-node .pv-ico { margin-right: 0.3em; }
+.pv-concept .pv-concept-arrow { color: $pv-accent; font-size: 1.2em; font-weight: 700; }
+
+/* --- Observation broken into roles (colored cells) --- */
+.pv-obs {
+  display: flex;
+  gap: 0.5em;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-obs .pv-obs-cell {
+  flex: 1 1 0;
+  min-width: 130px;
+  max-width: 220px;
+  border-radius: 8px;
+  padding: 0.5em 0.7em;
+  text-align: center;
+  border-top: 4px solid $pv-blue;
+  background: #EBF7FF;
+}
+.pv-obs .pv-obs-role {
+  display: block;
+  font-size: 0.62em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $pv-blue;
+  margin-bottom: 0.2em;
+}
+.pv-obs .pv-obs-val {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.9em;
+}
+
+/* Role color coding, shared by .pv-obs cells and .pv-role cards */
+.pv-role-id     { border-top-color: $pv-mid !important;    background: #EAF2FB !important; }
+.pv-role-topic  { border-top-color: $pv-accent !important; background: #FDF1E8 !important; }
+.pv-role-timing { border-top-color: $pv-blue !important;   background: #EBF7FF !important; }
+.pv-role-qual   { border-top-color: $pv-navy !important;   background: #E7EEF4 !important; }
+.pv-role-rule   { border-top-color: #7090A5 !important;    background: #EEF2F5 !important; }
+.pv-obs .pv-role-id .pv-obs-role     { color: $pv-mid; }
+.pv-obs .pv-role-topic .pv-obs-role  { color: $pv-accent; }
+.pv-obs .pv-role-timing .pv-obs-role { color: $pv-blue; }
+.pv-obs .pv-role-qual .pv-obs-role   { color: $pv-navy; }
+.pv-obs .pv-role-rule .pv-obs-role   { color: #7090A5; }
+
+/* --- Five role cards --- */
+.pv-roles {
+  display: flex;
+  gap: 0.6em;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0.6em 0;
+}
+.pv-roles .pv-role {
+  flex: 1 1 0;
+  min-width: 150px;
+  max-width: 220px;
+  background: #EBF7FF;
+  border-top: 4px solid $pv-blue;
+  border-radius: 8px;
+  padding: 0.6em 0.7em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  font-size: 0.72em;
+}
+.pv-roles .pv-role .pv-ico { font-size: 1.5em; display: block; margin-bottom: 0.15em; }
+.pv-roles .pv-role .pv-role-name {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  margin-bottom: 0.2em;
+  font-size: 1.05em;
+}
+
+/* --- oak id vars linkage diagram --- */
+.pv-idmap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  margin: 0.7em 0;
+}
+.pv-idmap .pv-idmap-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  background: #EBF7FF;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  padding: 0.5em 0.6em;
+  min-width: 150px;
+}
+.pv-idmap .pv-idmap-side.pv-idmap-target {
+  background: #FDF1E8;
+  border-color: $pv-accent;
+}
+.pv-idmap .pv-idmap-head {
+  font-size: 0.6em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: $pv-blue;
+}
+.pv-idmap .pv-idmap-target .pv-idmap-head { color: $pv-accent; }
+.pv-idmap .pv-idmap-cell {
+  background: #fff;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  padding: 0.2em 0.5em;
+  font-size: 0.68em;
+  color: $pv-navy;
+  white-space: nowrap;
+}
+.pv-idmap .pv-idmap-conn { display: flex; align-items: center; justify-content: center; }
+.pv-idmap .pv-idmap-key   { font-size: 1.5em; color: $pv-accent; }
+.pv-idmap .pv-idmap-arrow { font-size: 1.5em; color: $pv-accent; font-weight: 700; }
+
+/* --- Agenda spread across the full slide --- */
+.pv-agenda {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.2em;
+  margin: 1.4em 0;
+}
+.pv-agenda .pv-agenda-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #EBF7FF;
+  border-top: 5px solid $pv-blue;
+  border-radius: 10px;
+  padding: 1.4em 0.8em;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+  min-height: 200px;
+  flex: 0 1 220px;
+}
+.pv-agenda .pv-agenda-item:nth-child(2) { border-top-color: $pv-mid; }
+.pv-agenda .pv-agenda-item:nth-child(3) { border-top-color: $pv-light; }
+.pv-agenda .pv-agenda-item:nth-child(4) { border-top-color: $pv-navy; }
+.pv-agenda .pv-agenda-ico   { font-size: 2.6em; display: block; margin-bottom: 0.3em; }
+.pv-agenda .pv-agenda-title { font-weight: 700; color: $pv-navy; font-size: 1.05em; display: block; }
+.pv-agenda .pv-agenda-time  { color: $pv-blue; font-weight: 700; margin-top: 0.3em; display: block; }
+
+.pv-agenda-accent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  background: $pv-accent;
+  color: #fff;
+  border-radius: 10px;
+  padding: 1em 1.2em;
+  font-size: 1.1em;
+  font-weight: 600;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
+.pv-agenda-accent .pv-agenda-ico { font-size: 1.6em; }
+
+/* --- Wrap-up: three rows filling the full slide height --- */
+.pv-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6em;
+  height: 68vh;
+  max-height: 68vh;
+  margin: 0.3em 0;
+  overflow: hidden;
+}
+.pv-wrap .pv-wrap-row {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+  border-radius: 10px;
+  padding: 0.6em 1.2em;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.10);
+}
+.pv-wrap .pv-wrap-row.pv-wrap-accent {
+  background: #FDF1E8;
+  border-left-color: $pv-accent;
+}
+.pv-wrap .pv-wrap-ico { font-size: 2.6em; flex: 0 0 auto; display: flex; align-items: center; }
+.pv-wrap .pv-wrap-ico p { margin: 0; }
+.pv-wrap .pv-wrap-body { flex: 1 1 auto; }
+.pv-wrap .pv-wrap-title {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 1.2em;
+  margin-bottom: 0.2em;
+}
+
+/* --- Annotated aCRF screenshot --- */
+.pv-acrf-img {
+  width: 100%;
+  border: 1px solid $pv-light;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+/* --- "What to expect" pipeline infographic --- */
+.pv-expect-head {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 0.2em 0 0.7em;
+}
+.pv-expect-head .pv-expect-logo { width: 84px; height: auto; flex: 0 0 auto; margin: 0; }
+.pv-expect-head .pv-expect-tag {
+  font-size: 1.35em;
+  font-weight: 600;
+  line-height: 1.2;
+  color: $pv-navy;
+  display: flex;
+  align-items: center;
+}
+
+.pv-expect {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55em;
+}
+.pv-expect .pv-expect-row,
+.pv-expect .pv-expect-accent {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  border-radius: 10px;
+  padding: 0.55em 1em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-expect .pv-expect-row {
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+}
+.pv-expect .pv-expect-row:nth-child(2) { border-left-color: $pv-mid; }
+.pv-expect .pv-expect-row:nth-child(3) { border-left-color: $pv-light; }
+.pv-expect .pv-expect-row:nth-child(4) { border-left-color: $pv-navy; }
+.pv-expect .pv-expect-accent {
+  background: $pv-accent;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(230,126,58,0.4);
+}
+.pv-expect .pv-expect-ico { font-size: 1.9em; flex: 0 0 auto; width: 1.4em; text-align: center; }
+.pv-expect .pv-expect-ico p { margin: 0; }
+.pv-expect .pv-expect-body { flex: 1 1 auto; }
+.pv-expect .pv-expect-stage {
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 1.05em;
+  margin-right: 0.5em;
+}
+.pv-expect .pv-expect-accent .pv-expect-stage { color: #fff; }
+.pv-expect .pv-expect-desc { color: #40566b; font-size: 0.85em; }
+.pv-expect .pv-expect-accent .pv-expect-desc { color: #fff; opacity: 0.95; }
+.pv-expect .pv-expect-pkg {
+  flex: 0 0 auto;
+  background: #fff;
+  color: $pv-blue;
+  border: 1px solid $pv-light;
+  border-radius: 999px;
+  padding: 0.25em 0.8em;
+  font-family: $font-family-monospace;
+  font-weight: 700;
+  font-size: 0.72em;
+  white-space: nowrap;
+}
+.pv-expect .pv-expect-pkg p { margin: 0; }
+.pv-expect .pv-expect-pkg code { background: none; color: inherit; padding: 0; }
+
+/* --- "Good to know" info infographic (conf logistics + social) --- */
+.pv-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.7em;
+  margin: 0.5em 0;
+}
+.pv-info .pv-info-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  background: #EBF7FF;
+  border-left: 6px solid $pv-blue;
+  border-radius: 10px;
+  padding: 0.6em 0.9em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-info .pv-info-card.pv-info-wide { grid-column: 1 / -1; }
+.pv-info .pv-info-card.pv-info-soft {
+  background: #EEF2F5;
+  border-left-color: #7090A5;
+}
+.pv-info .pv-info-ico { font-size: 1.9em; flex: 0 0 auto; width: 1.3em; text-align: center; }
+.pv-info .pv-info-ico p { margin: 0; }
+.pv-info .pv-info-body { flex: 1 1 auto; }
+.pv-info .pv-info-body p { margin: 0; font-size: 0.85em; color: #40566b; }
+.pv-info .pv-info-title {
+  display: block;
+  font-weight: 700;
+  color: $pv-navy;
+  font-size: 0.95em;
+  margin-bottom: 0.1em;
+}
+
+/* --- TRUE / FALSE quiz --- */
+.pv-tf {
+  max-width: 900px;
+  margin: 0.6em auto 0;
+}
+.pv-tf .pv-tf-q {
+  background: $pv-navy;
+  color: #fff;
+  border-radius: 12px;
+  padding: 0.9em 1.2em;
+  font-size: 1.15em;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+.pv-tf .pv-tf-q p { margin: 0; }
+.pv-tf .pv-tf-opts {
+  display: flex;
+  gap: 1.4em;
+  justify-content: center;
+  margin-top: 1.1em;
+}
+.pv-tf .pv-tf-badge {
+  flex: 1 1 0;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  border-radius: 12px;
+  padding: 0.8em 1em;
+  font-size: 1.3em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+.pv-tf .pv-tf-badge p { margin: 0; }
+.pv-tf .pv-tf-true {
+  background: #E6F4EA;
+  color: #1E7E34;
+  border: 2px solid #34A853;
+}
+.pv-tf .pv-tf-false {
+  background: #FDECEA;
+  color: #C0392B;
+  border: 2px solid #E74C3C;
+}
+.pv-tf .pv-tf-ico { font-size: 1.2em; }
+
+/* --- TRUE / FALSE quiz: multi-statement list --- */
+.pv-tf-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  max-width: 1000px;
+  margin: 0.4em auto 0;
+}
+.pv-tf-list .pv-tf-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9em;
+  background: #EEF2F5;
+  border-left: 5px solid $pv-mid;
+  border-radius: 10px;
+  padding: 0.55em 0.9em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+}
+.pv-tf-list .pv-tf-stmt {
+  flex: 1 1 auto;
+  font-size: 0.82em;
+  color: $pv-navy;
+  line-height: 1.25;
+}
+.pv-tf-list .pv-tf-stmt p { margin: 0; }
+.pv-tf-list .pv-tf-ans {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  border-radius: 8px;
+  padding: 0.3em 0.7em;
+  font-size: 0.9em;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  min-width: 5.2em;
+  justify-content: center;
+}
+.pv-tf-list .pv-tf-ans.pv-tf-true {
+  background: #E6F4EA; color: #1E7E34; border: 2px solid #34A853;
+}
+.pv-tf-list .pv-tf-ans.pv-tf-false {
+  background: #FDECEA; color: #C0392B; border: 2px solid #E74C3C;
+}
+
+/* --- Working environment: Posit Cloud logo --- */
+.pv-env-logo {
+  display: block;
+  margin: 1em auto 0;
+  max-width: 260px;
+  height: auto;
+}
+
+/* --- "Your turn!" prompts --- */
+.pv-yourturn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  max-width: 820px;
+  margin: 1em auto 0;
+}
+.pv-yourturn .pv-yt-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  background: #EEF2F5;
+  border-left: 5px solid $pv-mid;
+  border-radius: 10px;
+  padding: 0.7em 1em;
+  font-size: 1.25em;
+  font-weight: 600;
+  color: $pv-navy;
+  white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.pv-yourturn .pv-yt-item p { margin: 0; }
+.pv-yourturn .pv-yt-ico { font-size: 1.3em; flex: 0 0 auto; }
+
+/* --- Highlighted call-to-action (e.g. warm-up step) --- */
+.pv-highlight {
+  display: inline-block;
+  background: #FDF1E8;
+  color: $pv-navy;
+  border-left: 5px solid $pv-accent;
+  border-radius: 6px;
+  padding: 0.35em 0.7em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }

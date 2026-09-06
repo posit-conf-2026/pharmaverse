@@ -1,7 +1,7 @@
-End-to-End Submissions in R with the Pharmaverse
+AI-powered clinical reporting in R with the Pharmaverse
 ================
 
-### posit::conf(2025)
+### posit::conf(2026)
 
 by Daniel D. Sjoberg and Becca Krouse
 
@@ -13,7 +13,7 @@ Alternatively, you can completely redo the organization of this repo  as a Quart
 
 -----
 
-:spiral_calendar: September 16, 2025  
+:spiral_calendar: September 14, 2026  
 :alarm_clock:     09:00 - 17:00  
 :hotel:           ROOM TBD  
 :writing_hand:    [pos.it/conf](http://pos.it/conf)

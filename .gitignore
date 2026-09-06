@@ -9,6 +9,9 @@
 docs
 site_libs
 
+# Quarto per-document render artifacts
+**/*_files/
+
 **/*.quarto_ipynb
 
 
@@ -20,4 +23,8 @@ data/
 
 
 .posit/assistant
+
+# renv package cache (persisted across rebuilds)
+.renv-cache/
+
 .DS_Store
