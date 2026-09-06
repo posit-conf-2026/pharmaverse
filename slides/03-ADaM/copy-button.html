@@ -1,0 +1,40 @@
+<script>
+// Adds a one-click "copy" icon button to every .codewindow prompt box (the
+// "Try It" AI-assistant prompts), so participants can grab the prompt text
+// without manually highlighting and copying it. Runs on the same 'ready'
+// event the codewindow extension itself uses to rebuild its DOM, with a
+// short delay so this script always runs after that rebuild has finished.
+window.addEventListener('ready', function () {
+  var copyIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z" fill="currentColor"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z" fill="currentColor"/></svg>';
+  var checkIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" fill="currentColor"/></svg>';
+
+  function addCopyButtons() {
+    document.querySelectorAll('.codewindow').forEach(function (win) {
+      var header = win.querySelector('.header');
+      var textarea = win.querySelector('.textarea');
+      if (!header || !textarea || header.querySelector('.copy-btn')) return;
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.title = 'Copy prompt text';
+      btn.setAttribute('aria-label', 'Copy prompt text');
+      btn.innerHTML = copyIcon;
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var text = textarea.innerText.trim();
+        navigator.clipboard.writeText(text).then(function () {
+          btn.innerHTML = checkIcon;
+          btn.classList.add('copied');
+          setTimeout(function () {
+            btn.innerHTML = copyIcon;
+            btn.classList.remove('copied');
+          }, 1500);
+        });
+      });
+      header.appendChild(btn);
+    });
+  }
+  setTimeout(addCopyButtons, 50);
+});
+</script>

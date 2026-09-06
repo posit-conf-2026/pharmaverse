@@ -1,4 +1,4 @@
-AI-powered clinical reporting in R with the Pharmaverse
+AI-Powered Clinical Reporting in R with the Pharmaverse
 ================
 
 ### posit::conf(2026)
@@ -7,42 +7,48 @@ by Daniel D. Sjoberg and Becca Krouse
 
 -----
 
-INSTRUCTIONS FOR INSTRUCTORS: Please insert information about your workshop below. Then, add workshop content in the materials folder and link to each session’s materials from the schedule below. You are welcomed to add more rows to the schedule. We just ask that you take breaks at the specified times. Once you are done adding information, you can remove these instructions from the README.
-
-Alternatively, you can completely redo the organization of this repo  as a Quarto website or some other format you prefer to host your workshop materials. The only requirement is that your workshop materials are hosted here.
-
------
-
-:spiral_calendar: September 14, 2026  
-:alarm_clock:     09:00 - 17:00  
-:hotel:           ROOM TBD  
+:spiral_calendar: September 14, 2026
+:alarm_clock:     09:00 – 17:00 CDT
+:hotel:           Hilton Americas-Houston · 1600 Lamar Street, Houston, TX
 :writing_hand:    [pos.it/conf](http://pos.it/conf)
 
 -----
 
 ## Description
 
-ADD WORKSHOP DESCRIPTION.
+Modern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You'll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You'll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.
 
-## Setup
+Full workshop site (schedule, slides, and materials): [pos.it/pharmaverse-conf26](pos.it/pharmaverse-conf26)
 
-ADD INFORMATION YOU WANT LEARNERS TO HAVE / STEPS THEY WANT THEM TO COMPLETE PRIOR TO THE WORKSHOP. THIS COULD BE A LINK TO A THREAD ON POSIT COMMUNITY, PACKAGE INSTALL INSTRUCTIONS, HOW TO GET AN POSIT CLOUD ACCOUNT, ETC.
+## Pre-work
+
+- [ ] Bookmark the [workshop site](pos.it/pharmaverse-conf26). You'll reference it throughout the workshop.
+- [ ] Sign up for a *free* [Posit Cloud](https://posit.cloud/) account.
+- [ ] Bring your laptop **and** charger to the workshop.
 
 ## Schedule
 
-| Time          | Activity         |
-| :------------ | :--------------- |
-| 09:00 - 10:30 | Session 1        |
-| 10:30 - 11:00 | *Coffee break*   |
-| 11:00 - 12:30 | Session 2        |
-| 12:30 - 13:30 | *Lunch break*    |
-| 13:30 - 15:00 | Session 3        |
-| 15:00 - 15:30 | *Coffee break*   |
-| 15:30 - 17:00 | Session 4        |
+| Time          | Activity                                                             |
+| :------------ | :-------------------------------------------------------------------|
+| 09:00 – 09:45 | Introduction to Pharmaverse and AI Agents                            |
+| 09:45 – 10:30 | SDTM with sdtm.oak                                                   |
+| 10:30 – 11:00 | *Coffee Break*                                                       |
+| 11:00 – 12:30 | ADaMs with {admiral} and friends                                     |
+| 12:30 – 13:30 | *Lunch*                                                              |
+| 13:30 – 14:15 | Analysis Results Datasets                                            |
+| 14:15 – 15:00 | Create Tables with {gtsummary}                                       |
+| 15:00 – 15:30 | *Coffee Break*                                                       |
+| 15:30 – 16:15 | Create Tables with {tfrmt}                                           |
+| 16:15 – 17:00 | Other Topics Overview + Wrap-up                                      |
 
 ## Instructor(s)
 
-ADD INSTRUCTOR(S) INFO.
+- **Daniel D. Sjoberg** – Executive Director of Data Sciences & Clinical Data Analytics, Kardigan
+- **Becca Krouse** – Data Scientist, GSK Data Science Innovation & Engineering
+- **Ben Straub** – Senior Manager Statistical Data Scientist, Praxis Precision Medicines
+- **Magdalena Krochmal (Magda)** – Senior Real-Time Visual Analytics Specialist, Roche
+
+Full bios are on the [workshop site](pos.it/pharmaverse-conf26).
 
 -----
 

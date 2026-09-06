@@ -12,6 +12,7 @@ format:
     theme: [../slides.scss, title.scss]
     template-partials:
       - title-slide.html
+    include-after-body: copy-button.html
     transition: fade
     slide-number: true
     chalkboard: true

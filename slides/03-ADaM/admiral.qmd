@@ -8,6 +8,10 @@ library(tibble)
 library(admiral)
 library(lubridate)
 library(reactable)
+library(fontawesome)
+
+# fill for font awesome icons
+fa_fill <- "#606060"
 
 # Package badge colors for the function cheat sheets
 pkg_colors <- c(
@@ -59,41 +63,62 @@ img_center_size <- 300
 
 By the end of this ADaM section you will have:
 
-::: {.incremental style="list-style: none; padding-left: 0;"}
--   🎯 **Gained** an understanding of how to use `admiral`, `metatools/metacore`, and `xportr` packages - together with an AI assistant as a pair-programmer - to create "submission compliant" ADaMs
--   👀 **Seen** code executed to create variables and records common to `ADSL` and `ADVS`.
--   👀 **Seen** small code snippets of certain functions with play data.
--   🛠️ **Practiced** prompting an AI assistant to explain, adapt, and troubleshoot `admiral` functions instead of hand-writing every line.
--   ✅ **Completed** exercises using functions from admiral package, leaning on an AI assistant when you get stuck.
+::::: {.pv-cards}
+:::: {.pv-card}
+[🎯]{.pv-ico}
+[Gained]{.pv-title}
+Fluency with `admiral`, `metatools`/`metacore`, and `xportr` - with an AI assistant as your pair-programmer
+::::
+:::: {.pv-card}
+[👀]{.pv-ico}
+[Seen]{.pv-title}
+Code creating variables and records common to `ADSL` and `ADVS`
+::::
+:::: {.pv-card .pv-accent}
+[🛠️]{.pv-ico}
+[Practiced]{.pv-title}
+Prompting an AI assistant to explain, adapt, and troubleshoot `admiral` functions instead of hand-writing every line
+::::
+:::: {.pv-card}
+[✅]{.pv-ico}
+[Completed]{.pv-title}
+Hands-on exercises using `admiral`, leaning on your AI assistant when you get stuck
+::::
+:::::
+
+## Agenda {.smaller}
+
+::: {.pv-agenda}
+::: {.pv-agenda-item}
+[🎬]{.pv-agenda-ico}
+[Set the Stage]{.pv-agenda-title}
+[11:00 - 11:10]{.pv-agenda-time}
 :::
-
-## Play by Play to achieve our Objectives
-
-::: incremental
--   🕙11:00 - 11:15 Set the Stage: Overview of how we will work, datasets, specs, packages, functions
-
--   🕥11:15 - 11:35 Subject-level dataset: `ADSL`
-
--   🕚11:35 - 11:50 Hands-on Exercise
-
--   🕦11:50 - 12:10 Basic Data Structure: `ADVS`
-
--   🕚12:10 - 12:30 Hands-on Exercise
-
--   🕚12:30 Lunch!
+::: {.pv-agenda-item}
+[🧬]{.pv-agenda-ico}
+[`ADSL`]{.pv-agenda-title}
+[11:10 - 11:30]{.pv-agenda-time}
 :::
-
-## Meet Your Co-Pilot: Posit Assistant
-
-<div style="text-align: center;"> <img src="images/posit-assistant-logo.png" alt="Posit Assistant" style="width: 400px;"/> </div>
-
-<div style="text-align: center; font-style: italic;"> It won't judge your variable names. Much. </div>
-
-::: incremental
--   `Posit Assistant` is the AI assistant built into RStudio (and Positron) that we'll lean on throughout this section.
--   It connects directly to your **live R session** - it can see your loaded packages, objects, and data, not just your code.
--   It combines conversational AI with **code execution**, so it can run, inspect, and iterate on `admiral` code alongside you rather than just describing it.
--   Useful for: explaining unfamiliar functions/arguments, adapting example code to new variables, and troubleshooting errors as they come up.
+::: {.pv-agenda-item}
+[✏️]{.pv-agenda-ico}
+[Exercise 🤖]{.pv-agenda-title}
+[11:30 - 11:45]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[📊]{.pv-agenda-ico}
+[`ADVS`]{.pv-agenda-title}
+[11:45 - 12:05]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[✏️]{.pv-agenda-ico}
+[Exercise 🤖]{.pv-agenda-title}
+[12:05 - 12:30]{.pv-agenda-time}
+:::
+::: {.pv-agenda-item}
+[🍽️]{.pv-agenda-ico}
+[Lunch!]{.pv-agenda-title}
+[12:30]{.pv-agenda-time}
+:::
 :::
 
 ## Where We're Headed Today
@@ -121,7 +146,7 @@ classDef highlight fill:#ff4d4d, stroke:#333, stroke-width:2px;
 
 # Set the Stage
 
-🕥11:00 - 11:15
+🕥11:00 - 11:10
 
 <div style="text-align: center;"> <img src="./images/office.jpg" alt="office" style="width: 600px;"/> </div>
 
@@ -190,7 +215,7 @@ file.edit("scripts/advs.R")
 - Contains: dataset labels/keys, variable labels/lengths/types linked to method, codelists/control terms
 - Let's take a quick [live peek](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/metadata) 👀
 
-## Key Functions Cheat Sheet: `{admiral}` {.smaller}
+## Key Functions Cheat Sheet: `{admiral}` `r glue("<img src='{admiral_img}' height='40' style='vertical-align:middle; margin-left:0.5em;'/>")`
 
 ```{r}
 #| echo: false
@@ -210,37 +235,21 @@ admiral_fns$Package  <- pkg_badge("admiral")
 reactable(
   admiral_fns[, c("Package", "Function", "Purpose")],
   columns = list(
-    Package  = colDef(html = TRUE, minWidth = 110),
-    Function = colDef(html = TRUE, minWidth = 220),
-    Purpose  = colDef(minWidth = 320)
+    Package  = colDef(html = TRUE, minWidth = 130),
+    Function = colDef(html = TRUE, minWidth = 260),
+    Purpose  = colDef(minWidth = 380)
   ),
   striped = TRUE,
   highlight = TRUE,
   bordered = TRUE,
   compact = TRUE,
-  theme = cheat_sheet_theme
+  theme = cheat_sheet_theme,
+  width = "100%",
+  style = list(fontSize = "1.1em")
 )
 ```
 
-:::: {.columns}
-
-::: {.column width="75%"}
-::: incremental
--   `admiral` derives variables & records driven by our Specs, and plays nice with tidyverse and base R
--   `_vars_` functions add **variables**; `_param_` functions add **records**
--   Click a function name to jump to its docs - or just ask your AI assistant
-:::
-:::
-
-::: {.column width="25%"}
-<div style="text-align: right;">
-`r glue("<img src={admiral_img} height='100' style='display:inline-block;'/>")`
-</div>
-:::
-
-::::
-
-## Key Functions Cheat Sheet: `{metacore}`, `{metatools}`, `{xportr}` {.smaller}
+## Key Functions Cheat Sheet: `{metacore}`, `{metatools}`, `{xportr}` `r glue("<img src='{metacore_img}' height='40' style='vertical-align:middle; margin-left:0.5em;'/><img src='{metatools_img}' height='40' style='vertical-align:middle; margin-left:0.3em;'/><img src='{xportr_img}' height='40' style='vertical-align:middle; margin-left:0.3em;'/>")`
 
 ```{r}
 #| echo: false
@@ -265,44 +274,27 @@ metadata_fns$Function <- purrr::pmap_chr(
 reactable(
   metadata_fns[, c("Package", "Function", "Purpose")],
   columns = list(
-    Package  = colDef(html = TRUE, minWidth = 110),
-    Function = colDef(html = TRUE, minWidth = 220),
-    Purpose  = colDef(minWidth = 280)
+    Package  = colDef(html = TRUE, minWidth = 130),
+    Function = colDef(html = TRUE, minWidth = 260),
+    Purpose  = colDef(minWidth = 340)
   ),
   striped = TRUE,
   highlight = TRUE,
   bordered = TRUE,
   compact = TRUE,
-  theme = cheat_sheet_theme
+  theme = cheat_sheet_theme,
+  width = "100%",
+  style = list(fontSize = "1.1em")
 )
 ```
 
-:::: {.columns}
-
-::: {.column width="75%"}
-::: incremental
--   `metacore`/`metatools` apply spec info to the ADaMs
--   `xportr` prepares the xpt file for regulatory agencies
--   Click a function name to jump to its docs - or just ask your AI assistant
-:::
-:::
-
-::: {.column width="25%"}
-<div style="text-align: right;">
-`r glue("<img src={metacore_img} height='70' style='display:block; margin-left:auto;'/>")`
-`r glue("<img src={metatools_img} height='70' style='display:block; margin-left:auto; margin-top:0.3em;'/>")`
-`r glue("<img src={xportr_img} height='70' style='display:block; margin-left:auto; margin-top:0.3em;'/>")`
-</div>
-:::
-
-::::
-
 # `ADSL`
 
-🕥 11:15 - 11:35
+🕥 11:10 - 11:30
 
-
-* Note: Referencing lines in file at each section with a footnote (Lines: ##-##)
+::: {.callout-note title="Follow Along"}
+Lines in each script are referenced with a footnote like `^[Lines: 20-25]` - flip to that spot in `adsl.R` as we go.
+:::
 
 ## Reading in our spec for `ADSL` ^[Lines: 20-25 ]
 
@@ -330,7 +322,7 @@ dm_suppdm <- combine_supp(dm, suppdm)
 * Supps usually are a collection non-standard data and linking to parent
 * Function is from `{metatools}`
 
-## Let's turn a `--DTC` to a `*DTM` or `*DT` variable ^[Lines: 57-69, 132-136, 198-204]
+## Let's turn a `--DTC` to a `*DTM` or `*DT` variable ^[Lines: 57-69, 132-136]
 
 ```{.r code-line-numbers="1|2|3|4|5|6"}
 ex_ext <- ex %>%
@@ -348,16 +340,6 @@ ds_ext <- derive_vars_dt(
   dtc = DSSTDTC,
   new_vars_prefix = "DSST"
 )
-```
-
-```{.r code-line-numbers="1|2|3|4|5|6"}
-adsl11 <- adsl10 %>%
-  derive_vars_dt(
-    dtc = DTHDTC,
-    new_vars_prefix = "DTH",
-    highest_imputation = "M",
-    date_imputation = "first"
-  )
 ```
 
 ## Try It: Ask Your AI for Assistance on Dates {.smaller}
@@ -385,7 +367,14 @@ briefly explain what happened to each row.
 ```
 :::
 
-* Goal: practice describing what you want in plain language and let the AI assistant map that to the right `admiral` function and arguments - then compare its choices to what you'd have written by hand.
+::: {.callout-tip title="Goal"}
+Practice describing what you want in plain language and let the AI assistant map that to the right `admiral` function and arguments - then compare its choices to what you'd have written by hand.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 ## Try It: Ask Your AI for Assistance on Dates, Round 2 {.smaller}
 
@@ -410,7 +399,14 @@ changed the outcome compared to imputing without them.
 ```
 :::
 
-* Goal: see how `admiral` can keep an imputed value from "wandering off" past dates you already know are true - useful when a partial date still needs to make logical sense next to other dates in the study.
+::: {.callout-tip title="Goal"}
+See how `admiral` can keep an imputed value from "wandering off" past dates you already know are true - useful when a partial date still needs to make logical sense next to other dates in the study.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 ## A Simple merge ^[Lines: 187-194]
 
@@ -466,7 +462,14 @@ Fill those parts in and explain the choices you made.
 ```
 :::
 
-* Goal: practice handing the AI a join scenario in plain language and seeing which arguments it reaches for to control ordering and filtering.
+::: {.callout-tip title="Goal"}
+Practice handing the AI a join scenario in plain language and seeing which arguments it reaches for to control ordering and filtering.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 ## Let's derive a Duration Variable ^[Lines: 122-126]
 
@@ -478,11 +481,8 @@ derive_vars_duration(
   )
 ```
 
-## Duration versus Interval
-
-* The lubridate package calculates two types of spans between two dates: duration and interval. While these calculations are largely the same, when the unit of the time period is month or year the result can be slightly different.
-
-* The difference arises from the ambiguity in the length of "1 month" or "1 year". Months may have 31, 30, 28, or 29 days, and years are 365 days and 366 during leap years. Durations and intervals help solve the ambiguity in these measures.
+* `derive_vars_duration()` computes a span between two dates/datetimes (e.g. days on treatment, age at an event) - control the units with `out_unit`, and whether a partial period rounds up with `add_one`/`trunc_out`.
+* It's powered by `{lubridate}` under the hood, which measures spans two ways - **duration** (an exact number of seconds) and **interval** (a specific point-to-point span). These usually agree, but can differ slightly for month/year units, since months and years aren't a fixed number of days.
 
 ## Let's apply Control Terms / Code Lists ^[Lines: 276-282]
 
@@ -515,11 +515,18 @@ assumption were backwards.
 ```
 :::
 
-* Goal: practice a case where getting a single argument's direction wrong would silently produce the wrong numbers - a good habit to build before you're doing this on real data.
+::: {.callout-tip title="Goal"}
+Practice a case where getting a single argument's direction wrong would silently produce the wrong numbers - a good habit to build before you're doing this on real data.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 # Check in / Exercise 
 
-🕚11:35 - 11:50
+🕚11:30 - 11:45
 
 ## Check-in Exercise {.smaller}
 
@@ -545,6 +552,11 @@ Using `derive_vars_dtm()`, impute a missing **date** to the **last** month/day, 
 :::
 
 * Figure out which arguments make that happen - check the [documentation](https://pharmaverse.github.io/admiral/cran-release/reference/derive_vars_dtm.html) or ask your AI assistant if you get stuck.
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 5)
+```
 
 ## Check-in Exercise Solution {.smaller}
 
@@ -575,9 +587,11 @@ derive_vars_dtm(
 
 # `ADVS`
 
-🕦11:50 - 12:10
+🕦11:45 - 12:05
 
-* Note: Referencing lines in file at each section with a footnote (Lines: ##-##)
+::: {.callout-note title="Follow Along"}
+Lines in each script are referenced with a footnote like `^[Lines: 72-80]` - flip to that spot in `advs.R` as we go.
+:::
 
 ## Let's talk about lookup tables ^[Lines: 72-80]
 
@@ -630,7 +644,14 @@ that part out.
 ```
 :::
 
-* Goal: practice a "one value applies to many records" scenario, which comes up any time a computed parameter mixes visit-level and subject-level inputs.
+::: {.callout-tip title="Goal"}
+Practice a "one value applies to many records" scenario, which comes up any time a computed parameter mixes visit-level and subject-level inputs.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 ## Let's derive DTYPE summary records ^[Lines: 144-153]
 
@@ -689,7 +710,14 @@ from just filtering the dataset first.
 ```
 :::
 
-* Goal: see how a higher order function like `restrict_derivation()` lets you scope a derivation to a subset of records without losing the rest of the dataset.
+::: {.callout-tip title="Goal"}
+See how a higher order function like `restrict_derivation()` lets you scope a derivation to a subset of records without losing the rest of the dataset.
+:::
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 3)
+```
 
 ## Let's add a BASE variable ^[Lines: 210-217]
 
@@ -755,7 +783,7 @@ advs_final <- advs_prefinal %>%
 
 # Check in / Exercise
 
-🕦 12:10 - 12:30
+🕦 12:05 - 12:30
 
 ## Check-in Exercise {.smaller}
 
@@ -776,6 +804,11 @@ $$ MAP = \frac{2 \times DIABP + SYSBP}{3} $$
 :::
 
 * Figure out which arguments make that happen - ask your AI assistant if you get stuck.
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 5)
+```
 
 ## Check-in Exercise Solution {.smaller}
 
@@ -803,17 +836,29 @@ derive_param_computed(
 
 ## Questions and Resources
 
-> -   [admiraldiscovery](https://pharmaverse.github.io/admiraldiscovery/)
-> -   [pharmaverse examples](https://github.com/pharmaverse/examples)
-> -   pkgdown sites for
->     [xportr](https://atorus-research.github.io/xportr/),
->     [metatools](https://pharmaverse.github.io/metatools/),
->     [metacore](https://atorus-research.github.io/metacore/) and
->     [admiral](https://pharmaverse.github.io/admiral/)
-> -   Extension packages for admiral:
->     [admiralophtha](https://pharmaverse.github.io/admiralophtha/),
->     [admiralonco](https://pharmaverse.github.io/admiralonco/),
->     [admiralpeds](https://github.com/pharmaverse/admiralpeds)
+::: columns
+::: {.column width="50%"}
+`r fontawesome::fa("book", fill = fa_fill)` Docs & pkgdown sites:
+
+[admiral](https://pharmaverse.github.io/admiral/), [metatools](https://pharmaverse.github.io/metatools/), [metacore](https://atorus-research.github.io/metacore/), [xportr](https://atorus-research.github.io/xportr/)
+
+<br>
+
+`r fontawesome::fa("compass", fill = fa_fill)` [admiraldiscovery](https://pharmaverse.github.io/admiraldiscovery/) - templates & presentation archive
+:::
+
+::: {.column width="50%"}
+`r fontawesome::fa("code-branch", fill = fa_fill)` [pharmaverse examples](https://github.com/pharmaverse/examples)
+
+<br>
+
+`r fontawesome::fa("puzzle-piece", fill = fa_fill)` Extension packages: [admiralophtha](https://pharmaverse.github.io/admiralophtha/), [admiralonco](https://pharmaverse.github.io/admiralonco/), [admiralpeds](https://github.com/pharmaverse/admiralpeds)
+
+<br>
+
+`r fontawesome::fa("robot", fill = fa_fill)` Stuck? Ask an AI assistant.
+:::
+:::
 
 ## Closing Thoughts
 
@@ -849,7 +894,9 @@ other way.
 ```
 :::
 
-* Goal: practice letting the AI reason about a setting you're genuinely unsure of, rather than only using it for settings you already know the answer to.
+::: {.callout-tip title="Goal"}
+Practice letting the AI reason about a setting you're genuinely unsure of, rather than only using it for settings you already know the answer to.
+:::
 
 ## Try It: Ask Your AI for Assistance on Supplemental Qualifiers {.smaller}
 
@@ -866,7 +913,9 @@ parent dataset, or vice versa.
 ```
 :::
 
-* Goal: build intuition for a one-line helper function by seeing it work (and fail gracefully) on data you understand.
+::: {.callout-tip title="Goal"}
+Build intuition for a one-line helper function by seeing it work (and fail gracefully) on data you understand.
+:::
 
 ## Try It: Ask Your AI for Assistance on Durations {.smaller}
 
@@ -885,7 +934,9 @@ choices and what happens for the subject with a missing date.
 ```
 :::
 
-* Goal: practice describing a rounding/truncation preference in plain terms and letting the AI translate it into the right combination of arguments.
+::: {.callout-tip title="Goal"}
+Practice describing a rounding/truncation preference in plain terms and letting the AI translate it into the right combination of arguments.
+:::
 
 ## Try It: Ask Your AI for Assistance on Lookup Tables {.smaller}
 
@@ -906,7 +957,9 @@ code.
 ```
 :::
 
-* Goal: practice catching a silent data-quality problem (an unmapped code) instead of discovering it downstream.
+::: {.callout-tip title="Goal"}
+Practice catching a silent data-quality problem (an unmapped code) instead of discovering it downstream.
+:::
 
 ## Try It: Ask Your AI for Assistance on Summary Records {.smaller}
 
@@ -925,7 +978,9 @@ that versus averaging with `na.rm = TRUE`.
 ```
 :::
 
-* Goal: notice that `filter_add` scopes which rows are averaged *before* the calculation runs, rather than needing to handle missing values inside the formula itself.
+::: {.callout-tip title="Goal"}
+Notice that `filter_add` scopes which rows are averaged *before* the calculation runs, rather than needing to handle missing values inside the formula itself.
+:::
 
 ## Try It: Ask Your AI for Assistance on Sequence Numbers {.smaller}
 
@@ -944,7 +999,9 @@ tells you versus what would happen at the default setting.
 ```
 :::
 
-* Goal: see how a strict `check_type` turns a silent data problem (duplicate ASEQ values) into something you're forced to notice and fix.
+::: {.callout-tip title="Goal"}
+See how a strict `check_type` turns a silent data problem (duplicate ASEQ values) into something you're forced to notice and fix.
+:::
 
 ## Try It: Ask Your AI for Assistance on Preparing an XPT File {.smaller}
 
@@ -963,7 +1020,9 @@ and explain what each additional piece is doing.
 ```
 :::
 
-* Goal: practice the "last mile" of an ADaM - going from a labeled R data frame to a submission-ready xpt file - without having to memorize every xportr argument up front.
+::: {.callout-tip title="Goal"}
+Practice the "last mile" of an ADaM - going from a labeled R data frame to a submission-ready xpt file - without having to memorize every xportr argument up front.
+:::
 
 ## Packages and Session Information
 
