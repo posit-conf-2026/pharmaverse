@@ -1,0 +1,114 @@
+/*-- scss:defaults --*/
+
+// Give the ADaM section its own accent color (used by .emphasis, the title
+// rule, and any .pv-accent/.pv-agenda-accent elements below) instead of the
+// shared pharmaverse orange - admiral's badge purple, for brand cohesion
+// with the Key Functions Cheat Sheet slides.
+$custom-col: #7570B3;
+
+/*-- scss:rules --*/
+
+/* ---------------------------------------------------------------------------
+   This deck reuses the shared custom title-slide layout defined in
+   slides/slides.scss (#title-slide:has(.custom-title)) - display-font title,
+   accent rule, headshot + affiliation block, and a hero card. The only
+   deck-specific addition here is the hero content itself: a row of "friend"
+   package logos (admiral, metatools, metacore, xportr) plus the Posit
+   Assistant icon, instead of the single-logo card the shared CSS assumes.
+--------------------------------------------------------------------------- */
+#title-slide:has(.custom-title) {
+  // widen the hero column a bit so five logos fit comfortably
+  .title-hero { flex-basis: 40%; }
+
+  .friend-logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    max-width: 320px;
+  }
+
+  .friend-logos img {
+    display: block;
+    height: 56px;
+    width: auto;
+    max-width: 100px;
+    object-fit: contain;
+    margin: 0;
+  }
+
+  .friend-logos img.friend-logo-assistant {
+    border-radius: 8px;
+  }
+
+  .friend-plus {
+    font-family: $font-family-display;
+    font-size: 1.4em;
+    color: #7090A5;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   "Copy" icon button injected into every .codewindow prompt box by
+   copy-button.html. Positioned in the box's own top-right corner rather
+   than a codewindow .header row, since these plain-text prompt blocks never
+   get a .header from the codewindow extension (see copy-button.html).
+--------------------------------------------------------------------------- */
+.codewindow {
+  position: relative;
+}
+.codewindow .copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.codewindow .copy-btn:hover {
+  background: #f1f5f9;
+}
+.codewindow .copy-btn.copied {
+  color: #16a34a;
+  border-color: #86efac;
+  background: #f0fdf4;
+}
+
+/* Highlight the "you are here" step in the Where We're Headed Today flow */
+.pv-step.pv-step-current {
+  background: $custom-col !important;
+  color: #ffffff !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Make the "Lines: xx-xx" footnote markers on section-teaching slides pop:
+   a colored pill next to the heading, and a bolder/colored footnote line
+   at the bottom of the slide, instead of the default faint gray text.
+--------------------------------------------------------------------------- */
+.reveal .slide h2 sup {
+  font-size: 0.5em;
+  font-weight: 700;
+  color: #ffffff;
+  background: $custom-col;
+  padding: 0.15em 0.5em;
+  border-radius: 6px;
+  margin-left: 0.4em;
+  vertical-align: middle;
+}
+
+.reveal .slide aside .aside-footnotes {
+  font-size: 0.85em;
+  font-weight: 600;
+  color: $custom-col;
+}

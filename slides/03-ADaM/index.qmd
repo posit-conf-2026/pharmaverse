@@ -1,12 +1,18 @@
 ---
-title: "ADaMs with {admiral} and friends" 
+title: "ADaMs with {admiral}, friends, and AI" 
+subtitle: "Pharmaverse Workshop"
+author: "Ben Straub"
+event: "posit::conf(2026)"
 logo: "../../images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
   revealjs: 
-    theme: ../slides.scss
+    theme: [../slides.scss, title.scss]
+    template-partials:
+      - title-slide.html
+    include-after-body: copy-button.html
     transition: fade
     slide-number: true
     chalkboard: true

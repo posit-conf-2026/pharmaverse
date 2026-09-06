@@ -27,7 +27,7 @@ vs <- convert_blanks_to_na(vs)
 advs_spec <- spec_to_metacore(
   path = "slides/03-ADaM/metadata/posit_specs.xlsx",
   where_sep_sheet = FALSE,
-  quiet = TRUE
+  verbose = "silent"
 ) %>%
   select_dataset("ADVS")
 
@@ -303,7 +303,7 @@ dir <- tempdir() # Specify the directory for saving the XPT file
 # Apply metadata and perform checks
 advs_prefinal <- advs %>%
   drop_unspec_vars(advs_spec) %>% # Drop unspecified variables from specs
-  check_variables(advs_spec, dataset_name = "ADVS") %>% # Check all variables specified are present and no more
+  check_variables(advs_spec) %>% # Check all variables specified are present and no more
   order_cols(advs_spec) %>% # Orders the columns according to the spec
   sort_by_key(advs_spec) # Sorts the rows by the sort keys
 

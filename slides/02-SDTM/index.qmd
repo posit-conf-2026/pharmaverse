@@ -38,8 +38,14 @@ cm_raw <- admiral::convert_blanks_to_na(cm_raw)
 cm_raw <- cm_raw |>
   generate_oak_id_vars(pat_var = "PATNUM", raw_src = "cm_raw")
 
-link::auto(keep_pkg_prefix = FALSE,
-           keep_braces = FALSE)
+# Disabled: link::auto()'s global text hook re-scans the whole rendered
+# document, including the HTML already produced by the explicit
+# link::to_call()/to_pkg() calls used throughout this deck's algorithm
+# tables below - re-matching that already-linked text breaks knitr's
+# text-hook post-processing (htmltools "length-one character vector"
+# error). Every sdtm.oak function reference in this deck is already
+# manually linked via link::to_call(), so auto() isn't needed.
+# link::auto(keep_pkg_prefix = FALSE, keep_braces = FALSE)
 
 # Package hexes
 admiral_img <- "https://raw.githubusercontent.com/pharmaverse/sdtm.oak/master/man/figures/logo.svg"

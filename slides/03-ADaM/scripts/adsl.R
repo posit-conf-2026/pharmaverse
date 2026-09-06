@@ -20,7 +20,7 @@ library(xportr)
 adsl_spec <- spec_to_metacore(
   path = "slides/03-ADaM/metadata/posit_specs.xlsx",
   where_sep_sheet = FALSE,
-  quiet = TRUE
+  verbose = "silent"
 ) %>%
   select_dataset("ADSL")
 
@@ -287,7 +287,7 @@ adsl17 <- adsl16 %>%
 ## Ordering, Sorting by Key, Labels, Types, Lengths, XPT ----
 adsl <- adsl17 %>%
   drop_unspec_vars(adsl_spec) %>% # Drop unspecified variables from specs
-  check_variables(adsl_spec, dataset_name = "ADSL") %>% # Check all variables specified are present and no more
+  check_variables(adsl_spec) %>% # Check all variables specified are present and no more
   order_cols(adsl_spec) %>% # Orders the columns according to the spec
   sort_by_key(adsl_spec) %>% # Sorts the rows by the sort keys
   xportr_type(adsl_spec) %>%

@@ -1,0 +1,13 @@
+engine: knitr
+format:
+  revealjs:
+    theme: ../slides.scss
+    transition: fade
+    slide-number: true
+    chalkboard: true
+revealjs-plugins:
+  - codewindow
+execute:
+  echo: true
+  freeze: false
+cache: false

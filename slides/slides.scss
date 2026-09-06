@@ -589,7 +589,12 @@ $pv-accent: $custom-col; // #E67E3A
     bottom: -80px;
     width: 360px;
     height: 360px;
-    background-image: url('images/pharmaverse-hex.png');
+    // Site-root-absolute path: Quarto compiles every deck's theme CSS into
+    // one shared site_libs/revealjs/dist/theme/ folder, so a path relative
+    // to that folder (or to this scss file's own directory) 404s. An
+    // absolute path resolves against the site root instead, where the
+    // project-wide images/pharmaverse-hex.png is always copied.
+    background-image: url('/images/pharmaverse-hex.png');
     background-size: contain;
     background-repeat: no-repeat;
     opacity: 0.06;

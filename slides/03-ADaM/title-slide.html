@@ -1,0 +1,42 @@
+<section id="$idprefix$title-slide"$for(title-slide-attributes/pairs)$ $it.key$="$it.value$"$endfor$>
+
+<div class="custom-title">
+
+  <div class="title-left">
+
+    <h1 class="title">$title$</h1>
+
+    <div class="title-rule"></div>
+
+$if(subtitle)$
+    <p class="subtitle">$subtitle$</p>
+$endif$
+
+    <div class="title-author">
+      <img class="title-avatar" src="../../images/ben-circle.jpg" alt="Speaker headshot">
+      <div class="title-author-text">
+        <p class="author-name">$for(author)$$author$$sep$, $endfor$</p>
+$if(event)$
+        <p class="author-affil">$event$</p>
+$endif$
+      </div>
+    </div>
+
+  </div>
+
+  <div class="title-hero">
+    <div class="title-logo-card">
+      <div class="friend-logos">
+        <img src="https://raw.githubusercontent.com/pharmaverse/admiral/master/man/figures/logo.png" alt="admiral">
+        <img src="https://raw.githubusercontent.com/pharmaverse/metatools/master/man/figures/metatools.png" alt="metatools">
+        <img src="https://raw.githubusercontent.com/atorus-research/metacore/master/man/figures/metacore.PNG" alt="metacore">
+        <img src="https://raw.githubusercontent.com/atorus-research/xportr/master/man/figures/logo.png" alt="xportr">
+        <span class="friend-plus">+</span>
+        <img class="friend-logo-assistant" src="images/posit-assistant-icon.png" alt="Posit Assistant">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</section>
