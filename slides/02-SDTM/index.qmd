@@ -934,25 +934,27 @@ dm <- oak_cal_ref_dates(
 
 ## Check-in Exercise {.smaller}
 
-Open exercises/02-SDTM.R — map the **AE** domain. Two ways to tackle it:
+Open **exercises/02-SDTM.R** — finish the **CM** domain. The walkthrough steps
+(CMTRT, CMROUTE, CMSTDTC, CMENRTPT) are already coded; you fill in the rest.
+Each exercise step gives you the **aCRF annotation** and a **suggested AI prompt**.
 
-- [✍️]{.pv-ico} **Code it yourself** — write each `sdtm.oak` call by hand, as we did for CM.
-- [🤖]{.pv-ico} **Use the AI agent + skill** — prompt it to draft the script from the AE aCRF, then review and run.
+- [✍️]{.pv-ico} **Code it yourself** — replace each `??` using the annotation text.
+- [🤖]{.pv-ico} **Use the AI agent + skill** — paste the suggested prompt, then review and run.
 
 ```{r, eval = FALSE}
-library(sdtm.oak)
-library(pharmaverseraw)
-library(dplyr)
-
-#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf
-
-# Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM
-
-# Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742
-
-# Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is 
-#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742
-
+# --- EXERCISE 4: CMDOSU (dose unit) ------------------------------------
+# aCRF annotation: "CM.CMDOSU" with codelist (UNIT) C71620.
+# AI prompt:
+#   "Map CMDOSU from IT.CMDOSU applying controlled terminology codelist
+#    C71620 (UNIT) with assign_ct."
+assign_ct(
+  raw_dat = cm_raw,
+  raw_var = ??,
+  tgt_var = ??,
+  ct_spec = study_ct,
+  ct_clst = ??,
+  id_vars = oak_id_vars()
+)
 ```
 
 Add the "completed" sticky note to your laptop when complete.
@@ -964,36 +966,33 @@ library(countdown)
 countdown::countdown(minutes = 10)
 ```
 
-## Exercise Solution
+## Exercise Solution {.smaller}
+
+Full solution in **exercises/answers/02-SDTM-answer.R**. The exercise steps:
 
 ```{r, eval = FALSE}
-ae <-
-  # Derive topic variable
-  # Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM
-  assign_no_ct(
-    raw_dat = ae_raw,
-    raw_var = "IT.AETERM",
-    tgt_var = "AETERM",
-    id_vars = oak_id_vars()
-  ) %>%
-  # Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER
-  assign_ct(
-    raw_dat = ae_raw,
-    raw_var = "IT.AESER",
-    tgt_var = "AESER",
-    ct_spec = study_ct,
-    ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  ) %>%
-  # Map AESDTH using condition_add & assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH
-  assign_ct(
-    raw_dat = condition_add(ae_raw, IT.AESDTH == "Yes"),
-    raw_var = "IT.AESDTH",
-    tgt_var = "AESDTH",
-    ct_spec = study_ct,
-    ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  )
+  # CMINDC — free text
+  assign_no_ct(cm_raw, "IT.CMINDC", tgt_var = "CMINDC",
+               id_vars = oak_id_vars()) %>%
+  # CMDOS / CMDOSTXT — numeric vs text dose (condition_add)
+  assign_no_ct(condition_add(cm_raw, grepl("^-?\\d*(\\.\\d+)?$", cm_raw$IT.CMDSTXT)),
+               "IT.CMDSTXT", tgt_var = "CMDOS", id_vars = oak_id_vars()) %>%
+  assign_no_ct(condition_add(cm_raw, grepl("[^0-9eE.-]", cm_raw$IT.CMDSTXT)),
+               "IT.CMDSTXT", tgt_var = "CMDOSTXT", id_vars = oak_id_vars()) %>%
+  # CMDOSU / CMDOSFRM / CMDOSFRQ — coded qualifiers (assign_ct + codelist)
+  assign_ct(cm_raw, "IT.CMDOSU",   tgt_var = "CMDOSU",   ct_spec = study_ct,
+            ct_clst = "C71620", id_vars = oak_id_vars()) %>%
+  assign_ct(cm_raw, "IT.CMDOSFRM", tgt_var = "CMDOSFRM", ct_spec = study_ct,
+            ct_clst = "C66726", id_vars = oak_id_vars()) %>%
+  assign_ct(cm_raw, "IT.CMDOSFRQ", tgt_var = "CMDOSFRQ", ct_spec = study_ct,
+            ct_clst = "C71113", id_vars = oak_id_vars()) %>%
+  # CMENTPT — hardcoded constant when ongoing (hardcode_no_ct)
+  hardcode_no_ct(condition_add(cm_raw, IT.CMONGO == "Yes"), "IT.CMONGO",
+                 tgt_var = "CMENTPT", tgt_val = "DATE OF LAST ASSESSMENT",
+                 id_vars = oak_id_vars()) %>%
+  # CMENDTC — end date
+  assign_datetime(cm_raw, "IT.CMENDAT", tgt_var = "CMENDTC",
+                  raw_fmt = c("d-m-y"), raw_unk = c("UN", "UNK"))
 ```
 
 ## Wrap-up & resources {.smaller}
