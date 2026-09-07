@@ -237,8 +237,8 @@ reactable(
   admiral_fns[, c("Package", "Function", "Purpose")],
   columns = list(
     Package  = colDef(html = TRUE, minWidth = 130),
-    Function = colDef(html = TRUE, minWidth = 260),
-    Purpose  = colDef(minWidth = 380)
+    Function = colDef(html = TRUE, minWidth = 300),
+    Purpose  = colDef(minWidth = 360)
   ),
   striped = TRUE,
   highlight = TRUE,
@@ -246,7 +246,7 @@ reactable(
   compact = TRUE,
   theme = cheat_sheet_theme,
   width = "100%",
-  style = list(fontSize = "1.1em")
+  style = list(fontSize = "1.05em")
 )
 ```
 
@@ -276,8 +276,8 @@ reactable(
   metadata_fns[, c("Package", "Function", "Purpose")],
   columns = list(
     Package  = colDef(html = TRUE, minWidth = 130),
-    Function = colDef(html = TRUE, minWidth = 260),
-    Purpose  = colDef(minWidth = 340)
+    Function = colDef(html = TRUE, minWidth = 300),
+    Purpose  = colDef(minWidth = 320)
   ),
   striped = TRUE,
   highlight = TRUE,
@@ -285,7 +285,7 @@ reactable(
   compact = TRUE,
   theme = cheat_sheet_theme,
   width = "100%",
-  style = list(fontSize = "1.1em")
+  style = list(fontSize = "1.05em")
 )
 ```
 
@@ -297,7 +297,7 @@ reactable(
 Lines in each script are referenced with a footnote like `^[Lines: 20-25]` - flip to that spot in `adsl.R` as we go.
 :::
 
-## Reading in our spec for `ADSL` ^[Lines: 20-25 ]
+## Reading in our spec for `ADSL` ^[Lines: 20-25]
 
 ```{.r code-line-numbers="1|2|3|4|5|6"}
 adsl_spec <- spec_to_metacore(
@@ -427,7 +427,7 @@ adsl10 <- adsl09 %>%
 * Check out [Programming Concepts and Conventions](https://pharmaverse.github.io/admiral/cran-release/articles/concepts_conventions.html#exprs)
 
 
-## Let's get a more complicated merge  ^[Lines: 72-84, and more!!]
+## Let's get a more complicated merge: `order` & `mode` ^[Lines: 72-84]
 
 ```{.r code-line-numbers="1|2|3|4|5|6|7|8|9|10"}
 derive_vars_merged(
@@ -443,9 +443,28 @@ derive_vars_merged(
 )
 ```
 
-* `order` - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.
-* `mode` - Determines if the first or last observation is selected
-* Breaking down `filter_add`:
+* `order` - for each by group, the first or last observation from the additional dataset is selected with respect to the specified order
+* `mode` - determines whether the first or last observation (per `order`) is selected
+* Together, `order = exprs(EXSTDTM, EXSEQ)` and `mode = "first"` say: "for each subject, sort their exposure records by start datetime (then sequence number to break ties), and keep the earliest one"
+
+## Let's get a more complicated merge: `filter_add` ^[Lines: 72-84, and more!!] {.smaller}
+
+```{.r code-line-numbers="6|6-9"}
+derive_vars_merged(
+  dataset_add = ex_ext,
+  by_vars = exprs(STUDYID, USUBJID),
+  order = exprs(EXSTDTM, EXSEQ),
+  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),
+  filter_add = (EXDOSE > 0 |
+    (EXDOSE == 0 &
+      str_detect(EXTRT, "PLACEBO"))) &
+    !is.na(EXSTDTM),
+  mode = "first",
+)
+```
+
+* `filter_add` restricts *which* records from `dataset_add` are eligible before `order`/`mode` ever run
+* Breaking it down:
   - `EXDOSE > 0` - keep any record with a real (non-zero) dose
   - `EXDOSE == 0 & str_detect(EXTRT, "PLACEBO")` - **or** keep a zero-dose record only when it's explicitly a placebo administration, so a placebo subject still gets a valid "treatment start" record, but a skipped/withheld dose doesn't
   - `!is.na(EXSTDTM)` - **and** only consider records that actually have a start datetime to order/select on
@@ -502,7 +521,7 @@ adsl16 %>%
   create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)
 ```
 
-* Numeric Variables like the above are helpful for sorting options in Tables.
+* Numeric variables are handy for sorting in a table or listing for display.
 
 # Datetime Exercise
 
@@ -838,6 +857,10 @@ derive_param_computed(
 
 `r fontawesome::fa("robot", fill = fa_fill)` Stuck? Ask an AI assistant.
 :::
+:::
+
+::: {.callout-note title="Want More?"}
+A bunch more Ben-style "Ask Your AI" prompts are coming up right after this section - if you want to mess around with more `admiral`/`metatools`/`xportr` functions on your own time.
 :::
 
 ## Closing Thoughts
