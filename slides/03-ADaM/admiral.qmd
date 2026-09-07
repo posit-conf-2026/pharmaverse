@@ -105,27 +105,27 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 ::: {.pv-agenda-item}
 [🎬]{.pv-agenda-ico}
 [Set the Stage]{.pv-agenda-title}
-[11:00 - 11:13]{.pv-agenda-time}
+[11:00 - 11:15]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [🧬]{.pv-agenda-ico}
 [`ADSL`]{.pv-agenda-title}
-[11:13 - 11:30]{.pv-agenda-time}
+[11:15 - 11:45]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
-[Exercise 🤖]{.pv-agenda-title}
-[11:30 - 11:45]{.pv-agenda-time}
+[Datetime Exercise]{.pv-agenda-title}
+[11:45 - 11:52]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [📊]{.pv-agenda-ico}
 [`ADVS`]{.pv-agenda-title}
-[11:45 - 12:05]{.pv-agenda-time}
+[11:52 - 12:23]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
-[Exercise 🤖]{.pv-agenda-title}
-[12:05 - 12:30]{.pv-agenda-time}
+[New Records Exercise]{.pv-agenda-title}
+[12:23 - 12:30]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [🍽️]{.pv-agenda-ico}
@@ -155,7 +155,7 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 
 # Set the Stage
 
-🕥11:00 - 11:13
+🕥11:00 - 11:15
 
 <div style="text-align: center;"> <img src="./images/office.jpg" alt="office" style="width: 600px;"/> </div>
 
@@ -291,7 +291,7 @@ reactable(
 
 # `ADSL`
 
-🕥 11:13 - 11:30
+🕥 11:15 - 11:45
 
 ::: {.callout-note title="Follow Along"}
 Lines in each script are referenced with a footnote like `^[Lines: 20-25]` - flip to that spot in `adsl.R` as we go.
@@ -445,6 +445,11 @@ derive_vars_merged(
 
 * `order` - for each by group the first or last observation from the additional dataset is selected with respect to the specified order.
 * `mode` - Determines if the first or last observation is selected
+* Breaking down `filter_add`:
+  - `EXDOSE > 0` - keep any record with a real (non-zero) dose
+  - `EXDOSE == 0 & str_detect(EXTRT, "PLACEBO")` - **or** keep a zero-dose record only when it's explicitly a placebo administration, so a placebo subject still gets a valid "treatment start" record, but a skipped/withheld dose doesn't
+  - `!is.na(EXSTDTM)` - **and** only consider records that actually have a start datetime to order/select on
+  - Together, this narrows the candidate pool *before* `mode = "first"` picks the earliest qualifying record per subject
 
 ## Try It: Ask Your AI for Assistance on Merging {.smaller}
 
@@ -499,11 +504,11 @@ adsl16 %>%
 
 * Numeric Variables like the above are helpful for sorting options in Tables.
 
-# Check in / Exercise 
+# Datetime Exercise
 
-🕚11:30 - 11:45
+🕚11:45 - 11:52
 
-## Check-in Exercise {.smaller}
+## Datetime Exercise {.smaller}
 
 ```{r}
 library(tibble)
@@ -530,10 +535,10 @@ Using `derive_vars_dtm()`, impute a missing **date** to the **last** month/day, 
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
-## Check-in Exercise Solution {.smaller}
+## Datetime Exercise Solution {.smaller}
 
 ```{r}
 posit_mh <- tribble(
@@ -562,7 +567,7 @@ derive_vars_dtm(
 
 # `ADVS`
 
-🕦11:45 - 12:05
+🕦11:52 - 12:23
 
 ::: {.callout-note title="Follow Along"}
 Lines in each script are referenced with a footnote like `^[Lines: 72-80]` - flip to that spot in `advs.R` as we go.
@@ -756,11 +761,11 @@ advs_final <- advs_prefinal %>%
 * Note similar code in `ADSL` script!
 * `domain` is needed depending on how `metacore` object is created.
 
-# Check in / Exercise
+# New Records Exercise
 
-🕦 12:05 - 12:30
+🕦 12:23 - 12:30
 
-## Check-in Exercise {.smaller}
+## New Records Exercise {.smaller}
 
 ```{r}
 ADVS <- tribble(
@@ -782,10 +787,10 @@ $$ MAP = \frac{2 \times DIABP + SYSBP}{3} $$
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
-## Check-in Exercise Solution {.smaller}
+## New Records Exercise Solution {.smaller}
 
 ```{r}
 ADVS <- tribble(
