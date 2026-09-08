@@ -39,16 +39,6 @@ cm <-
     tgt_var = "CMTRT"
   ) %>%
 
-  # === WALKTHROUGH (with AI): CMINDC ======================================
-  # Filled in by the AI agent from the prompt in the exercise file, then
-  # reviewed against the aCRF.
-  assign_no_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMINDC",
-    tgt_var = "CMINDC",
-    id_vars = oak_id_vars()
-  ) %>%
-
   # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   assign_no_ct(
     raw_dat = condition_add(cm_raw, grepl("^-?\\d*(\\.\\d+)?(e[+-]?\\d+)?$", cm_raw$IT.CMDSTXT)),
@@ -122,6 +112,16 @@ cm <-
     ct_spec = study_ct,
     ct_clst = "C66728",
     tgt_val = "Ongoing",
+    id_vars = oak_id_vars()
+  ) %>%
+
+  # === WALKTHROUGH (with AI): CMINDC — the last one we do together ========
+  # Filled in by the AI agent from the prompt in the exercise file, then
+  # reviewed against the aCRF.
+  assign_no_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMINDC",
+    tgt_var = "CMINDC",
     id_vars = oak_id_vars()
   ) %>%
 

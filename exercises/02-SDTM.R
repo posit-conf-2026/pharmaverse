@@ -49,27 +49,6 @@ cm <-
     tgt_var = "CMTRT"
   ) %>%
 
-  # === WALKTHROUGH (with AI): CMINDC ======================================
-  # This step shows HOW to let the AI agent fill a mapping for you.
-  #
-  # aCRF annotation: "CM.CMINDC" (Indication - free text, no codelist).
-  #
-  # Prompt I gave the agent (it uses the .agents/skills/sdtm-oak-mapping
-  # skill + the annotated CM aCRF at slides/02-SDTM/metadata/CM_cdash_acrf.pdf):
-  #
-  #   "Using the sdtm-oak-mapping skill and the CM aCRF, add a pipe step that
-  #    maps CMINDC from raw_var IT.CMINDC. It is collected free text with no
-  #    controlled terminology, so use assign_no_ct with id_vars = oak_id_vars()."
-  #
-  # The agent produced the step below — I reviewed it against the aCRF and
-  # kept it. (Notice: same shape as the CMTRT step, just a different var.)
-  assign_no_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMINDC",
-    tgt_var = "CMINDC",
-    id_vars = oak_id_vars()
-  ) %>%
-
   # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   # aCRF annotation: "If numeric then CM.CMDOS" (dose collected in IT.CMDSTXT).
   # Only map rows where the collected dose is numeric -> condition_add.
@@ -169,6 +148,28 @@ cm <-
     ct_spec = study_ct,
     ct_clst = "C66728",
     tgt_val = "Ongoing",
+    id_vars = oak_id_vars()
+  ) %>%
+
+  # === WALKTHROUGH (with AI): CMINDC — the last one we do together ========
+  # This final walkthrough step shows HOW to let the AI agent fill a mapping.
+  #
+  # aCRF annotation: "CM.CMINDC" (Indication - free text, no codelist).
+  #
+  # Prompt I gave the agent (it uses the .agents/skills/sdtm-oak-mapping
+  # skill + the annotated CM aCRF at slides/02-SDTM/metadata/CM_cdash_acrf.pdf):
+  #
+  #   "Using the sdtm-oak-mapping skill and the CM aCRF, add a pipe step that
+  #    maps CMINDC from raw_var IT.CMINDC. It is collected free text with no
+  #    controlled terminology, so use assign_no_ct with id_vars = oak_id_vars()."
+  #
+  # The agent produced the step below — I reviewed it against the aCRF and
+  # kept it. (Notice: same shape as the CMTRT step, just a different var.)
+  # Now it is YOUR turn for the remaining exercises below.
+  assign_no_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMINDC",
+    tgt_var = "CMINDC",
     id_vars = oak_id_vars()
   ) %>%
 
