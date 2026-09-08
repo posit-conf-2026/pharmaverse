@@ -1073,7 +1073,7 @@ print_to_gt(tfrmt_demog, ard_demog_display) |>
 
 1. Navigate to Posit Cloud script `exercises/06-tables-tfrmt.R`
 
-2. Run the setup code, then copy/paste each prompt below into your AI assistant, one at a time.
+2. Create, modify, and output the AE table as described.
 
 3. Add the "completed" sticky note to your laptop when complete.
 
@@ -1083,75 +1083,3 @@ print_to_gt(tfrmt_demog, ard_demog_display) |>
 library(countdown)
 countdown(minutes = 10, play_sound = TRUE)
 ```
-
-## Setup: run this first! ▶️
-
-```{r}
-#| eval: false
-
-## Load necessary packages
-library(cards)
-library(dplyr)
-library(tidyr)
-library(tfrmt)
-
-## Import & subset data
-adsl <- pharmaverseadam::adsl |>
-  dplyr::filter(SAFFL == "Y") |>
-  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, "Xanomeline"), "Xanomeline", ARM))
-
-adae <- pharmaverseadam::adae |>
-  dplyr::filter(SAFFL == "Y") |>
-  dplyr::filter(AESOC %in% unique(AESOC)[1:3]) |>
-  dplyr::group_by(AESOC) |>
-  dplyr::filter(AEDECOD %in% unique(AEDECOD)[1:3]) |>
-  dplyr::ungroup()
-
-## Create AE Summary using cards
-ard_ae <- ard_stack_hierarchical(
-  data = adae,
-  variables = c(AESOC, AEDECOD),
-  by = ARM,
-  id = USUBJID,
-  denominator = adsl,
-  over_variables = TRUE,
-  statistic = ~ c("n", "p")
-)
-```
-
-## Prompt A: Mock AE table
-
-::: {.small}
-Paste this into your AI assistant:
-:::
-
-> Create and print a mock AE table using the {tfrmt} package. The shell should have the following specs:
->
-> - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) in the rows.
-> - 3 treatment arms in the columns (ARM)
-> - Big N (Group-level population counts) in the column headers
-> - n (number of subjects with the AE) and p (proportion of subjects with the AE) in the body of the table as "n (%)"
-
-## Prompt B: cards to tfrmt
-
-::: {.small}
-Paste this into your AI assistant:
-:::
-
-> Convert the `cards` object `ard_ae` into a tidy data frame ready for {tfrmt}. Keep only the required columns for the table. Ensure the names align to the spec above.
-
-## Prompt C: Final AE table
-
-::: {.small}
-Paste this into your AI assistant:
-:::
-
-> Print a final AE table with real values by supplying the tfrmt-ready data. Add a title, subtitle, and footnote to the table.
-
-## Prompt D: Output with docorator
-
-::: {.small}
-Paste this into your AI assistant:
-:::
-
-> Output the final table to PDF (HTML flavor) using {docorator}.
