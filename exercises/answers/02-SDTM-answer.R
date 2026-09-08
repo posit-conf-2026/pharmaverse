@@ -32,12 +32,58 @@ dm <- admiral::convert_blanks_to_na(dm)
 # ---- Build the CM domain ----------------------------------------------------
 
 cm <-
+  # PHASE 1 - WALKTHROUGH BY HAND -----------------------------------------
+
   # === WALKTHROUGH: topic variable (assign_no_ct) =========================
   assign_no_ct(
     raw_dat = cm_raw,
     raw_var = "IT.CMTRT",
     tgt_var = "CMTRT"
   ) |>
+
+  # === WALKTHROUGH: variable qualifier with CT (assign_ct) ================
+  assign_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMROUTE",
+    tgt_var = "CMROUTE",
+    ct_spec = study_ct,
+    ct_clst = "C66729",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # === WALKTHROUGH: a collected date (assign_datetime) ====================
+  assign_datetime(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMSTDAT",
+    tgt_var = "CMSTDTC",
+    raw_fmt = c("d-m-y"),
+    raw_unk = c("UN", "UNK")
+  ) |>
+
+  # === WALKTHROUGH: conditional constant (hardcode_ct + condition_add) ====
+  hardcode_ct(
+    raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),
+    raw_var = "IT.CMONGO",
+    tgt_var = "CMENRTPT",
+    ct_spec = study_ct,
+    ct_clst = "C66728",
+    tgt_val = "Ongoing",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # PHASE 2 - WALKTHROUGH WITH AI -----------------------------------------
+
+  # === WALKTHROUGH (with AI): CMINDC ======================================
+  # Filled in by the AI agent from the prompt in the exercise file, then
+  # reviewed against the aCRF.
+  assign_no_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMINDC",
+    tgt_var = "CMINDC",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # PHASE 3 - EXERCISES (learner completes) -------------------------------
 
   # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   assign_no_ct(
@@ -82,46 +128,6 @@ cm <-
     tgt_var = "CMDOSFRQ",
     ct_spec = study_ct,
     ct_clst = "C71113",
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH: variable qualifier with CT (assign_ct) ================
-  assign_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMROUTE",
-    tgt_var = "CMROUTE",
-    ct_spec = study_ct,
-    ct_clst = "C66729",
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH: a collected date (assign_datetime) ====================
-  assign_datetime(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMSTDAT",
-    tgt_var = "CMSTDTC",
-    raw_fmt = c("d-m-y"),
-    raw_unk = c("UN", "UNK")
-  ) |>
-
-  # === WALKTHROUGH: conditional constant (hardcode_ct + condition_add) ====
-  hardcode_ct(
-    raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),
-    raw_var = "IT.CMONGO",
-    tgt_var = "CMENRTPT",
-    ct_spec = study_ct,
-    ct_clst = "C66728",
-    tgt_val = "Ongoing",
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH (with AI): CMINDC — the last one we do together ========
-  # Filled in by the AI agent from the prompt in the exercise file, then
-  # reviewed against the aCRF.
-  assign_no_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMINDC",
-    tgt_var = "CMINDC",
     id_vars = oak_id_vars()
   ) |>
 

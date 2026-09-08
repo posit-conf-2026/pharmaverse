@@ -934,16 +934,19 @@ dm <- oak_cal_ref_dates(
 
 ## Check-in Exercise {.smaller}
 
-Open **exercises/02-SDTM.R** — finish the **CM** domain. The walkthrough steps
-are coded. The **last one we do together** (**CMINDC**) shows how to **prompt the
-AI** to fill a mapping. Then it's your turn: complete the **7 exercises** — each
-has the aCRF annotation and a suggested prompt.
+Open **exercises/02-SDTM.R** — finish the **CM** domain. It follows three phases:
 
-- [✍️]{.pv-ico} **Code it yourself** — replace each `??` using the annotation text.
-- [🤖]{.pv-ico} **Use the AI agent + skill** — paste the suggested prompt, then review and run.
+1. [✍️]{.pv-ico} **Walkthrough — by hand.** We code the different algorithms
+   together (CMTRT, CMROUTE, CMSTDTC, CMENRTPT).
+2. [🤖]{.pv-ico} **Walkthrough — with AI.** We map one variable (CMINDC) by
+   prompting the agent, then reviewing its output.
+3. [🧑‍💻]{.pv-ico} **Your turn — 7 exercises.** You complete the rest, coding by
+   hand or with the agent. Each has the aCRF annotation and a suggested prompt.
+
+The AI walkthrough step (phase 2) looks like this:
 
 ```{r, eval = FALSE}
-# === WALKTHROUGH (with AI): CMINDC — the last one we do together =======
+# === WALKTHROUGH (with AI): CMINDC ======================================
 # Prompt (agent uses the sdtm-oak-mapping skill + the annotated CM aCRF):
 #   "Add a pipe step that maps CMINDC from raw_var IT.CMINDC. It is
 #    collected free text with no controlled terminology, so use

@@ -1,10 +1,12 @@
 #' Exercise: Create the CM (Concomitant Medications) domain with sdtm.oak
 #'
-#' The WALKTHROUGH steps we coded together in the slides are already filled in
-#' (CMTRT, CMROUTE, CMSTDTC, CMENRTPT). One extra walkthrough (CMINDC) shows
-#' HOW to prompt the AI agent to fill a mapping for you. Your job is to
-#' complete the 7 EXERCISE steps: each gives you the aCRF annotation text and
-#' a suggested AI prompt.
+#' The script is organised in three phases:
+#'   PHASE 1 - Walkthrough by hand: the different algorithms coded together
+#'             (CMTRT, CMROUTE, CMSTDTC, CMENRTPT).
+#'   PHASE 2 - Walkthrough with AI: one variable (CMINDC) mapped by prompting
+#'             the agent, then reviewing its output.
+#'   PHASE 3 - Your turn: complete the 7 EXERCISE steps. Each gives you the
+#'             aCRF annotation text and a suggested AI prompt.
 #'
 #' Two ways to solve each exercise step:
 #'   (a) Code it by hand  - replace every ?? using the annotation text.
@@ -41,6 +43,10 @@ dm <- admiral::convert_blanks_to_na(dm)
 # ---- Build the CM domain ----------------------------------------------------
 
 cm <-
+  # #########################################################################
+  # PHASE 1 - WALKTHROUGH BY HAND: the different algorithms, coded together.
+  # #########################################################################
+
   # === WALKTHROUGH: topic variable (assign_no_ct) =========================
   # Medication name is collected as free text -> assign_no_ct.
   assign_no_ct(
@@ -48,6 +54,68 @@ cm <-
     raw_var = "IT.CMTRT",
     tgt_var = "CMTRT"
   ) |>
+
+  # === WALKTHROUGH: variable qualifier with CT (assign_ct) ================
+  # Route is a coded dropdown -> assign_ct with codelist (ROUTE) C66729.
+  assign_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMROUTE",
+    tgt_var = "CMROUTE",
+    ct_spec = study_ct,
+    ct_clst = "C66729",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # === WALKTHROUGH: a collected date (assign_datetime) ====================
+  # Start date collected as dd-MMM-yyyy -> ISO 8601 via assign_datetime.
+  assign_datetime(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMSTDAT",
+    tgt_var = "CMSTDTC",
+    raw_fmt = c("d-m-y"),
+    raw_unk = c("UN", "UNK")
+  ) |>
+
+  # === WALKTHROUGH: conditional constant (hardcode_ct + condition_add) ====
+  # aCRF: "If Yes then CM.CMENRTPT = 'ONGOING'" (codelist C66728).
+  hardcode_ct(
+    raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),
+    raw_var = "IT.CMONGO",
+    tgt_var = "CMENRTPT",
+    ct_spec = study_ct,
+    ct_clst = "C66728",
+    tgt_val = "Ongoing",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # #########################################################################
+  # PHASE 2 - WALKTHROUGH WITH AI: map one variable by prompting the agent.
+  # #########################################################################
+
+  # === WALKTHROUGH (with AI): CMINDC ======================================
+  # This step shows HOW to let the AI agent fill a mapping for you.
+  #
+  # aCRF annotation: "CM.CMINDC" (Indication - free text, no codelist).
+  #
+  # Prompt I gave the agent (it uses the .agents/skills/sdtm-oak-mapping
+  # skill + the annotated CM aCRF at slides/02-SDTM/metadata/CM_cdash_acrf.pdf):
+  #
+  #   "Using the sdtm-oak-mapping skill and the CM aCRF, add a pipe step that
+  #    maps CMINDC from raw_var IT.CMINDC. It is collected free text with no
+  #    controlled terminology, so use assign_no_ct with id_vars = oak_id_vars()."
+  #
+  # The agent produced the step below — I reviewed it against the aCRF and
+  # kept it. (Notice: same shape as the CMTRT step, just a different var.)
+  assign_no_ct(
+    raw_dat = cm_raw,
+    raw_var = "IT.CMINDC",
+    tgt_var = "CMINDC",
+    id_vars = oak_id_vars()
+  ) |>
+
+  # #########################################################################
+  # PHASE 3 - YOUR TURN: complete the 7 exercises below (by hand or with AI).
+  # #########################################################################
 
   # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   # aCRF annotation: "If numeric then CM.CMDOS" (dose collected in IT.CMDSTXT).
@@ -115,61 +183,6 @@ cm <-
     tgt_var = ??,
     ct_spec = study_ct,
     ct_clst = ??,
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH: variable qualifier with CT (assign_ct) ================
-  # Route is a coded dropdown -> assign_ct with codelist (ROUTE) C66729.
-  assign_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMROUTE",
-    tgt_var = "CMROUTE",
-    ct_spec = study_ct,
-    ct_clst = "C66729",
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH: a collected date (assign_datetime) ====================
-  # Start date collected as dd-MMM-yyyy -> ISO 8601 via assign_datetime.
-  assign_datetime(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMSTDAT",
-    tgt_var = "CMSTDTC",
-    raw_fmt = c("d-m-y"),
-    raw_unk = c("UN", "UNK")
-  ) |>
-
-  # === WALKTHROUGH: conditional constant (hardcode_ct + condition_add) ====
-  # aCRF: "If Yes then CM.CMENRTPT = 'ONGOING'" (codelist C66728).
-  hardcode_ct(
-    raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),
-    raw_var = "IT.CMONGO",
-    tgt_var = "CMENRTPT",
-    ct_spec = study_ct,
-    ct_clst = "C66728",
-    tgt_val = "Ongoing",
-    id_vars = oak_id_vars()
-  ) |>
-
-  # === WALKTHROUGH (with AI): CMINDC — the last one we do together ========
-  # This final walkthrough step shows HOW to let the AI agent fill a mapping.
-  #
-  # aCRF annotation: "CM.CMINDC" (Indication - free text, no codelist).
-  #
-  # Prompt I gave the agent (it uses the .agents/skills/sdtm-oak-mapping
-  # skill + the annotated CM aCRF at slides/02-SDTM/metadata/CM_cdash_acrf.pdf):
-  #
-  #   "Using the sdtm-oak-mapping skill and the CM aCRF, add a pipe step that
-  #    maps CMINDC from raw_var IT.CMINDC. It is collected free text with no
-  #    controlled terminology, so use assign_no_ct with id_vars = oak_id_vars()."
-  #
-  # The agent produced the step below — I reviewed it against the aCRF and
-  # kept it. (Notice: same shape as the CMTRT step, just a different var.)
-  # Now it is YOUR turn for the remaining exercises below.
-  assign_no_ct(
-    raw_dat = cm_raw,
-    raw_var = "IT.CMINDC",
-    tgt_var = "CMINDC",
     id_vars = oak_id_vars()
   ) |>
 
