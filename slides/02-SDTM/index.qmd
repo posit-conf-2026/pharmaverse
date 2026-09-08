@@ -935,24 +935,24 @@ dm <- oak_cal_ref_dates(
 ## Check-in Exercise {.smaller}
 
 Open **exercises/02-SDTM.R** — finish the **CM** domain. The walkthrough steps
-(CMTRT, CMROUTE, CMSTDTC, CMENRTPT) are already coded; you fill in the rest.
-Each exercise step gives you the **aCRF annotation** and a **suggested AI prompt**.
+are coded; one extra step (**CMINDC**) shows how to **prompt the AI** to fill a
+mapping. Then complete the **7 exercises** — each has the aCRF annotation and a
+suggested prompt.
 
 - [✍️]{.pv-ico} **Code it yourself** — replace each `??` using the annotation text.
 - [🤖]{.pv-ico} **Use the AI agent + skill** — paste the suggested prompt, then review and run.
 
 ```{r, eval = FALSE}
-# --- EXERCISE 4: CMDOSU (dose unit) ------------------------------------
-# aCRF annotation: "CM.CMDOSU" with codelist (UNIT) C71620.
-# AI prompt:
-#   "Map CMDOSU from IT.CMDOSU applying controlled terminology codelist
-#    C71620 (UNIT) with assign_ct."
-assign_ct(
+# === WALKTHROUGH (with AI): CMINDC — how I prompt the agent ============
+# Prompt (agent uses the sdtm-oak-mapping skill + the annotated CM aCRF):
+#   "Add a pipe step that maps CMINDC from raw_var IT.CMINDC. It is
+#    collected free text with no controlled terminology, so use
+#    assign_no_ct with id_vars = oak_id_vars()."
+# The agent produced this — I reviewed it against the aCRF and kept it:
+assign_no_ct(
   raw_dat = cm_raw,
-  raw_var = ??,
-  tgt_var = ??,
-  ct_spec = study_ct,
-  ct_clst = ??,
+  raw_var = "IT.CMINDC",
+  tgt_var = "CMINDC",
   id_vars = oak_id_vars()
 )
 ```

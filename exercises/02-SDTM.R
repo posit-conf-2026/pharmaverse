@@ -1,8 +1,10 @@
 #' Exercise: Create the CM (Concomitant Medications) domain with sdtm.oak
 #'
 #' The WALKTHROUGH steps we coded together in the slides are already filled in
-#' (CMTRT, CMROUTE, CMSTDTC, CMENRTPT). Your job is to complete the EXERCISE
-#' steps: each one gives you the aCRF annotation text and a suggested AI prompt.
+#' (CMTRT, CMROUTE, CMSTDTC, CMENRTPT). One extra walkthrough (CMINDC) shows
+#' HOW to prompt the AI agent to fill a mapping for you. Your job is to
+#' complete the 7 EXERCISE steps: each gives you the aCRF annotation text and
+#' a suggested AI prompt.
 #'
 #' Two ways to solve each exercise step:
 #'   (a) Code it by hand  - replace every ?? using the annotation text.
@@ -47,19 +49,28 @@ cm <-
     tgt_var = "CMTRT"
   ) %>%
 
-  # --- EXERCISE 1: CMINDC ------------------------------------------------
+  # === WALKTHROUGH (with AI): CMINDC ======================================
+  # This step shows HOW to let the AI agent fill a mapping for you.
+  #
   # aCRF annotation: "CM.CMINDC" (Indication - free text, no codelist).
-  # AI prompt:
-  #   "Using the sdtm-oak-mapping skill and the CM aCRF, map CMINDC from
-  #    IT.CMINDC. It is collected free text with no controlled terminology."
+  #
+  # Prompt I gave the agent (it uses the .agents/skills/sdtm-oak-mapping
+  # skill + the annotated CM aCRF at slides/02-SDTM/metadata/CM_cdash_acrf.pdf):
+  #
+  #   "Using the sdtm-oak-mapping skill and the CM aCRF, add a pipe step that
+  #    maps CMINDC from raw_var IT.CMINDC. It is collected free text with no
+  #    controlled terminology, so use assign_no_ct with id_vars = oak_id_vars()."
+  #
+  # The agent produced the step below — I reviewed it against the aCRF and
+  # kept it. (Notice: same shape as the CMTRT step, just a different var.)
   assign_no_ct(
     raw_dat = cm_raw,
-    raw_var = ??,
-    tgt_var = ??,
+    raw_var = "IT.CMINDC",
+    tgt_var = "CMINDC",
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 2: CMDOS (numeric dose) ----------------------------------
+  # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   # aCRF annotation: "If numeric then CM.CMDOS" (dose collected in IT.CMDSTXT).
   # Only map rows where the collected dose is numeric -> condition_add.
   # AI prompt:
@@ -72,7 +83,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 3: CMDOSTXT (non-numeric dose) ---------------------------
+  # --- EXERCISE 2: CMDOSTXT (non-numeric dose) ---------------------------
   # aCRF annotation: "Else CM.CMDOSTXT" (dose text when not numeric).
   # Map rows where the collected dose is NOT numeric -> condition_add.
   # AI prompt:
@@ -85,7 +96,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 4: CMDOSU (dose unit) ------------------------------------
+  # --- EXERCISE 3: CMDOSU (dose unit) ------------------------------------
   # aCRF annotation: "CM.CMDOSU" with codelist (UNIT) C71620.
   # Coded field -> assign_ct.
   # AI prompt:
@@ -100,7 +111,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 5: CMDOSFRM (dose form) ----------------------------------
+  # --- EXERCISE 4: CMDOSFRM (dose form) ----------------------------------
   # aCRF annotation: "CM.CMDOSFRM" with codelist (FRM) C66726.
   # AI prompt:
   #   "Map CMDOSFRM from IT.CMDOSFRM applying codelist C66726 (FRM) with
@@ -114,7 +125,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 6: CMDOSFRQ (dose frequency) -----------------------------
+  # --- EXERCISE 5: CMDOSFRQ (dose frequency) -----------------------------
   # aCRF annotation: "CM.CMDOSFRQ" with codelist (FREQ) C71113.
   # AI prompt:
   #   "Map CMDOSFRQ from IT.CMDOSFRQ applying codelist C71113 (FREQ) with
@@ -161,7 +172,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 7: CMENTPT ------------------------------------------------
+  # --- EXERCISE 6: CMENTPT ------------------------------------------------
   # aCRF annotation: "CM.CMENTPT = 'DATE OF LAST ASSESSMENT'" when ongoing.
   # A hardcoded value with NO codelist -> hardcode_no_ct, guarded by the
   # same condition (IT.CMONGO == "Yes").
@@ -176,7 +187,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 8: CMENDTC (end date) ------------------------------------
+  # --- EXERCISE 7: CMENDTC (end date) ------------------------------------
   # aCRF annotation: "CM.CMENDTC" - end date collected as dd-MMM-yyyy.
   # AI prompt:
   #   "Map CMENDTC from IT.CMENDAT using assign_datetime with raw_fmt

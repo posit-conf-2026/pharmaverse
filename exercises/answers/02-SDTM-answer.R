@@ -39,7 +39,9 @@ cm <-
     tgt_var = "CMTRT"
   ) %>%
 
-  # --- EXERCISE 1: CMINDC (free text) ------------------------------------
+  # === WALKTHROUGH (with AI): CMINDC ======================================
+  # Filled in by the AI agent from the prompt in the exercise file, then
+  # reviewed against the aCRF.
   assign_no_ct(
     raw_dat = cm_raw,
     raw_var = "IT.CMINDC",
@@ -47,7 +49,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 2: CMDOS (numeric dose) ----------------------------------
+  # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   assign_no_ct(
     raw_dat = condition_add(cm_raw, grepl("^-?\\d*(\\.\\d+)?(e[+-]?\\d+)?$", cm_raw$IT.CMDSTXT)),
     raw_var = "IT.CMDSTXT",
@@ -55,7 +57,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 3: CMDOSTXT (non-numeric dose) ---------------------------
+  # --- EXERCISE 2: CMDOSTXT (non-numeric dose) ---------------------------
   assign_no_ct(
     raw_dat = condition_add(cm_raw, grepl("[^0-9eE.-]", cm_raw$IT.CMDSTXT)),
     raw_var = "IT.CMDSTXT",
@@ -63,7 +65,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 4: CMDOSU (dose unit, codelist C71620) -------------------
+  # --- EXERCISE 3: CMDOSU (dose unit, codelist C71620) -------------------
   assign_ct(
     raw_dat = cm_raw,
     raw_var = "IT.CMDOSU",
@@ -73,7 +75,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 5: CMDOSFRM (dose form, codelist C66726) -----------------
+  # --- EXERCISE 4: CMDOSFRM (dose form, codelist C66726) -----------------
   assign_ct(
     raw_dat = cm_raw,
     raw_var = "IT.CMDOSFRM",
@@ -83,7 +85,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 6: CMDOSFRQ (dose frequency, codelist C71113) ------------
+  # --- EXERCISE 5: CMDOSFRQ (dose frequency, codelist C71113) ------------
   assign_ct(
     raw_dat = cm_raw,
     raw_var = "IT.CMDOSFRQ",
@@ -123,7 +125,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 7: CMENTPT (hardcoded, no codelist) ----------------------
+  # --- EXERCISE 6: CMENTPT (hardcoded, no codelist) ----------------------
   hardcode_no_ct(
     raw_dat = condition_add(cm_raw, IT.CMONGO == "Yes"),
     raw_var = "IT.CMONGO",
@@ -132,7 +134,7 @@ cm <-
     id_vars = oak_id_vars()
   ) %>%
 
-  # --- EXERCISE 8: CMENDTC (end date) ------------------------------------
+  # --- EXERCISE 7: CMENDTC (end date) ------------------------------------
   assign_datetime(
     raw_dat = cm_raw,
     raw_var = "IT.CMENDAT",
