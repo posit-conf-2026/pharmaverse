@@ -41,15 +41,10 @@ ard_ae <- ard_stack_hierarchical(
 
 # A. Fill in the blanks --------------------------------------------------
 
-# - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) in rows
-# - 3 treatment arms in the columns (ARM)
-# - Big N (group-level population counts) in the column headers, in a new line as "N=xx"
-# - n (number of subjects with the AE) and p (proportion of subjects with
-#   the AE) in the body of the table, displayed as "n (%)" where n has 2
-#   digits, and % is rounded to zero decimal places.
+# Part 1:
 #
-# Note: `p` arrives from {cards} as a proportion (e.g. 0.36, not 36), so it
-# needs `transform = ~ . * 100` before rounding to whole-number percent.
+# n (p) together in the same cell, n and p both with two digits and no
+# decimal places.
 
 mock_tfrmt <- tfrmt(
   group = "AESOC",
@@ -58,15 +53,24 @@ mock_tfrmt <- tfrmt(
   param = "stat_name",
   value = "stat",
   body_plan = body_plan(
-    frmt_structure(group_val = ".default", label_val = ".default",
+    frmt_structure(group_val = ".default", label_val = ".default", 
       frmt_combine(
         "{n} ({p}%)",
         n = frmt("xx"),
-        p = frmt("xx", transform = ~ . * 100)
+        p = frmt("xx")
     ))
-  ),
-  big_n = big_n_structure(param_val = "bigN", n_frmt = frmt("<br>N=xx"))
+  )
 )
+
+# Part 2:
+#
+# Add a big N to the column headers, appearing as "N=xxx" on a separate
+# line from the column headers.
+
+mock_tfrmt <- mock_tfrmt |> 
+  tfrmt(
+    big_n = big_n_structure(param_val = "bigN", n_frmt = frmt("<br>N=xx"))
+  )
 
 # Preview the shell (no real data needed)
 mock_tfrmt |> print_mock_gt()
@@ -97,6 +101,8 @@ dplyr::glimpse(ard_ae_tidy)
 
 # C. Final table with title, subtitle, and footnote -----------------------
 
+# Part 1:
+#
 # PROMPT USED:
 # Using the mock_tfrmt spec I built in part A and the tidy data frame
 # ard_ae_tidy from part B, create and print a final {tfrmt} AE summary table with
@@ -115,6 +121,42 @@ final_tfrmt <- tfrmt(
       label_val = ".default"
     )
   )
+)
+
+final_tfrmt |> print_to_gt(ard_ae_tidy)
+
+# Notice that `p` prints as "00" for every row above - `ard_ae` (and
+# `ard_ae_tidy`) store `p` as a proportion (e.g. 0.36), not a whole-number
+# percent, so `frmt("xx")` alone just rounds 0.36 down to 0.
+
+
+# Part 2:
+#
+# PROMPT USED:
+# The p values in my table are all showing as "00" instead of a sensible
+# percentage. Why is that happening, and how can I fix it?
+
+# AI's DIAGNOSIS:
+# `ard_ae` (and `ard_ae_tidy`) store `p` as a proportion (e.g. 0.36), not a
+# whole-number percent. `frmt("xx")` just rounds that proportion to the
+# nearest whole number, so 0.36 becomes "00". The fix is to multiply `p` by
+# 100 before formatting, via `frmt()`'s `transform` argument.
+
+mock_tfrmt <- tfrmt(
+  tfrmt_obj = mock_tfrmt,
+  body_plan = body_plan(
+    frmt_structure(group_val = ".default", label_val = ".default",
+      frmt_combine(
+        "{n} ({p}%)",
+        n = frmt("xx"),
+        p = frmt("xx", transform = ~ . * 100)
+    ))
+  )
+)
+
+final_tfrmt <- tfrmt(
+  tfrmt_obj = final_tfrmt,
+  body_plan = mock_tfrmt$body_plan
 )
 
 final_tfrmt |> print_to_gt(ard_ae_tidy)

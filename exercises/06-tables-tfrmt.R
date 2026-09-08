@@ -37,21 +37,25 @@ ard_ae <- ard_stack_hierarchical(
 # Exercise: AE summary table --------------------------------------------
 
 
-# A. Fill in the blanks (with AI help) 
+# A. Fill in the blanks 
 
-# Below is a skeleton for a mock AE table shell with the following specs:
-# - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) in rows
+# Below is a skeleton for a mock AE table shell. The AE table is meant to have the following:
+# - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) 
 # - 3 treatment arms in the columns (ARM)
-# - Big N (group-level population counts) in the column headers, in a new line as "N=xx"
-# - n (number of subjects with the AE) and p (proportion of subjects with
-#   the AE) in the body of the table, displayed as "n (%)" where n has 2 digits, 
-#   and % is rounded to zero decimal places. 
+# - the number and percentage of unique subjects with the AE presented in the 
+#   cells (these are represented as 'n' and 'p' in the code)
+
+# Part 1:
 #
-# Replace each ?? below. Rather than asking the AI to fill in all ?? at once,
-# ask it targeted questions about individual arguments, e.g.
-# "How do I control the number of digits shown for n vs. p when each uses
-#   its own frmt() inside frmt_combine()?"
-# Use its answers to fill in the ?? yourself.
+# Replace the ??s in the snippet so that the n (%) is formatted as such:
+# - n and p together in the same cell, with parentheses and percentage sign like so: n (p%)
+# - n has two digits, no decimal places
+# - p also has two digits and no decimal places
+#
+# Sample prompt:
+# How would I format the n and p values in the cells of a {tfrmt} 
+# table so that they appear as "n (p)" with n and p both having two 
+# digits and no decimal places? 
 #
 # Ask AI to print the mock display so you can check your results. 
 
@@ -68,10 +72,24 @@ mock_tfrmt <- tfrmt(
         n = frmt("??"),
         p = frmt("??")
     ))
-  ),
-  big_n = big_n(param_val = "n", n_frmt = frmt("??"))
+  )
 )
 
+# Part 2:
+#
+# Add a big N to the column headers of the table via the big_n argument. 
+# Make sure the big N appears as "N=xxx" on a separate line than the column headers.
+# Add this to the mock from part 1 and ask AI to print the resulting mock display.
+#
+# Sample prompt:
+#  
+# How would I add a big N to the column headers of a {tfrmt} table 
+# so that it appears as "N=xxx" on a separate line than the column headers?
+
+mock_tfrmt <- mock_tfrmt |> 
+  tfrmt(
+    big_n = big_n_structure(param_val = "n", n_frmt = frmt("??"))
+  )
 
 # B. Run the prompt -----------------------------------------------------
 
@@ -100,9 +118,20 @@ mock_tfrmt <- tfrmt(
 
 # C. Write your own prompt 
 
+# Part 1:
+#
 # Now write a prompt asking the AI to print a final AE table with real
 # values, by supplying `ard_ae_tidy` from part B. to the `mock_tfrmt` spec from part A. 
 # Ask it to add a title, subtitle, and footnote to the table.
+
+
+
+# Part 2:
+#
+# Notice that the percentage values are not right. Write a prompt asking
+# the AI why the `p` values are showing as very low (e.g. "0%") in the
+# table, and to propose a fix so `p` shows as a whole-number percent (e.g.
+# "36%") in the table.
 
 
 
