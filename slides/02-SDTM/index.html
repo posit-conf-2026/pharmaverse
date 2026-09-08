@@ -1096,62 +1096,60 @@
 </section>
 <section id="check-in-exercise" class="slide level2 smaller">
 <h2>Check-in Exercise</h2>
-<p>Open exercises/02-SDTM.R — map the <strong>AE</strong> domain. Two ways to tackle it:</p>
-<ul>
-<li><span class="pv-ico">✍️</span> <strong>Code it yourself</strong> — write each <code>sdtm.oak</code> call by hand, as we did for CM.</li>
-<li><span class="pv-ico">🤖</span> <strong>Use the AI agent + skill</strong> — prompt it to draft the script from the AE aCRF, then review and run.</li>
-</ul>
+<p>Open <strong>exercises/02-SDTM.R</strong> — finish the <strong>CM</strong> domain. It follows three phases:</p>
+<ol type="1">
+<li><span class="pv-ico">✍️</span> <strong>Walkthrough — by hand.</strong> We code the different algorithms together (CMTRT, CMROUTE, CMSTDTC, CMENRTPT).</li>
+<li><span class="pv-ico">🤖</span> <strong>Walkthrough — with AI.</strong> We map one variable (CMINDC) by prompting the agent, then reviewing its output.</li>
+<li><span class="pv-ico">🧑‍💻</span> <strong>Your turn — 7 exercises.</strong> You complete the rest, coding by hand or with the agent. Each has the aCRF annotation and a suggested prompt.</li>
+</ol>
+<p>The AI walkthrough step (phase 2) looks like this:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a><span class="fu">library</span>(sdtm.oak)</span>
-<span id="cb21-2"><a aria-label="2"></a><span class="fu">library</span>(pharmaverseraw)</span>
-<span id="cb21-3"><a aria-label="3"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb21-4"><a aria-label="4"></a></span>
-<span id="cb21-5"><a aria-label="5"></a><span class="co">#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf</span></span>
-<span id="cb21-6"><a aria-label="6"></a></span>
-<span id="cb21-7"><a aria-label="7"></a><span class="co"># Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM</span></span>
-<span id="cb21-8"><a aria-label="8"></a></span>
-<span id="cb21-9"><a aria-label="9"></a><span class="co"># Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742</span></span>
-<span id="cb21-10"><a aria-label="10"></a></span>
-<span id="cb21-11"><a aria-label="11"></a><span class="co"># Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is </span></span>
-<span id="cb21-12"><a aria-label="12"></a><span class="co">#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a aria-label="1"></a><span class="co"># === WALKTHROUGH (with AI): CMINDC ======================================</span></span>
+<span id="cb21-2"><a aria-label="2"></a><span class="co"># Prompt (agent uses the sdtm-oak-mapping skill + the annotated CM aCRF):</span></span>
+<span id="cb21-3"><a aria-label="3"></a><span class="co">#   "Add a pipe step that maps CMINDC from raw_var IT.CMINDC. It is</span></span>
+<span id="cb21-4"><a aria-label="4"></a><span class="co">#    collected free text with no controlled terminology, so use</span></span>
+<span id="cb21-5"><a aria-label="5"></a><span class="co">#    assign_no_ct with id_vars = oak_id_vars()."</span></span>
+<span id="cb21-6"><a aria-label="6"></a><span class="co"># The agent produced this — I reviewed it against the aCRF and kept it:</span></span>
+<span id="cb21-7"><a aria-label="7"></a><span class="fu">assign_no_ct</span>(</span>
+<span id="cb21-8"><a aria-label="8"></a>  <span class="at">raw_dat =</span> cm_raw,</span>
+<span id="cb21-9"><a aria-label="9"></a>  <span class="at">raw_var =</span> <span class="st">"IT.CMINDC"</span>,</span>
+<span id="cb21-10"><a aria-label="10"></a>  <span class="at">tgt_var =</span> <span class="st">"CMINDC"</span>,</span>
+<span id="cb21-11"><a aria-label="11"></a>  <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
+<span id="cb21-12"><a aria-label="12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Add the “completed” sticky note to your laptop when complete.</p>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_1b683ee6" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_53024931" minutes="10" seconds="0" update-every="1" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
-<section id="exercise-solution" class="slide level2">
+<section id="exercise-solution" class="slide level2 smaller">
 <h2>Exercise Solution</h2>
+<p>Full solution in <strong>exercises/answers/02-SDTM-answer.R</strong>. The exercise steps:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>ae <span class="ot">&lt;-</span></span>
-<span id="cb22-2"><a aria-label="2"></a>  <span class="co"># Derive topic variable</span></span>
-<span id="cb22-3"><a aria-label="3"></a>  <span class="co"># Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM</span></span>
-<span id="cb22-4"><a aria-label="4"></a>  <span class="fu">assign_no_ct</span>(</span>
-<span id="cb22-5"><a aria-label="5"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
-<span id="cb22-6"><a aria-label="6"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AETERM"</span>,</span>
-<span id="cb22-7"><a aria-label="7"></a>    <span class="at">tgt_var =</span> <span class="st">"AETERM"</span>,</span>
-<span id="cb22-8"><a aria-label="8"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb22-9"><a aria-label="9"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb22-10"><a aria-label="10"></a>  <span class="co"># Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER</span></span>
-<span id="cb22-11"><a aria-label="11"></a>  <span class="fu">assign_ct</span>(</span>
-<span id="cb22-12"><a aria-label="12"></a>    <span class="at">raw_dat =</span> ae_raw,</span>
-<span id="cb22-13"><a aria-label="13"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESER"</span>,</span>
-<span id="cb22-14"><a aria-label="14"></a>    <span class="at">tgt_var =</span> <span class="st">"AESER"</span>,</span>
-<span id="cb22-15"><a aria-label="15"></a>    <span class="at">ct_spec =</span> study_ct,</span>
-<span id="cb22-16"><a aria-label="16"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
-<span id="cb22-17"><a aria-label="17"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb22-18"><a aria-label="18"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb22-19"><a aria-label="19"></a>  <span class="co"># Map AESDTH using condition_add &amp; assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH</span></span>
-<span id="cb22-20"><a aria-label="20"></a>  <span class="fu">assign_ct</span>(</span>
-<span id="cb22-21"><a aria-label="21"></a>    <span class="at">raw_dat =</span> <span class="fu">condition_add</span>(ae_raw, IT.AESDTH <span class="sc">==</span> <span class="st">"Yes"</span>),</span>
-<span id="cb22-22"><a aria-label="22"></a>    <span class="at">raw_var =</span> <span class="st">"IT.AESDTH"</span>,</span>
-<span id="cb22-23"><a aria-label="23"></a>    <span class="at">tgt_var =</span> <span class="st">"AESDTH"</span>,</span>
-<span id="cb22-24"><a aria-label="24"></a>    <span class="at">ct_spec =</span> study_ct,</span>
-<span id="cb22-25"><a aria-label="25"></a>    <span class="at">ct_clst =</span> <span class="st">"C66742"</span>,</span>
-<span id="cb22-26"><a aria-label="26"></a>    <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()</span>
-<span id="cb22-27"><a aria-label="27"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a aria-label="1"></a>  <span class="co"># CMINDC — free text</span></span>
+<span id="cb22-2"><a aria-label="2"></a>  <span class="fu">assign_no_ct</span>(cm_raw, <span class="st">"IT.CMINDC"</span>, <span class="at">tgt_var =</span> <span class="st">"CMINDC"</span>,</span>
+<span id="cb22-3"><a aria-label="3"></a>               <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-4"><a aria-label="4"></a>  <span class="co"># CMDOS / CMDOSTXT — numeric vs text dose (condition_add)</span></span>
+<span id="cb22-5"><a aria-label="5"></a>  <span class="fu">assign_no_ct</span>(<span class="fu">condition_add</span>(cm_raw, <span class="fu">grepl</span>(<span class="st">"^-?</span><span class="sc">\\</span><span class="st">d*(</span><span class="sc">\\</span><span class="st">.</span><span class="sc">\\</span><span class="st">d+)?$"</span>, cm_raw<span class="sc">$</span>IT.CMDSTXT)),</span>
+<span id="cb22-6"><a aria-label="6"></a>               <span class="st">"IT.CMDSTXT"</span>, <span class="at">tgt_var =</span> <span class="st">"CMDOS"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-7"><a aria-label="7"></a>  <span class="fu">assign_no_ct</span>(<span class="fu">condition_add</span>(cm_raw, <span class="fu">grepl</span>(<span class="st">"[^0-9eE.-]"</span>, cm_raw<span class="sc">$</span>IT.CMDSTXT)),</span>
+<span id="cb22-8"><a aria-label="8"></a>               <span class="st">"IT.CMDSTXT"</span>, <span class="at">tgt_var =</span> <span class="st">"CMDOSTXT"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-9"><a aria-label="9"></a>  <span class="co"># CMDOSU / CMDOSFRM / CMDOSFRQ — coded qualifiers (assign_ct + codelist)</span></span>
+<span id="cb22-10"><a aria-label="10"></a>  <span class="fu">assign_ct</span>(cm_raw, <span class="st">"IT.CMDOSU"</span>,   <span class="at">tgt_var =</span> <span class="st">"CMDOSU"</span>,   <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb22-11"><a aria-label="11"></a>            <span class="at">ct_clst =</span> <span class="st">"C71620"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-12"><a aria-label="12"></a>  <span class="fu">assign_ct</span>(cm_raw, <span class="st">"IT.CMDOSFRM"</span>, <span class="at">tgt_var =</span> <span class="st">"CMDOSFRM"</span>, <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb22-13"><a aria-label="13"></a>            <span class="at">ct_clst =</span> <span class="st">"C66726"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-14"><a aria-label="14"></a>  <span class="fu">assign_ct</span>(cm_raw, <span class="st">"IT.CMDOSFRQ"</span>, <span class="at">tgt_var =</span> <span class="st">"CMDOSFRQ"</span>, <span class="at">ct_spec =</span> study_ct,</span>
+<span id="cb22-15"><a aria-label="15"></a>            <span class="at">ct_clst =</span> <span class="st">"C71113"</span>, <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-16"><a aria-label="16"></a>  <span class="co"># CMENTPT — hardcoded constant when ongoing (hardcode_no_ct)</span></span>
+<span id="cb22-17"><a aria-label="17"></a>  <span class="fu">hardcode_no_ct</span>(<span class="fu">condition_add</span>(cm_raw, IT.CMONGO <span class="sc">==</span> <span class="st">"Yes"</span>), <span class="st">"IT.CMONGO"</span>,</span>
+<span id="cb22-18"><a aria-label="18"></a>                 <span class="at">tgt_var =</span> <span class="st">"CMENTPT"</span>, <span class="at">tgt_val =</span> <span class="st">"DATE OF LAST ASSESSMENT"</span>,</span>
+<span id="cb22-19"><a aria-label="19"></a>                 <span class="at">id_vars =</span> <span class="fu">oak_id_vars</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb22-20"><a aria-label="20"></a>  <span class="co"># CMENDTC — end date</span></span>
+<span id="cb22-21"><a aria-label="21"></a>  <span class="fu">assign_datetime</span>(cm_raw, <span class="st">"IT.CMENDAT"</span>, <span class="at">tgt_var =</span> <span class="st">"CMENDTC"</span>,</span>
+<span id="cb22-22"><a aria-label="22"></a>                  <span class="at">raw_fmt =</span> <span class="fu">c</span>(<span class="st">"d-m-y"</span>), <span class="at">raw_unk =</span> <span class="fu">c</span>(<span class="st">"UN"</span>, <span class="st">"UNK"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="wrap-up-resources" class="slide level2 smaller">
