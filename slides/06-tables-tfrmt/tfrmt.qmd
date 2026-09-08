@@ -18,9 +18,9 @@
 
 -   🕥 15 mins: Step-by-step formatting a display
 
--   🕚 10 mins: cards-to-tfrmt helpers
+-   🕚 5 mins: cards-to-tfrmt helpers
 
--   🕦 10 mins: Outputs using `docorator`
+-   🕦 5 mins: Outputs using `docorator`
 
 -   🕦 10 mins: Exercise
 
@@ -260,32 +260,7 @@ tfrmt_demog |>
 
 ## Templates: the possibilities {auto-animate="true"}
  
-- Organization standards can be capture as *templates*
-
-```{r}
-#| eval: FALSE
-
-# create a template as a function
-tfrmt_demog_org <- function(tfrmt_obj){
-  
-  tfrmt_demog_org <- tfrmt( 
-    # define standard formatting for org
-  )
-  
-  layer_tfrmt(x = tfrmt_obj, y = tfrmt_demog_ta)
-}
-
-# Make a standard table
-tfrmt_demog_org() |>  
-  print_to_gt(
-    .data = ard_demog
-  )
-
-```
-
-## Templates: the possibilities {auto-animate="true"}
- 
-- Organization standards can be capture as *templates*
+- Organization standards can be captured as *templates*
 
 - With layering, teams can customize *only* the bits that need changing
 
@@ -302,35 +277,7 @@ tfrmt_demog_ta <- function(tfrmt_obj){
   layer_tfrmt(x = tfrmt_obj, y = tfrmt_demog_ta)
 }
 
-# Layering multiple templates
-tfrmt_demog_org() |> 
-  tfrmt_demog_ta() |>  
-  print_to_gt(
-    .data = ard_demog
-  )
-
-```
-
-## Templates: the possibilities {auto-animate="true"}
- 
-- Organization standards can be capture as *templates*
-
-- With layering, teams can customize *only* the bits that need changing
-
-```{r}
-#| eval: FALSE
-
-# create a template as a function
-tfrmt_demog_study <- function(tfrmt_obj){
-  
-  tfrmt_demog_study <- tfrmt( 
-    # define the formatting specific to the study
-  )
-  
-  layer_tfrmt(x = tfrmt_obj, y = tfrmt_demog_study)
-}
-
-# Layering multiple templates
+# Layer org -> TA -> study templates, each customizing only what changes
 tfrmt_demog_org() |> 
   tfrmt_demog_ta() |>  
   tfrmt_demog_study() |> 
@@ -339,6 +286,8 @@ tfrmt_demog_org() |>
   )
 
 ```
+
+* The same pattern extends to as many layers as needed (org → therapeutic area → study)
 
 ## Save metadata for reuse
 
@@ -672,10 +621,11 @@ print_to_gt(
 ```
 
 
-## Align the columns
+## Align columns, add footnotes & titles
+
 ```{r}
 #| output-location: "column"
-#| code-line-numbers: "3,4,5,6,7,8,9"
+#| code-line-numbers: "3-9,10-16,17-18"
 
 tfrmt_demog <- tfrmt_demog |>
   tfrmt(
@@ -685,51 +635,13 @@ tfrmt_demog <- tfrmt_demog |>
                 "Xanomeline"),
         align = " "
       )
-    )
-  )
-  
-print_to_gt(
-  tfrmt = tfrmt_demog, 
-  .data = ard_demog
-  ) |> 
-   gt_style_slides()
-
-```
-
-## Add footnotes
-
-```{r}
-#| output-location: "column"
-#| code-line-numbers: "3,4,5,6,7,8"
-
-tfrmt_demog <- tfrmt_demog |>
-  tfrmt(
+    ),
     footnote_plan = footnote_plan(
       footnote_structure(
         "Pooled High and Low Dose",
         column_val = "Xanomeline"
       )
-    )
-  )
-  
-print_to_gt(
-  tfrmt = tfrmt_demog, 
-  .data = ard_demog
-  ) |> 
-   gt_style_slides()
-
-```
-
-
-## Add titles
-
-
-```{r}
-#| output-location: "column"
-#| code-line-numbers: "3,4"
-
-tfrmt_demog <- tfrmt_demog |>
-  tfrmt(
+    ),
     title = "Demographic Table",
     subtitle = "Safety Population"
   )
@@ -1018,6 +930,15 @@ So we have a table, now what?
 
 ## From `tfrmt` display to production output {.black-header}
 
+:::: {.columns}
+
+::: {.column width="50%"}
+
+![](images/docorator_hex.png){align="center" height="500"}
+:::
+
+::: {.column}
+
 ::: incremental
 -   {docorator} = **Decorate** + **Output**
 
@@ -1029,6 +950,10 @@ So we have a table, now what?
 
 -   More here: [https://gsk-biostatistics.github.io/docorator/](https://gsk-biostatistics.github.io/docorator/)
 :::
+
+:::
+
+::::
 
 ## Passing a `tfrmt` display to `docorator`
 
