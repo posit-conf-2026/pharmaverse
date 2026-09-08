@@ -14,10 +14,15 @@ site_libs
 
 **/*.quarto_ipynb
 
+
+# stuff from workshop setup
 README.qmd
 languages.qmd
 project.Rproj
 data/
+
+
+.posit/assistant
 
 # renv package cache (persisted across rebuilds)
 .renv-cache/

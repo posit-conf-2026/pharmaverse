@@ -79,9 +79,13 @@ Becca focuses on enabling users across Biostatistics. A biostatistician by train
 
 [**Ben Straub**]{.instructor-name}
 
-[Principal Programmer, GSK Immunology Therapeutic Area]{.instructor-role}
+[Senior Manager Statistical Data Scientist, Praxis Precision Medicines]{.instructor-role}
 
-At GSK since 2018, Ben has led and helped with many initiatives around R adoption within Clinical Programming. He actively helps develop and maintain an end-to-end R package pipeline, [pharmaverse](https://pharmaverse.org/), that addresses the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source for Clinical Reporting.
+Ben Straub is a Senior Manager Statistical Data Scientist at Praxis Precision Medicines. He has worked in the industry for 8 years and is always actively involved with internal and external initiatives around R Adoption activities for Clinical Reporting and beyond. Ben is actively helping to develop and maintain an end-to-end R package pipeline [(pharmaverse)](https://pharmaverse.org/) that addresses all the needs of Clinical Reporting with many awesome companies and individuals. He is very excited for the future of using R and open source within Pharma.
+
+::: {.instructor-social}
+[`r fontawesome::fa("linkedin", fill = "#7090A5")`](https://www.linkedin.com/in/ben-straub)
+:::
 :::
 
 ::: {.instructor-card}

@@ -38,8 +38,14 @@ cm_raw <- admiral::convert_blanks_to_na(cm_raw)
 cm_raw <- cm_raw |>
   generate_oak_id_vars(pat_var = "PATNUM", raw_src = "cm_raw")
 
-link::auto(keep_pkg_prefix = FALSE,
-           keep_braces = FALSE)
+# Disabled: link::auto()'s global text hook re-scans the whole rendered
+# document, including the HTML already produced by the explicit
+# link::to_call()/to_pkg() calls used throughout this deck's algorithm
+# tables below - re-matching that already-linked text breaks knitr's
+# text-hook post-processing (htmltools "length-one character vector"
+# error). Every sdtm.oak function reference in this deck is already
+# manually linked via link::to_call(), so auto() isn't needed.
+# link::auto(keep_pkg_prefix = FALSE, keep_braces = FALSE)
 
 # Package hexes
 admiral_img <- "https://raw.githubusercontent.com/pharmaverse/sdtm.oak/master/man/figures/logo.svg"
@@ -934,25 +940,30 @@ dm <- oak_cal_ref_dates(
 
 ## Check-in Exercise {.smaller}
 
-Open exercises/02-SDTM.R — map the **AE** domain. Two ways to tackle it:
+Open **exercises/02-SDTM.R** — finish the **CM** domain. It follows three phases:
 
-- [✍️]{.pv-ico} **Code it yourself** — write each `sdtm.oak` call by hand, as we did for CM.
-- [🤖]{.pv-ico} **Use the AI agent + skill** — prompt it to draft the script from the AE aCRF, then review and run.
+1. [✍️]{.pv-ico} **Walkthrough — by hand.** We code the different algorithms
+   together (CMTRT, CMROUTE, CMSTDTC, CMENRTPT).
+2. [🤖]{.pv-ico} **Walkthrough — with AI.** We map one variable (CMINDC) by
+   prompting the agent, then reviewing its output.
+3. [🧑‍💻]{.pv-ico} **Your turn — 7 exercises.** You complete the rest, coding by
+   hand or with the agent. Each has the aCRF annotation and a suggested prompt.
+
+The AI walkthrough step (phase 2) looks like this:
 
 ```{r, eval = FALSE}
-library(sdtm.oak)
-library(pharmaverseraw)
-library(dplyr)
-
-#AE aCRF - https://github.com/pharmaverse/pharmaverseraw/blob/main/vignettes/articles/aCRFs/AdverseEvent_aCRF.pdf
-
-# Exercise 1: Map AETERM from raw_var=IT.AETERM, tgt_var=AETERM
-
-# Exercise 2:  Map AESER from raw_var=IT.AESER, tgt_var=AESER. Codelist code for AESDTH is C66742
-
-# Exercise 3:  Map AESDTH from raw_var=IT.AESDTH, tgt_var=AESDTH.Annotation text is 
-#    If "Yes" then AESDTH = "Y" else Not Submitted. Codelist code for AESDTH is C66742
-
+# === WALKTHROUGH (with AI): CMINDC ======================================
+# Prompt (agent uses the sdtm-oak-mapping skill + the annotated CM aCRF):
+#   "Add a pipe step that maps CMINDC from raw_var IT.CMINDC. It is
+#    collected free text with no controlled terminology, so use
+#    assign_no_ct with id_vars = oak_id_vars()."
+# The agent produced this — I reviewed it against the aCRF and kept it:
+assign_no_ct(
+  raw_dat = cm_raw,
+  raw_var = "IT.CMINDC",
+  tgt_var = "CMINDC",
+  id_vars = oak_id_vars()
+)
 ```
 
 Add the "completed" sticky note to your laptop when complete.
@@ -964,36 +975,33 @@ library(countdown)
 countdown::countdown(minutes = 10)
 ```
 
-## Exercise Solution
+## Exercise Solution {.smaller}
+
+Full solution in **exercises/answers/02-SDTM-answer.R**. The exercise steps:
 
 ```{r, eval = FALSE}
-ae <-
-  # Derive topic variable
-  # Map AETERM using assign_no_ct, raw_var=IT.AETERM, tgt_var=AETERM
-  assign_no_ct(
-    raw_dat = ae_raw,
-    raw_var = "IT.AETERM",
-    tgt_var = "AETERM",
-    id_vars = oak_id_vars()
-  ) %>%
-  # Map AESER using assign_no_ct, raw_var=IT.AESER, tgt_var=AESER
-  assign_ct(
-    raw_dat = ae_raw,
-    raw_var = "IT.AESER",
-    tgt_var = "AESER",
-    ct_spec = study_ct,
-    ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  ) %>%
-  # Map AESDTH using condition_add & assign_ct, raw_var=IT.AESDTH, tgt_var=AESDTH
-  assign_ct(
-    raw_dat = condition_add(ae_raw, IT.AESDTH == "Yes"),
-    raw_var = "IT.AESDTH",
-    tgt_var = "AESDTH",
-    ct_spec = study_ct,
-    ct_clst = "C66742",
-    id_vars = oak_id_vars()
-  )
+  # CMINDC — free text
+  assign_no_ct(cm_raw, "IT.CMINDC", tgt_var = "CMINDC",
+               id_vars = oak_id_vars()) |>
+  # CMDOS / CMDOSTXT — numeric vs text dose (condition_add)
+  assign_no_ct(condition_add(cm_raw, grepl("^-?\\d*(\\.\\d+)?$", cm_raw$IT.CMDSTXT)),
+               "IT.CMDSTXT", tgt_var = "CMDOS", id_vars = oak_id_vars()) |>
+  assign_no_ct(condition_add(cm_raw, grepl("[^0-9eE.-]", cm_raw$IT.CMDSTXT)),
+               "IT.CMDSTXT", tgt_var = "CMDOSTXT", id_vars = oak_id_vars()) |>
+  # CMDOSU / CMDOSFRM / CMDOSFRQ — coded qualifiers (assign_ct + codelist)
+  assign_ct(cm_raw, "IT.CMDOSU",   tgt_var = "CMDOSU",   ct_spec = study_ct,
+            ct_clst = "C71620", id_vars = oak_id_vars()) |>
+  assign_ct(cm_raw, "IT.CMDOSFRM", tgt_var = "CMDOSFRM", ct_spec = study_ct,
+            ct_clst = "C66726", id_vars = oak_id_vars()) |>
+  assign_ct(cm_raw, "IT.CMDOSFRQ", tgt_var = "CMDOSFRQ", ct_spec = study_ct,
+            ct_clst = "C71113", id_vars = oak_id_vars()) |>
+  # CMENTPT — hardcoded constant when ongoing (hardcode_no_ct)
+  hardcode_no_ct(condition_add(cm_raw, IT.CMONGO == "Yes"), "IT.CMONGO",
+                 tgt_var = "CMENTPT", tgt_val = "DATE OF LAST ASSESSMENT",
+                 id_vars = oak_id_vars()) |>
+  # CMENDTC — end date
+  assign_datetime(cm_raw, "IT.CMENDAT", tgt_var = "CMENDTC",
+                  raw_fmt = c("d-m-y"), raw_unk = c("UN", "UNK"))
 ```
 
 ## Wrap-up & resources {.smaller}

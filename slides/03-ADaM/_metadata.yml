@@ -1,0 +1,14 @@
+engine: knitr
+format:
+  revealjs:
+    theme: [../slides.scss, title.scss]
+    include-after-body: copy-button.html
+    transition: fade
+    slide-number: true
+    chalkboard: true
+revealjs-plugins:
+  - codewindow
+execute:
+  echo: true
+  freeze: false
+cache: false
