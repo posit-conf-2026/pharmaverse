@@ -28,7 +28,7 @@ cm_raw <- read.csv("slides/02-SDTM/metadata/cm_raw.csv",
 cm_raw <- admiral::convert_blanks_to_na(cm_raw)
 
 # Derive oak_id_vars
-cm_raw <- cm_raw %>%
+cm_raw <- cm_raw |>
   generate_oak_id_vars(
     pat_var = "PATNUM",
     raw_src = "cm_raw"
@@ -47,7 +47,7 @@ cm <-
     raw_dat = cm_raw,
     raw_var = "IT.CMTRT",
     tgt_var = "CMTRT"
-  ) %>%
+  ) |>
 
   # --- EXERCISE 1: CMDOS (numeric dose) ----------------------------------
   # aCRF annotation: "If numeric then CM.CMDOS" (dose collected in IT.CMDSTXT).
@@ -60,7 +60,7 @@ cm <-
     raw_var = "IT.CMDSTXT",
     tgt_var = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 2: CMDOSTXT (non-numeric dose) ---------------------------
   # aCRF annotation: "Else CM.CMDOSTXT" (dose text when not numeric).
@@ -73,7 +73,7 @@ cm <-
     raw_var = "IT.CMDSTXT",
     tgt_var = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 3: CMDOSU (dose unit) ------------------------------------
   # aCRF annotation: "CM.CMDOSU" with codelist (UNIT) C71620.
@@ -88,7 +88,7 @@ cm <-
     ct_spec = study_ct,
     ct_clst = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 4: CMDOSFRM (dose form) ----------------------------------
   # aCRF annotation: "CM.CMDOSFRM" with codelist (FRM) C66726.
@@ -102,7 +102,7 @@ cm <-
     ct_spec = study_ct,
     ct_clst = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 5: CMDOSFRQ (dose frequency) -----------------------------
   # aCRF annotation: "CM.CMDOSFRQ" with codelist (FREQ) C71113.
@@ -116,7 +116,7 @@ cm <-
     ct_spec = study_ct,
     ct_clst = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # === WALKTHROUGH: variable qualifier with CT (assign_ct) ================
   # Route is a coded dropdown -> assign_ct with codelist (ROUTE) C66729.
@@ -127,7 +127,7 @@ cm <-
     ct_spec = study_ct,
     ct_clst = "C66729",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # === WALKTHROUGH: a collected date (assign_datetime) ====================
   # Start date collected as dd-MMM-yyyy -> ISO 8601 via assign_datetime.
@@ -137,7 +137,7 @@ cm <-
     tgt_var = "CMSTDTC",
     raw_fmt = c("d-m-y"),
     raw_unk = c("UN", "UNK")
-  ) %>%
+  ) |>
 
   # === WALKTHROUGH: conditional constant (hardcode_ct + condition_add) ====
   # aCRF: "If Yes then CM.CMENRTPT = 'ONGOING'" (codelist C66728).
@@ -149,7 +149,7 @@ cm <-
     ct_clst = "C66728",
     tgt_val = "Ongoing",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # === WALKTHROUGH (with AI): CMINDC — the last one we do together ========
   # This final walkthrough step shows HOW to let the AI agent fill a mapping.
@@ -171,7 +171,7 @@ cm <-
     raw_var = "IT.CMINDC",
     tgt_var = "CMINDC",
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 6: CMENTPT ------------------------------------------------
   # aCRF annotation: "CM.CMENTPT = 'DATE OF LAST ASSESSMENT'" when ongoing.
@@ -186,7 +186,7 @@ cm <-
     tgt_var = ??,
     tgt_val = ??,
     id_vars = oak_id_vars()
-  ) %>%
+  ) |>
 
   # --- EXERCISE 7: CMENDTC (end date) ------------------------------------
   # aCRF annotation: "CM.CMENDTC" - end date collected as dd-MMM-yyyy.
@@ -199,7 +199,7 @@ cm <-
     tgt_var = ??,
     raw_fmt = c("d-m-y"),
     raw_unk = c("UN", "UNK")
-  ) %>%
+  ) |>
 
   # === WALKTHROUGH: identifiers, derived vars & final ordering (provided) =
   dplyr::mutate(
@@ -207,23 +207,21 @@ cm <-
     DOMAIN = "CM",
     CMCAT = "GENERAL CONMED",
     USUBJID = paste0("test_study", "-", cm_raw$PATNUM)
-  ) %>%
+  ) |>
   derive_seq(tgt_var = "CMSEQ",
-             rec_vars = c("USUBJID", "CMTRT")) %>%
+             rec_vars = c("USUBJID", "CMTRT")) |>
   derive_study_day(
-    sdtm_in = .,
     dm_domain = dm,
     tgdt = "CMENDTC",
     refdt = "RFXSTDTC",
     study_day_var = "CMENDY"
-  ) %>%
+  ) |>
   derive_study_day(
-    sdtm_in = .,
     dm_domain = dm,
     tgdt = "CMSTDTC",
     refdt = "RFXSTDTC",
     study_day_var = "CMSTDY"
-  ) %>%
+  ) |>
   dplyr::select("STUDYID", "DOMAIN", "USUBJID", "CMSEQ", "CMTRT", "CMCAT", "CMINDC",
                 "CMDOS", "CMDOSTXT", "CMDOSU", "CMDOSFRM", "CMDOSFRQ", "CMROUTE",
                 "CMSTDTC", "CMENDTC", "CMSTDY", "CMENDY", "CMENRTPT", "CMENTPT")

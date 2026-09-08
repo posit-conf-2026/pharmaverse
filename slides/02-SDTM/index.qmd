@@ -973,23 +973,23 @@ Full solution in **exercises/answers/02-SDTM-answer.R**. The exercise steps:
 ```{r, eval = FALSE}
   # CMINDC — free text
   assign_no_ct(cm_raw, "IT.CMINDC", tgt_var = "CMINDC",
-               id_vars = oak_id_vars()) %>%
+               id_vars = oak_id_vars()) |>
   # CMDOS / CMDOSTXT — numeric vs text dose (condition_add)
   assign_no_ct(condition_add(cm_raw, grepl("^-?\\d*(\\.\\d+)?$", cm_raw$IT.CMDSTXT)),
-               "IT.CMDSTXT", tgt_var = "CMDOS", id_vars = oak_id_vars()) %>%
+               "IT.CMDSTXT", tgt_var = "CMDOS", id_vars = oak_id_vars()) |>
   assign_no_ct(condition_add(cm_raw, grepl("[^0-9eE.-]", cm_raw$IT.CMDSTXT)),
-               "IT.CMDSTXT", tgt_var = "CMDOSTXT", id_vars = oak_id_vars()) %>%
+               "IT.CMDSTXT", tgt_var = "CMDOSTXT", id_vars = oak_id_vars()) |>
   # CMDOSU / CMDOSFRM / CMDOSFRQ — coded qualifiers (assign_ct + codelist)
   assign_ct(cm_raw, "IT.CMDOSU",   tgt_var = "CMDOSU",   ct_spec = study_ct,
-            ct_clst = "C71620", id_vars = oak_id_vars()) %>%
+            ct_clst = "C71620", id_vars = oak_id_vars()) |>
   assign_ct(cm_raw, "IT.CMDOSFRM", tgt_var = "CMDOSFRM", ct_spec = study_ct,
-            ct_clst = "C66726", id_vars = oak_id_vars()) %>%
+            ct_clst = "C66726", id_vars = oak_id_vars()) |>
   assign_ct(cm_raw, "IT.CMDOSFRQ", tgt_var = "CMDOSFRQ", ct_spec = study_ct,
-            ct_clst = "C71113", id_vars = oak_id_vars()) %>%
+            ct_clst = "C71113", id_vars = oak_id_vars()) |>
   # CMENTPT — hardcoded constant when ongoing (hardcode_no_ct)
   hardcode_no_ct(condition_add(cm_raw, IT.CMONGO == "Yes"), "IT.CMONGO",
                  tgt_var = "CMENTPT", tgt_val = "DATE OF LAST ASSESSMENT",
-                 id_vars = oak_id_vars()) %>%
+                 id_vars = oak_id_vars()) |>
   # CMENDTC — end date
   assign_datetime(cm_raw, "IT.CMENDAT", tgt_var = "CMENDTC",
                   raw_fmt = c("d-m-y"), raw_unk = c("UN", "UNK"))
