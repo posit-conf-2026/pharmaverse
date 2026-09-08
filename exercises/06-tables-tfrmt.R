@@ -14,8 +14,7 @@ library(docorator)
 
 ## Import & subset data
 adsl <- pharmaverseadam::adsl |>
-  dplyr::filter(SAFFL == "Y") |>
-  dplyr::mutate(ARM2 = ifelse(startsWith(ARM, "Xanomeline"), "Xanomeline", ARM))
+  dplyr::filter(SAFFL == "Y")
 
 adae <- pharmaverseadam::adae |>
   dplyr::filter(SAFFL == "Y") |>
