@@ -94,7 +94,7 @@ Room **334**
 ![](images/instructors-2026.png)
 
 
-## Your turn!
+## Your turn! Meet your neighbor!
 
 ::::: {.pv-info}
 
@@ -113,15 +113,6 @@ Room **334**
 :::
 ::: {.pv-info-body}
 [What do you do?]{.pv-info-title}
-:::
-::::
-
-:::: {.pv-info-card}
-::: {.pv-info-ico}
-🤖
-:::
-::: {.pv-info-body}
-[What AI tools are you using in your daily work?]{.pv-info-title}
 :::
 ::::
 
@@ -218,6 +209,8 @@ Room **334**
     -   Check out [admiral](https://pharmaverse.github.io/admiral/cran-release/) and [admiraldiscovery](https://pharmaverse.github.io/admiraldiscovery/articles/reactable.html) for CDISC implementation
 
 -   🦺 However, CDISC knowledge _not_ required, and you will learn! 🦺
+
+-   📊 **Pulse Check:** Who is using AI tools in their daily work?
 
 
 ## Welcome to the pharmaverse! {.smaller}
