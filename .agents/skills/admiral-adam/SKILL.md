@@ -85,10 +85,6 @@ derivation, a codelist lookup, or xpt export.
 
 ## Reference material
 
-- `../../../AGENTS.md` (project memory, "`03-ADaM` deck: 'Try It' exercises")
-  — every workshop exercise's plain-language prompt, the matching function
-  call, verified R output, and row-by-row reasoning. Read this to reproduce
-  a consistent demo for any exercise, live or in "Explore on Your Own".
 - Working end-to-end scripts: `slides/03-ADaM/scripts/adsl.R` and
   `slides/03-ADaM/scripts/advs.R`. Copy the closest one as a starting point.
 - Key Functions Cheat Sheet slides in `slides/03-ADaM/admiral.qmd` link every
