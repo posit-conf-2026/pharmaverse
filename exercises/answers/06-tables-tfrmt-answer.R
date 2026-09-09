@@ -62,6 +62,8 @@ mock_tfrmt <- tfrmt(
   )
 )
 
+print_mock_gt(mock_tfrmt)
+
 # Part 2:
 #
 # Add a big N to the column headers, appearing as "N=xxx" on a separate
@@ -125,38 +127,23 @@ final_tfrmt <- tfrmt(
 
 final_tfrmt |> print_to_gt(ard_ae_tidy)
 
-# Notice that `p` prints as "00" for every row above - `ard_ae` (and
-# `ard_ae_tidy`) store `p` as a proportion (e.g. 0.36), not a whole-number
-# percent, so `frmt("xx")` alone just rounds 0.36 down to 0.
-
-
 # Part 2:
 #
 # PROMPT USED:
-# The p values in my table are all showing as "00" instead of a sensible
+# The p values in my table are all showing as "0%" instead of a sensible
 # percentage. Why is that happening, and how can I fix it?
 
-# AI's DIAGNOSIS:
-# `ard_ae` (and `ard_ae_tidy`) store `p` as a proportion (e.g. 0.36), not a
-# whole-number percent. `frmt("xx")` just rounds that proportion to the
-# nearest whole number, so 0.36 becomes "00". The fix is to multiply `p` by
-# 100 before formatting, via `frmt()`'s `transform` argument.
 
-mock_tfrmt <- tfrmt(
-  tfrmt_obj = mock_tfrmt,
-  body_plan = body_plan(
+final_tfrmt <- tfrmt(
+  tfrmt_obj = final_tfrmt,
+    body_plan = body_plan(
     frmt_structure(group_val = ".default", label_val = ".default",
       frmt_combine(
         "{n} ({p}%)",
         n = frmt("xx"),
-        p = frmt("xx", transform = ~ . * 100)
+        p = frmt("xx", transform = ~ . * 100) # p was a proportion, we transform it to make it a percentage
     ))
   )
-)
-
-final_tfrmt <- tfrmt(
-  tfrmt_obj = final_tfrmt,
-  body_plan = mock_tfrmt$body_plan
 )
 
 final_tfrmt |> print_to_gt(ard_ae_tidy)
