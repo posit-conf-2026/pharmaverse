@@ -12,8 +12,9 @@ Setup: load cards; add cardx and broom as needed.
 ## Decision order
 1. {cards} ard_*() first -- counting and tabulating, univariate
    summaries, some multivariable summaries, and more:
-   ard_tabulate(), ard_summary(), ard_mvsummary(),
-   ard_hierarchical(), ard_missing(); stack with ard_stack*()
+   ard_tabulate(), ard_summary(), ard_mvsummary(), ard_missing();
+   stack with ard_stack(). For nested tabulations use the stack
+   versions ard_stack_hierarchical*(), not ard_hierarchical*()
 2. statistical methods and tests -> {cardx}, e.g.
    ard_stats_t_test(), ard_regression()
 3. method not in {cardx} -> wrap broom::tidy() and convert to ARD,
