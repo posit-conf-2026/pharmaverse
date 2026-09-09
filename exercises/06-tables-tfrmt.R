@@ -1,6 +1,6 @@
 # Table Exercise: AE summary table using {tfrmt}
 
-# For this exercise, we will use the AE ARD from the last section to
+# For this exercise, we will use an AE ARD (from the {cards} section) to
 # create a {tfrmt} table
 
 # Setup: run this first! --------------------------------------------------
@@ -37,7 +37,7 @@ ard_ae <- ard_stack_hierarchical(
 # Exercise: AE summary table --------------------------------------------
 
 
-# A. Create the AE table shell - fill in the blanks
+# A. Create the AE table shell - fill in the blanks ------------------------
 
 # Below is a skeleton for a mock AE table shell. The AE table is meant to have the following:
 # - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) 
@@ -51,7 +51,8 @@ ard_ae <- ard_stack_hierarchical(
 #   - n and p together in the same cell, with parentheses and percentage sign like so: n (p%)
 #   - n has two digits, no decimal places
 #   - p also has two digits and no decimal places
-# (2) Ask AI to print the mock display so you can check your results.
+#
+# (2) Print the mock display so you can check your results.
 
 # Sample prompt for AI help:
 # How would I format the n and p values in the cells of a {tfrmt} 
@@ -69,17 +70,18 @@ mock_tfrmt <- tfrmt(
       frmt_combine(
         "??",
         n = frmt("??"),
-        p = frmt("??")
+        p = frmt("??", transform = ~ .*100) # transform proportion (cards default) to percentage
     ))
   )
 )
 
 # Part 2:
 #
-# Add a big N to the column headers of the table via the big_n argument. 
-# Make sure the big N appears as "N=xxx" on a separate line than the column headers.
-# Add this to the mock from part 1 and ask AI to print the resulting mock display.
+# (1) Update the mock: Add a big N to the column headers of the table via the big_n argument. 
+#     Make sure the big N appears as "N=xxx" on a separate line than the column headers.
 #
+# (2) Print the mock display so you can check your results.
+
 # Sample prompt for AI help:
 # How would I add a big N to the column headers of a {tfrmt} table 
 # so that it appears as "N=xxx" on a separate line than the column headers?
@@ -89,59 +91,39 @@ mock_tfrmt <- mock_tfrmt |>
     big_n = big_n_structure(param_val = "n", n_frmt = frmt("??"))
   )
 
-# B. Create a tidy, tfrmt-ready ARD from the `cards` object  ------------
-#
-# Ask the AI for assistance converting the `cards` ARD object from the top of 
-# the script into a tfrmt-ready tidy data frame. 
-# Tip: before doing so, inspect `ard_ae` (e.g. `dplyr::glimpse(ard_ae)` or 
-# `dplyr::distinct(ard_ae, stat_name)`) so you can check your
-# output against the actual columns and values in the data.
 
-# Sample prompt:
-# Convert the `cards` object `ard_ae` (created by `ard_stack_hierarchical()`
-# with variables AESOC and AEDECOD, by = ARM, statistic = ~ c("n", "p")) into
-# a tidy data frame ready for {tfrmt}. Requirements:
-# - Keep one row per AESOC/AEDECOD/ARM/statistic combination.
-# - Include only the columns needed for the table: the nested group
-#   variables (AESOC, AEDECOD), the column variable (ARM), the statistic
-#   name (e.g. "n" or "p"), and the statistic's numeric value.
-# - Name the columns so they align with the `group`, `label`, `column`,
-#   `param`, and `value` arguments I used in the `mock_tfrmt` spec from
-#   part A.
-# - Drop any overall/"Total" rows unless I ask for them, and drop rows for
-#   AESOC or AEDECOD's own summary statistics that aren't "n" or "p".
-# - Show me the result with `dplyr::glimpse()` so I can check it before
-#   using it.
 
+# B. Create a tidy, tfrmt-ready ARD from the `cards` object  --------------------------
+
+# Run the below code to transform the data and get it ready for tfrmt. 
+# Hint: ask Posit assistant to explain the steps to you
+
+ard_ae_tidy <- ard_ae |> 
+  shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
+  prep_big_n(vars = "ARM") |> 
+  prep_hierarchical_fill(vars = c("AESOC","AEDECOD"), fill_from_left = TRUE)|> 
+  dplyr::select(-c(context, stat_label, stat_variable)) 
 
 
 # C. Print the table with real values -------------------------------------------------
 
-# Part 1:
-#
-# Ask the AI to print a final AE table with real values, by supplying `ard_ae_tidy` from 
-# part B. to the `mock_tfrmt` spec from part A. Ask it to add a title, subtitle, and footnote to the table.
+# Print the final AE table with real values using:
+#  - `ard_ae_tidy` from part B
+#  - `mock_tfrmt` spec from part A
+# Also add a title, subtitle, and footnote to the table.
 #
 # Sample prompt:
-# Using tfrmt, how would I print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec, 
-# and add a title, subtitle, and footnote to the table?
+# Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec. 
+# Also add a title, subtitle, and footnote to the table?
 
-
-# Part 2:
-#
-# Notice that the percentage values are not right. Write a prompt asking
-# the AI why the `p` values are showing as very low (e.g. "0%") in the
-# table, and to propose a fix so `p` shows as a whole-number percent (e.g.
-# "36%") in the table.
 
 
 
 # D. Output the table to PDF -------------------------------------------------
 
-# Ask the AI to output your final table (from part C) to PDF using {docorator}, 
-# in the HTML flavor. Add a header and footer to the document. Save the PDF to 
-# the same directory as the exercise.
+# Output your final table (from part C) to PDF using {docorator}, 
+# in the HTML flavor. Add a header and footer to the document. 
 #
 # Sample prompt:
-# How would I output my final AE table to PDF using {docorator} in the HTML flavor, 
-# with a header and footer, and save the PDF to the same directory as this exercise
+# Output my final AE table to PDF using {docorator} in the HTML flavor, 
+# with a header and footer.

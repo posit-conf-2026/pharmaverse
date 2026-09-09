@@ -3,7 +3,6 @@
 # For this exercise, we will use an AE ARD (from the {cards} section) to
 # create a {tfrmt} table
 
-
 # Setup: run this first! --------------------------------------------------
 
 ## Load necessary packages
@@ -35,16 +34,25 @@ ard_ae <- ard_stack_hierarchical(
   statistic = ~ c("n", "p")
 )
 
+# Exercise: AE summary table --------------------------------------------
 
-# Exercise ----------------------------------------------------------------
 
+# A. Create the AE table shell - fill in the blanks ------------------------
 
-# A. Fill in the blanks --------------------------------------------------
+# Below is a skeleton for a mock AE table shell. The AE table is meant to have the following:
+# - AEDECOD (Preferred Term) nested within AESOC (System Organ Class) 
+# - 3 treatment arms in the columns (ARM)
+# - the number and percentage of unique subjects with the AE presented in the 
+#   cells (these are represented as 'n' and 'p' in the code)
 
 # Part 1:
 #
-# n (p) together in the same cell, n and p both with two digits and no
-# decimal places.
+# (1) Replace the ??s in the snippet so that the n (%) is formatted as such:
+#   - n and p together in the same cell, with parentheses and percentage sign like so: n (p%)
+#   - n has two digits, no decimal places
+#   - p also has two digits and no decimal places
+#
+# (2) Print the mock display so you can check your results.
 
 mock_tfrmt <- tfrmt(
   group = "AESOC",
@@ -66,8 +74,10 @@ print_mock_gt(mock_tfrmt)
 
 # Part 2:
 #
-# Add a big N to the column headers, appearing as "N=xxx" on a separate
-# line from the column headers.
+# (1) Update the mock: Add a big N to the column headers of the table via the big_n argument. 
+#     Make sure the big N appears as "N=xxx" on a separate line than the column headers.
+#
+# (2) Print the mock display so you can check your results.
 
 mock_tfrmt <- mock_tfrmt |> 
   tfrmt(
@@ -78,39 +88,24 @@ mock_tfrmt <- mock_tfrmt |>
 mock_tfrmt |> print_mock_gt()
 
 
-# B. Convert `ard_ae` into a tidy data frame for {tfrmt} ------------------
+# B. Create a tidy, tfrmt-ready ARD from the `cards` object  --------------------------
 
-# Inspect the card first
-dplyr::glimpse(ard_ae)
-dplyr::distinct(ard_ae, stat_name)
+# Run the below code to transform the data and get it ready for tfrmt. 
+# Hint: ask Posit assistant to explain the steps to you
 
-ard_ae_tidy <- ard_ae |>
-  # Turn the card into a tidy frame; fill in an "Any Event" summary row 
-  tfrmt::shuffle_card(fill_hierarchical_overall = "ANY EVENT") |>
-  # Big Ns: recode `stat_name == "n"` to "bigN" for the ARM (column) variable,
-  # dropping ARM's other stats (e.g. its own "N")
-  tfrmt::prep_big_n(vars = "ARM") |>
-  # Fill AESOC/AEDECOD at summary rows so every row has both group and label
-  tfrmt::prep_hierarchical_fill(vars = c("AESOC", "AEDECOD"), fill_from_left = TRUE) |>
-  # Keep only the columns needed for the tfrmt spec above: group (AESOC),
-  # label (AEDECOD), column (ARM), param (stat_name), value (stat)
-  dplyr::select(AESOC, AEDECOD, ARM, stat_name, stat) |>
-  # Drop AESOC/AEDECOD-level statistics that aren't n or p (e.g. "N")
-  dplyr::filter(stat_name %in% c("n", "p", "bigN"))
-
-dplyr::glimpse(ard_ae_tidy)
+ard_ae_tidy <- ard_ae |> 
+  shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
+  prep_big_n(vars = "ARM") |> 
+  prep_hierarchical_fill(vars = c("AESOC","AEDECOD"), fill_from_left = TRUE)|> 
+  dplyr::select(-c(context, stat_label, stat_variable)) 
 
 
-# C. Final table with title, subtitle, and footnote -----------------------
+# C. Print the table with real values -------------------------------------------------
 
-# Part 1:
-#
-# PROMPT USED:
-# Using the mock_tfrmt spec I built in part A and the tidy data frame
-# ard_ae_tidy from part B, create and print a final {tfrmt} AE summary table with
-# real values. Requirements:
-# - Reuse mock_tfrmt as the base spec
-# - Add a title, subtitle, and footnote explaining the values in the table
+# Print the final AE table with real values using:
+#  - `ard_ae_tidy` from part B
+#  - `mock_tfrmt` spec from part A
+# Also add a title, subtitle, and footnote to the table.
 
 final_tfrmt <- tfrmt(
   tfrmt_obj = mock_tfrmt,
@@ -127,32 +122,12 @@ final_tfrmt <- tfrmt(
 
 final_tfrmt |> print_to_gt(ard_ae_tidy)
 
-# Part 2:
-#
-# PROMPT USED:
-# The p values in my table are all showing as "0%" instead of a sensible
-# percentage. Why is that happening, and how can I fix it?
 
 
-final_tfrmt <- tfrmt(
-  tfrmt_obj = final_tfrmt,
-    body_plan = body_plan(
-    frmt_structure(group_val = ".default", label_val = ".default",
-      frmt_combine(
-        "{n} ({p}%)",
-        n = frmt("xx"),
-        p = frmt("xx", transform = ~ . * 100) # p was a proportion, we transform it to make it a percentage
-    ))
-  )
-)
+# D. Output the table to PDF -------------------------------------------------
 
-final_tfrmt |> print_to_gt(ard_ae_tidy)
-
-
-# D. Output the final table to PDF via {docorator} (HTML flavor) ---------
-
-# PROMPT USED:
-# Add a header and footer to the document. Save the PDF to the same directory as the exercise.
+# Output your final table (from part C) to PDF using {docorator}, 
+# in the HTML flavor. Add a header and footer to the document. 
 
 final_tfrmt |>
   print_to_gt(ard_ae_tidy) |>
