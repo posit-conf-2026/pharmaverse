@@ -5,17 +5,6 @@ editor: source
 
 # Exercises
 
-## `01-intro.R`
-
-```{r}
-#| echo: false
-#| class-output: "sourceCode r"
-
-"01-intro.R" |> 
-  readLines() |> 
-  cat(sep = "\n")
-```
-
 ## `02-SDTM.R`
 
 ```{r}
@@ -73,17 +62,6 @@ editor: source
 
 
 # Solutions
-
-## `01-intro.R`
-
-```{r}
-#| echo: false
-#| class-output: "sourceCode r"
-
-"answers/01-intro-answer.R" |> 
-  readLines() |> 
-  cat(sep = "\n")
-```
 
 ## `02-SDTM.R`
 
