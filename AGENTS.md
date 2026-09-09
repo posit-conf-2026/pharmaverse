@@ -5,7 +5,8 @@
 This is a Quarto website + slide deck project for the "End-to-End Submissions
 in R with the Pharmaverse" posit::conf workshop (`_quarto.yml`, output to
 `docs/`). Uses `renv` for package management (`renv.lock`, `.Rprofile`
-sourcing `renv/activate.R`).
+sourcing `renv/activate.R` — except on Posit Cloud, where `.Rprofile` skips
+activation because the workshop space has packages preinstalled).
 
 Slide decks live under `slides/<NN-topic>/`. Each deck's `index.qmd` carries
 the `format: revealjs` YAML front matter and pulls in content files via
