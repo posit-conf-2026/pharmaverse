@@ -56,7 +56,7 @@ ard_ae <- ard_stack_hierarchical(
 
 # Sample prompt for AI help:
 # How would I format the n and p values in the cells of a {tfrmt} 
-# table so that they appear as "n (p)" with n and p both having two 
+# table so that they appear as "n (p%)" with n and p both having two 
 # digits and no decimal places?  
 
 mock_tfrmt <- tfrmt(
