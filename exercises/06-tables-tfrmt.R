@@ -124,7 +124,7 @@ ard_ae_tidy <- ard_ae |>
 # Also add a title, subtitle, and footnote to the table.
 #
 # Sample prompt:
-# Using tfrmt, print a final AE table with real values using 
+# Using tfrmt, generate the code to print a final AE table with real values using 
 # `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
 # Also add a title, subtitle, and footnote to the table
 
@@ -137,5 +137,5 @@ ard_ae_tidy <- ard_ae |>
 # Add a header and footer to the document. 
 #
 # Sample prompt:
-# Output my final AE table to PDF using {docorator} in the HTML flavor, 
+# Generate the code to output my final AE table to PDF using {docorator} in the HTML flavor, 
 # with a header and footer.
