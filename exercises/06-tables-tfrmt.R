@@ -56,7 +56,7 @@ ard_ae <- ard_stack_hierarchical(
 
 # Sample prompt for AI help:
 # How would I format the n and p values in the cells of a {tfrmt} 
-# table so that they appear as "n (p)" with n and p both having two 
+# table so that they appear as "n (p%)" with n and p both having two 
 # digits and no decimal places?  
 
 mock_tfrmt <- tfrmt(
@@ -124,7 +124,8 @@ ard_ae_tidy <- ard_ae |>
 # Also add a title, subtitle, and footnote to the table.
 #
 # Sample prompt:
-# Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
+# Using tfrmt, generate the code to print a final AE table with real values using 
+# `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
 # Also add a title, subtitle, and footnote to the table
 
 
@@ -136,5 +137,5 @@ ard_ae_tidy <- ard_ae |>
 # Add a header and footer to the document. 
 #
 # Sample prompt:
-# Output my final AE table to PDF using {docorator} in the HTML flavor, 
+# Generate the code to output my final AE table to PDF using {docorator} in the HTML flavor, 
 # with a header and footer.

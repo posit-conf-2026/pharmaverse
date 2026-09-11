@@ -4,27 +4,40 @@
 
 ## Objectives
 
-::: incremental
--   By the end of this tables section you will have:
-    - Developed an understanding of how tfrmt supports table creation in multiple phases of the reporting process
-    - Seen examples of demographic and AE summary table formatting
-    - Gained an awareness of utilities for the transition from cards to tfrmt input data
-:::
+By the end of this tables section you will have:
+
+::::: {.pv-cards}
+:::: {.pv-card}
+[🧩]{.pv-ico}
+[Developed]{.pv-title}
+An understanding of how `tfrmt` supports table creation in multiple phases of the reporting process
+::::
+:::: {.pv-card}
+[📄]{.pv-ico}
+[Developed]{.pv-title}
+An understanding of how `docorator` generates different types of output documents
+::::
+:::: {.pv-card .pv-accent}
+[👀]{.pv-ico}
+[Seen]{.pv-title}
+Examples of demographic and AE summary table formatting
+::::
+:::: {.pv-card}
+[🎯]{.pv-ico}
+[Gained]{.pv-title}
+An awareness of utilities for the transition from `cards` to `tfrmt` input data
+::::
+:::::
 
 ## Play by Play to achieve our Objectives
 
-::: incremental
--   🕙 10 mins: The possibilities of `tfrmt`
-
--   🕥 15 mins: Step-by-step formatting a display
-
--   🕚 5 mins: cards-to-tfrmt helpers
-
--   🕦 5 mins: Outputs using `docorator`
-
--   🕦 10 mins: Exercise
-
-:::
+::::: {.pv-steps}
+- [1]{.pv-num} [🕙]{.pv-ico} **10 mins:** The possibilities of `tfrmt`
+- [2]{.pv-num} [🕥]{.pv-ico} **15 mins:** Step-by-step formatting a display
+- [3]{.pv-num} [🕚]{.pv-ico} **5 mins:** `cards`-to-`tfrmt` helpers
+- [4]{.pv-num} [🕦]{.pv-ico} **5 mins:** Outputs using `docorator`
+- [5]{.pv-num} [🕦]{.pv-ico} **10 mins:** Exercise
+:::::
 
 ## ARD-first Tables with {tfrmt} {.black-header}
 
