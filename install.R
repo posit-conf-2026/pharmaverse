@@ -15,5 +15,6 @@ install.packages(c("devtools",
                    "tfrmt",
                    "labelled",
                    "pharmaverseadam",
-                  "crane")) 
+                  "crane",
+                "remotes")) 
 remotes::install_github("GSK-Biostatistics/docorator")
