@@ -25,6 +25,7 @@ cache: false
 ```{r}
 #| echo: false
 #| cache: false
+#| warnings: false
 library(tfrmt)
 library(docorator)
 ```
