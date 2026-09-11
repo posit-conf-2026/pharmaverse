@@ -716,7 +716,7 @@ background: #003559;
 <span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample prompt for AI help:</span></span>
 <span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a><span class="co"># How would I format the n and p values in the cells of a {tfrmt} </span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># table so that they appear as "n (p)" with n and p both having two </span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a><span class="co"># table so that they appear as "n (p%)" with n and p both having two </span></span>
 <span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="co"># digits and no decimal places?  </span></span>
 <span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>mock_tfrmt <span class="ot">&lt;-</span> <span class="fu">tfrmt</span>(</span>
@@ -784,20 +784,21 @@ background: #003559;
 <span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a><span class="co"># Also add a title, subtitle, and footnote to the table.</span></span>
 <span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
 <span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample prompt:</span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. </span></span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Also add a title, subtitle, and footnote to the table</span></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a><span class="co"># Using tfrmt, generate the code to print a final AE table with real values using </span></span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a><span class="co"># `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. </span></span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a><span class="co"># Also add a title, subtitle, and footnote to the table</span></span>
 <span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a><span class="co"># D. Output the table to PDF -------------------------------------------------</span></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a><span class="co"># Output your final table (from part C) to PDF using {docorator} with HTML flavor. </span></span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a header and footer to the document. </span></span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample prompt:</span></span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Output my final AE table to PDF using {docorator} in the HTML flavor, </span></span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="co"># with a header and footer.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a><span class="co"># D. Output the table to PDF -------------------------------------------------</span></span>
+<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a><span class="co"># Output your final table (from part C) to PDF using {docorator} with HTML flavor. </span></span>
+<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a header and footer to the document. </span></span>
+<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample prompt:</span></span>
+<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the code to output my final AE table to PDF using {docorator} in the HTML flavor, </span></span>
+<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a><span class="co"># with a header and footer.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -1308,16 +1309,15 @@ background: #003559;
 <span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print_to_gt</span>(ard_ae_tidy) <span class="sc">|&gt;</span></span>
 <span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_docorator</span>(</span>
 <span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>    <span class="at">display_name =</span> <span class="st">"ae_summary_table"</span>,</span>
-<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>    <span class="at">display_loc =</span> <span class="st">"exercises"</span>,</span>
-<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>    <span class="at">header =</span> <span class="fu">fancyhead</span>(</span>
-<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="st">"Pharmaverse Training"</span>, <span class="at">center =</span> <span class="cn">NA</span>, <span class="at">right =</span> <span class="fu">doc_pagenum</span>()),</span>
-<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="cn">NA</span>, <span class="at">center =</span> <span class="st">"Adverse Event Summary Table"</span>, <span class="at">right =</span> <span class="cn">NA</span>)</span>
-<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>    <span class="at">footer =</span> <span class="fu">fancyfoot</span>(</span>
-<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="fu">doc_path</span>(<span class="st">"06-tables-tfrmt.R"</span>, <span class="st">"exercises"</span>), <span class="at">center =</span> <span class="cn">NA</span>, <span class="at">right =</span> <span class="fu">doc_datetime</span>())</span>
-<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
-<span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a><span class="fu">render_pdf</span>(<span class="at">display_loc =</span> <span class="st">"exercises"</span>, <span class="at">engine =</span> <span class="st">"html"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a>    <span class="at">header =</span> <span class="fu">fancyhead</span>(</span>
+<span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="st">"Pharmaverse Training"</span>, <span class="at">center =</span> <span class="cn">NA</span>, <span class="at">right =</span> <span class="fu">doc_pagenum</span>()),</span>
+<span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="cn">NA</span>, <span class="at">center =</span> <span class="st">"Adverse Event Summary Table"</span>, <span class="at">right =</span> <span class="cn">NA</span>)</span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a>    <span class="at">footer =</span> <span class="fu">fancyfoot</span>(</span>
+<span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fancyrow</span>(<span class="at">left =</span> <span class="st">"06-tables-tfrmt.R"</span>, <span class="at">center =</span> <span class="cn">NA</span>, <span class="at">right =</span> <span class="fu">doc_datetime</span>())</span>
+<span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a><span class="fu">render_pdf</span>(<span class="at">engine =</span> <span class="st">"html"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 
