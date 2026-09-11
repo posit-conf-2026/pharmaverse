@@ -78,8 +78,11 @@ accepts only `10`, `11`, `12`.
 
 ## Render specifics
 
+PDF flavors: 
 - **`render_pdf()`** -- LaTeX via R Markdown. Escape hatches for LaTeX-literate
   users: `transform`, `header_latex`, `escape_latex`, `keep_tex`.
+- **`render_pdf(engine = "html")`** -- PDF created using HTML under the hood.
+Other:
 - **`render_rtf()`** -- RTF drops much of the styling and the document header
   entirely; only `center` text survives as a title.
 - **`render_docx()`** -- Word output; same call shape.

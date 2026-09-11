@@ -946,7 +946,7 @@ So we have a table, now what?
 
 -   *Decorate*: wraps the display with document-level headers, footers, and page numbers
 
--   *Output*: renders the decorated display to PDF and/or RTF
+-   *Output*: renders the decorated display to PDF (LaTeX or HTML-new!), HTML (new!), DOCX, or RTF
 
 -   More here: [https://gsk-biostatistics.github.io/docorator/](https://gsk-biostatistics.github.io/docorator/)
 :::
@@ -959,7 +959,7 @@ So we have a table, now what?
 
 ::: {.small}
 
-Our `gt` table produced by `print_to_gt()` can be passed straight into `as_docorator()`, then rendered as a PDF.
+Our `gt` table produced by `print_to_gt()` can be passed straight into `as_docorator()`, then rendered as a PDF ()
 
 :::
 
