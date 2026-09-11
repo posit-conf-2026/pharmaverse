@@ -24,13 +24,15 @@ cache: false
 
 {{< include 02-examples.qmd >}}
 
-{{< include 03-submissions-wg.qmd >}}
+# Advanced AI
 
-# Additional Tooling
+{{< include 03-advanced-ai.qmd >}}
 
-{{< include 04-llm.qmd >}}
+# Submissions Working Group
 
-{{< include 05-teal.qmd >}}
+{{< include 04-submissions-wg.qmd >}}
 
-{{< include 06-goodbye.qmd >}}
+# Goodbye
+
+{{< include 05-goodbye.qmd >}}
 

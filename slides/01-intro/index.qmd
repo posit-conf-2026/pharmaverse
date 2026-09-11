@@ -161,7 +161,7 @@ Room **334**
 [ADaM]{.pv-expect-stage} [build analysis-ready datasets from SDTM]{.pv-expect-desc}
 :::
 :::: {.pv-expect-pkg}
-`admiral`
+`admiral` · `metacore` · `metatools`
 ::::
 :::::
 
@@ -170,7 +170,7 @@ Room **334**
 [Tables & ARDs]{.pv-expect-stage} [summaries, TLGs, analysis results datasets]{.pv-expect-desc}
 :::
 :::: {.pv-expect-pkg}
-`gtsummary` · `cards`
+`cards` · `gtsummary` · `tfrmt` · `docorator`
 ::::
 :::::
 
