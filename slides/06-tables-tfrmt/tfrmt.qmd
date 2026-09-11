@@ -7,6 +7,7 @@
 ::: incremental
 -   By the end of this tables section you will have:
     - Developed an understanding of how tfrmt supports table creation in multiple phases of the reporting process
+    - Developed an understanding of how docorator generates different types of output documents
     - Seen examples of demographic and AE summary table formatting
     - Gained an awareness of utilities for the transition from cards to tfrmt input data
 :::

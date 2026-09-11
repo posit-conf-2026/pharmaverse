@@ -1,0 +1,16 @@
+/*-- scss:defaults --*/
+
+// Give the tfrmt section its own accent color (used by .emphasis, the title
+// rule, and any pv-accent elements) - tfrmt's hex teal, for brand cohesion
+// with the package's own logo on the title slide.
+$custom-col: #2A9D8F;
+
+/*-- scss:rules --*/
+
+/* ---------------------------------------------------------------------------
+   This deck reuses the shared custom title-slide layout defined in
+   slides/slides.scss (#title-slide:has(.custom-title)) - display-font title,
+   accent rule, headshot + affiliation block, and a hero logo card. No
+   deck-specific title-slide overrides are needed beyond the accent color
+   above.
+--------------------------------------------------------------------------- */
