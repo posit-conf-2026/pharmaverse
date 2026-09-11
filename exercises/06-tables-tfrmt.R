@@ -124,7 +124,8 @@ ard_ae_tidy <- ard_ae |>
 # Also add a title, subtitle, and footnote to the table.
 #
 # Sample prompt:
-# Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
+# Using tfrmt, print a final AE table with real values using 
+# `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
 # Also add a title, subtitle, and footnote to the table
 
 
