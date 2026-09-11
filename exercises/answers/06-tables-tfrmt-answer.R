@@ -144,13 +144,12 @@ final_tfrmt |>
   print_to_gt(ard_ae_tidy) |>
   as_docorator(
     display_name = "ae_summary_table",
-    display_loc = "exercises",
     header = fancyhead(
       fancyrow(left = "Pharmaverse Training", center = NA, right = doc_pagenum()),
       fancyrow(left = NA, center = "Adverse Event Summary Table", right = NA)
     ),
     footer = fancyfoot(
-      fancyrow(left = doc_path("06-tables-tfrmt.R", "exercises"), center = NA, right = doc_datetime())
+      fancyrow(left = "06-tables-tfrmt.R", center = NA, right = doc_datetime())
   )
 ) |>
-render_pdf(display_loc = "exercises", engine = "html")
+render_pdf(engine = "html")
