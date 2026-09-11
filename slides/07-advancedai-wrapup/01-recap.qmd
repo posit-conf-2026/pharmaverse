@@ -1,0 +1,17 @@
+# Recap time!
+
+## What did we cover?
+
+::: {.incremental}
+
+- Raw to SDTM with {sdtm.oak}
+
+- SDTM to ADaM with {admiral}, {metacore}, {metatools}, {xportr}
+
+- ARDs with {cards} and {cardx}
+
+- ARD-friendly tables with {gtsummary}
+
+- ARD-first tables and rendering with {tfrmt} and {docorator}
+
+:::
