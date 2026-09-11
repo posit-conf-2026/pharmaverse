@@ -98,11 +98,21 @@ mock_tfrmt <- mock_tfrmt |>
 # Run the below code to transform the data and get it ready for tfrmt. 
 # Hint: ask Posit assistant to explain the steps to you
 
+
 ard_ae_tidy <- ard_ae |> 
   shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
   prep_big_n(vars = "ARM") |> 
   prep_hierarchical_fill(vars = c("AESOC","AEDECOD"), fill_from_left = TRUE)|> 
-  dplyr::select(-c(context, stat_label, stat_variable)) 
+  dplyr::select(-c(context, stat_label, stat_variable)) |> 
+  dplyr::mutate(
+    ord1 = dplyr::case_when(
+      AESOC == "ANY EVENT" ~ 1,
+      TRUE ~ as.integer(
+        factor(AESOC, levels = unique(AESOC[AESOC != "ANY EVENT"]))
+      ) + 1
+    ),
+    ord2 = dplyr::if_else(AESOC == AEDECOD, 1, 2)
+  )
 
 
 # C. Print the table with real values -------------------------------------------------
@@ -110,19 +120,20 @@ ard_ae_tidy <- ard_ae |>
 # Print the final AE table with real values using:
 #  - `ard_ae_tidy` from part B
 #  - `mock_tfrmt` spec from part A
+# Make sure the table is sorted by ord1, ord2
 # Also add a title, subtitle, and footnote to the table.
 #
 # Sample prompt:
-# Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec. 
-# Also add a title, subtitle, and footnote to the table?
+# Using tfrmt, print a final AE table with real values using `ard_ae_tidy` and the `mock_tfrmt` spec, sorted by ord1 and ord2. 
+# Also add a title, subtitle, and footnote to the table
 
 
 
 
 # D. Output the table to PDF -------------------------------------------------
 
-# Output your final table (from part C) to PDF using {docorator}, 
-# in the HTML flavor. Add a header and footer to the document. 
+# Output your final table (from part C) to PDF using {docorator} with HTML flavor. 
+# Add a header and footer to the document. 
 #
 # Sample prompt:
 # Output my final AE table to PDF using {docorator} in the HTML flavor, 
