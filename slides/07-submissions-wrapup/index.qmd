@@ -26,11 +26,5 @@ cache: false
 
 {{< include 03-submissions-wg.qmd >}}
 
-# Additional Tooling
-
-{{< include 04-llm.qmd >}}
-
-{{< include 05-teal.qmd >}}
-
 {{< include 06-goodbye.qmd >}}
 

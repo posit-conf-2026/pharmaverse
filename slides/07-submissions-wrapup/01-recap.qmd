@@ -1,25 +1,25 @@
 # Recap time!
 
-## End-to-End with Barb!
+## End-to-End with One Subject
 
-Barb went on a journey from raw data to TFLs.
-At various points we found Barb in our data as we transformed from Raw to TFL.
+Subject `01-701-1015` went on a journey from raw data to TFLs.
+At various points we can trace that same subject as we transformed from Raw to TFL.
 
-<img src="images/barb-sdtm.png" alt="Barb!" style="width: 100%;"/>
+<img src="images/barb-sdtm.png" alt="A subject's record at the SDTM stage" style="width: 100%;"/>
 
-## End-to-End with Barb!
+## End-to-End with One Subject
 
-Barb went on a journey from raw data to TFLs.
-At various points we found Barb in our data as we transformed from Raw to TFL
+Subject `01-701-1015` went on a journey from raw data to TFLs.
+At various points we can trace that same subject as we transformed from Raw to TFL.
 
-<img src="images/barb-adam.png" alt="Barb!" style="width: 100%;"/>
+<img src="images/barb-adam.png" alt="A subject's record at the ADaM stage" style="width: 100%;"/>
 
-## End-to-End with Barb!
+## End-to-End with One Subject
 
-Barb went on a journey from raw data to TFLs.
-At various points we found Barb in our data as we transformed from Raw to TFL
+Subject `01-701-1015` went on a journey from raw data to TFLs.
+At various points we can trace that same subject as we transformed from Raw to TFL.
 
-<img src="images/barb-tlg.png" alt="Barb!" style="width: 100%;"/>
+<img src="images/barb-tlg.png" alt="A subject's record at the TLG stage" style="width: 100%;"/>
 
 ## What did we cover?
 
