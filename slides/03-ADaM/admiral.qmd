@@ -191,22 +191,15 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 
 ::::
 
-* No digging through folders - open both scripts straight from the R console:
+* No digging through folders - open both scripts straight from the R console (paths are relative to the project root):
 
 ```{r, eval=FALSE}
-file.edit("scripts/adsl.R")
-file.edit("scripts/advs.R")
+file.edit("slides/03-ADaM/scripts/adsl.R")
 ```
 
-## How We'll Dig Into the Scripts
-
-::: incremental
--   Every slide from here on references specific line numbers in `adsl.R`/`advs.R` (footnoted like `^[Lines: 20-25]`) - follow along in your open script.
--   We'll walk through the key functions together first...
--   ...then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line.
-:::
-
-# Specs
+```{r, eval=FALSE}
+file.edit("slides/03-ADaM/scripts/advs.R")
+```
 
 ## Spec-details
 
@@ -215,6 +208,14 @@ file.edit("scripts/advs.R")
 - Not fit for purpose here - just a helpful guide
 - Contains: dataset labels/keys, variable labels/lengths/types linked to method, codelists/control terms
 - Let's take a quick [live peek](https://github.com/posit-conf-2026/pharmaverse/tree/main/slides/03-ADaM/metadata) 👀
+
+## How We'll Dig Into the Scripts ^[Lines: 20-25]
+
+::: incremental
+-   Every slide from here on references specific line numbers in `adsl.R`/`advs.R`, footnoted right in the heading like this one - see the <span class="pv-line-pill">Lines: 20-25</span> pill up top, and the matching note down at the bottom of this slide - follow along in your open script.
+-   We'll walk through the key functions together first...
+-   ...then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line.
+:::
 
 ## Key Functions Cheat Sheet: `{admiral}` `r glue("<img src='{admiral_img}' height='40' style='vertical-align:middle; margin-left:0.5em;'/>")`
 
@@ -945,16 +946,16 @@ Practice describing a rounding/truncation preference in plain terms and letting 
 
 ::: {.codewindow style="font-size: 1.05em;"}
 ```
-Create a small example dataset with a character SEX variable using
-values "M" and "F", and a separate codelist data frame with code and
-decode columns mapping those values to numeric codes.
+Using the ADSL spec object we already read in with spec_to_metacore()
+earlier, create a small example dataset with a character RACE
+variable using a couple of the full-text values from that spec's RACE
+codelist (e.g. "WHITE"). Then write a metatools call to add a new
+numeric RACEN variable derived from that codelist.
 
-Then write a metatools call to add a new numeric SEXN variable
-derived from the codelist. I'm not sure whether my SEX values match
-the "code" side or the "decode" side of the codelist - pick the
-argument that controls that direction, tell me which way you assumed
-it goes, and explain what the output would look like if that
-assumption were backwards.
+I'm not sure whether my RACE values match the "code" side or the
+"decode" side of the codelist - pick the argument that controls that
+direction, tell me which way you assumed it goes, and explain what
+the output would look like if that assumption were backwards.
 ```
 :::
 
