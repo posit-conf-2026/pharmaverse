@@ -506,14 +506,14 @@ background: #003559;
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>posit_mh <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID, <span class="sc">~</span>MHSTDTC,</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25:40"</span>,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25"</span>,</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18"</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2024-02"</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2019"</span>,</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2019---07"</span>,</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>,        <span class="st">""</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,       <span class="sc">~</span>MHSTDTC,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18T15:25:40"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18T15:25"</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2024-02"</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2019"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2019---07"</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1019"</span>,  <span class="st">""</span></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_vars_dtm</span>(</span>
@@ -522,34 +522,35 @@ background: #003559;
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtc =</span> MHSTDTC,</span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_imputation =</span> <span class="st">"????"</span>,</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_imputation =</span> <span class="st">"????"</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 2</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the parameters argument</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Update set_values_to argument for the formula</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP Formula: MAP = (SYSBP + 2*DIABP) / 3</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_imputation =</span> <span class="st">"????"</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore_seconds_flag =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 2</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the parameters argument</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Update set_values_to argument for the formula</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP Formula: MAP = (SYSBP + 2*DIABP) / 3</span></span>
 <span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_param_computed</span>(</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  ADVS,</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"????"</span>, <span class="st">"????"</span>),</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> ?? <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> ??,</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_param_computed</span>(</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  ADVS,</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"????"</span>, <span class="st">"????"</span>),</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> ?? <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> ??,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
@@ -1000,14 +1001,14 @@ background: #003559;
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(admiral)</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>posit_mh <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID, <span class="sc">~</span>MHSTDTC,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25:40"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18T15:25"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="dv">1</span>,        <span class="st">"2019-07-18"</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2024-02"</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2019"</span>,</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="dv">2</span>,        <span class="st">"2019---07"</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="dv">3</span>,        <span class="st">""</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,       <span class="sc">~</span>MHSTDTC,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18T15:25:40"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18T15:25"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1011"</span>,  <span class="st">"2019-07-18"</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2024-02"</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2019"</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>,  <span class="st">"2019---07"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1019"</span>,  <span class="st">""</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_vars_dtm</span>(</span>
@@ -1016,33 +1017,34 @@ background: #003559;
 <span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">dtc =</span> MHSTDTC,</span>
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">highest_imputation =</span> <span class="st">"M"</span>,</span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">date_imputation =</span> <span class="st">"last"</span>,</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_imputation =</span> <span class="st">"last"</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 2</span></span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Update set_values_to argument for the formula</span></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP Formula: MAP = (SYSBP + 2*DIABP) / 3</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">time_imputation =</span> <span class="st">"last"</span>,</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">ignore_seconds_flag =</span> <span class="cn">FALSE</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Exercise 2</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Update set_values_to argument for the formula</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP Formula: MAP = (SYSBP + 2*DIABP) / 3</span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>) </span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_param_computed</span>(</span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  ADVS,</span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"SYSBP"</span>, <span class="st">"DIABP"</span>),</span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> <span class="dv">3</span>,</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>ADVS <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="sc">~</span>USUBJID,      <span class="sc">~</span>PARAMCD, <span class="sc">~</span>PARAM,                            <span class="sc">~</span>AVALU,  <span class="sc">~</span>AVAL, <span class="sc">~</span>VISIT,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">51</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1015"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">121</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"DIABP"</span>,  <span class="st">"Diastolic Blood Pressure (mmHg)"</span>, <span class="st">"mmHg"</span>,    <span class="dv">79</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="st">"01-701-1028"</span>, <span class="st">"SYSBP"</span>,  <span class="st">"Systolic Blood Pressure (mmHg)"</span>,  <span class="st">"mmHg"</span>,   <span class="dv">130</span>, <span class="st">"BASELINE"</span>,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>) </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="fu">derive_param_computed</span>(</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  ADVS,</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">by_vars =</span> <span class="fu">exprs</span>(USUBJID, VISIT),</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameters =</span> <span class="fu">c</span>(<span class="st">"SYSBP"</span>, <span class="st">"DIABP"</span>),</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">set_values_to =</span> <span class="fu">exprs</span>(</span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVAL =</span> (AVAL.SYSBP <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> AVAL.DIABP) <span class="sc">/</span> <span class="dv">3</span>,</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAMCD =</span> <span class="st">"MAP"</span>,</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">PARAM =</span> <span class="st">"Mean Arterial Pressure (mmHg)"</span>,</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">AVALU =</span> <span class="st">"mmHg"</span>,</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </section>
