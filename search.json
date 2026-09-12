@@ -714,25 +714,11 @@
     "text": "Where We’re Headed Today\n\n📥 Raw 📋 SDTM 🎯 ADaM 📊 ARD 📈 TFL\n\n\nRaw: Where every study starts.\nSDTM: Standardized into a common shape across studies.\nADaM: Our focus today - analysis-ready variables and records.\nARD: Summarized into Analysis Results Datasets.\nTFL: Formatted into Tables, Figures, and Listings for submission."
   },
   {
-    "objectID": "slides/03-ADaM/admiral.html#set-the-stage-1",
-    "href": "slides/03-ADaM/admiral.html#set-the-stage-1",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "Set the Stage",
-    "text": "Set the Stage\n\nData: SDTMs → ADSL → ADVS\nSpecs drive every derivation - we’ll peek at ours shortly\npharmaverse packages that play nice with tidyverse and base R\nTwo exercises today: derive_vars_dtm() in ADSL, derive_param_computed() in ADVS\nStuck? Ask your AI assistant before hand-coding a fix"
-  },
-  {
     "objectID": "slides/03-ADaM/admiral.html#adsl-advs---our-two-datasets",
     "href": "slides/03-ADaM/admiral.html#adsl-advs---our-two-datasets",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "ADSL & ADVS - Our Two Datasets",
-    "text": "ADSL & ADVS - Our Two Datasets\n\n\n\n\n\n\nADSL - one record per subject (306 obs, 48 vars). Focus: adding variables.\nBuilt from {pharmaversesdtm}, ADSL section of our spec. Final version in pharmaverseadam.\n\n\n\n\n\n\nADVS - a Basic Data Structure (BDS), multiple records per subject (~62K records, 68 vars).\nBuilt from {pharmaversesdtm} vs + ADSL, ADVS section of spec. Many functions repeat from ADSL.\n\n\n\nNo digging through folders - open both scripts straight from the R console:\n\n\nfile.edit(\"scripts/adsl.R\")\nfile.edit(\"scripts/advs.R\")"
-  },
-  {
-    "objectID": "slides/03-ADaM/admiral.html#how-well-dig-into-the-scripts",
-    "href": "slides/03-ADaM/admiral.html#how-well-dig-into-the-scripts",
-    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
-    "section": "How We’ll Dig Into the Scripts",
-    "text": "How We’ll Dig Into the Scripts\n\nEvery slide from here on references specific line numbers in adsl.R/advs.R (footnoted like ^[Lines: 20-25]) - follow along in your open script.\nWe’ll walk through the key functions together first…\n…then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line."
+    "text": "ADSL & ADVS - Our Two Datasets\n\n\n\n\n\n\nADSL - one record per subject (306 obs, 48 vars). Focus: adding variables.\nBuilt from {pharmaversesdtm}, ADSL section of our spec. Final version in pharmaverseadam.\n\n\n\n\n\n\nADVS - a Basic Data Structure (BDS), multiple records per subject (~62K records, 68 vars).\nBuilt from {pharmaversesdtm} vs + ADSL, ADVS section of spec. Many functions repeat from ADSL.\n\n\n\nNo digging through folders - open both scripts straight from the R console (paths are relative to the project root):\n\n\nfile.edit(\"slides/03-ADaM/scripts/adsl.R\")\n\n\nfile.edit(\"slides/03-ADaM/scripts/advs.R\")"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#spec-details",
@@ -740,6 +726,13 @@
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Spec-details",
     "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec - a data validation format widely used for creating/validating SDTMs and ADaMs\nNot fit for purpose here - just a helpful guide\nContains: dataset labels/keys, variable labels/lengths/types linked to method, codelists/control terms\nLet’s take a quick live peek 👀"
+  },
+  {
+    "objectID": "slides/03-ADaM/admiral.html#how-well-dig-into-the-scripts",
+    "href": "slides/03-ADaM/admiral.html#how-well-dig-into-the-scripts",
+    "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
+    "section": "How We’ll Dig Into the Scripts 1",
+    "text": "How We’ll Dig Into the Scripts 1\n\nEvery slide from here on references specific line numbers in adsl.R/advs.R, footnoted right in the heading like this one - see the Lines: 20-25 pill up top, and the matching note down at the bottom of this slide - follow along in your open script.\nWe’ll walk through the key functions together first…\n…then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line.\n\nLines: 20-25"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#key-functions-cheat-sheet-admiral",
@@ -760,7 +753,7 @@
     "href": "slides/03-ADaM/admiral.html#reading-in-our-spec-for-adsl",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Reading in our spec for ADSL 1",
-    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  verbose = \"silent\"\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nverbose argument should be set to \"silent\" while developing your spec and ADaMs (replaces the now-deprecated quiet argument).\nSame call in ADVS script.\n\nLines: 20-25"
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  verbose = \"silent\"\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nFunctions from {metacore}; takes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - is the info in a separate sheet (older P21 specs) or one sheet (newer specs)?\nverbose = \"silent\" while iterating on your spec (replaces the deprecated quiet argument).\nSame call in ADVS script.\n\nLines: 20-25"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#combine-parent-and-supplementary-data",
@@ -809,7 +802,7 @@
     "href": "slides/03-ADaM/admiral.html#lets-get-a-more-complicated-merge-filter_add",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Let’s get a more complicated merge: filter_add 1",
-    "text": "Let’s get a more complicated merge: filter_add 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\nfilter_add restricts which records from dataset_add are eligible before order/mode ever run\nBreaking it down:\n\nEXDOSE &gt; 0 - keep any record with a real (non-zero) dose\nEXDOSE == 0 & str_detect(EXTRT, \"PLACEBO\") - or keep a zero-dose record only when it’s explicitly a placebo administration, so a placebo subject still gets a valid “treatment start” record, but a skipped/withheld dose doesn’t\n!is.na(EXSTDTM) - and only consider records that actually have a start datetime to order/select on\nTogether, this narrows the candidate pool before mode = \"first\" picks the earliest qualifying record per subject\n\n\nLines: 72-84, and more!!"
+    "text": "Let’s get a more complicated merge: filter_add 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\nfilter_add restricts which records from dataset_add are eligible, before order/mode ever run:\n\nEXDOSE &gt; 0 - a real (non-zero) dose\nEXDOSE == 0 & str_detect(EXTRT, \"PLACEBO\") - or a zero-dose placebo record (so placebo subjects still get a valid start, but withheld doses don’t)\n!is.na(EXSTDTM) - and a start datetime to order/select on\n\nThis narrows the candidate pool before mode = \"first\" picks the earliest qualifying record per subject\n\nLines: 72-84, and more!!"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#try-it-ask-your-ai-for-assistance-on-merging",
@@ -830,7 +823,7 @@
     "href": "slides/03-ADaM/admiral.html#lets-apply-control-terms-code-lists",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Let’s apply Control Terms / Code Lists 1",
-    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric variables are handy for sorting in a table or listing for display.\n\nLines: 276-282"
+    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\ncreate_var_from_codelist() is a function from {metatools}\nNumeric variables are handy for sorting in a table or listing for display.\n\nLines: 276-282"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#datetime-exercise-1",
@@ -907,14 +900,14 @@
     "href": "slides/03-ADaM/admiral.html#lets-get-that-adam-ready-for-regulatory-agencies",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Let’s get that ADaM ready for regulatory agencies 1",
-    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec) %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\ndataset_name is no longer needed here - since our advs_spec metacore object is already scoped to a single dataset via select_dataset(), check_variables() picks that up automatically (the argument is deprecated as of metatools 0.2.0).\nNote similar code in ADSL script!\n\nLines: 305-310"
+    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec) %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\ndataset_name is no longer needed here - since our advs_spec metacore object is already scoped to a single dataset via select_dataset(), check_variables() picks that up automatically (the argument is deprecated as of metatools 0.2.0).\nNote similar code in ADSL script!\n\nLines: 304-308"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
     "href": "slides/03-ADaM/admiral.html#lets-get-that-data-read-for-regulatory-agencies",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Let’s get that data read for regulatory agencies 1",
-    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 313-319"
+    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 311-316"
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#new-records-exercise-1",
@@ -970,7 +963,7 @@
     "href": "slides/03-ADaM/admiral.html#try-it-ask-your-ai-for-assistance-on-codelists",
     "title": "AI-Powered Clinical Reporting in R with the Pharmaverse",
     "section": "Try It: Ask Your AI for Assistance on Codelists",
-    "text": "Try It: Ask Your AI for Assistance on Codelists\n\nCreate a small example dataset with a character SEX variable using\nvalues \"M\" and \"F\", and a separate codelist data frame with code and\ndecode columns mapping those values to numeric codes.\n\nThen write a metatools call to add a new numeric SEXN variable\nderived from the codelist. I'm not sure whether my SEX values match\nthe \"code\" side or the \"decode\" side of the codelist - pick the\nargument that controls that direction, tell me which way you assumed\nit goes, and explain what the output would look like if that\nassumption were backwards.\n\n\n\n\n\n\n\n\nGoal\n\n\nPractice a case where getting a single argument’s direction wrong would silently produce the wrong numbers - a good habit to build before you’re doing this on real data."
+    "text": "Try It: Ask Your AI for Assistance on Codelists\n\nUsing the ADSL spec object we already read in with spec_to_metacore()\nearlier, create a small example dataset with a character RACE\nvariable using a couple of the full-text values from that spec's RACE\ncodelist (e.g. \"WHITE\"). Then write a metatools call to add a new\nnumeric RACEN variable derived from that codelist.\n\nI'm not sure whether my RACE values match the \"code\" side or the\n\"decode\" side of the codelist - pick the argument that controls that\ndirection, tell me which way you assumed it goes, and explain what\nthe output would look like if that assumption were backwards.\n\n\n\n\n\n\n\n\nGoal\n\n\nPractice a case where getting a single argument’s direction wrong would silently produce the wrong numbers - a good habit to build before you’re doing this on real data."
   },
   {
     "objectID": "slides/03-ADaM/admiral.html#try-it-ask-your-ai-for-assistance-on-lookup-tables",
@@ -1705,25 +1698,11 @@
     "text": "Where We’re Headed Today\n\n📥 Raw 📋 SDTM 🎯 ADaM 📊 ARD 📈 TFL\n\n\nRaw: Where every study starts.\nSDTM: Standardized into a common shape across studies.\nADaM: Our focus today - analysis-ready variables and records.\nARD: Summarized into Analysis Results Datasets.\nTFL: Formatted into Tables, Figures, and Listings for submission."
   },
   {
-    "objectID": "slides/03-ADaM/index.html#set-the-stage-1",
-    "href": "slides/03-ADaM/index.html#set-the-stage-1",
-    "title": "ADaMs with {admiral}, friends, and AI",
-    "section": "Set the Stage",
-    "text": "Set the Stage\n\nData: SDTMs → ADSL → ADVS\nSpecs drive every derivation - we’ll peek at ours shortly\npharmaverse packages that play nice with tidyverse and base R\nTwo exercises today: derive_vars_dtm() in ADSL, derive_param_computed() in ADVS\nStuck? Ask your AI assistant before hand-coding a fix"
-  },
-  {
     "objectID": "slides/03-ADaM/index.html#adsl-advs---our-two-datasets",
     "href": "slides/03-ADaM/index.html#adsl-advs---our-two-datasets",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "ADSL & ADVS - Our Two Datasets",
-    "text": "ADSL & ADVS - Our Two Datasets\n\n\n\n\n\n\nADSL - one record per subject (306 obs, 48 vars). Focus: adding variables.\nBuilt from {pharmaversesdtm}, ADSL section of our spec. Final version in pharmaverseadam.\n\n\n\n\n\n\nADVS - a Basic Data Structure (BDS), multiple records per subject (~62K records, 68 vars).\nBuilt from {pharmaversesdtm} vs + ADSL, ADVS section of spec. Many functions repeat from ADSL.\n\n\n\nNo digging through folders - open both scripts straight from the R console:\n\n\nfile.edit(\"scripts/adsl.R\")\nfile.edit(\"scripts/advs.R\")"
-  },
-  {
-    "objectID": "slides/03-ADaM/index.html#how-well-dig-into-the-scripts",
-    "href": "slides/03-ADaM/index.html#how-well-dig-into-the-scripts",
-    "title": "ADaMs with {admiral}, friends, and AI",
-    "section": "How We’ll Dig Into the Scripts",
-    "text": "How We’ll Dig Into the Scripts\n\nEvery slide from here on references specific line numbers in adsl.R/advs.R (footnoted like ^[Lines: 20-25]) - follow along in your open script.\nWe’ll walk through the key functions together first…\n…then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line."
+    "text": "ADSL & ADVS - Our Two Datasets\n\n\n\n\n\n\nADSL - one record per subject (306 obs, 48 vars). Focus: adding variables.\nBuilt from {pharmaversesdtm}, ADSL section of our spec. Final version in pharmaverseadam.\n\n\n\n\n\n\nADVS - a Basic Data Structure (BDS), multiple records per subject (~62K records, 68 vars).\nBuilt from {pharmaversesdtm} vs + ADSL, ADVS section of spec. Many functions repeat from ADSL.\n\n\n\nNo digging through folders - open both scripts straight from the R console (paths are relative to the project root):\n\n\nfile.edit(\"slides/03-ADaM/scripts/adsl.R\")\n\n\nfile.edit(\"slides/03-ADaM/scripts/advs.R\")"
   },
   {
     "objectID": "slides/03-ADaM/index.html#spec-details",
@@ -1731,6 +1710,13 @@
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Spec-details",
     "text": "Spec-details\n\nGives specifics on how we derive variables in the ADaMs (extreme traceability)\nP21-like spec - a data validation format widely used for creating/validating SDTMs and ADaMs\nNot fit for purpose here - just a helpful guide\nContains: dataset labels/keys, variable labels/lengths/types linked to method, codelists/control terms\nLet’s take a quick live peek 👀"
+  },
+  {
+    "objectID": "slides/03-ADaM/index.html#how-well-dig-into-the-scripts",
+    "href": "slides/03-ADaM/index.html#how-well-dig-into-the-scripts",
+    "title": "ADaMs with {admiral}, friends, and AI",
+    "section": "How We’ll Dig Into the Scripts 1",
+    "text": "How We’ll Dig Into the Scripts 1\n\nEvery slide from here on references specific line numbers in adsl.R/advs.R, footnoted right in the heading like this one - see the Lines: 20-25 pill up top, and the matching note down at the bottom of this slide - follow along in your open script.\nWe’ll walk through the key functions together first…\n…then use AI prompts to dig in deeper on the arguments and edge cases, rather than reciting the docs line by line.\n\nLines: 20-25"
   },
   {
     "objectID": "slides/03-ADaM/index.html#key-functions-cheat-sheet-admiral",
@@ -1751,7 +1737,7 @@
     "href": "slides/03-ADaM/index.html#reading-in-our-spec-for-adsl",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Reading in our spec for ADSL 1",
-    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  verbose = \"silent\"\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nTakes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - option to tell if the information for the dataset is in a separate sheet, like in older p21 specs or in a single sheet like newer p21 specs\nverbose argument should be set to \"silent\" while developing your spec and ADaMs (replaces the now-deprecated quiet argument).\nSame call in ADVS script.\n\nLines: 20-25"
+    "text": "Reading in our spec for ADSL 1\nadsl_spec &lt;- spec_to_metacore(\n  path = \"slides/03-ADaM/metadata/posit_specs.xlsx\",\n  where_sep_sheet = FALSE,\n  verbose = \"silent\"\n) %&gt;%\n  select_dataset(\"ADSL\")\n\nFunctions from {metacore}; takes a P21-like spec and makes it into an object we can easily access.\nwhere_sep_sheet - is the info in a separate sheet (older P21 specs) or one sheet (newer specs)?\nverbose = \"silent\" while iterating on your spec (replaces the deprecated quiet argument).\nSame call in ADVS script.\n\nLines: 20-25"
   },
   {
     "objectID": "slides/03-ADaM/index.html#combine-parent-and-supplementary-data",
@@ -1800,7 +1786,7 @@
     "href": "slides/03-ADaM/index.html#lets-get-a-more-complicated-merge-filter_add",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Let’s get a more complicated merge: filter_add 1",
-    "text": "Let’s get a more complicated merge: filter_add 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\nfilter_add restricts which records from dataset_add are eligible before order/mode ever run\nBreaking it down:\n\nEXDOSE &gt; 0 - keep any record with a real (non-zero) dose\nEXDOSE == 0 & str_detect(EXTRT, \"PLACEBO\") - or keep a zero-dose record only when it’s explicitly a placebo administration, so a placebo subject still gets a valid “treatment start” record, but a skipped/withheld dose doesn’t\n!is.na(EXSTDTM) - and only consider records that actually have a start datetime to order/select on\nTogether, this narrows the candidate pool before mode = \"first\" picks the earliest qualifying record per subject\n\n\nLines: 72-84, and more!!"
+    "text": "Let’s get a more complicated merge: filter_add 1\nderive_vars_merged(\n  dataset_add = ex_ext,\n  by_vars = exprs(STUDYID, USUBJID),\n  order = exprs(EXSTDTM, EXSEQ),\n  new_vars = exprs(TRTSDTM = EXSTDTM, TRTSTMF = EXSTTMF),\n  filter_add = (EXDOSE &gt; 0 |\n    (EXDOSE == 0 &\n      str_detect(EXTRT, \"PLACEBO\"))) &\n    !is.na(EXSTDTM),\n  mode = \"first\",\n)\n\nfilter_add restricts which records from dataset_add are eligible, before order/mode ever run:\n\nEXDOSE &gt; 0 - a real (non-zero) dose\nEXDOSE == 0 & str_detect(EXTRT, \"PLACEBO\") - or a zero-dose placebo record (so placebo subjects still get a valid start, but withheld doses don’t)\n!is.na(EXSTDTM) - and a start datetime to order/select on\n\nThis narrows the candidate pool before mode = \"first\" picks the earliest qualifying record per subject\n\nLines: 72-84, and more!!"
   },
   {
     "objectID": "slides/03-ADaM/index.html#try-it-ask-your-ai-for-assistance-on-merging",
@@ -1821,7 +1807,7 @@
     "href": "slides/03-ADaM/index.html#lets-apply-control-terms-code-lists",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Let’s apply Control Terms / Code Lists 1",
-    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\nNumeric variables are handy for sorting in a table or listing for display.\n\nLines: 276-282"
+    "text": "Let’s apply Control Terms / Code Lists 1\nadsl16 %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = AGEGR1, out_var = AGEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACE, out_var = RACEN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = RACEGR1, out_var = RACEGR1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = REGION1, out_var = REGION1N) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01P, out_var = TRT01PN) %&gt;%\n  create_var_from_codelist(adsl_spec, input_var = TRT01A, out_var = TRT01AN)\n\ncreate_var_from_codelist() is a function from {metatools}\nNumeric variables are handy for sorting in a table or listing for display.\n\nLines: 276-282"
   },
   {
     "objectID": "slides/03-ADaM/index.html#datetime-exercise-1",
@@ -1898,14 +1884,14 @@
     "href": "slides/03-ADaM/index.html#lets-get-that-adam-ready-for-regulatory-agencies",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Let’s get that ADaM ready for regulatory agencies 1",
-    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec) %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\ndataset_name is no longer needed here - since our advs_spec metacore object is already scoped to a single dataset via select_dataset(), check_variables() picks that up automatically (the argument is deprecated as of metatools 0.2.0).\nNote similar code in ADSL script!\n\nLines: 305-310"
+    "text": "Let’s get that ADaM ready for regulatory agencies 1\nadvs_prefinal &lt;- advs %&gt;%\n  drop_unspec_vars(advs_spec) %&gt;% \n  check_variables(advs_spec) %&gt;% \n  order_cols(advs_spec) %&gt;% \n  sort_by_key(advs_spec) \n\nFunctions from {metatools}\ndataset_name is no longer needed here - since our advs_spec metacore object is already scoped to a single dataset via select_dataset(), check_variables() picks that up automatically (the argument is deprecated as of metatools 0.2.0).\nNote similar code in ADSL script!\n\nLines: 304-308"
   },
   {
     "objectID": "slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
     "href": "slides/03-ADaM/index.html#lets-get-that-data-read-for-regulatory-agencies",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Let’s get that data read for regulatory agencies 1",
-    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_type(advs_spec) %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 313-319"
+    "text": "Let’s get that data read for regulatory agencies 1\nadvs_final &lt;- advs_prefinal %&gt;%\n  xportr_length(advs_spec) %&gt;%\n  xportr_label(advs_spec) %&gt;%\n  xportr_format(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_df_label(advs_spec, domain = \"ADVS\") %&gt;%\n  xportr_write(file.path(dir, \"advs.xpt\"), metadata = advs_spec, domain = \"ADVS\")\n\nFunctions from {xportr}\nNote similar code in ADSL script!\ndomain is needed depending on how metacore object is created.\n\nLines: 311-316"
   },
   {
     "objectID": "slides/03-ADaM/index.html#new-records-exercise-1",
@@ -1961,7 +1947,7 @@
     "href": "slides/03-ADaM/index.html#try-it-ask-your-ai-for-assistance-on-codelists",
     "title": "ADaMs with {admiral}, friends, and AI",
     "section": "Try It: Ask Your AI for Assistance on Codelists",
-    "text": "Try It: Ask Your AI for Assistance on Codelists\n\nCreate a small example dataset with a character SEX variable using\nvalues \"M\" and \"F\", and a separate codelist data frame with code and\ndecode columns mapping those values to numeric codes.\n\nThen write a metatools call to add a new numeric SEXN variable\nderived from the codelist. I'm not sure whether my SEX values match\nthe \"code\" side or the \"decode\" side of the codelist - pick the\nargument that controls that direction, tell me which way you assumed\nit goes, and explain what the output would look like if that\nassumption were backwards.\n\n\n\n\n\n\n\n\nGoal\n\n\nPractice a case where getting a single argument’s direction wrong would silently produce the wrong numbers - a good habit to build before you’re doing this on real data."
+    "text": "Try It: Ask Your AI for Assistance on Codelists\n\nUsing the ADSL spec object we already read in with spec_to_metacore()\nearlier, create a small example dataset with a character RACE\nvariable using a couple of the full-text values from that spec's RACE\ncodelist (e.g. \"WHITE\"). Then write a metatools call to add a new\nnumeric RACEN variable derived from that codelist.\n\nI'm not sure whether my RACE values match the \"code\" side or the\n\"decode\" side of the codelist - pick the argument that controls that\ndirection, tell me which way you assumed it goes, and explain what\nthe output would look like if that assumption were backwards.\n\n\n\n\n\n\n\n\nGoal\n\n\nPractice a case where getting a single argument’s direction wrong would silently produce the wrong numbers - a good habit to build before you’re doing this on real data."
   },
   {
     "objectID": "slides/03-ADaM/index.html#try-it-ask-your-ai-for-assistance-on-lookup-tables",
