@@ -115,22 +115,22 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
 [Datetime Exercise]{.pv-agenda-title}
-[11:45 - 11:52]{.pv-agenda-time}
+[11:45 - 11:50]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [📊]{.pv-agenda-ico}
 [`ADVS`]{.pv-agenda-title}
-[11:52 - 12:23]{.pv-agenda-time}
+[11:50 - 12:21]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [✏️]{.pv-agenda-ico}
 [New Records Exercise]{.pv-agenda-title}
-[12:23 - 12:30]{.pv-agenda-time}
+[12:21 - 12:26]{.pv-agenda-time}
 :::
 ::: {.pv-agenda-item}
 [🍽️]{.pv-agenda-ico}
 [Lunch!]{.pv-agenda-title}
-[12:30]{.pv-agenda-time}
+[12:26]{.pv-agenda-time}
 :::
 :::
 
@@ -158,6 +158,15 @@ Hands-on exercises using `admiral`, leaning on your AI assistant when you get st
 🕥11:00 - 11:15
 
 <div style="text-align: center;"> <img src="./images/office.jpg" alt="office" style="width: 600px;"/> </div>
+
+## One Setup Tip: Switch to Auto Mode
+
+::: incremental
+-   Flip Posit Assistant to **Auto** mode before we start the "Try It" prompts.
+-   Auto mode lets it read files, run R, and iterate on its own without stopping to ask permission on every single step.
+-   That matters today - our exercise windows are short, and stopping to click "approve" after every tool call eats the clock.
+-   You're still the reviewer: skim what it did and the diff afterward, and stop it any time something looks off.
+:::
 
 ## `ADSL` & `ADVS` - Our Two Datasets {.smaller}
 
@@ -222,6 +231,13 @@ admiral_fns <- tibble::tribble(
 admiral_fns$Function <- fn_link("admiral", admiral_fns$fn, admiral_base_url)
 admiral_fns$Package  <- pkg_badge("admiral")
 
+n_admiral_exported  <- length(getNamespaceExports("admiral"))
+n_admiral_fns       <- sum(vapply(
+  getNamespaceExports("admiral"),
+  \(x) tryCatch(is.function(get(x, envir = asNamespace("admiral"))), error = \(e) FALSE),
+  logical(1)
+))
+
 reactable(
   admiral_fns[, c("Package", "Function", "Purpose")],
   columns = list(
@@ -238,6 +254,10 @@ reactable(
   style = list(fontSize = "1.05em")
 )
 ```
+
+::: {.aside}
+That's `r nrow(admiral_fns)` of `{admiral}`'s `r n_admiral_fns` exported functions - we picked our favorites; the other `r n_admiral_fns - nrow(admiral_fns)` are still waiting for you (and your AI assistant) to meet them.
+:::
 
 ## Key Functions Cheat Sheet: `{metacore}`, `{metatools}`, `{xportr}` `r glue("<img src='{metacore_img}' height='40' style='vertical-align:middle; margin-left:0.5em;'/><img src='{metatools_img}' height='40' style='vertical-align:middle; margin-left:0.3em;'/><img src='{xportr_img}' height='40' style='vertical-align:middle; margin-left:0.3em;'/>")`
 
@@ -261,6 +281,18 @@ metadata_fns$Function <- purrr::pmap_chr(
   \(pkg, fn, base_url) fn_link(pkg, fn, base_url)
 )
 
+count_pkg_fns <- function(pkg) {
+  sum(vapply(
+    getNamespaceExports(pkg),
+    \(x) tryCatch(is.function(get(x, envir = asNamespace(pkg))), error = \(e) FALSE),
+    logical(1)
+  ))
+}
+n_metacore_fns  <- count_pkg_fns("metacore")
+n_metatools_fns <- count_pkg_fns("metatools")
+n_xportr_fns    <- count_pkg_fns("xportr")
+n_metadata_total <- n_metacore_fns + n_metatools_fns + n_xportr_fns
+
 reactable(
   metadata_fns[, c("Package", "Function", "Purpose")],
   columns = list(
@@ -277,6 +309,10 @@ reactable(
   style = list(fontSize = "1.05em")
 )
 ```
+
+::: {.aside}
+That's `r nrow(metadata_fns)` of the `r n_metadata_total` functions across `{metacore}` (`r n_metacore_fns`), `{metatools}` (`r n_metatools_fns`), and `{xportr}` (`r n_xportr_fns`) - small packages, big reference pages.
+:::
 
 # `ADSL`
 
@@ -363,39 +399,7 @@ Practice describing what you want in plain language and let the AI assistant map
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
-```
-
-## Try It: Ask Your AI for Assistance on Dates, Round 2 {.smaller}
-
-* Now let's push it further and put `min_dates`, `max_dates`, and `preserve` to work.
-
-::: {.codewindow style="font-size: 1.05em;"}
-```
-Let's extend that last exercise. Add a treatment start datetime and
-a data cutoff datetime for each subject to the dataset. Also add one
-more --DTC record where the month is unknown but the day is - like
-"2019---07" for the 7th of some unspecified month.
-
-When you impute, don't throw away a date part just because a part
-above it was missing - if we already know the day, keep it even
-though we had to guess the month. Also make sure none of the imputed
-datetimes end up earlier than that subject's treatment start, or
-later than the data cutoff - adjust the imputed value to respect
-those boundaries instead of ignoring them.
-
-Show me the resulting dataset and explain how the reference dates
-changed the outcome compared to imputing without them.
-```
-:::
-
-::: {.callout-tip title="Goal"}
-See how `admiral` can keep an imputed value from "wandering off" past dates you already know are true - useful when a partial date still needs to make logical sense next to other dates in the study.
-:::
-
-```{r}
-#| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
 ## A Simple merge ^[Lines: 187-194]
@@ -481,7 +485,7 @@ Practice handing the AI a join scenario in plain language and seeing which argum
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
 ## Let's derive a Duration Variable ^[Lines: 122-126]
@@ -514,7 +518,7 @@ adsl16 %>%
 
 # Datetime Exercise
 
-🕚11:45 - 11:52
+🕚11:45 - 11:50
 
 ## Datetime Exercise {.smaller}
 
@@ -575,7 +579,7 @@ derive_vars_dtm(
 
 # `ADVS`
 
-🕦11:52 - 12:23
+🕦11:50 - 12:21
 
 ::: {.callout-note title="Follow Along"}
 Lines in each script are referenced with a footnote like `^[Lines: 72-80]` - flip to that spot in `advs.R` as we go.
@@ -638,7 +642,7 @@ Practice a "one value applies to many records" scenario, which comes up any time
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
 ## Let's derive DTYPE summary records ^[Lines: 144-153]
@@ -704,7 +708,7 @@ See how a higher order function like `restrict_derivation()` lets you scope a de
 
 ```{r}
 #| echo: false
-countdown::countdown(minutes = 5)
+countdown::countdown(minutes = 7)
 ```
 
 ## Let's add a BASE variable ^[Lines: 210-217]
@@ -770,7 +774,7 @@ advs_final <- advs_prefinal %>%
 
 # New Records Exercise
 
-🕦 12:23 - 12:30
+🕦 12:21 - 12:26
 
 ## New Records Exercise {.smaller}
 
@@ -866,6 +870,33 @@ A bunch more Ben-style "Ask Your AI" prompts are coming up right after this sect
 Ran out of time today? Try these extra "Ask Your AI" prompts on your own -
 same style as what we practiced live, just a few more functions worth
 getting comfortable with.
+
+## Try It: Ask Your AI for Assistance on Dates, Round 2 {.smaller}
+
+* Now let's push it further and put `min_dates`, `max_dates`, and `preserve` to work.
+
+::: {.codewindow style="font-size: 1.05em;"}
+```
+Let's extend that last exercise. Add a treatment start datetime and
+a data cutoff datetime for each subject to the dataset. Also add one
+more --DTC record where the month is unknown but the day is - like
+"2019---07" for the 7th of some unspecified month.
+
+When you impute, don't throw away a date part just because a part
+above it was missing - if we already know the day, keep it even
+though we had to guess the month. Also make sure none of the imputed
+datetimes end up earlier than that subject's treatment start, or
+later than the data cutoff - adjust the imputed value to respect
+those boundaries instead of ignoring them.
+
+Show me the resulting dataset and explain how the reference dates
+changed the outcome compared to imputing without them.
+```
+:::
+
+::: {.callout-tip title="Goal"}
+See how `admiral` can keep an imputed value from "wandering off" past dates you already know are true - useful when a partial date still needs to make logical sense next to other dates in the study.
+:::
 
 ## Try It: Ask Your AI for Assistance on Reading a Spec {.smaller}
 
