@@ -7,14 +7,14 @@ library(lubridate)
 library(admiral)
 
 posit_mh <- tribble(
-  ~USUBJID, ~MHSTDTC,
-  1,        "2019-07-18T15:25:40",
-  1,        "2019-07-18T15:25",
-  1,        "2019-07-18",
-  2,        "2024-02",
-  2,        "2019",
-  2,        "2019---07",
-  3,        ""
+  ~USUBJID,       ~MHSTDTC,
+  "01-701-1011",  "2019-07-18T15:25:40",
+  "01-701-1011",  "2019-07-18T15:25",
+  "01-701-1011",  "2019-07-18",
+  "01-701-1015",  "2024-02",
+  "01-701-1015",  "2019",
+  "01-701-1015",  "2019---07",
+  "01-701-1019",  ""
 )
 
 derive_vars_dtm(
@@ -23,7 +23,8 @@ derive_vars_dtm(
   dtc = MHSTDTC,
   highest_imputation = "M",
   date_imputation = "last",
-  time_imputation = "last"
+  time_imputation = "last",
+  ignore_seconds_flag = FALSE
 )
 
 # Exercise 2
