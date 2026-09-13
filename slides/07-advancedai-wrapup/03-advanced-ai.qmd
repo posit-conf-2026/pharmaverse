@@ -207,9 +207,8 @@ Reading that plan takes twenty seconds. Two things are worth pushing back on:
 :::: {.pv-skill-body}
 > Two changes before you start:
 >
-> 1. Step 3 — don't derive ADSL from scratch. Start from
->    `pharmaverseadam::adsl` and merge the DM variables in.
-> 2. Step 4 — summarise by `TRT01P`, not `ARM`, and keep the
+> - Step 3 — don't use `pharmaverseadam::adsl`, derive ADSL from scratch. 
+> - Step 4 — summarise by `TRT01P`, not `ARM`, and keep the
 >    `check_ard_structure()` call.
 >
 > Otherwise this looks right — go ahead.
@@ -230,3 +229,5 @@ the code exists**. Same agent, same skills; you just get a say at the fork.
 :::
 
 ## Advanced AI discussion
+
+![](images/robot-discussion.jpg){fig-align="center" width="78%" fig-alt="Two robots reviewing a project plan displayed on a screen between them"}
