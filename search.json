@@ -949,7 +949,7 @@
     "href": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
     "title": "Welcome!",
     "section": "What to expect from this workshop",
-    "text": "What to expect from this workshop\n\n Explore pharmaverse R packages for clinical reporting\n\n\n\n\nRaw data test data & CDASH / non-CDASH inputs\n\n\npharmaverseraw\n\n\n\n\nSDTM standardize raw data into SDTM domains\n\n\nsdtm.oak\n\n\n\n\nADaM build analysis-ready datasets from SDTM\n\n\nadmiral\n\n\n\n\nTables & ARDs summaries, TLGs, analysis results datasets\n\n\ngtsummary · cards\n\n\n\n\nAI agents & skills accelerate every step — hands-on exercises throughout"
+    "text": "What to expect from this workshop\n\n Explore pharmaverse R packages for clinical reporting\n\n\n\n\nRaw data test data & CDASH / non-CDASH inputs\n\n\npharmaverseraw\n\n\n\n\nSDTM standardize raw data into SDTM domains\n\n\nsdtm.oak\n\n\n\n\nADaM build analysis-ready datasets from SDTM\n\n\nadmiral\n\n\n\n\nTables & ARDs summaries, TLGs, analysis results datasets\n\n\ngtsummary · tfrmt · cards\n\n\n\n\nAI agents & skills accelerate every step — hands-on exercises throughout"
   },
   {
     "objectID": "slides/01-intro/index.html#workshop-expectations",
@@ -2237,13 +2237,6 @@
     "text": "Acknowledgements\n\n\n\n\nThis work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA4.0)."
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#daniel-d.-sjoberg",
-    "href": "slides/05-tables-gtsummary/index.html#daniel-d.-sjoberg",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Daniel D. Sjoberg",
-    "text": "Daniel D. Sjoberg\n\n\n danieldsjoberg.com\n ddsjoberg.bsky.social\n linkedin.com/in/ddsjoberg\n github.com/ddsjoberg"
-  },
-  {
     "objectID": "slides/05-tables-gtsummary/index.html#questions",
     "href": "slides/05-tables-gtsummary/index.html#questions",
     "title": "Clinical Reporting with {gtsummary}",
@@ -2269,63 +2262,21 @@
     "href": "slides/05-tables-gtsummary/index.html#gtsummary-overview",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "{gtsummary} overview",
-    "text": "{gtsummary} overview\n\n\n\nCreate tabular summaries with sensible defaults but highly customizable\nTypes of summaries:\n\nDemographic- or “Table 1”-types\nCross-tabulation\nRegression models\nSurvival data\nSurvey data\nCustom tables\n\n\n\n\nReport statistics from {gtsummary} tables inline in R Markdown\nStack and/or merge any table type\nUse themes to standardize across tables\nChoose from different print engines"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#gtsummary-overview-1",
-    "href": "slides/05-tables-gtsummary/index.html#gtsummary-overview-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "{gtsummary} overview",
-    "text": "{gtsummary} overview\nFor our workshop, we will focus on the following summary types as well as themes and print engines.\n\ntbl_summary()\ntbl_hierarchical()\n\n\nOther functions helpful functions we’re not covering:\n\n\ntbl_hierarchical_count(): similar to tbl_hierarchical() for counts instead of rates\ntbl_cross(): cross tabulations\ntbl_continuous(): summarizing continuous variables by 2 categorical variables\ntbl_wide_summary(): similar to tbl_summary() but statistics are presented in separate columns\nmany more!"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#pharmaverseadam-data-for-examples",
-    "href": "slides/05-tables-gtsummary/index.html#pharmaverseadam-data-for-examples",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "{pharmaverseadam} Data for Examples",
-    "text": "{pharmaverseadam} Data for Examples\nReduced sizes of adsl, adse, adlb. Created ad_onco with oncologic outcomes.\n\nlibrary(tidyverse)\n\nadsl &lt;- pharmaverseadam::adsl |&gt; \n  filter(SAFFL == \"Y\") |&gt; \n  mutate(ARM2 = word(ARM), FEMALE = SEX == \"F\") |&gt; \n  labelled::set_variable_labels(FEMALE = \"Female\")\n\nadae &lt;- pharmaverseadam::adae |&gt; \n  filter(\n    USUBJID %in% adsl$USUBJID,\n    AESOC %in% c(\"CARDIAC DISORDERS\", \"EYE DISORDERS\"),\n    AEDECOD %in% c(\"ATRIAL FLUTTER\", \"MYOCARDIAL INFARCTION\", \"EYE ALLERGY\", \"EYE SWELLING\")\n  ) |&gt; \n  mutate(ARM2 = word(ARM))\n\nadlb &lt;- pharmaverseadam::adlb |&gt; \n  filter(\n    USUBJID %in% adsl$USUBJID, \n    PARAM %in% c(\"Albumin (g/L)\", \"Bilirubin (umol/L)\" , \"Leukocytes (10^9/L)\"),\n    AVISIT %in% c(\"Baseline\", \"Week 12\", \"Week 24\")\n  ) |&gt; \n  mutate(ARM2 = word(ARM))\n\n# Construct an oncology outcomes dataset\nad_onco &lt;-\n  list(\n    # Best Overall Response\n    pharmaverseadam::adrs_onco |&gt; \n      filter(PARAMCD == \"CBOR\") |&gt; \n      select(USUBJID, RECIST_CBOR = AVALC) |&gt; \n      labelled::set_variable_labels(RECIST_CBOR = \"Best Overall Response\"),\n    # Tumor Size\n    pharmaverseadam::adtr_onco |&gt; \n      filter(PARAM == \"Target Lesions Sum of Diameters by Investigator\") |&gt; \n      select(USUBJID, TUMOR_SIZE = AVAL) |&gt; \n      labelled::set_variable_labels(TUMOR_SIZE = \"Tumor Size, mm\"),\n    # Progression-free Survival\n    pharmaverseadam::adtte_onco |&gt; \n      filter(PARAMCD == \"PFS\") |&gt; \n      select(USUBJID, PFS_CNSR = CNSR, PFS_TIME = AVAL) |&gt; \n      mutate(PFS_EVENT = abs(PFS_CNSR - 1)) |&gt; \n      labelled::set_variable_labels(\n        PFS_CNSR = \"PFS, Censor\",\n        PFS_EVENT = \"Progression\",\n        PFS_TIME = \"PFS Followup Time, days\"\n      )\n  ) |&gt; \n  reduce(full_join, by = \"USUBJID\") |&gt; \n  inner_join(adsl[c(\"USUBJID\", \"AGE\", \"ETHNIC\", \"ARM\")], by = \"USUBJID\") |&gt; \n  mutate(ARM2 = word(ARM))"
+    "text": "{gtsummary} overview\nCreate tabular summaries with sensible defaults but highly customizable.\nFor our workshop, we will focus on the following summary types as well as themes and print engines.\n\ntbl_summary()\ntbl_hierarchical()\n\n\nOther helpful functions we’re not covering:\n\n\ntbl_hierarchical_count(): similar to tbl_hierarchical() for counts instead of rates\ntbl_cross(): cross tabulations\ntbl_continuous(): summarizing continuous variables by 2 categorical variables\ntbl_wide_summary(): similar to tbl_summary() but statistics are presented in separate columns\nregression models, survival data, survey data, and many more!"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#basic-tbl_summary",
     "href": "slides/05-tables-gtsummary/index.html#basic-tbl_summary",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Basic tbl_summary()",
-    "text": "Basic tbl_summary()\n\n\n\nlibrary(gtsummary)\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE)\n  )\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN = 2541\n\n\n\n\nAge\n77 (70, 81)\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n242 (95%)\n\n\nFemale\n143 (56%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\n\nFour types of summaries: continuous, continuous2, categorical, and dichotomous\nStatistics are median (IQR) for continuous, n (%) for categorical/dichotomous\nVariables coded 0/1, TRUE/FALSE, Yes/No treated as dichotomous by default\nLabel attributes are printed automatically"
+    "text": "Basic tbl_summary()\n\n\n\nlibrary(gtsummary)\n\nadsl |&gt;\n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE)\n  )\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN = 2541\n\n\n\n\nAge\n77 (70, 81)\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n242 (95%)\n\n\nFemale\n143 (56%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\n\nFour types of summaries: continuous, continuous2, categorical, and dichotomous\nStatistics are median (IQR) for continuous, n (%) for categorical/dichotomous\nVariables coded 0/1, TRUE/FALSE, Yes/No treated as dichotomous by default\nLabel attributes are printed automatically\n\n\n\n\n\nExamples use reduced versions of {pharmaverseadam}’s adsl, adae, and adlb, plus an ad_onco we constructed with oncologic outcomes."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output",
     "href": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Customize tbl_summary() output",
-    "text": "Customize tbl_summary() output\n\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge\n76 (69, 82)\n77 (71, 81)\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-1",
-    "href": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Customize tbl_summary() output",
-    "text": "Customize tbl_summary() output\n\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n    type = AGE ~ \"continuous2\",\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge\n\n\n\n\n\n\n    Median (Q1, Q3)\n76 (69, 82)\n77 (71, 81)\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation\ntype: specify the summary type"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-2",
-    "href": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-2",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Customize tbl_summary() output",
-    "text": "Customize tbl_summary() output\n\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n    type = AGE ~ \"continuous2\",\n    statistic = \n      list(\n        AGE ~ c(\"{mean} ({sd})\", \n                \"{min}, {max}\"), \n        FEMALE ~ \"{n} / {N} ({p}%)\"\n      ),\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge\n\n\n\n\n\n\n    Mean (SD)\n75 (9)\n75 (8)\n\n\n    Min, Max\n52, 89\n51, 88\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 / 86 (62%)\n90 / 168 (54%)\n\n\n\n1 n (%); n / N (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation\ntype: specify the summary type\nstatistic: customize the reported statistics"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-3",
-    "href": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-3",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Customize tbl_summary() output",
-    "text": "Customize tbl_summary() output\n\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n    type = AGE ~ \"continuous2\",\n    statistic = \n      list(\n        AGE ~ c(\"{mean} ({sd})\", \n                \"{min}, {max}\"), \n        FEMALE ~ \"{n} / {N} ({p}%)\"\n      ),\n    label = \n      AGE ~ \"Age, years\",\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge, years\n\n\n\n\n\n\n    Mean (SD)\n75 (9)\n75 (8)\n\n\n    Min, Max\n52, 89\n51, 88\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 / 86 (62%)\n90 / 168 (54%)\n\n\n\n1 n (%); n / N (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation\ntype: specify the summary type\nstatistic: customize the reported statistics\n\n\n\nlabel: change or customize variable labels"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-4",
-    "href": "slides/05-tables-gtsummary/index.html#customize-tbl_summary-output-4",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Customize tbl_summary() output",
-    "text": "Customize tbl_summary() output\n\n\nadsl |&gt; \n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n    type = AGE ~ \"continuous2\",\n    statistic = \n      list(\n        AGE ~ c(\"{mean} ({sd})\", \n                \"{min}, {max}\"), \n        FEMALE ~ \"{n} / {N} ({p}%)\"\n      ),\n    label = \n      AGE ~ \"Age, years\",\n    digits = AGE ~ list(sd = 1) # report SD(age) to one decimal place\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge, years\n\n\n\n\n\n\n    Mean (SD)\n75 (8.6)\n75 (8.1)\n\n\n    Min, Max\n52, 89\n51, 88\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 / 86 (62%)\n90 / 168 (54%)\n\n\n\n1 n (%); n / N (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation\ntype: specify the summary type\nstatistic: customize the reported statistics\n\n\n\nlabel: change or customize variable labels\ndigits: specify the number of decimal places for rounding"
+    "text": "Customize tbl_summary() output\n\n\nadsl |&gt;\n  tbl_summary(\n    include = c(AGE, ETHNIC, FEMALE),\n    by = ARM2,\n    type = AGE ~ \"continuous2\",\n    statistic =\n      list(\n        AGE ~ c(\"{mean} ({sd})\",\n                \"{min}, {max}\"),\n        FEMALE ~ \"{n} / {N} ({p}%)\"\n      ),\n    label =\n      AGE ~ \"Age, years\",\n    digits = AGE ~ list(sd = 1) # report SD(age) to one decimal place\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nAge, years\n\n\n\n\n\n\n    Mean (SD)\n75 (8.6)\n75 (8.1)\n\n\n    Min, Max\n52, 89\n51, 88\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 / 86 (62%)\n90 / 168 (54%)\n\n\n\n1 n (%); n / N (%)\n\n\n\n\n\n\n\n\n\n\n\n\nby: specify a column variable for cross-tabulation\ntype: specify the summary type\nstatistic: customize the reported statistics\n\n\n\nlabel: change or customize variable labels\ndigits: specify the number of decimal places for rounding"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#gtsummary-formulas",
@@ -2346,49 +2297,21 @@
     "href": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Update tbl_summary() with add_*()",
-    "text": "Update tbl_summary() with add_*()\n\n\nadsl |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC, FEMALE)\n  ) |&gt; \n  add_overall(last = TRUE)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\nOverall\nN = 2541\n\n\n\n\nAge\n76 (69, 82)\n77 (71, 81)\n77 (70, 81)\n\n\nEthnicity\n\n\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n242 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n143 (56%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\nadd_overall(): adds a column of overall statistics"
+    "text": "Update tbl_summary() with add_*()\n\n\nadsl |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC, FEMALE)\n  ) |&gt;\n  add_overall(last = TRUE)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 861\nXanomeline\nN = 1681\nOverall\nN = 2541\n\n\n\n\nAge\n76 (69, 82)\n77 (71, 81)\n77 (70, 81)\n\n\nEthnicity\n\n\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n242 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n143 (56%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\nadd_overall(): adds a column of overall statistics"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-1",
     "href": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-1",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Update tbl_summary() with add_*()",
-    "text": "Update tbl_summary() with add_*()\n\n\nad_onco |&gt;\n  tbl_summary(\n    by = ARM2, \n    include = c(TUMOR_SIZE, PFS_EVENT),\n    missing = \"no\"\n  ) |&gt; \n  add_n() |&gt;\n  add_p(\n    pvalue_fun = label_style_pvalue(digits = 2)\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nPlacebo\nN = 961\nXanomeline\nN = 1771\np-value2\n\n\n\n\nTumor Size, mm\n25\n78 (38, 96)\n67 (26, 92)\n0.66\n\n\nProgression\n273\n6 (6.3%)\n9 (5.1%)\n0.69\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n2 Wilcoxon rank sum exact test; Pearson’s Chi-squared test\n\n\n\n\n\n\n\n\n\nadd_n(): adds a column non-missing counts\nadd_p(): adds a column of p-values"
+    "text": "Update tbl_summary() with add_*()\n\n\nad_onco |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(TUMOR_SIZE, PFS_EVENT),\n    missing = \"no\"\n  ) |&gt;\n  add_n() |&gt;\n  add_p(\n    pvalue_fun = label_style_pvalue(digits = 2)\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nPlacebo\nN = 961\nXanomeline\nN = 1771\np-value2\n\n\n\n\nTumor Size, mm\n25\n78 (38, 96)\n67 (26, 92)\n0.66\n\n\nProgression\n273\n6 (6.3%)\n9 (5.1%)\n0.69\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n2 Wilcoxon rank sum exact test; Pearson’s Chi-squared test\n\n\n\n\n\n\n\n\n\nadd_n(): adds a column non-missing counts\nadd_p(): adds a column of p-values\n\n\n\nadd_difference(): mean and rate differences between two groups. Can also be adjusted differences\nadd_stat(): add any statistic you like, placed on the label or the level rows, in a single column or many\nAnd many more!"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-modify_",
     "href": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-modify_",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Update tbl_summary() with modify_*()",
-    "text": "Update tbl_summary() with modify_*()\n\n\ntbl &lt;-\n  adsl |&gt; \n  tbl_summary(by = ARM2, include = c(\"AGE\", \"ETHNIC\", \"FEMALE\")) |&gt;\n  modify_header(\n    stat_1 ~ \"**Group A**\",\n    stat_2 ~ \"**Group B**\"\n  ) |&gt; \n  modify_spanning_header(\n    all_stat_cols() ~ \"**Drug**\") |&gt;\n  modify_footnote_header(\n    footnote = paste(\"median (IQR) for continuous;\",\n                     \"n (%) for categorical\"),\n    columns = all_stat_cols()\n  )\ntbl\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\n\nDrug\n\n\n\nGroup A1\nGroup B1\n\n\n\n\nAge\n76 (69, 82)\n77 (71, 81)\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n\n\n\n1 median (IQR) for continuous; n (%) for categorical\n\n\n\n\n\n\n\n\n\nUse show_header_names() to see the internal header names available for use in modify_header()"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#column-names",
-    "href": "slides/05-tables-gtsummary/index.html#column-names",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Column names",
-    "text": "Column names\n\nshow_header_names(tbl)\n\nColumn Name   Header                 level*             N*          n*          p*             \nlabel         \"**Characteristic**\"                      254 &lt;int&gt;                              \nstat_1        \"**Group A**\"             Placebo &lt;chr&gt;   254 &lt;int&gt;    86 &lt;int&gt;   0.339 &lt;dbl&gt;    \nstat_2        \"**Group B**\"          Xanomeline &lt;chr&gt;   254 &lt;int&gt;   168 &lt;int&gt;   0.661 &lt;dbl&gt;    \n\n\n* These values may be dynamically placed into headers (and other locations).\nℹ Review the `modify_header()` (`?gtsummary::modify_header()`) help for examples.\n\n\n\n\nall_stat_cols() selects columns \"stat_1\" and \"stat_2\""
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-2",
-    "href": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-2",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Update tbl_summary() with add_*()",
-    "text": "Update tbl_summary() with add_*()\n\nad_onco |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(TUMOR_SIZE, PFS_EVENT),\n    statistic = list(TUMOR_SIZE = \"{mean} ({sd})\",\n                     PFS_EVENT = \"{p}%\"),\n    missing = \"no\"\n  ) |&gt; \n  add_difference()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = 961\nXanomeline\nN = 1771\nDifference2\n95% CI2\np-value2\n\n\n\n\nTumor Size, mm\n67 (37)\n59 (39)\n7.6\n-24, 39\n0.6\n\n\nProgression\n6.3%\n5.1%\n1.2%\n-5.5%, 7.8%\n&gt;0.9\n\n\n\n1 Mean (SD); %\n\n\n2 Welch Two Sample t-test; 2-sample test for equality of proportions with continuity correction\n\n\nAbbreviation: CI = Confidence Interval\n\n\n\n\n\n\n\n\n\nadd_difference(): mean and rate differences between two groups. Can also be adjusted differences"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-3",
-    "href": "slides/05-tables-gtsummary/index.html#update-tbl_summary-with-add_-3",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Update tbl_summary() with add_*()",
-    "text": "Update tbl_summary() with add_*()\n\n\n\nadsl |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC, FEMALE)\n  ) |&gt; \n  add_stat(...)\n\n\n\nCustomize statistics presented with add_stat()\nAdded statistics can be placed on the label or the level rows\nAdded statistics may be a single column or multiple"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#add-on-functions-in-gtsummary-1",
-    "href": "slides/05-tables-gtsummary/index.html#add-on-functions-in-gtsummary-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Add-on functions in {gtsummary}",
-    "text": "Add-on functions in {gtsummary}\nAnd many more!\nSee the documentation at http://www.danieldsjoberg.com/gtsummary/reference/index.html\nAnd a detailed tbl_summary() vignette at http://www.danieldsjoberg.com/gtsummary/articles/tbl_summary.html"
+    "text": "Update tbl_summary() with modify_*()\n\n\ntbl &lt;-\n  adsl |&gt;\n  tbl_summary(by = ARM2, include = c(\"AGE\", \"ETHNIC\", \"FEMALE\")) |&gt;\n  modify_header(\n    stat_1 ~ \"**Group A**\",\n    stat_2 ~ \"**Group B**\"\n  ) |&gt;\n  modify_spanning_header(\n    all_stat_cols() ~ \"**Drug**\") |&gt;\n  modify_footnote_header(\n    footnote = paste(\"median (IQR) for continuous;\",\n                     \"n (%) for categorical\"),\n    columns = all_stat_cols()\n  )\ntbl\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\n\nDrug\n\n\n\nGroup A1\nGroup B1\n\n\n\n\nAge\n76 (69, 82)\n77 (71, 81)\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n159 (95%)\n\n\nFemale\n53 (62%)\n90 (54%)\n\n\n\n1 median (IQR) for continuous; n (%) for categorical\n\n\n\n\n\n\n\n\n\nUse show_header_names() to see the header names available to modify_header():\n\n\n\nshow_header_names(tbl)\n\nColumn Name   Header                 level*             N*          n*          p*             \nlabel         \"**Characteristic**\"                      254 &lt;int&gt;                              \nstat_1        \"**Group A**\"             Placebo &lt;chr&gt;   254 &lt;int&gt;    86 &lt;int&gt;   0.339 &lt;dbl&gt;    \nstat_2        \"**Group B**\"          Xanomeline &lt;chr&gt;   254 &lt;int&gt;   168 &lt;int&gt;   0.661 &lt;dbl&gt;    \n\n\n* These values may be dynamically placed into headers (and other locations).\nℹ Review the `modify_header()` (`?gtsummary::modify_header()`) help for examples."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#gtsummary-exercise",
@@ -2402,7 +2325,7 @@
     "href": "slides/05-tables-gtsummary/index.html#gtsummary-exercise-1",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "{gtsummary} Exercise",
-    "text": "{gtsummary} Exercise\n\ntbl &lt;-\n  df_gtsummary_exercise |&gt;\n  # ensure the age groups print in the correct order\n  mutate(AGEGR1 = factor(AGEGR1, levels = c(\"18-64\", \"&gt;64\"))) |&gt;\n  tbl_summary(\n    by = TRT01A,\n    include = c(AGE, AGEGR1, SEX, RACE, ETHNIC, BMI, HEIGHT, WEIGHT), \n    type = all_continuous() ~ \"continuous2\", # all continuous variables should be summarized as multi-row\n    statistic = all_continuous() ~ c(\"{mean} ({sd})\", \"{median} ({p25}, {p75})\", \"{min}, {max}\"), # change the statistics for all continuous variables\n    label = list(AGEGR1 = \"Age Group\"), # add a label for AGEGR1\n  ) |&gt;\n  # add a header above the 'Xanomeline' treatments. We used `show_header_names()` to know the column names\n  modify_spanning_header(c(stat_2, stat_3) ~ \"**Active Treatment**\")\n\ntbl"
+    "text": "{gtsummary} Exercise\n\ntbl &lt;-\n  df_gtsummary_exercise |&gt;\n  # ensure the age groups print in the correct order\n  mutate(AGEGR1 = factor(AGEGR1, levels = c(\"18-64\", \"&gt;64\"))) |&gt;\n  tbl_summary(\n    by = TRT01A,\n    include = c(AGE, AGEGR1, SEX, RACE, ETHNIC, BMI, HEIGHT, WEIGHT),\n    type = all_continuous() ~ \"continuous2\", # all continuous variables should be summarized as multi-row\n    statistic = all_continuous() ~ c(\"{mean} ({sd})\", \"{median} ({p25}, {p75})\", \"{min}, {max}\"), # change the statistics for all continuous variables\n    label = list(AGEGR1 = \"Age Group\"), # add a label for AGEGR1\n  ) |&gt;\n  # add a header above the 'Xanomeline' treatments. We used `show_header_names()` to know the column names\n  modify_spanning_header(c(stat_2, stat_3) ~ \"**Active Treatment**\")\n\ntbl"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#gtsummary-exercise-1-output",
@@ -2416,42 +2339,21 @@
     "href": "slides/05-tables-gtsummary/index.html#adverse-event-reporting-and-friends",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Adverse Event Reporting (and friends)",
-    "text": "Adverse Event Reporting (and friends)\nUse tbl_hierarchical() and tbl_hierarchical_count() for reporting of AEs, Con Meds, and more.\n\ntbl_ae &lt;- adae |&gt;\n  tbl_hierarchical(\n    by = \"ARM2\",\n    variables = c(\"AESOC\", \"AEDECOD\"),\n    id = \"USUBJID\",\n    denominator = adsl\n  )\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n\n\n\n1 n (%)"
+    "text": "Adverse Event Reporting (and friends)\nUse tbl_hierarchical() and tbl_hierarchical_count() for reporting of AEs, Con Meds, and more.\n\n\ntbl_ae &lt;- adae |&gt;\n  tbl_hierarchical(\n    by = \"ARM2\",\n    variables = c(\"AESOC\", \"AEDECOD\"),\n    id = \"USUBJID\",\n    denominator = adsl\n  )\ntbl_ae\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\nThe same add_*() and modify_*() verbs work here too, e.g. add_overall(last = TRUE) and add_difference() for risk differences between arms."
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#add-an-overall-column",
-    "href": "slides/05-tables-gtsummary/index.html#add-an-overall-column",
+    "objectID": "slides/05-tables-gtsummary/index.html#sort-and-filter-the-hierarchy",
+    "href": "slides/05-tables-gtsummary/index.html#sort-and-filter-the-hierarchy",
     "title": "Clinical Reporting with {gtsummary}",
-    "section": "Add an overall column",
-    "text": "Add an overall column\n\n\ntbl_ae |&gt;\n  add_overall(last = TRUE)\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\nOverall\nN = 2541\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n12 (4.7%)\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n2 (0.8%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n10 (3.9%)\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n1 (0.4%)\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n1 (0.4%)\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n1 (0.4%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\nadd_overall(): adds an all-treatment-arms column, last = TRUE places it on the right"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#sort-by-frequency",
-    "href": "slides/05-tables-gtsummary/index.html#sort-by-frequency",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Sort by frequency",
-    "text": "Sort by frequency\n\n\ntbl_ae |&gt;\n  sort_hierarchical()\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\nsort_hierarchical(): orders rows by descending event frequency (default)\nUse sort = everything() ~ \"alphanumeric\" to sort alphabetically instead"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#filter-to-common-events",
-    "href": "slides/05-tables-gtsummary/index.html#filter-to-common-events",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Filter to common events",
-    "text": "Filter to common events\n\n\ntbl_ae |&gt;\n  sort_hierarchical() |&gt;\n  filter_hierarchical(sum(n) &gt;= 5)\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\nfilter_hierarchical(): keeps AEs meeting an occurrence threshold\nThe filter is an expression on the underlying counts, e.g. sum(n) &gt;= 5, n_overall &gt; 20, or p_overall &gt; 0.05"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#adverse-event-differences",
-    "href": "slides/05-tables-gtsummary/index.html#adverse-event-differences",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Adverse event differences",
-    "text": "Adverse event differences\n\n\ntbl_ae |&gt;\n  add_difference()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\nRate Difference2\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n-0.1%\n\n\n    ATRIAL FLUTTER\n0 (0%)\n2 (1.2%)\n-1.2%\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n1.1%\n\n\nEYE DISORDERS\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE ALLERGY\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n    EYE SWELLING\n1 (1.2%)\n0 (0%)\n1.2%\n\n\n\n1 n (%)\n\n\n2 Difference: Placebo - Xanomeline\n\n\n\n\n\n\n\n\n\nadd_difference(): risk differences between arms"
+    "section": "Sort and filter the hierarchy",
+    "text": "Sort and filter the hierarchy\n\n\ntbl_ae |&gt;\n  sort_hierarchical() |&gt;\n  filter_hierarchical(sum(n) &gt;= 5)\n\n\n\n\n\n\n\n\n\n\n\n\n\nPrimary System Organ Class\n    Dictionary-Derived Term\nPlacebo\nN = 861\nXanomeline\nN = 1681\n\n\n\n\nCARDIAC DISORDERS\n4 (4.7%)\n8 (4.8%)\n\n\n    MYOCARDIAL INFARCTION\n4 (4.7%)\n6 (3.6%)\n\n\n\n1 n (%)\n\n\n\n\n\n\n\n\n\n\nsort_hierarchical(): orders rows by descending event frequency (default). Use sort = everything() ~ \"alphanumeric\" to sort alphabetically instead\nfilter_hierarchical(): keeps AEs meeting an occurrence threshold. The filter is an expression on the underlying counts, e.g. sum(n) &gt;= 5, n_overall &gt; 20, or p_overall &gt; 0.05"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#tbl_merge-for-side-by-side-tables",
     "href": "slides/05-tables-gtsummary/index.html#tbl_merge-for-side-by-side-tables",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "tbl_merge() for side-by-side tables",
-    "text": "tbl_merge() for side-by-side tables\n\ntbl_n &lt;- \n  tbl_summary(adsl, include = ETHNIC, statistic = ETHNIC ~ \"{n}\") |&gt; \n  modify_header(all_stat_cols() ~ \"**N**\") |&gt; # update column header\n  remove_footnote_header() # remove footnote\ntbl_age &lt;-\n  tbl_continuous(adsl, include = ETHNIC, variable = AGE, by = ARM2) |&gt; \n  modify_header(all_stat_cols() ~ \"**{level}**\") # update header\n\n# combine the tables side by side\nlist(tbl_n, tbl_age) |&gt; \n  tbl_merge(tab_spanner = FALSE) # suppress default header\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nPlacebo1\nXanomeline1\n\n\n\n\nEthnicity\n\n\n\n\n\n\n\n\n    HISPANIC OR LATINO\n12\n64 (63, 86)\n63 (56, 78)\n\n\n    NOT HISPANIC OR LATINO\n242\n76 (70, 82)\n77 (71, 81)\n\n\n\n1 Age: Median (Q1, Q3)"
+    "text": "tbl_merge() for side-by-side tables\n\ntbl_n &lt;- \n  tbl_summary(adsl, include = ETHNIC, statistic = ETHNIC ~ \"{n}\") |&gt; \n  modify_header(all_stat_cols() ~ \"**N**\") |&gt; # update column header\n  remove_footnote_header() # remove footnote\ntbl_age &lt;-\n  tbl_continuous(adsl, include = ETHNIC, variable = AGE, by = ARM2) |&gt; \n  modify_header(all_stat_cols() ~ \"**{level}**\") # update header\n\n# combine the tables side by side\nlist(tbl_n, tbl_age) |&gt;\n  tbl_merge(tab_spanner = FALSE) # suppress default header\n\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nN\nPlacebo1\nXanomeline1\n\n\n\n\nEthnicity\n\n\n\n\n\n\n\n\n    HISPANIC OR LATINO\n12\n64 (63, 86)\n63 (56, 78)\n\n\n    NOT HISPANIC OR LATINO\n242\n76 (70, 82)\n77 (71, 81)\n\n\n\n1 Age: Median (Q1, Q3)\n\n\n\n\n\n\n\n\n\n\n\nA gtsummary table is just a data frame plus instructions for printing it — break a complex table into simple parts, then cobble them together. You can also modify the underlying data frame directly with modify_table_body()."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#tbl_stack-to-combine-vertically",
@@ -2461,32 +2363,11 @@
     "text": "tbl_stack() to combine vertically\n\ntbl_drug_a &lt;- filter(adsl, ARM2 == \"Placebo\") |&gt; \n  tbl_summary(include = ETHNIC)\ntbl_drug_b &lt;- filter(adsl, ARM2 == \"Xanomeline\") |&gt; \n  tbl_summary(include = ETHNIC)\n\n# stack the two tables \nlist(tbl_drug_a, tbl_drug_b) |&gt; \n  tbl_stack(group_header = c(\"Placebo\", \"Xanomeline\"), quiet = TRUE) |&gt; # optionally include headers for each table\n  modify_header(all_stat_cols() ~ \"**Summary Statistics**\")\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nSummary Statistics1\n\n\n\n\nPlacebo\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n3 (3.5%)\n\n\n    NOT HISPANIC OR LATINO\n83 (97%)\n\n\nXanomeline\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n9 (5.4%)\n\n\n    NOT HISPANIC OR LATINO\n159 (95%)\n\n\n\n1 n (%)"
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#define-custom-function-tbl_cmh",
-    "href": "slides/05-tables-gtsummary/index.html#define-custom-function-tbl_cmh",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Define custom function tbl_cmh()",
-    "text": "Define custom function tbl_cmh()"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#cobbling-tables-together",
-    "href": "slides/05-tables-gtsummary/index.html#cobbling-tables-together",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Cobbling Tables Together",
-    "text": "Cobbling Tables Together\n\nThe {gtsummary} package makes it simple to break complex tables into their simple parts and cobble them together in the end.\nMoreover, the internal structure of a gtsummary table is super simple:\n\nA data frame\nInstructions to print that data frame to make it cute.\n\nModify the underlying data frame directly with modify_table_body().\n\n\ntbl_summary(adsl, include = c(AGE, ETHNIC), by = ARM2) |&gt;\n  pluck(\"table_body\")\n\n# A tibble: 4 × 7\n  variable var_type    row_type var_label label                  stat_1      stat_2     \n  &lt;chr&gt;    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;                  &lt;chr&gt;       &lt;chr&gt;      \n1 AGE      continuous  label    Age       Age                    76 (69, 82) 77 (71, 81)\n2 ETHNIC   categorical label    Ethnicity Ethnicity              &lt;NA&gt;        &lt;NA&gt;       \n3 ETHNIC   categorical level    Ethnicity HISPANIC OR LATINO     3 (3.5%)    9 (5.4%)   \n4 ETHNIC   categorical level    Ethnicity NOT HISPANIC OR LATINO 83 (97%)    159 (95%)"
-  },
-  {
     "objectID": "slides/05-tables-gtsummary/index.html#where-are-the-ards",
     "href": "slides/05-tables-gtsummary/index.html#where-are-the-ards",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Where are the ARDs?",
-    "text": "Where are the ARDs?"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#where-are-the-ards-1",
-    "href": "slides/05-tables-gtsummary/index.html#where-are-the-ards-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Where are the ARDs?",
-    "text": "Where are the ARDs?\n\n\n\nARDs are the backbone for all calculations in gtsummary\nEvery gtsummary table saves the ARDs from each calculation\n\n\n\ntbl &lt;- tbl_summary(adsl, by = \"ARM2\", include = \"AGE\")\ngather_ard(tbl)\n\n$tbl_summary\n# An ARD data frame: 27 × 12\n   group1 group1_level variable variable_level context  stat_name stat_label stat      fmt_fun warning error  gts_column\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;    &lt;list&gt;  &lt;list&gt;  &lt;list&gt; &lt;chr&gt;     \n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median    Median     76        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25       Q1         69        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75       Q3         82        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 4 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  median    Median     77        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  p25       Q1         71        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  p75       Q3         81        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 7 &lt;NA&gt;   &lt;NULL&gt;       AGE      &lt;NULL&gt;         attribu… label     Variable … Age       &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n 8 &lt;NA&gt;   &lt;NULL&gt;       AGE      &lt;NULL&gt;         attribu… class     Variable … numeric   &lt;NULL&gt;  &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n 9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     &lt;NULL&gt;         attribu… label     Variable … ARM2      &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     &lt;NULL&gt;         attribu… class     Variable … character &lt;NULL&gt;  &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n# ℹ 17 more rows"
+    "text": "Where are the ARDs?\n\n\n\nARDs are the backbone for all calculations in gtsummary\nEvery gtsummary table saves the ARDs from each calculation\n\n\n\n\n\n\n\n\ntbl &lt;- tbl_summary(adsl, by = \"ARM2\", include = \"AGE\")\ngather_ard(tbl)\n\n$tbl_summary\n# An ARD data frame: 27 × 12\n   group1 group1_level variable variable_level context  stat_name stat_label stat      fmt_fun warning error  gts_column\n   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;    &lt;list&gt;  &lt;list&gt;  &lt;list&gt; &lt;chr&gt;     \n 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median    Median     76        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25       Q1         69        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75       Q3         82        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_1    \n 4 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  median    Median     77        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  p25       Q1         71        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  p75       Q3         81        &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; stat_2    \n 7 &lt;NA&gt;   &lt;NULL&gt;       AGE      &lt;NULL&gt;         attribu… label     Variable … Age       &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n 8 &lt;NA&gt;   &lt;NULL&gt;       AGE      &lt;NULL&gt;         attribu… class     Variable … numeric   &lt;NULL&gt;  &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n 9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     &lt;NULL&gt;         attribu… label     Variable … ARM2      &lt;fn&gt;    &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     &lt;NULL&gt;         attribu… class     Variable … character &lt;NULL&gt;  &lt;NULL&gt;  &lt;NULL&gt; &lt;NA&gt;      \n# ℹ 17 more rows"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#ard-qc",
@@ -2496,46 +2377,32 @@
     "text": "ARD + QC\nARDs are wonderful for QCing {gtsummary} tables. 😻\n\nARDs include the formatted and un-formatted numbers that appear in the table.\nExtract the ARD from the {gtsummary} table.\nBuild fresh ARD from source data, and compare it to the ARD from the table."
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#ard-qc-build-two-ards",
-    "href": "slides/05-tables-gtsummary/index.html#ard-qc-build-two-ards",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "ARD + QC: Build two ARDs",
-    "text": "ARD + QC: Build two ARDs\n\n# 1. the ARD extracted from a {gtsummary} table\nard_table &lt;-\n  gather_ard(tbl) |&gt;\n  purrr::pluck(1) |&gt;\n  cards::apply_fmt_fun()   # add the formatted `stat_fmt` values\n\n# 2. a fresh ARD built independently from the source data\nard_source &lt;-\n  adsl |&gt;\n  cards::ard_stack(\n    .by = ARM2,\n    cards::ard_summary(\n      variables = AGE,\n      statistic = ~ cards::continuous_summary_fns(c(\"median\", \"p25\", \"p75\"))\n    ),\n    .attributes = TRUE,\n    .missing = TRUE,\n    .total_n = TRUE\n  ) |&gt;\n  # align formatting to the table (0 decimals) so `stat_fmt` matches too\n  cards::update_ard_fmt_fun(\n    stat_names = c(\"median\", \"p25\", \"p75\"),\n    fmt_fun = label_style_number(digits = 0)\n  ) |&gt;\n  cards::update_ard_fmt_fun(\n    stat_names = c(\"p_miss\", \"p_nonmiss\"),\n    fmt_fun = label_style_percent(digits = 0)\n  ) |&gt;\n  cards::apply_fmt_fun()"
-  },
-  {
     "objectID": "slides/05-tables-gtsummary/index.html#ard-qc-compare-with-compare_ard",
     "href": "slides/05-tables-gtsummary/index.html#ard-qc-compare-with-compare_ard",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "ARD + QC: Compare with compare_ard()",
-    "text": "ARD + QC: Compare with compare_ard()\ncards::compare_ard() lines the two ARDs up on their key columns and reports any rows that differ — here we check both the raw stat and the formatted stat_fmt values.\n\ncards::compare_ard(ard_table, ard_source, columns = c(\"stat\", \"stat_fmt\"))\n\nThe comparison `keys` are \"group1\", \"group1_level\", \"variable\", \"variable_level\", and \"stat_name\".\nThe comparison columns are \"stat\" and \"stat_fmt\".\n\n\n── Mis-matched Rows ────────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No rows in `x` that do not appear in `y`.\n\n✔ No rows in `y` that do not appear in `x`.\n\n\n\n── Comparison Results ──────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No differences found in column \"stat\".\n\n✔ No differences found in column \"stat_fmt\".\n\n\n\nNeed a single yes/no? cards::is_ard_equal() returns TRUE/FALSE, and cards::check_ard_equal() throws an error when they differ — handy in an automated QC script. As this is done programmatically, it is quick to repeat as data continue to accrue."
+    "text": "ARD + QC: Compare with compare_ard()\n\nWe built ard_table with gather_ard(), and ard_source independently from the source data with cards::ard_stack(). compare_ard() lines the two up on their key columns and reports any rows that differ — here, both the raw stat and the formatted stat_fmt.\n\n\ncards::compare_ard(ard_table, ard_source, columns = c(\"stat\", \"stat_fmt\"))\n\nThe comparison `keys` are \"group1\", \"group1_level\", \"variable\", \"variable_level\", and \"stat_name\".\nThe comparison columns are \"stat\" and \"stat_fmt\".\n\n\n── Mis-matched Rows ────────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No rows in `x` that do not appear in `y`.\n\n✔ No rows in `y` that do not appear in `x`.\n\n\n\n── Comparison Results ──────────────────────────────────────────────────────────────────────────────────────────────────\n\n✔ No differences found in column \"stat\".\n\n✔ No differences found in column \"stat_fmt\".\n\n\n\n\n\nNeed a single yes/no? cards::is_ard_equal() returns TRUE/FALSE, and cards::check_ard_equal() throws an error when they differ — handy in an automated QC script you re-run as data accrue."
+  },
+  {
+    "objectID": "slides/05-tables-gtsummary/index.html#ard-first-tables",
+    "href": "slides/05-tables-gtsummary/index.html#ard-first-tables",
+    "title": "Clinical Reporting with {gtsummary}",
+    "section": "ARD-first Tables",
+    "text": "ARD-first Tables\nSimilar to functions that accept a data frame, the package exports functions with nearly identical APIs that accept an ARD.\n\n\ntbl_summary()\n\ntbl_hierarchical()\n\ntbl_continuous()\n\ntbl_wide_summary()\n\ntbl_ard_summary()\n\ntbl_ard_hierarchical()\n\ntbl_ard_continuous()\n\ntbl_ard_wide_summary()"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#ard-first-tables-1",
     "href": "slides/05-tables-gtsummary/index.html#ard-first-tables-1",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "ARD-first Tables",
-    "text": "ARD-first Tables\nSimilar to functions that accept a data frame, the package exports functions with nearly identical APIs that accept an ARD.\n\n\ntbl_summary()\n\ntbl_hierarchical()\n\ntbl_continuous()\n\ntbl_wide_summary()\n\ntbl_ard_summary()\n\ntbl_ard_hierarchical()\n\ntbl_ard_continuous()\n\ntbl_ard_wide_summary()"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#ard-first-tables-2",
-    "href": "slides/05-tables-gtsummary/index.html#ard-first-tables-2",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "ARD-first Tables",
-    "text": "ARD-first Tables\nWe can use the skills we learned earlier today to create ARDs for gtsummary tables.\n\n\nlibrary(cards)\n\nard &lt;- ard_stack(\n  data = adsl, \n  ard_summary(variables = AGE),\n  ard_tabulate(variables = ETHNIC),\n  ard_tabulate_value(variables = FEMALE),\n  # add these for best-looking tables\n  .attributes = TRUE, \n  .missing = TRUE \n)\nard\n\n\n# An ARD data frame: 38 × 9\n   variable variable_level     context  stat_name stat_label   stat fmt_fun warning error \n   &lt;chr&gt;    &lt;list&gt;             &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt; &lt;list&gt;  &lt;list&gt;\n 1 AGE      &lt;NULL&gt;             summary  N         N          254          0 &lt;NULL&gt;  &lt;NULL&gt;\n 2 AGE      &lt;NULL&gt;             summary  mean      Mean        75.1        1 &lt;NULL&gt;  &lt;NULL&gt;\n 3 AGE      &lt;NULL&gt;             summary  sd        SD           8.25       1 &lt;NULL&gt;  &lt;NULL&gt;\n 4 AGE      &lt;NULL&gt;             summary  median    Median      77          1 &lt;NULL&gt;  &lt;NULL&gt;\n 5 AGE      &lt;NULL&gt;             summary  p25       Q1          70          1 &lt;NULL&gt;  &lt;NULL&gt;\n 6 AGE      &lt;NULL&gt;             summary  p75       Q3          81          1 &lt;NULL&gt;  &lt;NULL&gt;\n 7 AGE      &lt;NULL&gt;             summary  min       Min         51          1 &lt;NULL&gt;  &lt;NULL&gt;\n 8 AGE      &lt;NULL&gt;             summary  max       Max         89          1 &lt;NULL&gt;  &lt;NULL&gt;\n 9 ETHNIC   HISPANIC OR LATINO tabulate n         n           12          0 &lt;NULL&gt;  &lt;NULL&gt;\n10 ETHNIC   HISPANIC OR LATINO tabulate N         N          254          0 &lt;NULL&gt;  &lt;NULL&gt;\n# ℹ 28 more rows\n\n\n\n\n\nThe .attributes=TRUE call adds column attributes, like labels, to the ARD table, which leads to better defaults by displaying the column labels in the table."
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#ard-first-tables-3",
-    "href": "slides/05-tables-gtsummary/index.html#ard-first-tables-3",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "ARD-first Tables",
-    "text": "ARD-first Tables\nWe can simply use the ARD from the previous slide, and pass it to tbl_ard_summary() for a summary table.\n\n\ntbl_ard_summary(ard)\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nOverall1\n\n\n\n\nAge\n77.0 (70.0, 81.0)\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n242 (95.3%)\n\n\nFemale\n143 (56.3%)\n\n\n\n1 Median (Q1, Q3); n (%)"
+    "text": "ARD-first Tables\nWe can use the skills we learned earlier today to create ARDs for gtsummary tables, then pass the ARD to tbl_ard_summary().\n\n\nlibrary(cards)\n\nard &lt;- ard_stack(\n  data = adsl,\n  ard_summary(variables = AGE),\n  ard_tabulate(variables = ETHNIC),\n  ard_tabulate_value(variables = FEMALE),\n  # add these for best-looking tables\n  .attributes = TRUE,\n  .missing = TRUE\n)\ntbl_ard_summary(ard)\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nOverall1\n\n\n\n\nAge\n77.0 (70.0, 81.0)\n\n\nEthnicity\n\n\n\n\n    HISPANIC OR LATINO\n12 (4.7%)\n\n\n    NOT HISPANIC OR LATINO\n242 (95.3%)\n\n\nFemale\n143 (56.3%)\n\n\n\n1 Median (Q1, Q3); n (%)\n\n\n\n\n\n\n\n\n\n\n\nThe .attributes=TRUE call adds column attributes, like labels, to the ARD table, which leads to better defaults by displaying the column labels in the table."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#ard-first-table-shells",
     "href": "slides/05-tables-gtsummary/index.html#ard-first-table-shells",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "ARD-first Table Shells",
-    "text": "ARD-first Table Shells\n\nadsl |&gt; \n  labelled::set_variable_labels(AGE = \"Age, years\") |&gt; \n  ard_stack( \n    .by = ARM2,\n    ard_tabulate(variables = ETHNIC),\n    # add these for best-looking tables\n    .attributes = TRUE, \n    .missing = TRUE \n  ) |&gt; \n  cards::update_ard_fmt_fun(stat_names = c(\"n\", \"p\"), fmt_fun = \\(x) \"xx\") |&gt; \n  tbl_ard_summary(\n    by = ARM2,\n    type = all_continuous() ~ \"continuous2\",\n    statistic = all_continuous() ~ c(\"{mean} ({sd})\", \"{min} - {max}\"),\n    missing = \"no\"\n  ) |&gt; \n  modify_header(all_stat_cols() ~ \"**{level}**  \\nN = xx\")\n\n\n\n\nYou can also pass ARDs created with the cards::mock_*() functions if no data are available."
+    "text": "ARD-first Table Shells\n\nadsl |&gt;\n  labelled::set_variable_labels(AGE = \"Age, years\") |&gt;\n  ard_stack(\n    .by = ARM2,\n    ard_tabulate(variables = ETHNIC),\n    # add these for best-looking tables\n    .attributes = TRUE,\n    .missing = TRUE\n  ) |&gt;\n  cards::update_ard_fmt_fun(stat_names = c(\"n\", \"p\"), fmt_fun = \\(x) \"xx\") |&gt;\n  tbl_ard_summary(\n    by = ARM2,\n    type = all_continuous() ~ \"continuous2\",\n    statistic = all_continuous() ~ c(\"{mean} ({sd})\", \"{min} - {max}\"),\n    missing = \"no\"\n  ) |&gt;\n  modify_header(all_stat_cols() ~ \"**{level}**  \\nN = xx\")\n\n\n\n\nYou can also pass ARDs created with the cards::mock_*() functions if no data are available."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#ard-first-table-shells-output",
@@ -2545,32 +2412,18 @@
     "text": "ARD-first Table Shells\n\n\n\n\n\n\n\n\n\n\n\n\nCharacteristic\nPlacebo\nN = xx1\nXanomeline\nN = xx1\n\n\n\n\nEthnicity\n\n\n\n\n\n\n    HISPANIC OR LATINO\nxx (xx%)\nxx (xx%)\n\n\n    NOT HISPANIC OR LATINO\nxx (xx%)\nxx (xx%)\n\n\n\n1 n (%)"
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#gtsummary-print-engines-1",
-    "href": "slides/05-tables-gtsummary/index.html#gtsummary-print-engines-1",
+    "objectID": "slides/05-tables-gtsummary/index.html#print-engines",
+    "href": "slides/05-tables-gtsummary/index.html#print-engines",
     "title": "Clinical Reporting with {gtsummary}",
-    "section": "{gtsummary} print engines",
-    "text": "{gtsummary} print engines"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#submission-ready-output",
-    "href": "slides/05-tables-gtsummary/index.html#submission-ready-output",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Submission-ready output",
-    "text": "Submission-ready output\nPharma deliverables are typically Word and RTF. Convert any {gtsummary} table to a {flextable} for those formats.\n\n\ntbl &lt;- adsl |&gt;\n  tbl_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC, FEMALE)\n  )\n\ntbl |&gt; as_flex_table()\n\n\nCharacteristicPlacebo  N = 861Xanomeline  N = 1681Age76 (69, 82)77 (71, 81)EthnicityHISPANIC OR LATINO3 (3.5%)9 (5.4%)NOT HISPANIC OR LATINO83 (97%)159 (95%)Female53 (62%)90 (54%)1Median (Q1, Q3); n (%)"
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#submission-ready-output-1",
-    "href": "slides/05-tables-gtsummary/index.html#submission-ready-output-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Submission-ready output",
-    "text": "Submission-ready output\n# one-step export to a Word document (gtsummary 2.6.0)\ntbl |&gt; save_flex_docx(path = \"table1.docx\")\nOther print engines are available for different targets:\n\n\nas_gt(): HTML (the default), highly customizable via {gt}\nas_kable_extra(): LaTeX / PDF\nas_hux_table() / as_hux_xlsx(): Excel workbooks\n\n\nThe {crane} Roche theme shown next prints through {flextable} to meet submission styling."
+    "section": "Print engines",
+    "text": "Print engines"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#one-step-word-export",
     "href": "slides/05-tables-gtsummary/index.html#one-step-word-export",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "One-step Word export",
-    "text": "One-step Word export\nsave_flex_docx() writes any {gtsummary} (or {flextable}) table to a submission-ready Word document in a single step.\n\n\nReport headers & footers — we can now place customized output into the header and footer areas of the word document, and place field codes (e.g. Page X of Y)\nSource notes & footnotes — by default, footnotes, source notes, and abbreviations are placed in the Word document’s footer area\nTemplates & page setup — supply a Word template= or pr_section= to control page size, margins, and landscape orientation\n\n\nThe AE table below is built with a custom header_ft, three source notes (the last carries the git SHA), and saved to the repo — then converted to PDF."
+    "text": "One-step Word export\n# one-step export to a Word document\ntbl |&gt; save_flex_docx(path = \"table1.docx\")\nsave_flex_docx() writes any {gtsummary} (or {flextable}) table to a submission-ready Word document in a single step.\n\n\nReport headers & footers — we can now place customized output into the header and footer areas of the word document, and place field codes (e.g. Page X of Y)\nSource notes & footnotes — by default, footnotes, source notes, and abbreviations are placed in the Word document’s footer area\nTemplates & page setup — supply a Word template= or pr_section= to control page size, margins, and landscape orientation\n\n\nThe AE table on the next slide is built with a custom header_ft, three source notes (the last carries the git SHA), and saved to the repo — then converted to PDF."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#save_flex_docx-output",
@@ -2591,7 +2444,7 @@
     "href": "slides/05-tables-gtsummary/index.html#extension-packagecrane",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Extension Package:{crane} ",
-    "text": "Extension Package:{crane} \nThe first function we added to {crane} was tbl_roche_summary(): a thin wrapper for gtsummary::tbl_summary().\n\n\nContinuous variables default to continuous2.\ntbl_summary(missing*) arguments have been changed to tbl_roche_summary(nonmissing*).\n\nWe highlight non-missing counts over missing counts, which are the default in {gtsummary}\n\nCounts represented by 0 (0%) print as 0.\n\n\n\nlibrary(crane)\n\nadsl |&gt; \n  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, \"REFUSED\")) |&gt; \n  tbl_roche_summary(\n    by = ARM2, \n    include = c(AGE, ETHNIC),\n    nonmissing = \"always\"\n  )"
+    "text": "Extension Package:{crane} \nThe first function we added to {crane} was tbl_roche_summary(): a thin wrapper for gtsummary::tbl_summary().\n\n\nContinuous variables default to continuous2.\ntbl_summary(missing*) arguments have been changed to tbl_roche_summary(nonmissing*).\n\nWe highlight non-missing counts over missing counts, which are the default in {gtsummary}\n\nCounts represented by 0 (0%) print as 0.\n\n\n\nlibrary(crane)\n\nadsl |&gt;\n  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, \"REFUSED\")) |&gt;\n  tbl_roche_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC),\n    nonmissing = \"always\"\n  )"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#extension-packagecrane-output",
@@ -2605,7 +2458,7 @@
     "href": "slides/05-tables-gtsummary/index.html#what-else-is-in-crane",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "What else is in {crane}? ",
-    "text": "What else is in {crane}? \n\nLab values are summarized by visit and include the change from baseline.\nThis is a simple table that is just a tbl_merge() of the AVAL summary and the CHG summary.\nBut the general structure appears enough times in our catalog, we make it simple for our programmers to create.\n\n\nadlb |&gt; \n  dplyr::filter(PARAM == \"Albumin (g/L)\") |&gt; \n  tbl_baseline_chg(\n    by = \"ARM\",\n    baseline_level = \"Baseline\",\n    denominator = adsl\n  )"
+    "text": "What else is in {crane}? \n\nLab values are summarized by visit and include the change from baseline.\nThis is a simple table that is just a tbl_merge() of the AVAL summary and the CHG summary.\nBut the general structure appears enough times in our catalog, we make it simple for our programmers to create.\n\n\nadlb |&gt;\n  dplyr::filter(PARAM == \"Albumin (g/L)\") |&gt;\n  tbl_baseline_chg(\n    by = \"ARM\",\n    baseline_level = \"Baseline\",\n    denominator = adsl\n  )"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#what-else-is-in-crane-1",
@@ -2640,14 +2493,7 @@
     "href": "slides/05-tables-gtsummary/index.html#a-pharma-theme-with-crane",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "A pharma theme with {crane}",
-    "text": "A pharma theme with {crane}\nOur theme is implemented in crane::theme_gtsummary_roche()\nPrimary changes include:\n\nSets a custom function for rounding percentages.\nRound all p-values to four decimal places.\nHeaders default to presenting with bold and include N in parenthesis, e.g. 'Placebo  \\n (N = 184)'.\nAll tables are printed with {flextable} and we add Roche-specific styling to the table.\nUpdate the default font, font size, table borders, cell padding, etc. to meet our guidelines."
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#what-else-is-in-crane-5",
-    "href": "slides/05-tables-gtsummary/index.html#what-else-is-in-crane-5",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "What else is in {crane}? ",
-    "text": "What else is in {crane}? \n\n\ntheme_gtsummary_roche()\n\nadsl |&gt; \n  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, \"REFUSED\")) |&gt; \n  tbl_roche_summary(\n    by = ARM2, \n    include = c(AGE, ETHNIC),\n    nonmissing = \"always\"\n  )\n\n\n\n\nTable 2\n\n\n\nPlacebo  (N = 86)Xanomeline  (N = 168)Agen86168Mean (SD)75.2 (8.6)75.0 (8.1)Median76.077.0Min - Max52 - 8951 - 88ETHNICn86168HISPANIC OR LATINO3 (3.5%)9 (5.4%)NOT HISPANIC OR LATINO83 (96.5%)159 (94.6%)REFUSED00"
+    "text": "A pharma theme with {crane}\nOur theme is implemented in crane::theme_gtsummary_roche(). Primary changes include a custom function for rounding percentages, p-values rounded to four decimal places, headers that default to bold and include N in parentheses (e.g. 'Placebo  \\n (N = 184)'), and printing all tables with {flextable} using Roche-specific styling — font, font size, borders, cell padding, etc.\n\n\ntheme_gtsummary_roche()\n\nadsl |&gt;\n  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, \"REFUSED\")) |&gt;\n  tbl_roche_summary(\n    by = ARM2,\n    include = c(AGE, ETHNIC),\n    nonmissing = \"always\"\n  )\n\n\n\n\nTable 2\n\n\n\nPlacebo  (N = 86)Xanomeline  (N = 168)Agen86168Mean (SD)75.2 (8.6)75.0 (8.1)Median76.077.0Min - Max52 - 8951 - 88ETHNICn86168HISPANIC OR LATINO3 (3.5%)9 (5.4%)NOT HISPANIC OR LATINO83 (96.5%)159 (94.6%)REFUSED00"
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#cardinal-collaboration",
@@ -2661,7 +2507,7 @@
     "href": "slides/05-tables-gtsummary/index.html#from-chat-llm-to-coding-partner",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "From chat LLM to coding partner",
-    "text": "From chat LLM to coding partner\nEarlier we pasted a prompt into a chat LLM and copied code back.\nA coding agent (e.g. Claude Code) instead lives inside your project: it reads your files, runs R, and iterates — and it follows instructions you commit to the repo.\nThe goal: a coding partner that adheres to your domain standards without constant reminders.\n\nTwo files, checked into the repo, do this:\n\n\nCLAUDE.md\n\n\nAlways-on project memory\nShort, high-level rules\nLoaded into every session\n\n\n\nA Skill (SKILL.md)\n\n\nOn-demand capability\nDetailed, procedural\nLoaded only when the task matches its description\n\n\n\n\n\n\n\nRule of thumb: what’s always true → CLAUDE.md; how to do a specific job → a Skill."
+    "text": "From chat LLM to coding partner\nEarlier we pasted a prompt into a chat LLM and copied code back.\nA coding agent (e.g. Claude Code) instead lives inside your project: it reads your files, runs R, and iterates — and it follows instructions you commit to the repo.\nThe goal: a coding partner that adheres to your domain standards without constant reminders."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#the-golden-path",
@@ -2671,18 +2517,11 @@
     "text": "The golden path\nGive the agent an explicit priority order for building a table:\n\n\nSet the theme — crane::theme_gtsummary_roche() after loading packages.\nPrefer {crane} wrappers — tbl_roche_summary(), tbl_baseline_chg(), … when one fits.\nFall back to {gtsummary} — tbl_summary(), tbl_hierarchical(), …\nARD-first for complex/custom — build ARDs with {cards}/{cardx}, render with gtsummary::tbl_ard_*().\nLast resort — build the ARD yourself, then gtsummary::as_gtsummary().\n\n\n\n\n\nCross-cutting: prep data with tidyverse; always gather_ard() the result for QC and traceability."
   },
   {
-    "objectID": "slides/05-tables-gtsummary/index.html#claude.md-1",
-    "href": "slides/05-tables-gtsummary/index.html#claude.md-1",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "CLAUDE.md",
-    "text": "CLAUDE.md\nKeep it short — it loads into every session, so it should stay lean.\n# Clinical summary tables\n\nData: ADaM datasets in {pharmaverseadam} (e.g. adsl, adae, adlb).\nPrep data with tidyverse before summarizing.\n\n## House rules for tables\n- After loading packages, set the theme: crane::theme_gtsummary_roche()\n- Prefer {crane} wrappers (tbl_roche_summary(), tbl_baseline_chg());\n  else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical()).\n- For complex/custom tables, go ARD-first: build with {cards}/{cardx},\n  render with tbl_ard_*(); last resort as_gtsummary().\n- Always extract the ARD with gather_ard() for QC.\n\nSee the \"gtsummary-tables\" skill for the full workflow."
-  },
-  {
     "objectID": "slides/05-tables-gtsummary/index.html#a-gtsummary-skill",
     "href": "slides/05-tables-gtsummary/index.html#a-gtsummary-skill",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "A gtsummary Skill",
-    "text": "A gtsummary Skill\nA Skill is a folder with a SKILL.md. The YAML description is the trigger — write it as when to use it — and the body holds the procedure, loaded on demand.\n\nLives at .agents/skills/gtsummary-tables/SKILL.md. Bundle reference files (a crane catalog, worked examples) beside it. Skills are portable across agents that read the .agents/ convention.\n\n---\nname: gtsummary-tables\ndescription: Build clinical summary tables in R with crane, gtsummary,\n  and cards. Use whenever the user asks for a summary / demographics /\n  AE / lab table or a \"Table 1\".\n---\n\n# Clinical summary tables\n\nSetup: load tidyverse, crane, gtsummary, cards; then\ncrane::theme_gtsummary_roche().\n\n## Decision order\n1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits\n2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())\n3. complex/custom -&gt; ARD-first: cards::ard_stack() / cardx::ard_*()\n   -&gt; tbl_ard_*()\n4. last resort -&gt; build the ARD, then as_gtsummary()\n\nNever use gtsummary::tbl_custom_summary(): it is not ARD-based.\n\nAlways gather_ard() the result for QC."
+    "text": "A gtsummary Skill\n\nThe golden path above, encoded. Lives at .agents/skills/gtsummary-tables/SKILL.md, with reference files (a crane catalog, worked examples) bundled beside it.\n\n---\nname: gtsummary-tables\ndescription: Build clinical summary tables in R with crane, gtsummary,\n  and cards. Use whenever the user asks for a summary / demographics /\n  AE / lab table or a \"Table 1\".\n---\n\n# Clinical summary tables\n\nSetup: load tidyverse, crane, gtsummary, cards; then\ncrane::theme_gtsummary_roche().\n\n## Decision order\n1. {crane} wrapper (tbl_roche_summary(), tbl_baseline_chg()) if one fits\n2. else {gtsummary} tbl_*() (tbl_summary(), tbl_hierarchical())\n3. complex/custom -&gt; ARD-first: cards::ard_stack() / cardx::ard_*()\n   -&gt; tbl_ard_*()\n4. last resort -&gt; build the ARD, then as_gtsummary()\n\nNever use gtsummary::tbl_custom_summary(): it is not ARD-based.\n\nAlways gather_ard() the result for QC."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#three-ideas-to-take-home",
@@ -2696,14 +2535,7 @@
     "href": "slides/05-tables-gtsummary/index.html#where-to-go-next",
     "title": "Clinical Reporting with {gtsummary}",
     "section": "Where to go next",
-    "text": "Where to go next\n\n\n Docs & cheat sheet — danieldsjoberg.com/gtsummary\n\n {cardinal} — FDA safety-table catalog\n\n Ask on stackoverflow.com — use the gtsummary tag. Just kidding — nobody uses Stack Overflow anymore; ask an AI."
-  },
-  {
-    "objectID": "slides/05-tables-gtsummary/index.html#built-by-a-community",
-    "href": "slides/05-tables-gtsummary/index.html#built-by-a-community",
-    "title": "Clinical Reporting with {gtsummary}",
-    "section": "Built by a community",
-    "text": "Built by a community\n\n50 code contributors and counting — thank you.\n\n\n\nPackage Authors/Contributors\n\nDaniel D. Sjoberg\nJoseph Larmarange\nMichael Curry\nJessica Lavery\nKarissa Whiting\nEmily C. Zabor\nXing Bai\nEsther Drill\nJessica Flynn\nMargie Hannum\nStephanie Lobaugh\nShannon Pileggi\nAmy Tin\nGustavo Zapata Wainberg\n\n\nOther Contributors\n\n@abduazizR, @ablack3, @ABohynDOE, @ABorakati, @adilsonbauhofer, @aghaynes, @ahinton-mmc, @aito123, @akarsteve, @akefley, @albamrt, @albertostefanelli, @alecbiom, @alexandrayas, @alexis-catherine, @AlexZHENGH, @alnajar, @amygimma, @anaavu, @anddis, @andrader, @Andrzej-Andrzej, @angelgar, @arbet003, @arnmayer, @aspina7, @AurelienDasre, @awcm0n, @ayogasekaram, @barretmonchka, @barthelmes, @bc-teixeira, @bcjaeger, @BeauMeche, @benediktclaus, @benwhalley, @berg-michael, @bhattmaulik, @BioYork, @blue-abdur, @brachem-christian, @brianmsm, @browne123, @bwiernik, @bx259, @calebasaraba, @CarolineXGao, @CharlyMarie, @ChongTienGoh, @Chris-M-P, @chrisleitzinger, @cjprobst, @ClaudiaCampani, @clmawhorter, @CodieMonster, @coeusanalytics, @coreysparks, @CorradoLanera, @crystalluckett-sanofi, @ctlamb, @dafxy, @DanChaltiel, @DanielPark-MGH, @davideyre, @davidgohel, @davidkane9, @DavisVaughan, @dax44, @dchiu911, @ddsjoberg, @DeFilippis, @denis-or, @dereksonderegger, @derekstein, @DesiQuintans, @dieuv0, @dimbage, @discoleo, @djbirke, @dmenne, @DrDinhLuong, @edelarua, @edrill, @Eduardo-Auer, @ElfatihHasabo, @emilyvertosick, @eokoshi, @ercbk, @eremingt, @erikvona, @eugenividal, @eweisbrod, @fdehrich, @feizhadj, @fh-jsnider, @fh-mthomson, @FrancoisGhesquiere, @ge-generation, @Generalized, @ghost, @giorgioluciano, @giovannitinervia9, @gjones1219, @gorkang, @GuiMarthe, @gungorMetehan, @hass91, @hescalar, @HichemLa, @hichew22, @hr70, @huftis, @hughjonesd, @iaingallagher, @ilyamusabirov, @IndrajeetPatil, @irene9116, @IsadoraBM, @j-tamad, @jalavery, @jaromilfrossard, @JBarsotti, @jbtov, @jeanmanguy, @jemus42, @jenifav, @jennybc, @JeremyPasco, @jerrodanzalone, @JesseRop, @jflynn264, @jhchou, @jhelvy, @jhk0530, @jjallaire, @jkylearmstrong, @jmbarajas, @jmbarbone, @JoanneF1229, @joelgautschi, @johnryan412, @JohnSodling, @jonasrekdalmathisen, @JonGretar, @jordan49er, @jsavinc, @jthomasmock, @juseer, @jwilliman, @karissawhiting, @karl-an, @kendonB, @kentm4, @klh281, @kmdono02, @kristyrobledo, @kwakuduahc1, @lamberp6, @lamhine, @larmarange, @ledermanr, @leejasme, @leslem, @levossen, @lngdet, @longjp, @lorenzoFabbri, @loukesio, @love520lfh, @lspeetluk, @ltin1214, @ltj-github, @lucavd, @LucyMcGowan, @LuiNov, @lukejenner6, @maciekbanas, @maia-sh, @malcolmbarrett, @mariamaseng, @Marsus1972, @martsobm, @Mathicaa, @matthieu-faron, @maxanes, @mayazadok2, @mbac, @mdidish, @medewitt, @meenakshi-kushwaha, @melindahiggins2000, @MelissaAssel, @Melkiades, @mfansler, @michaelcurry1123, @mikemazzucco, @mlamias, @mljaniczek, @moleps, @monitoringhsd, @motocci, @mrmvergeer, @msberends, @mvuorre, @myamortor, @myensr, @MyKo101, @nalimilan, @ndunnewind, @nikostr, @ningyile, @O16789, @oliviercailloux, @oranwutang, @palantre, @parmsam, @Pascal-Schmidt, @PaulC91, @paulduf, @pedersebastian, @perlatex, @pgseye, @philippemichel, @philsf, @polc1410, @Polperobis, @postgres-newbie, @proshano, @raphidoc, @RaviBot, @rawand-hanna, @rbcavanaugh, @remlapmot, @rich-iannone, @RiversPharmD, @rmgpanw, @roaldarbol, @roman2023, @ryzhu75, @s-j-choi, @sachijay, @saifelayan, @sammo3182, @samrodgersmelnick, @samuele-mercan, @sandhyapc, @sbalci, @sda030, @shah-in-boots, @shannonpileggi, @shaunporwal, @shengchaohou, @ShixiangWang, @simonpcouch, @slb2240, @slobaugh, @spiralparagon, @Spring75xx, @StaffanBetner, @steenharsted, @stenw, @Stephonomon, @storopoli, @stratopopolis, @strengejacke, @szimmer, @tamytsujimoto, @TAOS25, @TarJae, @themichjam, @THIB20, @tibirkrajc, @tjmeyers, @tldrcharlene, @tormodb, @toshifumikuroda, @TPDeramus, @UAB-BST-680, @uakimix, @uriahf, @Valja64, @viola-hilbert, @violet-nova, @vvm02, @will-gt, @xkcococo, @xtimbeau, @yatirbe, @yihunzeleke, @yonicd, @yoursdearboy, @YousufMohammed2002, @yuryzablotski, @zabore, @zachariae, @zaddyzad, @zawkzaw, @zdz2101, @zeyunlu, @zhangkaicr, @zhaohongxin0, @zheer-kejlberg, @zhengnow, @zhonghua723, @zlkrvsm, @zongell-star, and @Zoulf001."
+    "text": "Where to go next\n\n\n Docs & cheat sheet — danieldsjoberg.com/gtsummary\n\nThe full function reference, and a detailed tbl_summary() vignette\n\n\n {cardinal} — FDA safety-table catalog\n\n Ask on stackoverflow.com — use the gtsummary tag. Just kidding — nobody uses Stack Overflow anymore; ask an AI."
   },
   {
     "objectID": "slides/05-tables-gtsummary/index.html#thank-you",
