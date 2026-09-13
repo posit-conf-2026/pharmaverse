@@ -29,6 +29,4 @@ cache: false
 
 {{< include 04-submissions-wg.qmd >}}
 
-# Goodbye
-
 {{< include 05-goodbye.qmd >}}
