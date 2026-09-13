@@ -1,56 +1,63 @@
 [
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#what-did-we-cover",
-    "href": "slides/07-submissions-wrapup/index.html#what-did-we-cover",
+    "objectID": "slides/07-advancedai-wrapup/index.html#what-did-we-cover",
+    "href": "slides/07-advancedai-wrapup/index.html#what-did-we-cover",
     "title": "Recap and More",
     "section": "What did we cover?",
-    "text": "What did we cover?\n\nRaw to SDTM with {sdtm.oak}\nSDTM to ADaM with {admiral}, {metacore}, {metatools}, {xportr}\nARDs with {cards} and {cardx}\nARD-friendly tables with {gtsummary}\nARD-first tables with {tfrmt}"
+    "text": "What did we cover?\n\nRaw to SDTM with {sdtm.oak}\nSDTM to ADaM with {admiral}, {metacore}, {metatools}, {xportr}\nARDs with {cards} and {cardx}\nARD-friendly tables with {gtsummary}\nARD-first tables and rendering with {tfrmt} and {docorator}"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#pharmaverse-examples",
-    "href": "slides/07-submissions-wrapup/index.html#pharmaverse-examples",
+    "objectID": "slides/07-advancedai-wrapup/index.html#pharmaverse-examples",
+    "href": "slides/07-advancedai-wrapup/index.html#pharmaverse-examples",
     "title": "Recap and More",
     "section": "{pharmaverse} Examples",
     "text": "{pharmaverse} Examples\nThe pharmaverse examples site includes walk-throughs of every step along the E2E way.\n\nhttps://pharmaverse.github.io/examples/"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#submissions-working-group",
-    "href": "slides/07-submissions-wrapup/index.html#submissions-working-group",
+    "objectID": "slides/07-advancedai-wrapup/index.html#posit-assistant-plan-mode",
+    "href": "slides/07-advancedai-wrapup/index.html#posit-assistant-plan-mode",
+    "title": "Recap and More",
+    "section": "Posit Assistant — Plan Mode",
+    "text": "Posit Assistant — Plan Mode\nPosit Assistant offers a few modes depending on how much you want it to do:\n\n\n\n💬 Ask Answer questions and explain code — no changes made\n\n\n🤖 Agent Plan and carry out multi-step edits across your project"
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#advanced-ai-discussion",
+    "href": "slides/07-advancedai-wrapup/index.html#advanced-ai-discussion",
+    "title": "Recap and More",
+    "section": "Advanced AI discussion",
+    "text": "Advanced AI discussion"
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#submissions-working-group-1",
+    "href": "slides/07-advancedai-wrapup/index.html#submissions-working-group-1",
     "title": "Recap and More",
     "section": "Submissions Working Group",
     "text": "Submissions Working Group\nMission\n\nEasier R-based clinical trial regulatory submissions today\n\nby showing open examples of using current submission portals\n\nEasier R-based clinical trial regulatory submissions tomorrow\n\nby collecting feedback and influencing future industry and agency decisions on system/process setup\n\nWebsite: https://rconsortium.github.io/submissions-wg/\nSlack: Invite to Slack"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#pilots",
-    "href": "slides/07-submissions-wrapup/index.html#pilots",
+    "objectID": "slides/07-advancedai-wrapup/index.html#pilots",
+    "href": "slides/07-advancedai-wrapup/index.html#pilots",
     "title": "Recap and More",
     "section": "Pilots",
     "text": "Pilots"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#remember",
-    "href": "slides/07-submissions-wrapup/index.html#remember",
+    "objectID": "slides/07-advancedai-wrapup/index.html#remember",
+    "href": "slides/07-advancedai-wrapup/index.html#remember",
     "title": "Recap and More",
     "section": "Remember…",
     "text": "Remember…\nThe success of Pharmaverse and Open Source relies on the community!"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#how-to-contribute",
-    "href": "slides/07-submissions-wrapup/index.html#how-to-contribute",
+    "objectID": "slides/07-advancedai-wrapup/index.html#how-to-contribute",
+    "href": "slides/07-advancedai-wrapup/index.html#how-to-contribute",
     "title": "Recap and More",
     "section": "How to contribute",
-    "text": "How to contribute\n\nUse the packages\nWrite blogs, create templates\nSubmit Issues and/or Code\n\ndocumentation\nfeature requests\nBug\n\nJoin as a contributor – get in touch with the maintainer\nDiversity Alliance Hackathon is coming up! Link to registration here\n\nAll types of contributions are welcome!"
+    "text": "How to contribute\n\nUse the packages\nWrite blogs, create templates\nSubmit Issues and/or Code\n\ndocumentation\nfeature requests\nBug\n\nJoin as a contributor – get in touch with the maintainer\n\nAll types of contributions are welcome!"
   },
   {
-    "objectID": "slides/07-submissions-wrapup/index.html#discussion-time",
-    "href": "slides/07-submissions-wrapup/index.html#discussion-time",
-    "title": "Recap and More",
-    "section": "Discussion time",
-    "text": "Discussion time\n[If time allows!]\n\nForm a small group of 4-5 with your neighbors\nDiscuss the following questions\n\nWhat had you expected to learn today\nWhat was learned at today\nWhat will you be bringing back to your teams\nWhat do we think is the skillset that will be required in the future\nWhat do we see as benefits of ARDs\nIf you could tell yourself something 5 years ago, what would it be?"
-  },
-  {
-    "objectID": "slides/07-submissions-wrapup/index.html#post-workshop-survey",
-    "href": "slides/07-submissions-wrapup/index.html#post-workshop-survey",
+    "objectID": "slides/07-advancedai-wrapup/index.html#post-workshop-survey",
+    "href": "slides/07-advancedai-wrapup/index.html#post-workshop-survey",
     "title": "Recap and More",
     "section": "Post-workshop Survey",
     "text": "Post-workshop Survey\n\nYour feedback is crucial!\nData from the survey informs curriculum and format decisions for future conf workshops, and we really appreciate you taking the time to provide it\nLink: http://pos.it/conf-workshop-survey"
@@ -949,7 +956,7 @@
     "href": "slides/01-intro/index.html#what-to-expect-from-this-workshop",
     "title": "Welcome!",
     "section": "What to expect from this workshop",
-    "text": "What to expect from this workshop\n\n Explore pharmaverse R packages for clinical reporting\n\n\n\n\nRaw data test data & CDASH / non-CDASH inputs\n\n\npharmaverseraw\n\n\n\n\nSDTM standardize raw data into SDTM domains\n\n\nsdtm.oak\n\n\n\n\nADaM build analysis-ready datasets from SDTM\n\n\nadmiral\n\n\n\n\nTables & ARDs summaries, TLGs, analysis results datasets\n\n\ngtsummary · tfrmt · cards\n\n\n\n\nAI agents & skills accelerate every step — hands-on exercises throughout"
+    "text": "What to expect from this workshop\n\n Explore pharmaverse R packages for clinical reporting\n\n\n\n\nRaw data test data & CDASH / non-CDASH inputs\n\n\npharmaverseraw\n\n\n\n\nSDTM standardize raw data into SDTM domains\n\n\nsdtm.oak\n\n\n\n\nADaM build analysis-ready datasets from SDTM\n\n\nadmiral · metacore · metatools\n\n\n\n\nTables & ARDs summaries, TLGs, analysis results datasets\n\n\ncards · gtsummary · tfrmt · docorator\n\n\n\n\nAI agents & skills accelerate every step — hands-on exercises throughout"
   },
   {
     "objectID": "slides/01-intro/index.html#workshop-expectations",
