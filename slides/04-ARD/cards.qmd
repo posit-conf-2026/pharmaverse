@@ -68,6 +68,9 @@ adsl |>
 ```{r}
 #| label: tabulate-agegr1-by
 #| message: true
+#| R.options:
+#|   pillar.print_max: 8
+#|   pillar.print_min: 8
 adsl |>
   ard_tabulate(
     by = ARM2,
@@ -98,6 +101,9 @@ adsl |>
 ```{r}
 #| label: summary-age-by
 #| message: true
+#| R.options:
+#|   pillar.print_max: 8
+#|   pillar.print_min: 8
 adsl |>
   ard_summary(
     variables = AGE,
@@ -155,6 +161,9 @@ adsl |>
 ```{r}
 #| label: summary-age-fmt
 #| message: true
+#| R.options:
+#|   pillar.print_max: 7
+#|   pillar.print_min: 7
 adsl |>
   ard_summary(
     variables = AGE,
@@ -198,6 +207,9 @@ Wrangling: `get_ard_statistics()`, `replace_null_statistic()`, etc.
 ```{r}
 #| label: stack-intro
 #| message: true
+#| R.options:
+#|   pillar.print_max: 6
+#|   pillar.print_min: 6
 adsl |>
   ard_stack(
     .by = ARM2,
@@ -236,6 +248,9 @@ ard_summary(
 #| label: recap-summary
 #| message: true
 #| code-line-numbers: "3,4"
+#| R.options:
+#|   pillar.print_max: 7
+#|   pillar.print_min: 7
 ard_summary(
   data = adsl,
   by = ARM2,
@@ -271,6 +286,9 @@ ard_tabulate(
 #| label: recap-tabulate
 #| message: true
 #| code-line-numbers: "3,4"
+#| R.options:
+#|   pillar.print_max: 7
+#|   pillar.print_min: 7
 ard_tabulate(
   data = adsl,
   by = ARM2,
@@ -321,6 +339,9 @@ Let's compute summaries for a demography table that includes age (AGE), age grou
 #| label: recap-stack
 #| message: true
 #| code-line-numbers: "4,5"
+#| R.options:
+#|   pillar.print_max: 5
+#|   pillar.print_min: 5
 ard_stack(
   data = adsl,
   .by = ARM2,
@@ -342,6 +363,9 @@ We can also add:
 #| label: recap-stack-overall
 #| message: true
 #| code-line-numbers: "6,7"
+#| R.options:
+#|   pillar.print_max: 5
+#|   pillar.print_min: 5
 ard_stack(
   data = adsl,
   .by = ARM2,
@@ -389,6 +413,9 @@ adae |>
 ```{r}
 #| label: stack-hierarchical-output
 #| echo: FALSE
+#| R.options:
+#|   pillar.print_max: 4
+#|   pillar.print_min: 4
 ard_hier <- ard_stack_hierarchical(
   data = adae,
   variables = c(AESOC, AEDECOD),
@@ -550,6 +577,9 @@ adsl |>
 ```{r}
 #| label: cardx-ttest-two-sample
 #| message: true
+#| R.options:
+#|   pillar.print_max: 8
+#|   pillar.print_min: 8
 adsl |>
   cards::ard_mvsummary(
     variables = AGE,
