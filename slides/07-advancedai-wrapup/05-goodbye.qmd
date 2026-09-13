@@ -1,35 +1,110 @@
 # Thank you for being here!
 
-## Remember...
+## Look what you built today {.smaller}
 
-The success of Pharmaverse and Open Source relies on the community! 
+::::::: {.pv-expect}
 
-![](images/barb-litter.png){fig-align="center"}
+:::::: {.pv-expect-row .fragment}
+:::: {.pv-expect-body}
+[Raw → SDTM]{.pv-expect-stage} [mapped CDASH inputs into standards-aligned domains]{.pv-expect-desc}
+:::
+::::: {.pv-expect-pkg}
+`sdtm.oak`
+::::
+:::::
 
+:::::: {.pv-expect-row .fragment}
+:::: {.pv-expect-body}
+[SDTM → ADaM]{.pv-expect-stage} [derived analysis-ready datasets, specs and all]{.pv-expect-desc}
+:::
+::::: {.pv-expect-pkg}
 
-## How to contribute
+`admiral` · `metacore` · `metatools` · `xportr`
 
-- Use the packages 
+::::
+:::::
 
-- Write blogs, create templates
+:::::: {.pv-expect-row .fragment}
+:::: {.pv-expect-body}
+[ADaM → ARD]{.pv-expect-stage} [every statistic captured once, traceable and QC-ready]{.pv-expect-desc}
+:::
+::::: {.pv-expect-pkg}
+`cards` · `cardx`
+::::
+:::::
 
-- Submit Issues and/or Code
+:::::: {.pv-expect-row .fragment}
+:::: {.pv-expect-body}
+[ARD → tables]{.pv-expect-stage} [the quick look *and* the submission-shaped display]{.pv-expect-desc}
+:::
+::::: {.pv-expect-pkg}
 
-  - documentation 
-  
-  - feature requests
-  
-  - Bug
-  
-- Join as a contributor – get in touch with the maintainer
+`gtsummary` · `tfrmt` · `docorator`
 
-All types of contributions are welcome!
+::::
+:::::
 
+:::::: {.pv-expect-accent .fragment}
+:::: {.pv-expect-body}
+[…and an agent that can do all four]{.pv-expect-stage} [five skills, one prompt, reviewed before a line was written]{.pv-expect-desc}
+:::
+:::::
 
-## Post-workshop Survey
+::::::
 
-- Your feedback is crucial! 
+::: {.pv-ai}
+[🧠]{.pv-ico} The skills that did it ship with the workshop repo — copy
+`.agents/skills/` into your own project and they work there too.
+:::
 
-- Data from the survey informs curriculum and format decisions for future conf workshops, and we really appreciate you taking the time to provide it
+## Where this goes next {.smaller}
 
-- Link: [http://pos.it/conf-workshop-survey](http://pos.it/conf-workshop-survey)
+:::::: {.pv-wrap}
+
+::::: {.pv-wrap-row}
+:::: {.pv-wrap-ico}
+📦
+::::
+::: {.pv-wrap-body}
+[Take it to your own study]{.pv-wrap-title}
+Slides, exercises, answers and the skills folder are yours to keep —
+[github.com/posit-conf-2026/pharmaverse](https://github.com/posit-conf-2026/pharmaverse) ·
+more end-to-end walk-throughs at [pharmaverse examples](https://pharmaverse.github.io/examples/)
+:::
+:::::
+
+::::: {.pv-wrap-row}
+:::: {.pv-wrap-ico}
+💬
+::::
+::: {.pv-wrap-body}
+[You are not doing this alone]{.pv-wrap-title}
+Ask anything on [pharmaverse Slack](https://pharmaverse.slack.com/) ·
+[pharmaverse.org](https://pharmaverse.org/) ·
+R Consortium [Submissions WG](https://rconsortium.github.io/submissions-wg/)
+:::
+:::::
+
+::::: {.pv-wrap-row .pv-wrap-accent}
+:::: {.pv-wrap-ico}
+🤝
+::::
+::: {.pv-wrap-body}
+[Every maintainer started as a user]{.pv-wrap-title}
+A typo in the docs, a bug report, a blog post, a template — it all counts.
+Start at [pharmaverse.org/contribute](https://pharmaverse.org/contribute/)
+:::
+:::::
+
+::::::
+
+## It runs on people
+
+The success of pharmaverse and open source relies on [the community]{.emphasis}
+— and as of today, that includes you.
+
+::: {.pv-highlight}
+📝 Shape next year's workshop: [pos.it/conf-workshop-survey](http://pos.it/conf-workshop-survey)
+:::
+
+![](images/barb-litter.png){fig-align="center" width="80%" fig-alt="pharmaverse community contributors"}
