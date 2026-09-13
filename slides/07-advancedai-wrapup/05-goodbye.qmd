@@ -104,7 +104,7 @@ The success of pharmaverse and open source relies on [the community]{.emphasis}
 — and as of today, that includes you.
 
 ::: {.pv-highlight}
-📝 Shape next year's workshop: [pos.it/conf-workshop-survey](http://pos.it/conf-workshop-survey)
+📝 Shape next year's workshop: [pos.it/conf26-workshop-survey](pos.it/conf26-workshop-survey)
 :::
 
 ![](images/barb-litter.png){fig-align="center" width="80%" fig-alt="pharmaverse community contributors"}
