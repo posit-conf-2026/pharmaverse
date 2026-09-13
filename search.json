@@ -1,19 +1,5 @@
 [
   {
-    "objectID": "slides/07-advancedai-wrapup/index.html#what-did-we-cover",
-    "href": "slides/07-advancedai-wrapup/index.html#what-did-we-cover",
-    "title": "Recap and More",
-    "section": "What did we cover?",
-    "text": "What did we cover?\n\nRaw to SDTM with {sdtm.oak}\nSDTM to ADaM with {admiral}, {metacore}, {metatools}, {xportr}\nARDs with {cards} and {cardx}\nARD-friendly tables with {gtsummary}\nARD-first tables and rendering with {tfrmt} and {docorator}"
-  },
-  {
-    "objectID": "slides/07-advancedai-wrapup/index.html#pharmaverse-examples",
-    "href": "slides/07-advancedai-wrapup/index.html#pharmaverse-examples",
-    "title": "Recap and More",
-    "section": "{pharmaverse} Examples",
-    "text": "{pharmaverse} Examples\nThe pharmaverse examples site includes walk-throughs of every step along the E2E way.\n\nhttps://pharmaverse.github.io/examples/"
-  },
-  {
     "objectID": "slides/07-advancedai-wrapup/index.html#posit-assistant-plan-mode",
     "href": "slides/07-advancedai-wrapup/index.html#posit-assistant-plan-mode",
     "title": "Recap and More",
@@ -77,25 +63,25 @@
     "text": "Pilots"
   },
   {
-    "objectID": "slides/07-advancedai-wrapup/index.html#remember",
-    "href": "slides/07-advancedai-wrapup/index.html#remember",
+    "objectID": "slides/07-advancedai-wrapup/index.html#look-what-you-built-today",
+    "href": "slides/07-advancedai-wrapup/index.html#look-what-you-built-today",
     "title": "Recap and More",
-    "section": "Remember…",
-    "text": "Remember…\nThe success of Pharmaverse and Open Source relies on the community!"
+    "section": "Look what you built today",
+    "text": "Look what you built today\n\n\n\nRaw → SDTM mapped CDASH inputs into standards-aligned domains\n\n\nsdtm.oak\n\n\n\n\nSDTM → ADaM derived analysis-ready datasets, specs and all\n\n\nadmiral · metacore · metatools · xportr\n\n\n\n\nADaM → ARD every statistic captured once, traceable and QC-ready\n\n\ncards · cardx\n\n\n\n\nARD → tables the quick look and the submission-shaped display\n\n\ngtsummary · tfrmt · docorator\n\n\n\n\n…and an agent that can do all four five skills, one prompt, reviewed before a line was written\n\n\n\n\n🧠 The skills that did it ship with the workshop repo — copy .agents/skills/ into your own project and they work there too."
   },
   {
-    "objectID": "slides/07-advancedai-wrapup/index.html#how-to-contribute",
-    "href": "slides/07-advancedai-wrapup/index.html#how-to-contribute",
+    "objectID": "slides/07-advancedai-wrapup/index.html#where-this-goes-next",
+    "href": "slides/07-advancedai-wrapup/index.html#where-this-goes-next",
     "title": "Recap and More",
-    "section": "How to contribute",
-    "text": "How to contribute\n\nUse the packages\nWrite blogs, create templates\nSubmit Issues and/or Code\n\ndocumentation\nfeature requests\nBug\n\nJoin as a contributor – get in touch with the maintainer\n\nAll types of contributions are welcome!"
+    "section": "Where this goes next",
+    "text": "Where this goes next\n\n\n\n📦\n\n\nTake it to your own study Slides, exercises, answers and the skills folder are yours to keep — github.com/posit-conf-2026/pharmaverse · more end-to-end walk-throughs at pharmaverse examples\n\n\n\n\n💬\n\n\nYou are not doing this alone Ask anything on pharmaverse Slack · pharmaverse.org · R Consortium Submissions WG\n\n\n\n\n🤝\n\n\nEvery maintainer started as a user A typo in the docs, a bug report, a blog post, a template — it all counts. Start at pharmaverse.org/contribute"
   },
   {
-    "objectID": "slides/07-advancedai-wrapup/index.html#post-workshop-survey",
-    "href": "slides/07-advancedai-wrapup/index.html#post-workshop-survey",
+    "objectID": "slides/07-advancedai-wrapup/index.html#it-runs-on-people",
+    "href": "slides/07-advancedai-wrapup/index.html#it-runs-on-people",
     "title": "Recap and More",
-    "section": "Post-workshop Survey",
-    "text": "Post-workshop Survey\n\nYour feedback is crucial!\nData from the survey informs curriculum and format decisions for future conf workshops, and we really appreciate you taking the time to provide it\nLink: http://pos.it/conf-workshop-survey"
+    "section": "It runs on people",
+    "text": "It runs on people\nThe success of pharmaverse and open source relies on the community — and as of today, that includes you.\n\n📝 Shape next year’s workshop: pos.it/conf-workshop-survey"
   },
   {
     "objectID": "slides/06-tables-tfrmt/index.html#ards-tables-a-dynamic-duo",
