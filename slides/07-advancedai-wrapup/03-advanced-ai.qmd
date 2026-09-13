@@ -90,7 +90,7 @@ You fix any issues before any code has been written, then hit approve.
 [[👀]{.pv-ico}You<br>review]{.pv-step}
 :::
 
-## One prompt, in Plan mode {.smaller}
+## One prompt, in Plan mode
 
 ::::: {.pv-skill}
 
@@ -109,8 +109,7 @@ You fix any issues before any code has been written, then hit approve.
 
 :::::
 
-Nobody named a skill. The agent matched them from the `description:` front
-matter of what is checked into `.agents/skills/`:
+Nobody named a skill — the agent matched them from `.agents/skills/`:
 
 ::: {.pv-flow .pv-flow-tight}
 [[📦]{.pv-ico}sdtm-oak-mapping]{.pv-step}
