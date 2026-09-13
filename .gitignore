@@ -28,3 +28,6 @@ data/
 .renv-cache/
 
 .DS_Store
+
+# live plan-mode demo output (slides/07-advancedai-wrapup)
+plan-example/
