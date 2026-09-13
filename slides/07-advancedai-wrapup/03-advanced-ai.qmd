@@ -1,5 +1,3 @@
-# More on AI
-
 ## Posit Assistant — Plan Mode {.smaller}
 
 Posit Assistant offers a few modes depending on how much you want it to do:
@@ -64,8 +62,7 @@ choices along the way — plan mode shows them to you *before* it writes anythin
 ::: {.pv-panel-body}
 Writes all three scripts, then runs them.
 
-On script 3 you notice it **derived its own ADSL** instead of starting from
-`pharmaverseadam::adsl` — so scripts 1 and 2 need reworking too.
+On script 3 you notice an issue — and as a result scripts 1 and 2 need reworking too.
 
 [You review after the cost is sunk]{.pv-note}
 :::
@@ -78,7 +75,7 @@ On script 3 you notice it **derived its own ADSL** instead of starting from
 Reads the skills and the data, then proposes the **file layout, data sources,
 and function choices** — no files written.
 
-You fix the ADSL source in one line, then hit approve.
+You fix any issues before any code has been written, then hit approve.
 
 [You review while it's still cheap]{.pv-note}
 :::

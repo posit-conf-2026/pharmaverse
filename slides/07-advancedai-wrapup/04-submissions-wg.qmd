@@ -1,6 +1,4 @@
-## Submissions Working Group
-
-### Mission
+## Mission
 
 * Easier R-based clinical trial regulatory submissions today
     * by showing open examples of using current submission portals
