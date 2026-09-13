@@ -322,7 +322,7 @@ That's `r nrow(metadata_fns)` of the `r n_metadata_total` functions across `{met
 Lines in each script are referenced with a footnote like `^[Lines: 20-25]` - flip to that spot in `adsl.R` as we go.
 :::
 
-## Reading in our spec for `ADSL` ^[Lines: 20-25] {.smaller}
+## Reading in our spec for `ADSL` ^[Lines: 20-25] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-reading-a-spec) for this one waiting in the appendix - go make friends with `spec_to_metacore()`.] {.smaller}
 
 ```{.r code-line-numbers="1|2|3|4|5|6"}
 adsl_spec <- spec_to_metacore(
@@ -338,7 +338,7 @@ adsl_spec <- spec_to_metacore(
 * `verbose = "silent"` while iterating on your spec (replaces the deprecated `quiet` argument).
 * Same call in `ADVS` script.
 
-## Combine Parent and Supplementary Data ^[Lines: 53]
+## Combine Parent and Supplementary Data ^[Lines: 53] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-supplemental-qualifiers) for this one waiting in the appendix - `combine_supp()` would love the company.]
 
 ```{.r}
 dm_suppdm <- combine_supp(dm, suppdm)
@@ -488,7 +488,7 @@ Practice handing the AI a join scenario in plain language and seeing which argum
 countdown::countdown(minutes = 7)
 ```
 
-## Let's derive a Duration Variable ^[Lines: 122-126]
+## Let's derive a Duration Variable ^[Lines: 122-126] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-durations) for this one waiting in the appendix - go settle the age-rounding debate yourself.] {.smaller}
 
 ```{.r code-line-numbers="1|2|3|4"}
 derive_vars_duration(
@@ -501,7 +501,7 @@ derive_vars_duration(
 * `derive_vars_duration()` computes a span between two dates/datetimes (e.g. days on treatment, age at an event) - control the units with `out_unit`, and whether a partial period rounds up with `add_one`/`trunc_out`.
 * It's powered by `{lubridate}` under the hood, which measures spans two ways - **duration** (an exact number of seconds) and **interval** (a specific point-to-point span). These usually agree, but can differ slightly for month/year units, since months and years aren't a fixed number of days.
 
-## Let's apply Control Terms / Code Lists ^[Lines: 276-282]
+## Let's apply Control Terms / Code Lists ^[Lines: 276-282] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-codelists) for this one waiting in the appendix - go find out which direction `decode_to_code` really goes.]
 
 ```{.r}
 adsl16 %>%
@@ -585,7 +585,7 @@ derive_vars_dtm(
 Lines in each script are referenced with a footnote like `^[Lines: 72-80]` - flip to that spot in `advs.R` as we go.
 :::
 
-## Let's talk about lookup tables ^[Lines: 72-80]
+## Let's talk about lookup tables ^[Lines: 72-80] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-lookup-tables) for this one waiting in the appendix - go catch an unmapped code red-handed.]
 
 ```{.r code-line-numbers="1|2|3|4|5|6"}
   derive_vars_merged_lookup(
@@ -645,7 +645,7 @@ Practice a "one value applies to many records" scenario, which comes up any time
 countdown::countdown(minutes = 7)
 ```
 
-## Let's derive DTYPE summary records ^[Lines: 144-153]
+## Let's derive DTYPE summary records ^[Lines: 144-153] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-summary-records) for this one waiting in the appendix - go average some replicate readings of your own.]
 
 ```{.r code-line-numbers="1|2|3|4|5|6|7|8|9"}
 derive_summary_records(
@@ -726,7 +726,7 @@ advs <- derive_var_base(
 
 * Used to calculate CHG and PCHG variables
 
-## Let's add an Analysis Sequence Variable ^[Lines: 262-268]
+## Let's add an Analysis Sequence Variable ^[Lines: 262-268] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-sequence-numbers) for this one waiting in the appendix - go make `check_type` earn its keep.] {.smaller}
 
 ```{.r code-line-numbers="1|2|3|4|5|6|7|"}
 advs <- derive_var_obs_number(
@@ -757,7 +757,7 @@ advs_prefinal <- advs %>%
 * `dataset_name` is no longer needed here - since our `advs_spec` metacore object is already scoped to a single dataset via `select_dataset()`, `check_variables()` picks that up automatically (the argument is deprecated as of `metatools` 0.2.0).
 * Note similar code in `ADSL` script!
 
-## Let's get that data read for regulatory agencies ^[Lines: 311-316]
+## Let's get that data read for regulatory agencies ^[Lines: 311-316] ^[Got extra time or curiosity? There's a [Try It](#try-it-ask-your-ai-for-assistance-on-preparing-an-xpt-file) for this one waiting in the appendix - go give `xportr` a proper test drive.]
 
 ```{.r code-line-numbers="1|2|3|4|5|6"}
 advs_final <- advs_prefinal %>%
@@ -873,6 +873,7 @@ getting comfortable with.
 
 ## Try It: Ask Your AI for Assistance on Dates, Round 2 {.smaller}
 
+* Picks up right where [Try It: Ask Your AI for Assistance on Dates](#try-it-ask-your-ai-for-assistance-on-dates) left off - same messy `--DTC` dataset and `derive_vars_dtm()` call, but now with reference dates in play.
 * Now let's push it further and put `min_dates`, `max_dates`, and `preserve` to work.
 
 ::: {.codewindow style="font-size: 1.05em;"}
