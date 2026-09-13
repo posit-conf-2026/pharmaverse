@@ -22,7 +22,7 @@ Plan and carry out **multi-step edits** across your project
 <div style="text-align: center;"><img src="images/plan-mode.png" style="width: 50%;"/></div>
 
 
-## Why plan first? {.smaller}
+## Why plan first?
 
 One request, **four packages and three skills** deep. The agent makes a dozen
 choices along the way — plan mode shows them to you *before* it writes anything.
@@ -55,9 +55,7 @@ You fix the ADSL source in one line, then hit approve.
 ::::
 :::::
 
-<br>
-
-::: {.pv-flow .pv-flow-accent}
+::: {.pv-flow .pv-flow-accent .pv-flow-tight}
 [[📖]{.pv-ico}Read<br>skills & data]{.pv-step}
 [[🧭]{.pv-ico}Draft<br>a plan]{.pv-step}
 [[✋]{.pv-ico}You edit<br>& approve]{.pv-step}
