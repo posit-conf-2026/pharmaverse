@@ -335,20 +335,17 @@ background: #003559;
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 12 × 11
-   group1 group1_level variable variable_level context  stat_name    stat
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;
- 1 ARM2   Placebo      AGEGR1   18-64          tabulate n          14    
- 2 ARM2   Placebo      AGEGR1   18-64          tabulate N          86    
- 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163
- 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n          72    
- 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N          86    
- 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837
- 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate n          19    
- 8 ARM2   Xanomeline   AGEGR1   18-64          tabulate N         168    
- 9 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113
-10 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate n         149    
-11 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate N         168    
-12 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887
+  group1 group1_level variable variable_level context  stat_name    stat
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;
+1 ARM2   Placebo      AGEGR1   18-64          tabulate n          14    
+2 ARM2   Placebo      AGEGR1   18-64          tabulate N          86    
+3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163
+4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n          72    
+5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N          86    
+6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837
+7 ARM2   Xanomeline   AGEGR1   18-64          tabulate n          19    
+8 ARM2   Xanomeline   AGEGR1   18-64          tabulate N         168    
+# ℹ 4 more rows
 # ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,
 #   error &lt;list&gt;</code></pre>
 </div>
@@ -390,24 +387,17 @@ background: #003559;
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 10
-   group1 group1_level variable context stat_name stat_label   stat fmt_fun
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;
- 1 ARM2   Placebo      AGE      summary N         N           86          0
- 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1
- 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1
- 4 ARM2   Placebo      AGE      summary median    Median      76          1
- 5 ARM2   Placebo      AGE      summary p25       Q1          69          1
- 6 ARM2   Placebo      AGE      summary p75       Q3          82          1
- 7 ARM2   Placebo      AGE      summary min       Min         52          1
- 8 ARM2   Placebo      AGE      summary max       Max         89          1
- 9 ARM2   Xanomeline   AGE      summary N         N          168          0
-10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1
-12 ARM2   Xanomeline   AGE      summary median    Median      77          1
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1
-15 ARM2   Xanomeline   AGE      summary min       Min         51          1
-16 ARM2   Xanomeline   AGE      summary max       Max         88          1
+  group1 group1_level variable context stat_name stat_label   stat fmt_fun
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;
+1 ARM2   Placebo      AGE      summary N         N           86          0
+2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1
+3 ARM2   Placebo      AGE      summary sd        SD           8.59       1
+4 ARM2   Placebo      AGE      summary median    Median      76          1
+5 ARM2   Placebo      AGE      summary p25       Q1          69          1
+6 ARM2   Placebo      AGE      summary p75       Q3          82          1
+7 ARM2   Placebo      AGE      summary min       Min         52          1
+8 ARM2   Placebo      AGE      summary max       Max         89          1
+# ℹ 8 more rows
 # ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
 </div>
@@ -482,24 +472,16 @@ background: #003559;
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply_fmt_fun</span>() <span class="co"># add a character column of rounded results</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 11
-   group1 group1_level variable context stat_name stat_label   stat stat_fmt
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  
- 1 ARM2   Placebo      AGE      summary N         N           86    86      
- 2 ARM2   Placebo      AGE      summary mean      Mean        75.2  75      
- 3 ARM2   Placebo      AGE      summary sd        SD           8.59 8.6     
- 4 ARM2   Placebo      AGE      summary median    Median      76    76.0    
- 5 ARM2   Placebo      AGE      summary p25       Q1          69    69.0    
- 6 ARM2   Placebo      AGE      summary p75       Q3          82    82.0    
- 7 ARM2   Placebo      AGE      summary min       Min         52    52.0    
- 8 ARM2   Placebo      AGE      summary max       Max         89    89.0    
- 9 ARM2   Xanomeline   AGE      summary N         N          168    168     
-10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0  75      
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09 8.1     
-12 ARM2   Xanomeline   AGE      summary median    Median      77    77.0    
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71    71.0    
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81    81.0    
-15 ARM2   Xanomeline   AGE      summary min       Min         51    51.0    
-16 ARM2   Xanomeline   AGE      summary max       Max         88    88.0    
+  group1 group1_level variable context stat_name stat_label   stat stat_fmt
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt; &lt;list&gt;  
+1 ARM2   Placebo      AGE      summary N         N           86    86      
+2 ARM2   Placebo      AGE      summary mean      Mean        75.2  75      
+3 ARM2   Placebo      AGE      summary sd        SD           8.59 8.6     
+4 ARM2   Placebo      AGE      summary median    Median      76    76.0    
+5 ARM2   Placebo      AGE      summary p25       Q1          69    69.0    
+6 ARM2   Placebo      AGE      summary p75       Q3          82    82.0    
+7 ARM2   Placebo      AGE      summary min       Min         52    52.0    
+# ℹ 9 more rows
 # ℹ 3 more variables: fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
 </div>
@@ -538,22 +520,15 @@ background: #003559;
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 14 × 11
-   group1 group1_level variable variable_level context  stat_name    stat
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;      &lt;list&gt;
- 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2  
- 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59 
- 3 ARM2   Placebo      AGEGR1   18-64          tabulate p           0.163
- 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate p           0.837
- 5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  mean       75.0  
- 6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  sd          8.09 
- 7 ARM2   Xanomeline   AGEGR1   18-64          tabulate p           0.113
- 8 ARM2   Xanomeline   AGEGR1   &gt;64            tabulate p           0.887
- 9 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate n          86    
-10 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate N         254    
-11 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Placebo        tabulate p           0.339
-12 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate n         168    
-13 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate N         254    
-14 &lt;NA&gt;   &lt;NULL&gt;       ARM2     Xanomeline     tabulate p           0.661
+  group1 group1_level variable variable_level context  stat_name   stat
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;
+1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean      75.2  
+2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd         8.59 
+3 ARM2   Placebo      AGEGR1   18-64          tabulate p          0.163
+4 ARM2   Placebo      AGEGR1   &gt;64            tabulate p          0.837
+5 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  mean      75.0  
+6 ARM2   Xanomeline   AGE      &lt;NULL&gt;         summary  sd         8.09 
+# ℹ 8 more rows
 # ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,
 #   error &lt;list&gt;</code></pre>
 </div>
@@ -591,24 +566,16 @@ background: #003559;
 <span id="cb20-5"><a href="#cb20-5" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 16 × 10
-   group1 group1_level variable context stat_name stat_label   stat fmt_fun
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;
- 1 ARM2   Placebo      AGE      summary N         N           86          0
- 2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1
- 3 ARM2   Placebo      AGE      summary sd        SD           8.59       1
- 4 ARM2   Placebo      AGE      summary median    Median      76          1
- 5 ARM2   Placebo      AGE      summary p25       Q1          69          1
- 6 ARM2   Placebo      AGE      summary p75       Q3          82          1
- 7 ARM2   Placebo      AGE      summary min       Min         52          1
- 8 ARM2   Placebo      AGE      summary max       Max         89          1
- 9 ARM2   Xanomeline   AGE      summary N         N          168          0
-10 ARM2   Xanomeline   AGE      summary mean      Mean        75.0        1
-11 ARM2   Xanomeline   AGE      summary sd        SD           8.09       1
-12 ARM2   Xanomeline   AGE      summary median    Median      77          1
-13 ARM2   Xanomeline   AGE      summary p25       Q1          71          1
-14 ARM2   Xanomeline   AGE      summary p75       Q3          81          1
-15 ARM2   Xanomeline   AGE      summary min       Min         51          1
-16 ARM2   Xanomeline   AGE      summary max       Max         88          1
+  group1 group1_level variable context stat_name stat_label   stat fmt_fun
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;  &lt;list&gt;
+1 ARM2   Placebo      AGE      summary N         N           86          0
+2 ARM2   Placebo      AGE      summary mean      Mean        75.2        1
+3 ARM2   Placebo      AGE      summary sd        SD           8.59       1
+4 ARM2   Placebo      AGE      summary median    Median      76          1
+5 ARM2   Placebo      AGE      summary p25       Q1          69          1
+6 ARM2   Placebo      AGE      summary p75       Q3          82          1
+7 ARM2   Placebo      AGE      summary min       Min         52          1
+# ℹ 9 more rows
 # ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
 </div>
@@ -645,19 +612,16 @@ background: #003559;
 <span id="cb23-5"><a href="#cb23-5" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 24 × 11
-   group1 group1_level variable variable_level context  stat_name   stat
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;
- 1 ARM2   Placebo      AGEGR1   18-64          tabulate n         14    
- 2 ARM2   Placebo      AGEGR1   18-64          tabulate N         86    
- 3 ARM2   Placebo      AGEGR1   18-64          tabulate p          0.163
- 4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n         72    
- 5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N         86    
- 6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p          0.837
- 7 ARM2   Placebo      SEX      F              tabulate n         53    
- 8 ARM2   Placebo      SEX      F              tabulate N         86    
- 9 ARM2   Placebo      SEX      F              tabulate p          0.616
-10 ARM2   Placebo      SEX      M              tabulate n         33    
-# ℹ 14 more rows
+  group1 group1_level variable variable_level context  stat_name   stat
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;
+1 ARM2   Placebo      AGEGR1   18-64          tabulate n         14    
+2 ARM2   Placebo      AGEGR1   18-64          tabulate N         86    
+3 ARM2   Placebo      AGEGR1   18-64          tabulate p          0.163
+4 ARM2   Placebo      AGEGR1   &gt;64            tabulate n         72    
+5 ARM2   Placebo      AGEGR1   &gt;64            tabulate N         86    
+6 ARM2   Placebo      AGEGR1   &gt;64            tabulate p          0.837
+7 ARM2   Placebo      SEX      F              tabulate n         53    
+# ℹ 17 more rows
 # ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,
 #   error &lt;list&gt;</code></pre>
 </div>
@@ -702,21 +666,15 @@ background: #003559;
 <span id="cb26-6"><a href="#cb26-6" aria-label="6"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 46 × 11
-   group1 group1_level variable variable_level context  stat_name   stat
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;
- 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   
- 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 
- 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59
- 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   
- 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   
- 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   
- 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   
- 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   
- 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   
-10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   
-# ℹ 36 more rows
-# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,
-#   error &lt;list&gt;</code></pre>
+  group1 group1_level variable variable_level context stat_name stat_label  stat
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;lis&gt;
+1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary N         N          86   
+2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary mean      Mean       75.2 
+3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary sd        SD          8.59
+4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary median    Median     76   
+5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary p25       Q1         69   
+# ℹ 41 more rows
+# ℹ 3 more variables: fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -740,21 +698,15 @@ background: #003559;
 <span id="cb28-8"><a href="#cb28-8" aria-label="8"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 67 × 11
-   group1 group1_level variable variable_level context  stat_name   stat
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;    &lt;chr&gt;     &lt;list&gt;
- 1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  N          86   
- 2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  mean       75.2 
- 3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  sd          8.59
- 4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  median     76   
- 5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p25        69   
- 6 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  p75        82   
- 7 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  min        52   
- 8 ARM2   Placebo      AGE      &lt;NULL&gt;         summary  max        89   
- 9 ARM2   Placebo      AGEGR1   18-64          tabulate n          14   
-10 ARM2   Placebo      AGEGR1   18-64          tabulate N          86   
-# ℹ 57 more rows
-# ℹ 4 more variables: stat_label &lt;chr&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;,
-#   error &lt;list&gt;</code></pre>
+  group1 group1_level variable variable_level context stat_name stat_label  stat
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;    &lt;list&gt;         &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;lis&gt;
+1 ARM2   Placebo      AGE      &lt;NULL&gt;         summary N         N          86   
+2 ARM2   Placebo      AGE      &lt;NULL&gt;         summary mean      Mean       75.2 
+3 ARM2   Placebo      AGE      &lt;NULL&gt;         summary sd        SD          8.59
+4 ARM2   Placebo      AGE      &lt;NULL&gt;         summary median    Median     76   
+5 ARM2   Placebo      AGE      &lt;NULL&gt;         summary p25       Q1         69   
+# ℹ 62 more rows
+# ℹ 3 more variables: fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -787,20 +739,13 @@ background: #003559;
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 12 × 13
-   group1 group1_level group2 group2_level               variable variable_level
-   &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;        
- 1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…
- 2 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…
- 3 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTI…
- 4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     
- 5 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     
- 6 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA     
- 7 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA 
- 8 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA 
- 9 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  HIATUS HERNIA 
-10 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      
-11 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      
-12 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  VOMITING      
+  group1 group1_level group2 group2_level               variable variable_level 
+  &lt;chr&gt;  &lt;list&gt;       &lt;chr&gt;  &lt;list&gt;                     &lt;chr&gt;    &lt;list&gt;         
+1 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTIN…
+2 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTIN…
+3 TRT01A Placebo      &lt;NA&gt;   &lt;NULL&gt;                     AESOC    GASTROINTESTIN…
+4 TRT01A Placebo      AESOC  GASTROINTESTINAL DISORDERS AEDECOD  DIARRHOEA      
+# ℹ 8 more rows
 # ℹ 7 more variables: context &lt;chr&gt;, stat_name &lt;chr&gt;, stat_label &lt;chr&gt;,
 #   stat &lt;list&gt;, fmt_fun &lt;list&gt;, warning &lt;list&gt;, error &lt;list&gt;</code></pre>
 </div>
@@ -852,7 +797,7 @@ background: #003559;
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_ca67cbd8" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
+<countdown-timer class="countdown" id="timer_e859d691" minutes="10" seconds="0" update-every="1" play-sound="true" tabindex="0" style="right:0;bottom:0;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -970,19 +915,17 @@ background: #003559;
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  cards<span class="sc">::</span><span class="fu">tidy_ard_column_order</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># An ARD data frame: 10 × 9
-   group1 variable context  stat_name stat_label stat                    fmt_fun
-   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;      &lt;list&gt;                  &lt;list&gt; 
- 1 ARM2   AGE      t_test_… estimate  estimate   0.1854928               1      
- 2 ARM2   AGE      t_test_… estimate1 estimate1  75.2093                 1      
- 3 ARM2   AGE      t_test_… estimate2 estimate2  75.02381                1      
- 4 ARM2   AGE      t_test_… statistic statistic  0.1660687               1      
- 5 ARM2   AGE      t_test_… p.value   p.value    0.8683091               1      
- 6 ARM2   AGE      t_test_… parameter parameter  162.6425                1      
- 7 ARM2   AGE      t_test_… conf.low  conf.low   -2.020129               1      
- 8 ARM2   AGE      t_test_… conf.high conf.high  2.391114                1      
- 9 ARM2   AGE      t_test_… method    method     Welch Two Sample t-test &lt;fn&gt;   
-10 ARM2   AGE      t_test_… alternat… alternati… two.sided               &lt;fn&gt;   
-# ℹ 2 more variables: warning &lt;list&gt;, error &lt;list&gt;</code></pre>
+  group1 variable context    stat_name stat_label    stat fmt_fun warning error 
+  &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;       &lt;list&gt;  &lt;list&gt; &lt;list&gt;  &lt;list&gt;
+1 ARM2   AGE      t_test_tw… estimate  estimate     0.185       1 &lt;NULL&gt;  &lt;NULL&gt;
+2 ARM2   AGE      t_test_tw… estimate1 estimate1   75.2         1 &lt;NULL&gt;  &lt;NULL&gt;
+3 ARM2   AGE      t_test_tw… estimate2 estimate2   75.0         1 &lt;NULL&gt;  &lt;NULL&gt;
+4 ARM2   AGE      t_test_tw… statistic statistic    0.166       1 &lt;NULL&gt;  &lt;NULL&gt;
+5 ARM2   AGE      t_test_tw… p.value   p.value      0.868       1 &lt;NULL&gt;  &lt;NULL&gt;
+6 ARM2   AGE      t_test_tw… parameter parameter  163.          1 &lt;NULL&gt;  &lt;NULL&gt;
+7 ARM2   AGE      t_test_tw… conf.low  conf.low    -2.02        1 &lt;NULL&gt;  &lt;NULL&gt;
+8 ARM2   AGE      t_test_tw… conf.high conf.high    2.39        1 &lt;NULL&gt;  &lt;NULL&gt;
+# ℹ 2 more rows</code></pre>
 </div>
 </div>
 </section>
@@ -1013,23 +956,23 @@ background: #003559;
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="kyuewoeemf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#kyuewoeemf table {
+<div id="quupnzaqvx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#quupnzaqvx table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#kyuewoeemf thead, #kyuewoeemf tbody, #kyuewoeemf tfoot, #kyuewoeemf tr, #kyuewoeemf td, #kyuewoeemf th {
+#quupnzaqvx thead, #quupnzaqvx tbody, #quupnzaqvx tfoot, #quupnzaqvx tr, #quupnzaqvx td, #quupnzaqvx th {
   border-style: none;
 }
 
-#kyuewoeemf p {
+#quupnzaqvx p {
   margin: 0;
   padding: 0;
 }
 
-#kyuewoeemf .gt_table {
+#quupnzaqvx .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1055,12 +998,12 @@ background: #003559;
   border-left-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_caption {
+#quupnzaqvx .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#kyuewoeemf .gt_title {
+#quupnzaqvx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1072,7 +1015,7 @@ background: #003559;
   border-bottom-width: 0;
 }
 
-#kyuewoeemf .gt_subtitle {
+#quupnzaqvx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1084,7 +1027,7 @@ background: #003559;
   border-top-width: 0;
 }
 
-#kyuewoeemf .gt_heading {
+#quupnzaqvx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1096,13 +1039,13 @@ background: #003559;
   border-right-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_bottom_border {
+#quupnzaqvx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_col_headings {
+#quupnzaqvx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1117,7 +1060,7 @@ background: #003559;
   border-right-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_col_heading {
+#quupnzaqvx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1137,7 +1080,7 @@ background: #003559;
   overflow-x: hidden;
 }
 
-#kyuewoeemf .gt_column_spanner_outer {
+#quupnzaqvx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1149,15 +1092,15 @@ background: #003559;
   padding-right: 4px;
 }
 
-#kyuewoeemf .gt_column_spanner_outer:first-child {
+#quupnzaqvx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#kyuewoeemf .gt_column_spanner_outer:last-child {
+#quupnzaqvx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#kyuewoeemf .gt_column_spanner {
+#quupnzaqvx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1169,11 +1112,11 @@ background: #003559;
   width: 100%;
 }
 
-#kyuewoeemf .gt_spanner_row {
+#quupnzaqvx .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#kyuewoeemf .gt_group_heading {
+#quupnzaqvx .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1199,7 +1142,7 @@ background: #003559;
   text-align: left;
 }
 
-#kyuewoeemf .gt_empty_group_heading {
+#quupnzaqvx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1214,15 +1157,15 @@ background: #003559;
   vertical-align: middle;
 }
 
-#kyuewoeemf .gt_from_md > :first-child {
+#quupnzaqvx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#kyuewoeemf .gt_from_md > :last-child {
+#quupnzaqvx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#kyuewoeemf .gt_row {
+#quupnzaqvx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1241,7 +1184,7 @@ background: #003559;
   overflow-x: hidden;
 }
 
-#kyuewoeemf .gt_stub {
+#quupnzaqvx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1254,7 +1197,7 @@ background: #003559;
   padding-right: 5px;
 }
 
-#kyuewoeemf .gt_stub_row_group {
+#quupnzaqvx .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1268,15 +1211,15 @@ background: #003559;
   vertical-align: top;
 }
 
-#kyuewoeemf .gt_row_group_first td {
+#quupnzaqvx .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#kyuewoeemf .gt_row_group_first th {
+#quupnzaqvx .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#kyuewoeemf .gt_summary_row {
+#quupnzaqvx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1286,16 +1229,16 @@ background: #003559;
   padding-right: 5px;
 }
 
-#kyuewoeemf .gt_first_summary_row {
+#quupnzaqvx .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_first_summary_row.thick {
+#quupnzaqvx .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#kyuewoeemf .gt_last_summary_row {
+#quupnzaqvx .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1305,7 +1248,7 @@ background: #003559;
   border-bottom-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_grand_summary_row {
+#quupnzaqvx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1315,7 +1258,7 @@ background: #003559;
   padding-right: 5px;
 }
 
-#kyuewoeemf .gt_first_grand_summary_row {
+#quupnzaqvx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1325,7 +1268,7 @@ background: #003559;
   border-top-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_last_grand_summary_row_top {
+#quupnzaqvx .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1335,11 +1278,11 @@ background: #003559;
   border-bottom-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_striped {
+#quupnzaqvx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#kyuewoeemf .gt_table_body {
+#quupnzaqvx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1348,7 +1291,7 @@ background: #003559;
   border-bottom-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_footnotes {
+#quupnzaqvx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1362,7 +1305,7 @@ background: #003559;
   border-right-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_footnote {
+#quupnzaqvx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1371,7 +1314,7 @@ background: #003559;
   padding-right: 5px;
 }
 
-#kyuewoeemf .gt_sourcenotes {
+#quupnzaqvx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1385,7 +1328,7 @@ background: #003559;
   border-right-color: #D3D3D3;
 }
 
-#kyuewoeemf .gt_sourcenote {
+#quupnzaqvx .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1393,72 +1336,72 @@ background: #003559;
   padding-right: 5px;
 }
 
-#kyuewoeemf .gt_left {
+#quupnzaqvx .gt_left {
   text-align: left;
 }
 
-#kyuewoeemf .gt_center {
+#quupnzaqvx .gt_center {
   text-align: center;
 }
 
-#kyuewoeemf .gt_right {
+#quupnzaqvx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#kyuewoeemf .gt_font_normal {
+#quupnzaqvx .gt_font_normal {
   font-weight: normal;
 }
 
-#kyuewoeemf .gt_font_bold {
+#quupnzaqvx .gt_font_bold {
   font-weight: bold;
 }
 
-#kyuewoeemf .gt_font_italic {
+#quupnzaqvx .gt_font_italic {
   font-style: italic;
 }
 
-#kyuewoeemf .gt_super {
+#quupnzaqvx .gt_super {
   font-size: 65%;
 }
 
-#kyuewoeemf .gt_footnote_marks {
+#quupnzaqvx .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#kyuewoeemf .gt_asterisk {
+#quupnzaqvx .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#kyuewoeemf .gt_indent_1 {
+#quupnzaqvx .gt_indent_1 {
   text-indent: 5px;
 }
 
-#kyuewoeemf .gt_indent_2 {
+#quupnzaqvx .gt_indent_2 {
   text-indent: 10px;
 }
 
-#kyuewoeemf .gt_indent_3 {
+#quupnzaqvx .gt_indent_3 {
   text-indent: 15px;
 }
 
-#kyuewoeemf .gt_indent_4 {
+#quupnzaqvx .gt_indent_4 {
   text-indent: 20px;
 }
 
-#kyuewoeemf .gt_indent_5 {
+#quupnzaqvx .gt_indent_5 {
   text-indent: 25px;
 }
 
-#kyuewoeemf .katex-display {
+#quupnzaqvx .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#kyuewoeemf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#quupnzaqvx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
