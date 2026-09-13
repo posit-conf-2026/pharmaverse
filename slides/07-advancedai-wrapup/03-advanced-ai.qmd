@@ -1,0 +1,25 @@
+# More on AI
+
+## Posit Assistant — Plan Mode {.smaller}
+
+Posit Assistant offers a few modes depending on how much you want it to do:
+
+<br>
+
+:::: {.pv-cards}
+::: {.pv-card}
+[💬]{.pv-ico}
+[Ask]{.pv-title}
+Answer questions and explain code — **no changes made**
+:::
+::: {.pv-card .pv-accent}
+[🤖]{.pv-ico}
+[Agent]{.pv-title}
+Plan and carry out **multi-step edits** across your project
+:::
+::::
+
+<div style="text-align: center;"><img src="images/plan-mode.png" style="width: 50%;"/></div>
+
+
+## Advanced AI discussion

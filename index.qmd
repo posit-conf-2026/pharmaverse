@@ -31,7 +31,7 @@ Modern clinical reporting workflows are evolving fast, and this workshop helps y
 | 14:15 – 15:00 | [Create Tables with {gtsummary}](slides/05-tables-gtsummary/index.html) |
 | 15:00 – 15:30 | *Coffee Break*                                                      |
 | 15:30 – 16:15 | [Create Tables with {tfrmt}](slides/06-tables-tfrmt/index.html)      |
-| 16:15 – 17:00 | [Other Topics Overview + Wrap-up](slides/07-submissions-wrapup/index.html) |
+| 16:15 – 17:00 | [Other Topics Overview + Wrap-up](slides/07-advancedai-wrapup/index.html) |
 :::
 
 ## Pre-work
