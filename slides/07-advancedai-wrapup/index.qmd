@@ -17,9 +17,9 @@ cache: false
 --- 
 
 
-{{< include 01-recap.qmd >}}
+<!-- {{< include 01-recap.qmd >}} -->
 
-{{< include 02-examples.qmd >}}
+<!-- {{< include 02-examples.qmd >}} -->
 
 # Advanced AI
 
