@@ -96,15 +96,27 @@ $custom-col: #7570B3;
    a colored pill next to the heading, and a bolder/colored footnote line
    at the bottom of the slide, instead of the default faint gray text.
 --------------------------------------------------------------------------- */
-.reveal .slide h2 sup {
-  font-size: 0.5em;
+.reveal .slide h2 sup,
+.pv-line-pill {
   font-weight: 700;
   color: #ffffff;
   background: $custom-col;
   padding: 0.15em 0.5em;
   border-radius: 6px;
-  margin-left: 0.4em;
   vertical-align: middle;
+}
+
+.reveal .slide h2 sup {
+  font-size: 0.5em;
+  margin-left: 0.4em;
+}
+
+/* Inline preview pill, e.g. in body text pointing to the h2-sup/footnote
+   convention before it's actually used - sized relative to body text
+   instead of the (much larger) h2 the sup variant lives in. */
+.pv-line-pill {
+  font-size: 0.7em;
+  margin: 0 0.15em;
 }
 
 .reveal .slide aside .aside-footnotes {

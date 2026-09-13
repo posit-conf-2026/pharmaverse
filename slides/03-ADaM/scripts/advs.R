@@ -309,7 +309,6 @@ advs_prefinal <- advs %>%
 
 # Apply apply labels, formats, and export the dataset to an XPT file.
 advs_final <- advs_prefinal %>%
-  xportr_type(advs_spec) %>%
   xportr_length(advs_spec) %>%
   xportr_label(advs_spec) %>%
   xportr_format(advs_spec, domain = "ADVS") %>%
