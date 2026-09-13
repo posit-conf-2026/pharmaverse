@@ -1,0 +1,39 @@
+/*-- scss:defaults --*/
+
+// Give the tfrmt section its own accent color (used by .emphasis, the title
+// rule, and any pv-accent elements) - tfrmt's hex teal, for brand cohesion
+// with the package's own logo on the title slide.
+$custom-col: #2A9D8F;
+
+/*-- scss:rules --*/
+
+/* ---------------------------------------------------------------------------
+   This deck reuses the shared custom title-slide layout defined in
+   slides/slides.scss (#title-slide:has(.custom-title)) - display-font title,
+   accent rule, headshot + affiliation block, and a hero logo card. The only
+   deck-specific addition here is the hero content itself: a row of "friend"
+   package logos (tfrmt, docorator) instead of the single-logo card the
+   shared CSS assumes.
+--------------------------------------------------------------------------- */
+#title-slide:has(.custom-title) {
+  // widen the hero column a bit so two hex logos fit comfortably
+  .title-hero { flex-basis: 40%; }
+
+  .friend-logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    max-width: 320px;
+  }
+
+  .friend-logos img {
+    display: block;
+    height: 100px;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    margin: 0;
+  }
+}

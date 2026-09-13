@@ -290,7 +290,6 @@ adsl <- adsl17 %>%
   check_variables(adsl_spec) %>% # Check all variables specified are present and no more
   order_cols(adsl_spec) %>% # Orders the columns according to the spec
   sort_by_key(adsl_spec) %>% # Sorts the rows by the sort keys
-  xportr_type(adsl_spec) %>%
   xportr_length(adsl_spec) %>%
   xportr_label(adsl_spec) %>%
   xportr_format(adsl_spec) %>%

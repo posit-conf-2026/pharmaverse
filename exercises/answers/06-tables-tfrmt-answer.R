@@ -97,7 +97,16 @@ ard_ae_tidy <- ard_ae |>
   shuffle_card(fill_hierarchical_overall = "ANY EVENT") |> 
   prep_big_n(vars = "ARM") |> 
   prep_hierarchical_fill(vars = c("AESOC","AEDECOD"), fill_from_left = TRUE)|> 
-  dplyr::select(-c(context, stat_label, stat_variable)) 
+  dplyr::select(-c(context, stat_label, stat_variable)) |> 
+  dplyr::mutate(
+    ord1 = dplyr::case_when(
+      AESOC == "ANY EVENT" ~ 1,
+      TRUE ~ as.integer(
+        factor(AESOC, levels = unique(AESOC[AESOC != "ANY EVENT"]))
+      ) + 1
+    ),
+    ord2 = dplyr::if_else(AESOC == AEDECOD, 1, 2)
+  )
 
 
 # C. Print the table with real values -------------------------------------------------
@@ -105,10 +114,12 @@ ard_ae_tidy <- ard_ae |>
 # Print the final AE table with real values using:
 #  - `ard_ae_tidy` from part B
 #  - `mock_tfrmt` spec from part A
+# Make sure the table is sorted by ord1, ord2
 # Also add a title, subtitle, and footnote to the table.
 
 final_tfrmt <- tfrmt(
   tfrmt_obj = mock_tfrmt,
+  sorting_cols = c(ord1, ord2),
   title = "Summary of Adverse Events",
   subtitle = "Safety Population",
   footnote_plan = footnote_plan(
@@ -127,19 +138,18 @@ final_tfrmt |> print_to_gt(ard_ae_tidy)
 # D. Output the table to PDF -------------------------------------------------
 
 # Output your final table (from part C) to PDF using {docorator}, 
-# in the HTML flavor. Add a header and footer to the document. 
+# with HTML flavor. Add a header and footer to the document. 
 
 final_tfrmt |>
   print_to_gt(ard_ae_tidy) |>
   as_docorator(
     display_name = "ae_summary_table",
-    display_loc = "exercises",
     header = fancyhead(
       fancyrow(left = "Pharmaverse Training", center = NA, right = doc_pagenum()),
       fancyrow(left = NA, center = "Adverse Event Summary Table", right = NA)
     ),
     footer = fancyfoot(
-      fancyrow(left = doc_path("06-tables-tfrmt.R", "exercises"), center = NA, right = doc_datetime())
+      fancyrow(left = "06-tables-tfrmt.R", center = NA, right = doc_datetime())
   )
 ) |>
-render_pdf(display_loc = "exercises")
+render_pdf(engine = "html")
