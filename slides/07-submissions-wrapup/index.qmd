@@ -1,5 +1,5 @@
 ---
-title: "Submissions in R: <br>The Wrap-Up"
+title: "Recap and More"
 logo: "../../images/pharmaverse-hex.png"
 footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
@@ -16,11 +16,8 @@ execute:
 cache: false
 --- 
 
-# E2E Overview
 
 {{< include 01-recap.qmd >}}
-
-# More Resources for E2E
 
 {{< include 02-examples.qmd >}}
 
