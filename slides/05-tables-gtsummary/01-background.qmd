@@ -143,28 +143,7 @@ Figure contains 30-day downloads for all summary table packages on CRAN.
 
 ## {gtsummary} overview
 
-::: {.columns}
-::: {.column width="50%"}
--   Create [tabular summaries]{.emphasis} with sensible defaults but highly customizable
--   Types of summaries:
-    -   Demographic- or "Table 1"-types
-    -   Cross-tabulation
-    -   Regression models
-    -   Survival data
-    -   Survey data
-    -   Custom tables
-:::
-
-::: {.column width="50%"}
--   Report statistics from {gtsummary} tables [inline]{.emphasis} in R Markdown
--   Stack and/or merge any table type
--   Use [themes]{.emphasis} to standardize across tables
--   Choose from different [print engines]{.emphasis}
-:::
-:::
-
-
-## {gtsummary} overview
+Create [tabular summaries]{.emphasis} with sensible defaults but highly customizable.
 
 For our workshop, we will focus on the following summary types as well as [themes]{.emphasis} and  [print engines]{.emphasis}.
 
@@ -174,7 +153,7 @@ For our workshop, we will focus on the following summary types as well as [theme
 
 ::: {.fragment}
 
-Other functions helpful functions we're not covering:
+Other helpful functions we're not covering:
 
 ::: {.small}
 
@@ -186,7 +165,7 @@ Other functions helpful functions we're not covering:
 
 - `tbl_wide_summary()`: similar to `tbl_summary()` but statistics are presented in separate columns
 
-- many more!
+- regression models, survival data, survey data, and many more!
 
 :::
 :::
