@@ -4,7 +4,7 @@
 
 #### Write functions
 
--  Use {gtsummary} functions to build new functions will be key for adoption.   
+-  Use {gtsummary} functions to build new functions will be key for adoption.
 
 #### Create a theme
 
@@ -25,7 +25,7 @@ The first function we added to {crane} was `tbl_roche_summary()`: a _thin_ wrapp
 - `tbl_summary(missing*)` arguments have been changed to `tbl_roche_summary(nonmissing*)`.
 
     - We highlight non-missing counts over missing counts, which are the default in {gtsummary}
-    
+
 - Counts represented by `0 (0%)` print as `0`.
 
 :::
@@ -35,10 +35,10 @@ The first function we added to {crane} was `tbl_roche_summary()`: a _thin_ wrapp
 #| output-location: slide
 library(crane)
 
-adsl |> 
-  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, "REFUSED")) |> 
+adsl |>
+  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, "REFUSED")) |>
   tbl_roche_summary(
-    by = ARM2, 
+    by = ARM2,
     include = c(AGE, ETHNIC),
     nonmissing = "always"
   )
@@ -57,8 +57,8 @@ But the general structure appears enough times in our catalog, we make it simple
 ```{r}
 #| label: tbl_baseline_chg
 #| eval: false
-adlb |> 
-  dplyr::filter(PARAM == "Albumin (g/L)") |> 
+adlb |>
+  dplyr::filter(PARAM == "Albumin (g/L)") |>
   tbl_baseline_chg(
     by = "ARM",
     baseline_level = "Baseline",
@@ -84,31 +84,17 @@ adlb |>
 
 ## A pharma theme with {crane}
 
-Our theme is implemented in `crane::theme_gtsummary_roche()`
-
-Primary changes include:
-
--   Sets a custom function for [rounding percentages]{.emphasis}.
-
--   Round all [p-values]{.emphasis} to four decimal places.
-
--   [Headers]{.emphasis} default to presenting with bold and include N in parenthesis, e.g. `'Placebo  \n (N = 184)'`.
-
--   All tables are printed with [{flextable}]{.emphasis} and we add Roche-specific styling to the table.
-
--   Update the default [font, font size, table borders, cell padding, etc.]{.emphasis} to meet our guidelines.
-
-## What else is in {crane}? <img src="https://raw.githubusercontent.com/insightsengineering/crane/main/man/figures/logo.png" align="right" height="120"/>
+Our theme is implemented in `crane::theme_gtsummary_roche()`. Primary changes include a custom function for [rounding percentages]{.emphasis}, [p-values]{.emphasis} rounded to four decimal places, [headers]{.emphasis} that default to bold and include N in parentheses (e.g. `'Placebo  \n (N = 184)'`), and printing all tables with [{flextable}]{.emphasis} using Roche-specific styling — font, font size, borders, cell padding, etc.
 
 ```{r}
 #| label: tbl-roche-summary-example
 #| output-location: column
 theme_gtsummary_roche()
 
-adsl |> 
-  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, "REFUSED")) |> 
+adsl |>
+  dplyr::mutate(ETHNIC = forcats::fct_expand(ETHNIC, "REFUSED")) |>
   tbl_roche_summary(
-    by = ARM2, 
+    by = ARM2,
     include = c(AGE, ETHNIC),
     nonmissing = "always"
   )

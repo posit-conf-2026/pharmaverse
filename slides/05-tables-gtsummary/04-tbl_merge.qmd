@@ -13,9 +13,15 @@ tbl_age <-
   modify_header(all_stat_cols() ~ "**{level}**") # update header
 
 # combine the tables side by side
-list(tbl_n, tbl_age) |> 
+list(tbl_n, tbl_age) |>
   tbl_merge(tab_spanner = FALSE) # suppress default header
 ```
+
+::: aside
+::: {.small}
+A gtsummary table is just a data frame plus instructions for printing it — break a complex table into simple parts, then cobble them together. You can also modify the underlying data frame directly with `modify_table_body()`.
+:::
+:::
 
 ## tbl_stack() to combine vertically
 
@@ -30,34 +36,4 @@ tbl_drug_b <- filter(adsl, ARM2 == "Xanomeline") |>
 list(tbl_drug_a, tbl_drug_b) |> 
   tbl_stack(group_header = c("Placebo", "Xanomeline"), quiet = TRUE) |> # optionally include headers for each table
   modify_header(all_stat_cols() ~ "**Summary Statistics**")
-```
-
-## Define custom function `tbl_cmh()`
-
-::: columns
-::: {.column width="50%"}
-<img src="images/tbl_cmh.png" width="100%">
-:::
-
-::: {.column width="50%"}
-<img src="images/tbl_cmh_markup.png" width="100%">
-:::
-:::
-
-## Cobbling Tables Together
-
-- The {gtsummary} package makes it simple to break complex tables into their simple parts and cobble them together in the end.
-
-- Moreover, the internal structure of a gtsummary table is **super simple**: 
-
-    - A data frame
-    
-    - Instructions to print that data frame to make it cute.
-
-- Modify the underlying data frame directly with `modify_table_body()`.
-
-```{r}
-#| label: table-body
-tbl_summary(adsl, include = c(AGE, ETHNIC), by = ARM2) |>
-  pluck("table_body")
 ```

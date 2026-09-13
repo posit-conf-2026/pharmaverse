@@ -170,7 +170,9 @@ Room **334**
 [Tables & ARDs]{.pv-expect-stage} [summaries, TLGs, analysis results datasets]{.pv-expect-desc}
 :::
 :::: {.pv-expect-pkg}
+
 `cards` · `gtsummary` · `tfrmt` · `docorator`
+
 ::::
 :::::
 

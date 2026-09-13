@@ -27,7 +27,6 @@ resources:
 options(width = 120)
 ```
 
-
 {{< include 00-setup.qmd >}}
 
 {{< include 01-background.qmd >}}
@@ -42,11 +41,7 @@ options(width = 120)
 
 {{< include 06-print_engines.qmd >}}
 
-{{< include 06b-save_flex_docx.qmd >}}
-
 {{< include 07-adopt.qmd >}}
-
-<!-- {{< include 08-LLMs.qmd >}} -->
 
 {{< include 08-coding-agents.qmd >}}
 
