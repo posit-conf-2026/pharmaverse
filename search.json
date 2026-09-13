@@ -21,6 +21,41 @@
     "text": "Posit Assistant — Plan Mode\nPosit Assistant offers a few modes depending on how much you want it to do:\n\n\n\n💬 Ask Answer questions and explain code — no changes made\n\n\n🤖 Agent Plan and carry out multi-step edits across your project"
   },
   {
+    "objectID": "slides/07-advancedai-wrapup/index.html#our-task",
+    "href": "slides/07-advancedai-wrapup/index.html#our-task",
+    "title": "Recap and More",
+    "section": "Our task",
+    "text": "Our task\nEverything we covered today, asked for in one request:\n\n📋pharmaverseraw 📦SDTM DM 🧬ADaM ADSL 📊ARD 📑Two tables\n\n\n\n🎯 The ask A demographics summary table — AGE, SEX, ETHNIC\n\n\n📁 The output Three scripts in a new plan-example/ folder\n\n\n🧠 What it touches Five packages, five skills — one per session of today"
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#why-plan-first",
+    "href": "slides/07-advancedai-wrapup/index.html#why-plan-first",
+    "title": "Recap and More",
+    "section": "Why plan first?",
+    "text": "Why plan first?\nThat request is five packages and five skills deep. The agent makes a dozen choices along the way — plan mode shows them to you before it writes anything.\n\n\n🤖 Agent mode — straight to code\n\nWrites all three scripts, then runs them.\nOn script 3 you notice an issue — and as a result scripts 1 and 2 need reworking too.\nYou review after the cost is sunk\n\n\n\n🧭 Plan mode — propose first\n\nReads the skills and the data, then proposes the file layout, data sources, and function choices — no files written.\nYou fix any issues before any code has been written, then hit approve.\nYou review while it’s still cheap\n\n\n\n\n📖Readskills & data 🧭Drafta plan ✋You edit& approve ⌨️Writethe scripts 👀Youreview"
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#one-prompt-in-plan-mode",
+    "href": "slides/07-advancedai-wrapup/index.html#one-prompt-in-plan-mode",
+    "title": "Recap and More",
+    "section": "One prompt, in Plan mode",
+    "text": "One prompt, in Plan mode\n\n💬 Your prompt\n\n\nI need a demographics summary table that includes AGE, SEX, and ETHNIC.\nCreate a new folder plan-example/ with three scripts: one that performs the SDTM mapping for these variables using pharmaverseraw; a second that uses that SDTM dataset to create an ADaM dataset with these variables; and a third that builds the ARD for these summary statistics, then builds the summary table using both {gtsummary} and {tfrmt}.\n\n\n\nNobody named a skill — the agent matched them from .agents/skills/:\n\n📦sdtm-oak-mapping 🧬admiral-adam 📊ard-creation 📑gtsummary-tables 📐tfrmt\n\n\n🧠 Five skills, one sentence each in their front matter — that is the whole routing mechanism."
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#what-comes-back-a-plan-not-code",
+    "href": "slides/07-advancedai-wrapup/index.html#what-comes-back-a-plan-not-code",
+    "title": "Recap and More",
+    "section": "What comes back — a plan, not code",
+    "text": "What comes back — a plan, not code\n\n\n\n📁 plan-example/ ├─ 📄 01-sdtm-dm.R │   dm_raw → DM ├─ 📄 02-adam-adsl.R │   DM → ADSL └─ 📄 03-ard-tables.R     ARD → 2 tables\n\n\n🔍 Every choice is named and checkable — and nothing is on disk yet.\n\n\n\n\n\n📦\n\n\nassign_no_ct + assign_ct AGE from IT.AGE; SEX via codelist C66731, ETHNIC via C66790.\n\n\n\n\n🧬\n\n\nadmiral::derive_vars_merged ADSL carries AGE/SEX/ETHNIC through; treatment merged on USUBJID.\n\n\n\n\n📊\n\n\ncards::ard_stack The three variables by treatment, then cards::check_ard_structure().\n\n\n\n\n📑\n\n\ngtsummary::tbl_ard_summary The quick look — one call straight off the ARD.\n\n\n\n\n📐\n\n\ntfrmt The submission-shaped display, via the cards-to-tfrmt skill."
+  },
+  {
+    "objectID": "slides/07-advancedai-wrapup/index.html#you-edit-the-plan-then-approve",
+    "href": "slides/07-advancedai-wrapup/index.html#you-edit-the-plan-then-approve",
+    "title": "Recap and More",
+    "section": "You edit the plan, then approve",
+    "text": "You edit the plan, then approve\nReading that plan takes twenty seconds. Two things are worth pushing back on:\n\n✋ Your reply\n\n\nTwo changes before you start:\n\nStep 3 — don’t use pharmaverseadam::adsl, derive ADSL from scratch.\nStep 4 — summarise by TRT01P, not ARM, and keep the check_ard_structure() call.\n\nOtherwise this looks right — go ahead.\n\n\n\n\n🧭Plan ✋Edit ✅Approve ⌨️Agent writes all three scripts\n\n\n💡 Plan mode moves the expensive review to when it is cheap — before the code exists. Same agent, same skills; you just get a say at the fork."
+  },
+  {
     "objectID": "slides/07-advancedai-wrapup/index.html#advanced-ai-discussion",
     "href": "slides/07-advancedai-wrapup/index.html#advanced-ai-discussion",
     "title": "Recap and More",
@@ -28,11 +63,11 @@
     "text": "Advanced AI discussion"
   },
   {
-    "objectID": "slides/07-advancedai-wrapup/index.html#submissions-working-group-1",
-    "href": "slides/07-advancedai-wrapup/index.html#submissions-working-group-1",
+    "objectID": "slides/07-advancedai-wrapup/index.html#mission",
+    "href": "slides/07-advancedai-wrapup/index.html#mission",
     "title": "Recap and More",
-    "section": "Submissions Working Group",
-    "text": "Submissions Working Group\nMission\n\nEasier R-based clinical trial regulatory submissions today\n\nby showing open examples of using current submission portals\n\nEasier R-based clinical trial regulatory submissions tomorrow\n\nby collecting feedback and influencing future industry and agency decisions on system/process setup\n\nWebsite: https://rconsortium.github.io/submissions-wg/\nSlack: Invite to Slack"
+    "section": "Mission",
+    "text": "Mission\n\nEasier R-based clinical trial regulatory submissions today\n\nby showing open examples of using current submission portals\n\nEasier R-based clinical trial regulatory submissions tomorrow\n\nby collecting feedback and influencing future industry and agency decisions on system/process setup\n\nWebsite: https://rconsortium.github.io/submissions-wg/\nSlack: Invite to Slack"
   },
   {
     "objectID": "slides/07-advancedai-wrapup/index.html#pilots",

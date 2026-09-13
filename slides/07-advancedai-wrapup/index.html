@@ -141,11 +141,6 @@
 </div>
 
 </section>
-<section>
-<section id="recap-time" class="title-slide slide level1 center">
-<h1>Recap time!</h1>
-
-</section>
 <section id="what-did-we-cover" class="slide level2">
 <h2>What did we cover?</h2>
 <ul>
@@ -162,15 +157,10 @@
 <div class="larger">
 <p><a href="https://pharmaverse.github.io/examples/">https://pharmaverse.github.io/examples/</a></p>
 </div>
-</section></section>
+</section>
+<section>
 <section id="advanced-ai" class="title-slide slide level1 center">
 <h1>Advanced AI</h1>
-
-</section>
-
-<section>
-<section id="more-on-ai" class="title-slide slide level1 center">
-<h1>More on AI</h1>
 
 </section>
 <section id="posit-assistant-plan-mode" class="slide level2 smaller">
@@ -189,17 +179,157 @@
 <img src="images/plan-mode.png" style="width: 50%;">
 </div>
 </section>
+<section id="our-task" class="slide level2">
+<h2>Our task</h2>
+<p>Everything we covered today, asked for in <strong>one request</strong>:</p>
+<div class="pv-flow pv-flow-accent pv-flow-tight">
+<p><span class="pv-step"><span class="pv-ico">📋</span>pharmaverseraw</span> <span class="pv-step"><span class="pv-ico">📦</span>SDTM <code>DM</code></span> <span class="pv-step"><span class="pv-ico">🧬</span>ADaM <code>ADSL</code></span> <span class="pv-step"><span class="pv-ico">📊</span>ARD</span> <span class="pv-step"><span class="pv-ico">📑</span>Two tables</span></p>
+</div>
+<div class="pv-cards">
+<div class="pv-card">
+<p><span class="pv-ico">🎯</span> <span class="pv-title">The ask</span> A <strong>demographics summary table</strong> — <code>AGE</code>, <code>SEX</code>, <code>ETHNIC</code></p>
+</div>
+<div class="pv-card">
+<p><span class="pv-ico">📁</span> <span class="pv-title">The output</span> Three scripts in a new <code>plan-example/</code> folder</p>
+</div>
+<div class="pv-card pv-accent">
+<p><span class="pv-ico">🧠</span> <span class="pv-title">What it touches</span> <strong>Five packages, five skills</strong> — one per session of today</p>
+</div>
+</div>
+</section>
+<section id="why-plan-first" class="slide level2">
+<h2>Why plan first?</h2>
+<p>That request is <strong>five packages and five skills</strong> deep. The agent makes a dozen choices along the way — plan mode shows them to you <em>before</em> it writes anything.</p>
+<div class="pv-compare">
+<div class="pv-panel">
+<p><span class="pv-panel-head"><span class="pv-ico">🤖</span> Agent mode — straight to code</span></p>
+<div class="pv-panel-body">
+<p>Writes all three scripts, then runs them.</p>
+<p>On script 3 you notice an issue — and as a result scripts 1 and 2 need reworking too.</p>
+<p><span class="pv-note">You review after the cost is sunk</span></p>
+</div>
+</div>
+<div class="pv-panel pv-panel-b">
+<p><span class="pv-panel-head"><span class="pv-ico">🧭</span> Plan mode — propose first</span></p>
+<div class="pv-panel-body">
+<p>Reads the skills and the data, then proposes the <strong>file layout, data sources, and function choices</strong> — no files written.</p>
+<p>You fix any issues before any code has been written, then hit approve.</p>
+<p><span class="pv-note">You review while it’s still cheap</span></p>
+</div>
+</div>
+</div>
+<div class="pv-flow pv-flow-accent pv-flow-tight">
+<p><span class="pv-step"><span class="pv-ico">📖</span>Read<br>skills &amp; data</span> <span class="pv-step"><span class="pv-ico">🧭</span>Draft<br>a plan</span> <span class="pv-step"><span class="pv-ico">✋</span>You edit<br>&amp; approve</span> <span class="pv-step"><span class="pv-ico">⌨️</span>Write<br>the scripts</span> <span class="pv-step"><span class="pv-ico">👀</span>You<br>review</span></p>
+</div>
+</section>
+<section id="one-prompt-in-plan-mode" class="slide level2">
+<h2>One prompt, in Plan mode</h2>
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">💬</span> Your prompt</span></p>
+<div class="pv-skill-body">
+<blockquote>
+<p>I need a <strong>demographics summary table</strong> that includes <strong>AGE</strong>, <strong>SEX</strong>, and <strong>ETHNIC</strong>.</p>
+<p>Create a new folder <code>plan-example/</code> with three scripts: one that performs the <strong>SDTM mapping</strong> for these variables using <code>pharmaverseraw</code>; a second that uses that SDTM dataset to create an <strong>ADaM</strong> dataset with these variables; and a third that builds the <strong>ARD</strong> for these summary statistics, then builds the summary table using both <code>{gtsummary}</code> and <code>{tfrmt}</code>.</p>
+</blockquote>
+</div>
+</div>
+<p>Nobody named a skill — the agent matched them from <code>.agents/skills/</code>:</p>
+<div class="pv-flow pv-flow-tight">
+<p><span class="pv-step"><span class="pv-ico">📦</span>sdtm-oak-mapping</span> <span class="pv-step"><span class="pv-ico">🧬</span>admiral-adam</span> <span class="pv-step"><span class="pv-ico">📊</span>ard-creation</span> <span class="pv-step"><span class="pv-ico">📑</span>gtsummary-tables</span> <span class="pv-step"><span class="pv-ico">📐</span>tfrmt</span></p>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🧠</span> Five skills, one sentence each in their front matter — that is the whole routing mechanism.</p>
+</div>
+</section>
+<section id="what-comes-back-a-plan-not-code" class="slide level2 smaller">
+<h2>What comes back — a plan, not code</h2>
+<div class="columns">
+<div class="column" style="width:34%;">
+<div class="pv-tree">
+<p><span class="pv-dir">📁 plan-example/</span><br> ├─ <span class="pv-main">📄 01-sdtm-dm.R</span><br> │&nbsp;&nbsp;&nbsp;<span class="pv-cmt">dm_raw → DM</span><br> ├─ <span class="pv-main">📄 02-adam-adsl.R</span><br> │&nbsp;&nbsp;&nbsp;<span class="pv-cmt">DM → ADSL</span><br> └─ <span class="pv-main">📄 03-ard-tables.R</span><br> &nbsp;&nbsp;&nbsp;&nbsp;<span class="pv-cmt">ARD → 2 tables</span></p>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">🔍</span> Every choice is <strong>named and checkable</strong> — and <strong>nothing is on disk yet</strong>.</p>
+</div>
+</div><div class="column" style="width:66%;">
+<div class="pv-flow-vert">
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>📦</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">assign_no_ct + assign_ct</span> <span class="pv-vdesc"><code>AGE</code> from <code>IT.AGE</code>; <code>SEX</code> via codelist <strong>C66731</strong>, <code>ETHNIC</code> via <strong>C66790</strong>.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>🧬</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">admiral::derive_vars_merged</span> <span class="pv-vdesc">ADSL carries <code>AGE</code>/<code>SEX</code>/<code>ETHNIC</code> through; treatment merged on <code>USUBJID</code>.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>📊</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">cards::ard_stack</span> <span class="pv-vdesc">The three variables by treatment, then <code>cards::check_ard_structure()</code>.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>📑</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">gtsummary::tbl_ard_summary</span> <span class="pv-vdesc">The quick look — one call straight off the ARD.</span></p>
+</div>
+</div>
+<div class="pv-vstep">
+<div class="pv-vico">
+<p>📐</p>
+</div>
+<div class="pv-vbody">
+<p><span class="pv-vname">tfrmt</span> <span class="pv-vdesc">The submission-shaped display, via the <code>cards-to-tfrmt</code> skill.</span></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="you-edit-the-plan-then-approve" class="slide level2 smaller">
+<h2>You edit the plan, then approve</h2>
+<p>Reading that plan takes twenty seconds. Two things are worth pushing back on:</p>
+<div class="pv-skill">
+<p><span class="pv-skill-head"><span class="pv-ico">✋</span> Your reply</span></p>
+<div class="pv-skill-body">
+<blockquote>
+<p>Two changes before you start:</p>
+<ul>
+<li>Step 3 — don’t use <code>pharmaverseadam::adsl</code>, derive ADSL from scratch.</li>
+<li>Step 4 — summarise by <code>TRT01P</code>, not <code>ARM</code>, and keep the <code>check_ard_structure()</code> call.</li>
+</ul>
+<p>Otherwise this looks right — go ahead.</p>
+</blockquote>
+</div>
+</div>
+<div class="pv-flow pv-flow-accent">
+<p><span class="pv-step"><span class="pv-ico">🧭</span>Plan</span> <span class="pv-step"><span class="pv-ico">✋</span>Edit</span> <span class="pv-step"><span class="pv-ico">✅</span>Approve</span> <span class="pv-step"><span class="pv-ico">⌨️</span>Agent writes all three scripts</span></p>
+</div>
+<div class="pv-ai">
+<p><span class="pv-ico">💡</span> Plan mode moves the expensive review to when it is cheap — <strong>before the code exists</strong>. Same agent, same skills; you just get a say at the fork.</p>
+</div>
+</section>
 <section id="advanced-ai-discussion" class="slide level2">
 <h2>Advanced AI discussion</h2>
-</section></section>
+
+<img data-src="images/robot-discussion.jpg" class="quarto-figure quarto-figure-center r-stretch" style="width:78.0%" alt="Two robots reviewing a project plan displayed on a screen between them"></section></section>
 <section>
 <section id="submissions-working-group" class="title-slide slide level1 center">
 <h1>Submissions Working Group</h1>
 
 </section>
-<section id="submissions-working-group-1" class="slide level2">
-<h2>Submissions Working Group</h2>
-<h3 id="mission">Mission</h3>
+<section id="mission" class="slide level2">
+<h2>Mission</h2>
 <ul>
 <li>Easier R-based clinical trial regulatory submissions today
 <ul>
@@ -219,11 +349,6 @@
 <p><img src="images/pilot1.png" alt="Hex 1" style="max-width: 18%; height: auto;"> <img src="images/pilot2.png" alt="Hex 2" style="max-width: 18%; height: auto;"> <img src="images/pilot3.png" alt="Hex 3" style="max-width: 18%; height: auto;"> <img src="images/pilot4a.png" alt="Hex 4a" style="max-width: 18%; height: auto;"> <img src="images/pilot4b.png" alt="Hex 4b" style="max-width: 20%; height: auto;"> <img src="images/pilot5.png" alt="Hex 5" style="max-width: 18%; height: auto;"></p>
 </div>
 </section></section>
-<section id="goodbye" class="title-slide slide level1 center">
-<h1>Goodbye</h1>
-
-</section>
-
 <section>
 <section id="thank-you-for-being-here" class="title-slide slide level1 center">
 <h1>Thank you for being here!</h1>
