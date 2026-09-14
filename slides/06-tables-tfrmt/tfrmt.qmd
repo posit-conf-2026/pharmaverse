@@ -63,7 +63,7 @@ An awareness of utilities for the transition from `cards` to `tfrmt` input data
 
 -   Input: ARD with raw, numeric values ({cards}!)
 
--   Output: Formatted table via {gt}
+-   Render: Formatted table via {gt}
 :::
 
 :::
@@ -300,7 +300,6 @@ tfrmt_demog_org() |>
 
 ```
 
-* The same pattern extends to as many layers as needed (org → therapeutic area → study)
 
 ## Save metadata for reuse
 
@@ -317,15 +316,7 @@ tfrmt_demog |>
 
 * Load JSON back into R and recreate the table with `json_to_tfrmt()`
 
-## Saving display
 
--   `tfrmt::print_to_gt()` creates a {gt} object under the hood
-
--   You can export the table to a variety of formats using `gt::gt_save()`
-
--   Check out {docorator} too 😊 at [https://gsk-biostatistics.github.io/docorator/](https://gsk-biostatistics.github.io/docorator/)
-
-![](images/gtsave.png){fig-align="center"}
 
 
 # Now, let's format a display, 1 piece at a time
@@ -348,7 +339,7 @@ ard_demog <- cards::ard_stack(
 ) 
 
 ard_demog <- ard_demog |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   tfrmt::prep_big_n(vars  = "ARM2")|>
@@ -356,7 +347,7 @@ ard_demog <- ard_demog |>
                   stat_name %in% c("p25","p75") ~ "[Q1, Q3]", 
                   TRUE ~ label
                 ),
-                stat_variable = dplyr::case_match(
+                stat_variable = dplyr::recode_values(
                   stat_variable,
                   "AGE" ~ "Age (years)",
                   "AGEGR1" ~ "Age Group",
@@ -738,7 +729,7 @@ First, let's "shuffle" the results into a tidy data frame:
 
 ```{r}
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") 
 
 ```
 
@@ -779,7 +770,7 @@ mock_tbl |>
 #| code-line-numbers: "3"
 #| 
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX"))
 
 ```
@@ -817,7 +808,7 @@ Next, we create a row label ("label" column) for the table that is either the ca
 ```{r}
 #| code-line-numbers: "4"
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label()
 ```
@@ -846,7 +837,7 @@ Take a look at our "big N" (i.e. population counts) rows:
 ```{r}
 #| echo: false
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   dplyr::filter(stat_variable %in% c("ARM2", "..ard_total_n.."))
@@ -871,7 +862,7 @@ ard_demog_00 |>
 #| code-line-numbers: "5"
 
 ard_demog_display <- ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   tfrmt::prep_big_n(vars = "ARM2")
@@ -913,7 +904,7 @@ ard_demog_display <- ard_demog_display |>
   ),
   
   # make variable names look nice
-  stat_variable = dplyr::case_match(
+  stat_variable = dplyr::recode_values(
     stat_variable,
     "AGE" ~ "Age (years)",
     "AGEGR1" ~ "Age Group",
@@ -955,7 +946,7 @@ So we have a table, now what?
 ::: incremental
 -   {docorator} = **Decorate** + **Output**
 
--   Takes a `gt` table (like our `tfrmt` output!), a `gt_group`, a `ggplot2` figure, or a PNG path
+-   Takes a `gt` table (like our `tfrmt` output!), a `gt_group`, a `ggplot2` figure, or a PNG path (or a list of any of these)
 
 -   *Decorate*: wraps the display with document-level headers, footers, and page numbers
 
@@ -991,7 +982,8 @@ print_to_gt(tfrmt_demog, ard_demog_display) |>
       fancyrow(left = "program.R", center = NA, right = "Data as of 2026-08-14")
     )
   ) |> 
-  render_pdf()
+  render_pdf() |> 
+  render_docx()
 ```
 
 ## Exercise 🏃‍➡️ (Together!)
