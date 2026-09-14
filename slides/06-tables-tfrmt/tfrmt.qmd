@@ -339,7 +339,7 @@ ard_demog <- cards::ard_stack(
 ) 
 
 ard_demog <- ard_demog |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   tfrmt::prep_big_n(vars  = "ARM2")|>
@@ -347,7 +347,7 @@ ard_demog <- ard_demog |>
                   stat_name %in% c("p25","p75") ~ "[Q1, Q3]", 
                   TRUE ~ label
                 ),
-                stat_variable = dplyr::replace_values(
+                stat_variable = dplyr::recode_values(
                   stat_variable,
                   "AGE" ~ "Age (years)",
                   "AGEGR1" ~ "Age Group",
@@ -729,7 +729,7 @@ First, let's "shuffle" the results into a tidy data frame:
 
 ```{r}
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") 
 
 ```
 
@@ -770,7 +770,7 @@ mock_tbl |>
 #| code-line-numbers: "3"
 #| 
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX"))
 
 ```
@@ -808,7 +808,7 @@ Next, we create a row label ("label" column) for the table that is either the ca
 ```{r}
 #| code-line-numbers: "4"
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label()
 ```
@@ -837,7 +837,7 @@ Take a look at our "big N" (i.e. population counts) rows:
 ```{r}
 #| echo: false
 ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   dplyr::filter(stat_variable %in% c("ARM2", "..ard_total_n.."))
@@ -862,7 +862,7 @@ ard_demog_00 |>
 #| code-line-numbers: "5"
 
 ard_demog_display <- ard_demog_00 |> 
-  tfrmt::shuffle_card(fill_overall = "Overall") |> 
+  tfrmt::shuffle_card(by = "ARM2", fill_overall = "Overall") |> 
   tfrmt::prep_combine_vars(c("AGE","AGEGR1","SEX")) |> 
   tfrmt::prep_label() |> 
   tfrmt::prep_big_n(vars = "ARM2")
@@ -904,7 +904,7 @@ ard_demog_display <- ard_demog_display |>
   ),
   
   # make variable names look nice
-  stat_variable = dplyr::case_match(
+  stat_variable = dplyr::recode_values(
     stat_variable,
     "AGE" ~ "Age (years)",
     "AGEGR1" ~ "Age Group",
