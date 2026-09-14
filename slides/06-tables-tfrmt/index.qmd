@@ -4,7 +4,7 @@ subtitle: "Pharmaverse Workshop"
 author: "Becca Krouse"
 event: "posit::conf(2026)"
 logo: "../../images/pharmaverse-hex.png"
-footer:  "[Pharmaverse Workshop (pos.it/pharmaverse-conf26)](https://posit-conf-2026.github.io/pharmaverse/)"
+footer:  "[Pharmaverse Workshop (posit-conf-2026.github.io/pharmaverse)](https://posit-conf-2026.github.io/pharmaverse/)"
 editor: source
 engine: knitr
 format: 

@@ -18,11 +18,11 @@ by Daniel D. Sjoberg and Becca Krouse
 
 Modern clinical reporting workflows are evolving fast, and this workshop helps you keep pace with a practical, end-to-end approach in R. You'll learn how to move from raw data to analysis deliverables using Pharmaverse tools, including standards-aligned SDTM preparation, efficient creation of ADaM datasets, and generation of high-quality tables, listings, and graphs (TLGs) supported by Analysis Results Datasets (ARDs). You'll also see where AI-assisted tooling can fit naturally into the workflow to support faster iteration and reduce manual rework, without sacrificing transparency, reproducibility, or reviewability. Leave with a modular, reusable playbook for applying R to every stage of clinical reporting across your team.
 
-Full workshop site (schedule, slides, and materials): [pos.it/pharmaverse-conf26](pos.it/pharmaverse-conf26)
+Full workshop site (schedule, slides, and materials): [posit-conf-2026.github.io/pharmaverse](https://posit-conf-2026.github.io/pharmaverse)
 
 ## Pre-work
 
-- [ ] Bookmark the [workshop site](pos.it/pharmaverse-conf26). You'll reference it throughout the workshop.
+- [ ] Bookmark the [workshop site](https://posit-conf-2026.github.io/pharmaverse). You'll reference it throughout the workshop.
 - [ ] Sign up for a *free* [Posit Cloud](https://posit.cloud/) account.
 - [ ] Bring your laptop **and** charger to the workshop.
 
@@ -48,7 +48,7 @@ Full workshop site (schedule, slides, and materials): [pos.it/pharmaverse-conf26
 - **Ben Straub** – Senior Manager Statistical Data Scientist, Praxis Precision Medicines
 - **Magdalena Krochmal (Magda)** – Senior Real-Time Visual Analytics Specialist, Roche
 
-Full bios are on the [workshop site](pos.it/pharmaverse-conf26).
+Full bios are on the [workshop site](posit-conf-2026.github.io/pharmaverse).
 
 -----
 

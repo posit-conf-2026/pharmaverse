@@ -4,7 +4,7 @@ subtitle: "AI-powered clinical reporting in R with the Pharmaverse"
 author: "posit::conf(2026)"
 date: 2026-09-14
 logo: "images/pharmaverse-hex.png"
-footer: "[https://posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
+footer: "[posit-conf-2026.github.io/pharmaverse/](https://posit-conf-2026.github.io/pharmaverse/)" 
 editor: source
 engine: knitr
 format: 
