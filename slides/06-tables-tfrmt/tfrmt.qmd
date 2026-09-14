@@ -347,7 +347,7 @@ ard_demog <- ard_demog |>
                   stat_name %in% c("p25","p75") ~ "[Q1, Q3]", 
                   TRUE ~ label
                 ),
-                stat_variable = dplyr::case_match(
+                stat_variable = dplyr::replace_values(
                   stat_variable,
                   "AGE" ~ "Age (years)",
                   "AGEGR1" ~ "Age Group",
