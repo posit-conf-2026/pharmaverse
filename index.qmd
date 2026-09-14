@@ -36,7 +36,7 @@ Modern clinical reporting workflows are evolving fast, and this workshop helps y
 
 ## Pre-work
 
-- [ ] Bookmark this site. You'll reference it throughout the workshop.   [pos.it/pharmaverse-conf26](pos.it/pharmaverse-conf26)
+- [ ] Bookmark this site. You'll reference it throughout the workshop.   [posit-conf-2026.github.io/pharmaverse](https://posit-conf-2026.github.io/pharmaverse)
 
 - [ ] Sign up for a *free* [Posit Cloud](https://posit.cloud/) account.
 
